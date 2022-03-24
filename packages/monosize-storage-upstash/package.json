@@ -1,5 +1,9 @@
 {
-  "name": "@monosize/monosize-storage-upstash",
-  "version": "0.0.1",
-  "type": "commonjs"
+  "name": "monosize-storage-upstash",
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "@upstash/redis": "^1.0.3"
+  }
 }
