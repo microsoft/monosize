@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
-    "monosize": "packages/monosize"
+    "monosize": "packages/monosize",
+    "monosize-storage-upstash": "packages/monosize-storage-upstash"
   }
 }

@@ -1,0 +1,32 @@
+{
+  "root": "packages/monosize-storage-upstash",
+  "sourceRoot": "packages/monosize-storage-upstash/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/monosize-storage-upstash",
+        "main": "packages/monosize-storage-upstash/src/index.ts",
+        "tsConfig": "packages/monosize-storage-upstash/tsconfig.lib.json",
+        "assets": ["packages/monosize-storage-upstash/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/monosize-storage-upstash/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/monosize-storage-upstash"],
+      "options": {
+        "jestConfig": "packages/monosize-storage-upstash/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
