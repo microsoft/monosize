@@ -59,5 +59,8 @@
     "webpack": "^5.21.2",
     "workspace-tools": "^0.16.2",
     "yargs": "^13.3.2"
+  },
+  "resolutions": {
+    "@nrwl/js@13.9.4": "patch:@nrwl/js@npm:13.9.4#.yarn/patches/@nrwl-js-npm-13.9.4-4c81228b07.patch"
   }
 }
