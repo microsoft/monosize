@@ -40,7 +40,7 @@ const config: MonoSizeConfig = {
     getRemoteReport: jest.fn(),
     uploadReportToRemote: jest.fn(),
   },
-  webpack: (config) => config,
+  webpack: config => config,
 };
 
 describe('buildFixture', () => {

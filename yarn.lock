@@ -5393,9 +5393,11 @@ __metadata:
     glob: ^7.1.2
     gzip-size: ^6.0.0
     jest: 27.2.3
+    nano-staged: 0.6.0
     nx: 13.9.4
     prettier: ^2.5.1
     pretty-bytes: ^5.6.0
+    simple-git-hooks: 2.7.0
     terser: ^5.5.1
     ts-jest: 27.0.5
     tslib: ^2.3.1
@@ -5437,6 +5439,17 @@ __metadata:
     arrify: ^2.0.1
     minimatch: ^3.0.4
   checksum: bdb6a98dad4e919d9a1a2a0db872f44fa2337315f2fd5827d91ae005cf22f4425782bdfa97c10b80d567f0cb3c226c31f4e85f8f6a4a4be4facf9af0de1bb0c2
+  languageName: node
+  linkType: hard
+
+"nano-staged@npm:0.6.0":
+  version: 0.6.0
+  resolution: "nano-staged@npm:0.6.0"
+  dependencies:
+    picocolors: ^1.0.0
+  bin:
+    nano-staged: lib/bin.js
+  checksum: 2ba577b809915a7d3fcddd0ba45089526633111481419dd35748c83a43a11e9166a8a6996ebed2ccd5d8c77171fab3ed383fc1c6d814d8196d71ee534cbd51bd
   languageName: node
   linkType: hard
 
@@ -6394,6 +6407,15 @@ __metadata:
   version: 3.0.7
   resolution: "signal-exit@npm:3.0.7"
   checksum: a2f098f247adc367dffc27845853e9959b9e88b01cb301658cfe4194352d8d2bb32e18467c786a7fe15f1d44b233ea35633d076d5e737870b7139949d1ab6318
+  languageName: node
+  linkType: hard
+
+"simple-git-hooks@npm:2.7.0":
+  version: 2.7.0
+  resolution: "simple-git-hooks@npm:2.7.0"
+  bin:
+    simple-git-hooks: cli.js
+  checksum: e7d15ec4c20d2f6c85139fb9dee2cb25be684a27ff32931459fd2e5b1ed205ab89f31fd2e0fc53fc964c1a576d33cbcfbf69611f3d694f11851152f4bc415145
   languageName: node
   linkType: hard
 

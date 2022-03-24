@@ -5,10 +5,7 @@ import * as tmp from 'tmp';
 // glob.sync() call in collectLocalReport.ts always returns an empty array on Linux/Windows in tests for an unknown
 // reason while files are present in filesystem
 jest.mock('glob', () => ({
-  sync: () => [
-    'packages/package-a/dist/monosize/monosize.json',
-    'packages/package-b/dist/monosize/monosize.json',
-  ],
+  sync: () => ['packages/package-a/dist/monosize/monosize.json', 'packages/package-b/dist/monosize/monosize.json'],
 }));
 
 import { BuildResult } from '../types';

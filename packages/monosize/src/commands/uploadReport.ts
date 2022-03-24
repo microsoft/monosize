@@ -10,9 +10,7 @@ type UploadOptions = CliOptions & { branch: string; 'commit-sha': string };
 
 async function uploadReport(options: UploadOptions) {
   if (!isCI) {
-    console.log(
-      `${chalk.red('[e]')} This is command can be executed only in CI`
-    );
+    console.log(`${chalk.red('[e]')} This is command can be executed only in CI`);
     process.exit(1);
   }
 
@@ -24,12 +22,7 @@ async function uploadReport(options: UploadOptions) {
 
   if (!quiet) {
     console.log(
-      [
-        chalk.blue('[i]'),
-        `Local report prepared in ${hrToSeconds(
-          process.hrtime(localReportStartTime)
-        )}`,
-      ].join(' ')
+      [chalk.blue('[i]'), `Local report prepared in ${hrToSeconds(process.hrtime(localReportStartTime))}`].join(' '),
     );
   }
 
