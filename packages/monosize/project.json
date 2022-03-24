@@ -11,7 +11,12 @@
         "tsConfig": "packages/monosize/tsconfig.lib.json",
         "assets": [
           {
-            "glob": "*.md",
+            "glob": "README.md",
+            "input": ".",
+            "output": "."
+          },
+          {
+            "glob": "LICENSE.md",
             "input": ".",
             "output": "."
           },

@@ -9,7 +9,14 @@
         "outputPath": "dist/packages/monosize-storage-upstash",
         "main": "packages/monosize-storage-upstash/src/index.ts",
         "tsConfig": "packages/monosize-storage-upstash/tsconfig.lib.json",
-        "assets": ["packages/monosize-storage-upstash/*.md"]
+        "assets": [
+          "packages/monosize-storage-upstash/README.md",
+          {
+            "glob": "LICENSE.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
       }
     },
     "lint": {
