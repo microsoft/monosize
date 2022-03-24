@@ -6,6 +6,9 @@
 /out-tsc
 
 # dependencies
+.yarn/*
+!.yarn/patches
+!.yarn/releases
 /node_modules
 
 # IDEs and editors
