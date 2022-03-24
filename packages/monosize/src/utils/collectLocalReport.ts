@@ -42,7 +42,7 @@ export async function collectLocalReport(): Promise<BundleSizeReport> {
     throw new Error(/* TODO: proper error */);
   }
 
-  const reportFiles = glob.sync('packages/*/dist/monosize/monosize.json', {
+  const reportFiles = glob.sync('packages/*/dist/bundle-size/monosize.json', {
     cwd: gitRoot,
   });
   const reports = await Promise.all(reportFiles.map(readReportForPackage));

@@ -41,7 +41,7 @@ async function measure(options: CliOptions) {
   );
 
   await fs.promises.writeFile(
-    path.resolve(process.cwd(), 'dist', 'monosize', 'monosize.json'),
+    path.resolve(process.cwd(), 'dist', 'bundle-size', 'monosize.json'),
     JSON.stringify(measurements),
   );
 
