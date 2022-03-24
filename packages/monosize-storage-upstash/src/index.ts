@@ -6,7 +6,7 @@ type UpstashStorageConfig = {
   readonlyToken: string;
 };
 
-export default function createUpstashStorage(config: UpstashStorageConfig): StorageAdapter {
+function createUpstashStorage(config: UpstashStorageConfig): StorageAdapter {
   const getRemoteReport: StorageAdapter['getRemoteReport'] = async (branch: string) => {
     const redis = new Redis({
       url: config.url,
@@ -51,3 +51,5 @@ export default function createUpstashStorage(config: UpstashStorageConfig): Stor
     uploadReportToRemote,
   };
 }
+
+export = createUpstashStorage;
