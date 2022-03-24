@@ -15,7 +15,7 @@ async function compareReports(options: CompareReportsOptions) {
   const { branch, output, quiet } = options;
   const startTime = process.hrtime();
 
-  const config = await readConfig();
+  const config = await readConfig(quiet);
 
   const localReportStartTime = process.hrtime();
   const localReport = await collectLocalReport();

@@ -5,6 +5,7 @@ import { CommandModule } from 'yargs';
 import { CliOptions } from '../index';
 import { collectLocalReport } from '../utils/collectLocalReport';
 import { hrToSeconds } from '../utils/helpers';
+import { readConfig } from '../utils/readConfig';
 
 type UploadOptions = CliOptions & { branch: string; 'commit-sha': string };
 
@@ -17,6 +18,8 @@ async function uploadReport(options: UploadOptions) {
   const { branch, 'commit-sha': commitSHA, quiet } = options;
   const startTime = process.hrtime();
 
+  const config = await readConfig(quiet);
+
   const localReportStartTime = process.hrtime();
   const localReport = await collectLocalReport();
 
@@ -26,7 +29,17 @@ async function uploadReport(options: UploadOptions) {
     );
   }
 
+  const uploadStartTime = process.hrtime();
+
+  try {
+    await config.storage.uploadReportToRemote(branch, commitSHA, localReport);
+  } catch (e) {
+    console.log(/* TODO: proper reporting */);
+    process.exit(1);
+  }
+
   if (!quiet) {
+    console.log([chalk.blue('[i]'), `Report uploaded in ${hrToSeconds(process.hrtime(uploadStartTime))}`].join(' '));
     console.log(`Completed in ${hrToSeconds(process.hrtime(startTime))}`);
   }
 }
