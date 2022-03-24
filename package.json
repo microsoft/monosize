@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nx affected:build",
+    "check-dependencies": "syncpack list-mismatches --prod --peer",
     "lint": "nx affected:lint",
     "test": "nx affected:test"
   },
@@ -30,11 +31,13 @@
     "@typescript-eslint/parser": "~5.10.0",
     "eslint": "~8.7.0",
     "eslint-config-prettier": "8.1.0",
+    "eslint-import-resolver-typescript": "2.7.0",
+    "eslint-plugin-import": "2.25.4",
     "jest": "27.2.3",
     "nano-staged": "0.6.0",
     "nx": "13.9.4",
-    "prettier": "^2.5.1",
     "simple-git-hooks": "2.7.0",
+    "syncpack": "6.2.0",
     "ts-jest": "27.0.5",
     "typescript": "~4.5.2"
   },
@@ -49,6 +52,7 @@
     "find-up": "^5.0.0",
     "glob": "^7.1.2",
     "gzip-size": "^6.0.0",
+    "prettier": "^2.5.1",
     "pretty-bytes": "^5.6.0",
     "terser": "^5.5.1",
     "tslib": "^2.3.1",
