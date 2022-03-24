@@ -49,7 +49,7 @@ async function compareReports(options: CompareReportsOptions) {
       await cliReporter(result);
       break;
     case 'markdown':
-      await markdownReporter(result, commitSHA, quiet);
+      await markdownReporter(result, commitSHA, config.repository, quiet);
       break;
   }
 

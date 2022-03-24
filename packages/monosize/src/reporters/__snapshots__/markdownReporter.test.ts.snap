@@ -16,6 +16,6 @@ exports[`markdownReporter renders a report to a file 1`] = `
 | <samp>bar-package</samp> <br /> <abbr title='bar.fixture.js'>An entry without diff</abbr> |  \`1 kB\`<br />\`100 B\` |
 
 </details>
-<sub>🤖 This report was generated against <a href='https://github.com/microsoft/fluentui/commit/commit-hash'>commit-hash</a></sub>
+<sub>🤖 This report was generated against <a href='https://github.com/microsoft/monosize/commit/commit-hash'>commit-hash</a></sub>
 "
 `;

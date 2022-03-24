@@ -8,6 +8,7 @@ import { ComparedReport } from '../utils/compareResultsInReports';
 import { DiffByMetric } from '../utils/calculateDiffByMetric';
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport';
 import { formatBytes } from '../utils/helpers';
+import { MonoSizeConfig } from '../utils/readConfig';
 
 const icons = {
   increase: 'IncreaseYellow.svg',
@@ -37,7 +38,7 @@ function formatDelta(diff: DiffByMetric): string {
   return `\`${formatBytes(diff.delta)}\` ${getDirectionSymbol(diff.delta)}`;
 }
 
-export async function markdownReporter(result: ComparedReport, commitSHA: string, quiet: boolean) {
+export async function markdownReporter(result: ComparedReport, commitSHA: string, repository: string, quiet: boolean) {
   const packageRoot = findPackageRoot(__dirname);
 
   if (!packageRoot) {
@@ -107,7 +108,7 @@ export async function markdownReporter(result: ComparedReport, commitSHA: string
 
   // TODO: use repo settings
   report.push(
-    `<sub>🤖 This report was generated against <a href='https://github.com/microsoft/fluentui/commit/${commitSHA}'>${commitSHA}</a></sub>`,
+    `<sub>🤖 This report was generated against <a href='${repository}/commit/${commitSHA}'>${commitSHA}</a></sub>`,
   );
 
   await fs.promises.mkdir(artifactsDir, { recursive: true });

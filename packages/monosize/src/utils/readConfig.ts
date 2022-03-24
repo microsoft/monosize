@@ -4,6 +4,7 @@ import { Configuration as WebpackConfiguration } from 'webpack';
 import { StorageAdapter } from '../types';
 
 export type MonoSizeConfig = {
+  repository: string;
   storage: StorageAdapter;
   webpack: (config: WebpackConfiguration) => WebpackConfiguration;
 };

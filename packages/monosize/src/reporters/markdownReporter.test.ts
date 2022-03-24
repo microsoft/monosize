@@ -8,7 +8,7 @@ describe('markdownReporter', () => {
       return new Promise(resolve => resolve(undefined));
     });
 
-    await markdownReporter(sampleComparedReport, 'commit-hash', true);
+    await markdownReporter(sampleComparedReport, 'commit-hash', 'https://github.com/microsoft/monosize', true);
     expect(writeFile.mock.calls[0][1]).toMatchSnapshot();
   });
 });

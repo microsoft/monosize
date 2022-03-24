@@ -36,6 +36,7 @@ async function setup(fixtureContent: string): Promise<PreparedFixture> {
 }
 
 const config: MonoSizeConfig = {
+  repository: '',
   storage: {
     getRemoteReport: jest.fn(),
     uploadReportToRemote: jest.fn(),
