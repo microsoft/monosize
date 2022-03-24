@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
+  "scripts": {
+    "build": "nx affected:build",
+    "lint": "nx affected:lint",
+    "test": "nx affected:test"
+  },
   "packageManager": "yarn@3.2.0",
   "devDependencies": {
     "@nrwl/cli": "13.9.4",
