@@ -24,7 +24,7 @@ async function measure(options: CliOptions) {
     console.log(`${chalk.blue('[i]')} artifacts dir is cleared`);
   }
 
-  const fixtures = glob.sync('monosize/*.fixture.js', {
+  const fixtures = glob.sync('bundle-size/*.fixture.js', {
     cwd: process.cwd(),
   });
 
