@@ -9,7 +9,18 @@
         "outputPath": "dist/packages/monosize",
         "main": "packages/monosize/src/index.ts",
         "tsConfig": "packages/monosize/tsconfig.lib.json",
-        "assets": ["packages/monosize/*.md"]
+        "assets": [
+          {
+            "glob": "*.md",
+            "input": ".",
+            "output": "."
+          },
+          {
+            "glob": "*.js",
+            "input": "packages/monosize/bin",
+            "output": "bin"
+          }
+        ]
       }
     },
     "lint": {
