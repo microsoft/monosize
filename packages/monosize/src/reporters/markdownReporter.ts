@@ -11,13 +11,13 @@ import { formatBytes } from '../utils/helpers';
 import { MonoSizeConfig } from '../utils/readConfig';
 
 const icons = {
-  increase: 'IncreaseYellow.svg',
-  decrease: 'Decrease.svg',
+  increase: 'increase.png',
+  decrease: 'decrease.png',
 };
 
 function getDirectionSymbol(value: number): string {
   const img = (iconName: string) =>
-    `<img aria-hidden="true" src="https://microsoft.github.io/sizeAuditor-website/images/icons/${iconName}" />`;
+    `<img aria-hidden="true" src="https://microsoft.github.io/monosize/images/${iconName}" />`;
 
   if (value < 0) {
     return img(icons.decrease);
