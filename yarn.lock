@@ -2218,6 +2218,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"beachball@patch:beachball@npm:2.31.5#.yarn/patches/beachball-npm-2.31.5-0e84ec4233.patch::locator=monosize-monorepo%40workspace%3A.":
+  version: 2.31.5
+  resolution: "beachball@patch:beachball@npm%3A2.31.5#.yarn/patches/beachball-npm-2.31.5-0e84ec4233.patch::version=2.31.5&hash=e6e3ec&locator=monosize-monorepo%40workspace%3A."
+  dependencies:
+    cosmiconfig: ^7.0.0
+    execa: ^5.0.0
+    fs-extra: ^10.0.0
+    lodash: ^4.17.15
+    minimatch: ^3.0.4
+    p-limit: ^3.0.2
+    prompts: ^2.4.2
+    semver: ^7.0.0
+    toposort: ^2.0.2
+    uuid: ^9.0.0
+    workspace-tools: ^0.29.0
+    yargs-parser: ^21.0.0
+  bin:
+    beachball: bin/beachball.js
+  checksum: 204fd319f7f4ad9997fc25586ef66b88e929daa324f6a9a573a38c793ca39bb965233e161168337a3e8151b74d8df0a9048c59259581ebda65aa2a41fc312bf7
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
