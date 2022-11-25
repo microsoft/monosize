@@ -3,7 +3,7 @@ const collectLocalReport = jest.fn();
 const compareResultsInReports = jest.fn();
 const cliReporter = jest.fn();
 
-jest.mock('../reporters/cliReporter.mjs', () => ({ cliReporter }));
+jest.mock('../reporters/cliReporter', () => ({ cliReporter }));
 jest.mock('../utils/collectLocalReport', () => ({ collectLocalReport }));
 jest.mock('../utils/compareResultsInReports', () => ({ compareResultsInReports }));
 jest.mock('../utils/readConfig', () => ({ readConfig: () => ({ storage: { getRemoteReport } }) }));

@@ -1,4 +1,4 @@
-# Project
+# monosize
 
 A CLI tool to measure bundle size locally and on CI.
 
