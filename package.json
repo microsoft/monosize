@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/monosize"
+  },
   "scripts": {
     "build": "nx affected:build",
     "check-dependencies": "syncpack list-mismatches --prod --peer",
