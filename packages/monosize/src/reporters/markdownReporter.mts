@@ -4,10 +4,10 @@ import * as pc from 'picocolors';
 import * as prettier from 'prettier';
 import { findPackageRoot } from 'workspace-tools';
 
-import { ComparedReport } from '../utils/compareResultsInReports';
-import { DiffByMetric } from '../utils/calculateDiffByMetric';
-import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport';
-import { formatBytes } from '../utils/helpers';
+import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
+import { formatBytes } from '../utils/helpers.mjs';
+import type { ComparedReport } from '../utils/compareResultsInReports.mjs';
+import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
 
 const icons = {
   increase: 'increase.png',

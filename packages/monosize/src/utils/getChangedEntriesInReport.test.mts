@@ -1,5 +1,5 @@
-import { ComparedReport, emptyDiff } from './compareResultsInReports';
-import { getChangedEntriesInReport } from './getChangedEntriesInReport';
+import { ComparedReport, emptyDiff } from './compareResultsInReports.mjs';
+import { getChangedEntriesInReport } from './getChangedEntriesInReport.mjs';
 
 describe('getChangedEntriesInReport', () => {
   it('splits entries to changed an unchanged', () => {

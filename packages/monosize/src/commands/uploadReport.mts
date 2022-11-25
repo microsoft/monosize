@@ -2,10 +2,10 @@ import { isCI } from 'ci-info';
 import * as pc from 'picocolors';
 import type { CommandModule } from 'yargs';
 
-import { CliOptions } from '../index';
-import { collectLocalReport } from '../utils/collectLocalReport';
-import { hrToSeconds } from '../utils/helpers';
-import { readConfig } from '../utils/readConfig';
+import { collectLocalReport } from '../utils/collectLocalReport.mjs';
+import { hrToSeconds } from '../utils/helpers.mjs';
+import { readConfig } from '../utils/readConfig.mjs';
+import type { CliOptions } from '../index.mjs';
 
 type UploadOptions = CliOptions & { branch: string; 'commit-sha': string };
 

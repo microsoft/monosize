@@ -7,10 +7,6 @@ export default {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
-  transform: {
-    '^.+\\.[tj]s$': 'ts-jest',
-  },
-  testEnvironment: 'node',
-  moduleFileExtensions: ['ts', 'js', 'html'],
+  resolver: '<rootDir>/../../jest.resolver.js',
   coverageDirectory: '../../coverage/packages/monosize-storage-upstash',
 };

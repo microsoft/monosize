@@ -2,16 +2,16 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
+    "target": "ESNext",
+    "esModuleInterop": true,
     "types": ["environment", "jest", "node"]
   },
   "include": [
     "jest.config.ts",
     "jest.setup.ts",
-    "**/*.test.ts",
-    "**/*.spec.ts",
+    "**/*.test.mts",
     "**/*.d.ts",
-    "src/__fixture__/*.ts",
+    "src/__fixture__/*.mts",
     "src/__mocks__/*.ts"
   ]
 }

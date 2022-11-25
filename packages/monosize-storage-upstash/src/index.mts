@@ -52,4 +52,4 @@ function createUpstashStorage(config: UpstashStorageConfig): StorageAdapter {
   };
 }
 
-export = createUpstashStorage;
+export default createUpstashStorage;

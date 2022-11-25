@@ -1,5 +1,5 @@
-import { markdownReporter } from './markdownReporter';
-import { sampleComparedReport } from '../__fixture__/sampleComparedReport';
+import { markdownReporter } from './markdownReporter.mjs';
+import { sampleComparedReport } from '../__fixture__/sampleComparedReport.mjs';
 
 describe('markdownReporter', () => {
   it('renders a report to a file', async () => {

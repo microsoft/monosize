@@ -4,7 +4,7 @@
   "sourceRoot": "packages/monosize/src",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:swc",
+      "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/monosize",
@@ -18,7 +18,7 @@
             "output": "."
           },
           {
-            "glob": "*.js",
+            "glob": "*.mjs",
             "input": "packages/monosize/bin",
             "output": "bin"
           }
@@ -29,7 +29,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/monosize/**/*.ts"]
+        "lintFilePatterns": ["packages/monosize/**/*.mts"]
       }
     },
     "test": {

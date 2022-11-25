@@ -3,7 +3,7 @@ import * as glob from 'glob';
 import * as path from 'path';
 import { findGitRoot, findPackageRoot } from 'workspace-tools';
 
-import { BuildResult, BundleSizeReport } from '../types';
+import type { BuildResult, BundleSizeReport } from '../types.mjs';
 
 async function readReportForPackage(
   reportFile: string,

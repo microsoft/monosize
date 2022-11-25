@@ -1,13 +1,12 @@
-import { ComparedReport, emptyDiff } from '../utils/compareResultsInReports';
+import type { BundleSizeReport } from '../types.mjs';
 
-export const sampleComparedReport: ComparedReport = [
+export const sampleReport: BundleSizeReport = [
   {
     packageName: 'foo-package',
     name: 'New entry',
     path: 'foo.fixture.js',
     minifiedSize: 1000,
     gzippedSize: 100,
-    diff: emptyDiff,
   },
   {
     packageName: 'bar-package',
@@ -15,12 +14,6 @@ export const sampleComparedReport: ComparedReport = [
     path: 'bar.fixture.js',
     minifiedSize: 1000,
     gzippedSize: 100,
-    diff: {
-      empty: false,
-
-      minified: { delta: 0, percent: '0%' },
-      gzip: { delta: 0, percent: '0%' },
-    },
   },
   {
     packageName: 'baz-package',
@@ -28,11 +21,5 @@ export const sampleComparedReport: ComparedReport = [
     path: 'baz.fixture.js',
     minifiedSize: 1000,
     gzippedSize: 100,
-    diff: {
-      empty: false,
-
-      minified: { delta: 1000, percent: '100%' },
-      gzip: { delta: 100, percent: '100%' },
-    },
   },
 ];

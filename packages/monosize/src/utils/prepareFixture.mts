@@ -1,10 +1,10 @@
-import Ajv from 'ajv';
+import AjvModule from 'ajv';
 import { transformAsync } from '@babel/core';
 import * as fs from 'fs';
 import * as path from 'path';
 import { BabelFileResult } from '@babel/core';
 
-import { fixtureSchema } from '../schemas';
+import { fixtureSchema } from '../schemas.mjs';
 
 type FixtureMetadata = {
   name: string;
@@ -16,6 +16,8 @@ export type PreparedFixture = {
   name: string;
 };
 
+// FIXME: https://github.com/ajv-validator/ajv/issues/2047
+const Ajv = AjvModule.default;
 const ajv = new Ajv();
 
 /**

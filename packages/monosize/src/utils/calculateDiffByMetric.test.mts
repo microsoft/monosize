@@ -1,5 +1,5 @@
-import { BundleSizeReportEntry } from '../types';
-import { calculateDiffByMetric } from './calculateDiffByMetric';
+import { calculateDiffByMetric } from './calculateDiffByMetric.mjs';
+import type { BundleSizeReportEntry } from '../types.mjs';
 
 describe('calculateDiffByMetric', () => {
   it('calculates difference deltas and percents', () => {

@@ -3,12 +3,13 @@ import { gzipSizeFromFile } from 'gzip-size';
 import * as fs from 'fs';
 import * as path from 'path';
 import { minify } from 'terser';
-import { webpack, Configuration as WebpackConfiguration } from 'webpack';
+import webpack from 'webpack';
+import type { Configuration as WebpackConfiguration } from 'webpack';
 
-import { hrToSeconds } from './helpers';
-import { PreparedFixture } from './prepareFixture';
-import { MonoSizeConfig } from './readConfig';
-import { BuildResult } from '../types';
+import { hrToSeconds } from './helpers.mjs';
+import { PreparedFixture } from './prepareFixture.mjs';
+import { MonoSizeConfig } from './readConfig.mjs';
+import type { BuildResult } from '../types.mjs';
 
 function createWebpackConfig(fixturePath: string, outputPath: string): WebpackConfiguration {
   return {

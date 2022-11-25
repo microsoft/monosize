@@ -28,8 +28,6 @@
     "@nrwl/js": "15.2.1",
     "@nrwl/linter": "15.2.1",
     "@nrwl/workspace": "15.2.1",
-    "@swc/cli": "~0.1.55",
-    "@swc/core": "^1.2.173",
     "@types/glob": "8.0.0",
     "@types/jest": "28.1.8",
     "@types/node": "16.18.3",
@@ -52,7 +50,6 @@
   },
   "dependencies": {
     "@babel/core": "^7.20.2",
-    "@swc/helpers": "~0.4.11",
     "@upstash/redis": "^1.18.0",
     "ajv": "^8.11.2",
     "ci-info": "^3.7.0",
@@ -69,5 +66,8 @@
     "webpack": "^5.75.0",
     "workspace-tools": "^0.29.1",
     "yargs": "^17.6.2"
+  },
+  "resolutions": {
+    "@nrwl/workspace@15.2.1": "patch:@nrwl/workspace@npm:15.2.1#.yarn/patches/@nrwl-workspace-npm-15.2.1-719c36a62e.patch"
   }
 }

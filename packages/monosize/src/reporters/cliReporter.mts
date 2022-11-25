@@ -1,10 +1,10 @@
-import * as Table from 'cli-table3';
+import Table from 'cli-table3';
 import * as pc from 'picocolors';
 
-import { ComparedReport } from '../utils/compareResultsInReports';
-import { DiffByMetric } from '../utils/calculateDiffByMetric';
-import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport';
-import { formatBytes } from '../utils/helpers';
+import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
+import { formatBytes } from '../utils/helpers.mjs';
+import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
+import type { ComparedReport } from '../utils/compareResultsInReports.mjs';
 
 function getDirectionSymbol(value: number): string {
   if (value < 0) {
