@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: change a path to bin",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

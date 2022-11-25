@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Fri, 25 Nov 2022 15:17:27 GMT",
+      "tag": "monosize_v0.0.5",
+      "version": "0.0.5",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "8a2ddea6fc15afceda8a3f85231990f51ad8714e",
+            "comment": "fix: change a path to bin"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 25 Nov 2022 14:47:08 GMT",
       "tag": "monosize_v0.0.4",
       "version": "0.0.4",
