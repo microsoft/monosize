@@ -3,7 +3,6 @@ import { Configuration as WebpackConfiguration } from 'webpack';
 
 import { StorageAdapter } from '../types';
 import * as pc from 'picocolors';
-import { hrToSeconds } from './helpers';
 
 export type MonoSizeConfig = {
   repository: string;
