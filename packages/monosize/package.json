@@ -6,7 +6,7 @@
   "main": "./src/index.mjs",
   "types": "./src/index.d.mts",
   "bin": {
-    "monosize": "./bin/monosize.js"
+    "monosize": "./bin/monosize.mjs"
   },
   "dependencies": {
     "@babel/core": "^7.20.2",
