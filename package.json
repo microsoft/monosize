@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "nx affected:build",
+    "change": "beachball change --no-commit",
     "check-dependencies": "syncpack list-mismatches --prod --peer",
     "lint": "nx affected:lint",
     "test": "nx affected:test"
