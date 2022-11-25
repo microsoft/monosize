@@ -1,7 +1,7 @@
 import AjvModule from 'ajv';
 import { transformAsync } from '@babel/core';
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 import { BabelFileResult } from '@babel/core';
 
 import { fixtureSchema } from '../schemas.mjs';

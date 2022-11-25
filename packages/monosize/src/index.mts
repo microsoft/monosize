@@ -1,10 +1,11 @@
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import compareReports from './commands/compareReports.mjs';
 import measure from './commands/measure.mjs';
 import uploadReport from './commands/uploadReport.mjs';
 
-const cliSetup = yargs(process.argv)
+const cliSetup = yargs(hideBin(process.argv))
   .command(compareReports)
   .command(measure)
   .command(uploadReport)
@@ -14,7 +15,7 @@ const cliSetup = yargs(process.argv)
     description: 'Suppress verbose build output',
     default: false,
   })
-  .showHelp()
+  .help()
   .scriptName('monosize')
   .version(false).argv;
 

@@ -6,6 +6,7 @@
     "declaration": false,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "Node16",
+    "esModuleInterop": true,
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

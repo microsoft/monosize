@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as tmp from 'tmp';
+import fs from 'fs';
+import path from 'path';
+import tmp from 'tmp';
 
 import { buildFixture } from './buildFixture.mjs';
 import type { PreparedFixture } from './prepareFixture.mjs';

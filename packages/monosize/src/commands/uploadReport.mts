@@ -1,5 +1,5 @@
 import { isCI } from 'ci-info';
-import * as pc from 'picocolors';
+import pc from 'picocolors';
 import type { CommandModule } from 'yargs';
 
 import { collectLocalReport } from '../utils/collectLocalReport.mjs';

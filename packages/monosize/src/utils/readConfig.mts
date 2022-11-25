@@ -1,5 +1,5 @@
 import { findUp } from 'find-up';
-import * as pc from 'picocolors';
+import pc from 'picocolors';
 import type { Configuration as WebpackConfiguration } from 'webpack';
 
 import type { StorageAdapter } from '../types.mjs';

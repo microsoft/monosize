@@ -1,5 +1,5 @@
 import prettyBytes from 'pretty-bytes';
-import * as process from 'process';
+import process from 'process';
 
 export function formatBytes(value: number): string {
   return prettyBytes(value, { maximumFractionDigits: 3 });

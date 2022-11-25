@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as tmp from 'tmp';
+import fs from 'fs';
+import tmp from 'tmp';
 
 // This mock should be not required 😮
 // glob.sync() call in collectLocalReport.ts always returns an empty array on Linux/Windows in tests for an unknown

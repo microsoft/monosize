@@ -1,7 +1,7 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as pc from 'picocolors';
-import * as prettier from 'prettier';
+import fs from 'fs';
+import path from 'path';
+import pc from 'picocolors';
+import prettier from 'prettier';
 import { findPackageRoot } from 'workspace-tools';
 
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';

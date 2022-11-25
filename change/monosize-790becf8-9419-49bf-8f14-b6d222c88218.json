@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: use esModuleInterop and \"import *\"",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
