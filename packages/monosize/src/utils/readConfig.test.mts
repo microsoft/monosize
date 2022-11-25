@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as os from 'os';
 import * as tmp from 'tmp';
 
-import { readConfig } from './readConfig';
+import { readConfig } from './readConfig.mjs';
 
 async function setup(configContent: string): Promise<string> {
   const packageDir = tmp.dirSync({ prefix: 'test-package', unsafeCleanup: true });
@@ -26,7 +26,7 @@ describe('readConfig', () => {
   it('should read config from package', async () => {
     await setup(`module.exports = { webpack: (config) => { config.foo = 'bar'; return config; } }`);
 
-    const config = await readConfig();
+    const config = await readConfig(true);
 
     expect(config.webpack({})).toEqual({ foo: 'bar' });
   });
@@ -37,7 +37,7 @@ describe('readConfig', () => {
     const spy = jest.spyOn(process, 'cwd');
     spy.mockReturnValue(os.tmpdir());
 
-    await readConfig();
+    await readConfig(true);
     expect(exit).toHaveBeenCalledWith(1);
   });
 
@@ -45,7 +45,7 @@ describe('readConfig', () => {
     process.env.NODE_ENV = 'production';
 
     await setup(`module.exports = { webpack: (config) => config }`);
-    const firstConfig = await readConfig();
+    const firstConfig = await readConfig(true);
 
     await setup(`module.exports = { webpack: (config) => { config.foo = 'bar'; return config; } }`);
     const config = await readConfig();

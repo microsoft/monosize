@@ -1,4 +1,4 @@
-import * as Table from 'cli-table3';
+import Table from 'cli-table3';
 import * as fs from 'fs';
 import { deleteAsync } from 'del';
 import * as glob from 'glob';
@@ -6,11 +6,11 @@ import * as path from 'path';
 import * as pc from 'picocolors';
 import type { CommandModule } from 'yargs';
 
-import { CliOptions } from '../index';
-import { buildFixture } from '../utils/buildFixture';
-import { formatBytes, hrToSeconds } from '../utils/helpers';
-import { prepareFixture } from '../utils/prepareFixture';
-import { readConfig } from '../utils/readConfig';
+import { buildFixture } from '../utils/buildFixture.mjs';
+import { formatBytes, hrToSeconds } from '../utils/helpers.mjs';
+import { prepareFixture } from '../utils/prepareFixture.mjs';
+import { readConfig } from '../utils/readConfig.mjs';
+import type { CliOptions } from '../index.mjs';
 
 async function measure(options: CliOptions) {
   const { quiet } = options;

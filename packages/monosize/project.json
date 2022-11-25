@@ -11,18 +11,14 @@
         "main": "packages/monosize/src/index.ts",
         "tsConfig": "packages/monosize/tsconfig.lib.json",
         "assets": [
-          {
-            "glob": "README.md",
-            "input": ".",
-            "output": "."
-          },
+          "packages/monosize/README.md",
           {
             "glob": "LICENSE.md",
             "input": ".",
             "output": "."
           },
           {
-            "glob": "*.js",
+            "glob": "*.mjs",
             "input": "packages/monosize/bin",
             "output": "bin"
           }
@@ -33,7 +29,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/monosize/**/*.ts"]
+        "lintFilePatterns": ["packages/monosize/**/*.mts"]
       }
     },
     "test": {

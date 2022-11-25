@@ -1,5 +1,5 @@
-import { BundleSizeReport } from '../types';
-import { compareResultsInReports } from './compareResultsInReports';
+import { compareResultsInReports } from './compareResultsInReports.mjs';
+import type { BundleSizeReport } from '../types.mjs';
 
 describe('compareResultsInReports', () => {
   it('compares local and remote reports', () => {

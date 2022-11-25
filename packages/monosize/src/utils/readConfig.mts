@@ -1,9 +1,8 @@
 import { findUp } from 'find-up';
-import { Configuration as WebpackConfiguration } from 'webpack';
-
-import { StorageAdapter } from '../types';
 import * as pc from 'picocolors';
-import { hrToSeconds } from './helpers';
+import type { Configuration as WebpackConfiguration } from 'webpack';
+
+import type { StorageAdapter } from '../types.mjs';
 
 export type MonoSizeConfig = {
   repository: string;
@@ -37,10 +36,11 @@ export async function readConfig(quiet = true): Promise<MonoSizeConfig> {
 
   // TODO: config validation via schema
 
+  const userConfig = process.env.NODE_ENV === 'test' ? require(configPath) : await import(configPath);
+
   cache = {
     ...defaultConfig,
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    ...require(configPath),
+    ...userConfig,
   } as MonoSizeConfig;
 
   return cache;

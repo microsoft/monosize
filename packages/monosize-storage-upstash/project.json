@@ -24,7 +24,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/monosize-storage-upstash/**/*.ts"]
+        "lintFilePatterns": ["packages/monosize-storage-upstash/**/*.mts"]
       }
     },
     "test": {

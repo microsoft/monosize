@@ -1,4 +1,4 @@
-import { BundleSizeReportEntry } from '../types';
+import type { BundleSizeReportEntry } from '../types.mjs';
 
 export type DiffByMetric = { delta: number; percent: string };
 

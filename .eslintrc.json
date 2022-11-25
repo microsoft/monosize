@@ -16,7 +16,7 @@
   },
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": ["*.ts", "*.tsx", ".mts", "*.js", "*.jsx"],
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
@@ -34,7 +34,7 @@
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": ["*.ts", "*.tsx", "*.mts"],
       "extends": ["plugin:@nrwl/nx/typescript"],
       "rules": {}
     },
@@ -44,7 +44,7 @@
       "rules": {}
     },
     {
-      "files": ["jest.setup.ts", "**/__fixtures__/**/*", "**/*.test.ts"],
+      "files": ["jest.setup.ts", "**/__fixtures__/**/*", "**/*.test.mts"],
       "rules": {
         "import/no-extraneous-dependencies": "off"
       }

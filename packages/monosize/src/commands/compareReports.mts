@@ -1,13 +1,13 @@
 import * as pc from 'picocolors';
 import { CommandModule } from 'yargs';
 
-import { CliOptions } from '../index';
-import { cliReporter } from '../reporters/cliReporter';
-import { markdownReporter } from '../reporters/markdownReporter';
-import { collectLocalReport } from '../utils/collectLocalReport';
-import { compareResultsInReports } from '../utils/compareResultsInReports';
-import { hrToSeconds } from '../utils/helpers';
-import { readConfig } from '../utils/readConfig';
+import { CliOptions } from '../index.mjs';
+import { cliReporter } from '../reporters/cliReporter.mjs';
+import { markdownReporter } from '../reporters/markdownReporter.mjs';
+import { collectLocalReport } from '../utils/collectLocalReport.mjs';
+import { compareResultsInReports } from '../utils/compareResultsInReports.mjs';
+import { hrToSeconds } from '../utils/helpers.mjs';
+import { readConfig } from '../utils/readConfig.mjs';
 
 export type CompareReportsOptions = CliOptions & { branch: string; output: 'cli' | 'markdown' };
 

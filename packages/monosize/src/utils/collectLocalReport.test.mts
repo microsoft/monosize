@@ -11,8 +11,8 @@ jest.mock('glob', () => ({
   ],
 }));
 
-import { BuildResult } from '../types';
-import { collectLocalReport } from './collectLocalReport';
+import { collectLocalReport } from './collectLocalReport.mjs';
+import type { BuildResult } from '../types.mjs';
 
 function mkPackagesDir() {
   const projectDir = tmp.dirSync({ prefix: 'collectLocalReport', unsafeCleanup: true });

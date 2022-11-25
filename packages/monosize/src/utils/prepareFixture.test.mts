@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as tmp from 'tmp';
 
-import { prepareFixture } from './prepareFixture';
+import { prepareFixture } from './prepareFixture.mjs';
 
 async function setup(fixtureContent: string): Promise<string> {
   const packageDir = tmp.dirSync({

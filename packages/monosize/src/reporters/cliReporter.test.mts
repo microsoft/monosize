@@ -1,8 +1,7 @@
-// @ts-expect-error There is something wrong with typings for this module
-import * as stripAnsi from 'strip-ansi';
+import stripAnsi from 'strip-ansi';
 
-import { cliReporter } from './cliReporter';
-import { sampleComparedReport } from '../__fixture__/sampleComparedReport';
+import { cliReporter } from './cliReporter.mjs';
+import { sampleComparedReport } from '../__fixture__/sampleComparedReport.mjs';
 
 function noop() {
   /* does nothing */

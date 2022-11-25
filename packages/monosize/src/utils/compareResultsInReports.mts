@@ -1,5 +1,5 @@
-import { calculateDiffByMetric, DiffByMetric } from './calculateDiffByMetric';
-import { BundleSizeReport, BundleSizeReportEntry } from '../types';
+import { calculateDiffByMetric, DiffByMetric } from './calculateDiffByMetric.mjs';
+import type { BundleSizeReport, BundleSizeReportEntry } from '../types.mjs';
 
 type DiffForEntry = { empty: boolean; minified: DiffByMetric; gzip: DiffByMetric };
 

@@ -8,9 +8,9 @@ jest.mock('../utils/collectLocalReport', () => ({ collectLocalReport }));
 jest.mock('../utils/compareResultsInReports', () => ({ compareResultsInReports }));
 jest.mock('../utils/readConfig', () => ({ readConfig: () => ({ storage: { getRemoteReport } }) }));
 
-import { sampleReport } from '../__fixture__/sampleReport';
-import { sampleComparedReport } from '../__fixture__/sampleComparedReport';
-import api, { CompareReportsOptions } from './compareReports';
+import { sampleReport } from '../__fixture__/sampleReport.mjs';
+import { sampleComparedReport } from '../__fixture__/sampleComparedReport.mjs';
+import api, { CompareReportsOptions } from './compareReports.mjs';
 
 describe('compareReports', () => {
   it('fetches remote report and compares it with a local data', async () => {
