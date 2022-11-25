@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "@upstash/redis": "^1.0.3",
+    "@upstash/redis": "^1.18.0",
     "monosize": "^0.0.3"
   }
 }
