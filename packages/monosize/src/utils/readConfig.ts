@@ -2,6 +2,8 @@ import { findUp } from 'find-up';
 import { Configuration as WebpackConfiguration } from 'webpack';
 
 import { StorageAdapter } from '../types';
+import * as pc from 'picocolors';
+import { hrToSeconds } from './helpers';
 
 export type MonoSizeConfig = {
   repository: string;
@@ -24,15 +26,13 @@ export async function readConfig(quiet = true): Promise<MonoSizeConfig> {
 
   const configPath = await findUp(CONFIG_FILE_NAME, { cwd: process.cwd() });
 
-  // TODO: better logging
-
   if (!configPath) {
-    console.log(`no config file found: ${configPath}\n`);
+    console.log([pc.red('[e]'), `No config file found in ${configPath}`].join(' '));
     process.exit(1);
   }
 
   if (!quiet) {
-    console.log(`using config: ${configPath}`);
+    console.log([pc.blue('[i]'), `Using following config ${configPath}`].join(' '));
   }
 
   // TODO: config validation via schema

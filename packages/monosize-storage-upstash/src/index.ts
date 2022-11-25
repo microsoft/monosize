@@ -30,7 +30,7 @@ function createUpstashStorage(config: UpstashStorageConfig): StorageAdapter {
 
   const uploadReportToRemote: StorageAdapter['uploadReportToRemote'] = async (branch, commitSHA, localReport) => {
     if (typeof process.env['UPSTASH_WRITE_TOKEN'] !== 'string') {
-      throw new Error(/* TODO */);
+      throw new Error('monosize-storage-upstash: "UPSTASH_WRITE_TOKEN" is not defined in your process.env');
     }
 
     const redis = new Redis({

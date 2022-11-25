@@ -44,8 +44,12 @@ export async function prepareFixture(fixture: string): Promise<PreparedFixture> 
             const evaluationResult = exportPath.get('declaration').evaluate();
 
             if (!evaluationResult.confident) {
-              // TODO: proper error reporting
-              throw new Error();
+              throw exportPath.buildCodeFrameError(
+                [
+                  'Failed to evaluate this fragment by Babel.',
+                  'Ensure that an expression contains only simple literals and does not contain imported symbols.',
+                ].join(' '),
+              );
             }
 
             const valid = ajv.validate(fixtureSchema, evaluationResult.value);

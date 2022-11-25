@@ -115,7 +115,7 @@ export async function buildFixture(
   ]);
 
   if (!terserOutput.code || !terserOutputMinified.code) {
-    throw new Error(/* TODO: proper error reporting */);
+    throw new Error('Got an empty output from Terser, this is not expected...');
   }
 
   await fs.promises.writeFile(webpackOutputPath, terserOutput.code);

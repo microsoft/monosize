@@ -34,7 +34,7 @@ async function uploadReport(options: UploadOptions) {
   try {
     await config.storage.uploadReportToRemote(branch, commitSHA, localReport);
   } catch (e) {
-    console.log(/* TODO: proper reporting */);
+    console.log([pc.red('[e]'), 'Upload of the report to a remote host failed...'].join(' '));
     process.exit(1);
   }
 
