@@ -4,7 +4,7 @@ import tmp from 'tmp';
 
 import { buildFixture } from './buildFixture.mjs';
 import type { PreparedFixture } from './prepareFixture.mjs';
-import type { MonoSizeConfig } from './readConfig.mjs';
+import type { MonoSizeConfig } from '../types.mjs';
 
 async function setup(fixtureContent: string): Promise<PreparedFixture> {
   const packageDir = tmp.dirSync({
