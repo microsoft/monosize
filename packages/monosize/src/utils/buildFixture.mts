@@ -8,8 +8,7 @@ import type { Configuration as WebpackConfiguration } from 'webpack';
 
 import { hrToSeconds } from './helpers.mjs';
 import { PreparedFixture } from './prepareFixture.mjs';
-import { MonoSizeConfig } from './readConfig.mjs';
-import type { BuildResult } from '../types.mjs';
+import type { BuildResult, MonoSizeConfig } from '../types.mjs';
 
 function createWebpackConfig(fixturePath: string, outputPath: string): WebpackConfiguration {
   return {
@@ -77,8 +76,9 @@ export async function buildFixture(
 
   const webpackOutputPath = preparedFixture.absolutePath.replace(/.fixture.js$/, '.output.js');
   const webpackConfig = createWebpackConfig(preparedFixture.absolutePath, webpackOutputPath);
+  const finalWebpackConfig = config.webpack ? config.webpack(webpackConfig) : webpackConfig;
 
-  await webpackAsync(config.webpack(webpackConfig));
+  await webpackAsync(finalWebpackConfig);
 
   if (!quiet) {
     console.log(

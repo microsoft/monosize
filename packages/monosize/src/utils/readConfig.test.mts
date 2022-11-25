@@ -28,7 +28,7 @@ describe('readConfig', () => {
 
     const config = await readConfig(true);
 
-    expect(config.webpack({})).toEqual({ foo: 'bar' });
+    expect(config.webpack?.({})).toEqual({ foo: 'bar' });
   });
 
   it('should return default webpack config if no config file defined', async () => {
@@ -51,7 +51,7 @@ describe('readConfig', () => {
     const config = await readConfig();
 
     expect(firstConfig).toBe(config);
-    expect(config.webpack({})).toEqual({});
+    expect(config.webpack?.({})).toEqual({});
 
     process.env.NODE_ENV = 'test';
   });

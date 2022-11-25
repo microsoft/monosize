@@ -1,16 +1,9 @@
 import { findUp } from 'find-up';
 import pc from 'picocolors';
-import type { Configuration as WebpackConfiguration } from 'webpack';
 
-import type { StorageAdapter } from '../types.mjs';
+import type { MonoSizeConfig } from '../types.mjs';
 
-export type MonoSizeConfig = {
-  repository: string;
-  storage: StorageAdapter;
-  webpack: (config: WebpackConfiguration) => WebpackConfiguration;
-};
-
-const CONFIG_FILE_NAME = 'monosize.config.js';
+const CONFIG_FILE_NAME = ['monosize.config.js', 'monosize.config.mjs'];
 const defaultConfig: Partial<MonoSizeConfig> = {
   webpack: config => config,
 };
@@ -35,8 +28,16 @@ export async function readConfig(quiet = true): Promise<MonoSizeConfig> {
   }
 
   // TODO: config validation via schema
+  let userConfig;
 
-  const userConfig = process.env.NODE_ENV === 'test' ? require(configPath) : await import(configPath);
+  if (process.env.NODE_ENV === 'test') {
+    // Jest does not support ESM imports natively
+    userConfig = require(configPath);
+  } else {
+    const configFile = await import(configPath);
+
+    userConfig = configFile.default;
+  }
 
   cache = {
     ...defaultConfig,
