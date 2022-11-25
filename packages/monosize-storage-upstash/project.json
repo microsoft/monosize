@@ -4,7 +4,7 @@
   "sourceRoot": "packages/monosize-storage-upstash/src",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nrwl/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/monosize-storage-upstash",

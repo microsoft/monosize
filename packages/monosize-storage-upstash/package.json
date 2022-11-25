@@ -4,6 +4,7 @@
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
+    "@swc/helpers": "~0.4.11",
     "@upstash/redis": "^1.18.0",
     "monosize": "^0.0.3"
   }

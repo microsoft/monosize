@@ -4,18 +4,14 @@
   "sourceRoot": "packages/monosize/src",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nrwl/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/monosize",
         "main": "packages/monosize/src/index.ts",
         "tsConfig": "packages/monosize/tsconfig.lib.json",
         "assets": [
-          {
-            "glob": "README.md",
-            "input": ".",
-            "output": "."
-          },
+          "packages/monosize/README.md",
           {
             "glob": "LICENSE.md",
             "input": ".",

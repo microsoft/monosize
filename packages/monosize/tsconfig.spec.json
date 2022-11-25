@@ -5,5 +5,13 @@
     "module": "commonjs",
     "types": ["environment", "jest", "node"]
   },
-  "include": ["jest.setup.ts", "**/*.test.ts", "**/*.spec.ts", "**/*.d.ts", "**/__fixture__/*.ts", "jest.config.ts"]
+  "include": [
+    "jest.config.ts",
+    "jest.setup.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.d.ts",
+    "src/__fixture__/*.ts",
+    "src/__mocks__/*.ts"
+  ]
 }

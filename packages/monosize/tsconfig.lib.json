@@ -6,5 +6,12 @@
     "types": ["environment"]
   },
   "include": ["**/*.ts"],
-  "exclude": ["jest.setup.ts", "**/*.spec.ts", "**/*.test.ts", "**/__fixture__/*.ts", "jest.config.ts"]
+  "exclude": [
+    "jest.config.ts",
+    "jest.setup.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "src/__fixture__/*.ts",
+    "src/__mocks__/*.ts"
+  ]
 }
