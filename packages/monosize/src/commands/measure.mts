@@ -1,9 +1,9 @@
 import Table from 'cli-table3';
-import * as fs from 'fs';
+import fs from 'fs';
 import { deleteAsync } from 'del';
-import * as glob from 'glob';
-import * as path from 'path';
-import * as pc from 'picocolors';
+import glob from 'glob';
+import path from 'path';
+import pc from 'picocolors';
 import type { CommandModule } from 'yargs';
 
 import { buildFixture } from '../utils/buildFixture.mjs';

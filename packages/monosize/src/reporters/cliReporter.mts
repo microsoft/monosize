@@ -1,5 +1,5 @@
 import Table from 'cli-table3';
-import * as pc from 'picocolors';
+import pc from 'picocolors';
 
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
 import { formatBytes } from '../utils/helpers.mjs';

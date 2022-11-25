@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import * as glob from 'glob';
-import * as path from 'path';
+import fs from 'fs';
+import glob from 'glob';
+import path from 'path';
 import { findGitRoot, findPackageRoot } from 'workspace-tools';
 
 import type { BuildResult, BundleSizeReport } from '../types.mjs';

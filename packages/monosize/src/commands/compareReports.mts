@@ -1,4 +1,4 @@
-import * as pc from 'picocolors';
+import pc from 'picocolors';
 import { CommandModule } from 'yargs';
 
 import { CliOptions } from '../index.mjs';
