@@ -1,0 +1,20 @@
+{
+  "name": "monosize",
+  "entries": [
+    {
+      "date": "Fri, 25 Nov 2022 14:47:08 GMT",
+      "tag": "monosize_v0.0.4",
+      "version": "0.0.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "6ccc63864b96205af479727751b0a137ab71bcd9",
+            "comment": "chore: bump dependencies"
+          }
+        ]
+      }
+    }
+  ]
+}
