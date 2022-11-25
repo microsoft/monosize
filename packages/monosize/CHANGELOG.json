@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Fri, 25 Nov 2022 16:20:16 GMT",
+      "tag": "monosize_v0.0.6",
+      "version": "0.0.6",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "bd09446ef6b966c58c976ca9684182112b246f30",
+            "comment": "fix: use esModuleInterop and \"import *\""
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 25 Nov 2022 15:17:27 GMT",
       "tag": "monosize_v0.0.5",
       "version": "0.0.5",
