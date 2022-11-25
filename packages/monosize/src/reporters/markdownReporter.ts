@@ -1,6 +1,6 @@
-import * as chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as pc from 'picocolors';
 import * as prettier from 'prettier';
 import { findPackageRoot } from 'workspace-tools';
 
@@ -8,7 +8,6 @@ import { ComparedReport } from '../utils/compareResultsInReports';
 import { DiffByMetric } from '../utils/calculateDiffByMetric';
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport';
 import { formatBytes } from '../utils/helpers';
-import { MonoSizeConfig } from '../utils/readConfig';
 
 const icons = {
   increase: 'increase.png',
@@ -115,6 +114,6 @@ export async function markdownReporter(result: ComparedReport, commitSHA: string
   await fs.promises.writeFile(artifactsFilename, prettier.format(report.join('\n'), { parser: 'markdown' }));
 
   if (!quiet) {
-    console.log([chalk.blue('[i]'), `A report file was written to ${artifactsFilename}`].join(' '));
+    console.log([pc.blue('[i]'), `A report file was written to ${artifactsFilename}`].join(' '));
   }
 }

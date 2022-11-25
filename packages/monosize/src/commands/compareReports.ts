@@ -1,4 +1,4 @@
-import * as chalk from 'chalk';
+import * as pc from 'picocolors';
 import { CommandModule } from 'yargs';
 
 import { CliOptions } from '../index';
@@ -22,7 +22,7 @@ async function compareReports(options: CompareReportsOptions) {
 
   if (!quiet) {
     console.log(
-      [chalk.blue('[i]'), `Local report prepared in ${hrToSeconds(process.hrtime(localReportStartTime))}`].join(' '),
+      [pc.blue('[i]'), `Local report prepared in ${hrToSeconds(process.hrtime(localReportStartTime))}`].join(' '),
     );
   }
 
@@ -31,11 +31,11 @@ async function compareReports(options: CompareReportsOptions) {
 
   if (!quiet) {
     if (commitSHA === '') {
-      console.log([chalk.blue('[i]'), `Remote report for "${branch}" branch was not found`].join(' '));
+      console.log([pc.blue('[i]'), `Remote report for "${branch}" branch was not found`].join(' '));
     } else {
       console.log(
         [
-          chalk.blue('[i]'),
+          pc.blue('[i]'),
           `Remote report for "${commitSHA}" commit fetched in ${hrToSeconds(process.hrtime(remoteReportStartTime))}`,
         ].join(' '),
       );

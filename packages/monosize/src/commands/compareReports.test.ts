@@ -20,7 +20,8 @@ describe('compareReports', () => {
     collectLocalReport.mockImplementation(() => sampleReport);
     compareResultsInReports.mockImplementation(() => sampleComparedReport);
 
-    await api.handler({ quiet: true, branch: branchName, output: 'cli' } as CompareReportsOptions);
+    const options: CompareReportsOptions = { quiet: true, branch: branchName, output: 'cli' };
+    await api.handler(options as any);
 
     expect(getRemoteReport).toHaveBeenCalledWith(branchName);
     expect(compareResultsInReports).toHaveBeenCalledWith(sampleReport, sampleReport);

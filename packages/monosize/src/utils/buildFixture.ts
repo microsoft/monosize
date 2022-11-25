@@ -1,5 +1,5 @@
-import * as chalk from 'chalk';
-import * as gzipSize from 'gzip-size';
+import * as pc from 'picocolors';
+import { gzipSizeFromFile } from 'gzip-size';
 import * as fs from 'fs';
 import * as path from 'path';
 import { minify } from 'terser';
@@ -82,7 +82,7 @@ export async function buildFixture(
   if (!quiet) {
     console.log(
       [
-        chalk.blue('[i]'),
+        pc.blue('[i]'),
         `"${path.basename(preparedFixture.relativePath)}": Webpack in ${hrToSeconds(process.hrtime(webpackStartTime))}`,
       ].join(' '),
     );
@@ -124,14 +124,14 @@ export async function buildFixture(
   if (!quiet) {
     console.log(
       [
-        chalk.blue('[i]'),
+        pc.blue('[i]'),
         `"${path.basename(preparedFixture.relativePath)}": Terser in ${hrToSeconds(process.hrtime(terserStartTime))}`,
       ].join(' '),
     );
   }
 
   const minifiedSize = (await fs.promises.stat(terserOutputPath)).size;
-  const gzippedSize = await gzipSize.file(terserOutputPath);
+  const gzippedSize = await gzipSizeFromFile(terserOutputPath);
 
   return {
     name: preparedFixture.name,

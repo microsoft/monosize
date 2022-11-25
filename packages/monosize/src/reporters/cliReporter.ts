@@ -1,5 +1,5 @@
-import * as chalk from 'chalk';
 import * as Table from 'cli-table3';
+import * as pc from 'picocolors';
 
 import { ComparedReport } from '../utils/compareResultsInReports';
 import { DiffByMetric } from '../utils/calculateDiffByMetric';
@@ -23,7 +23,7 @@ function formatDelta(diff: DiffByMetric): string {
     return '';
   }
 
-  const colorFn = diff.delta > 0 ? chalk.red : chalk.green;
+  const colorFn = diff.delta > 0 ? pc.red : pc.green;
 
   return colorFn(diff.percent + getDirectionSymbol(diff.delta));
 }
@@ -37,7 +37,7 @@ export async function cliReporter(report: ComparedReport): Promise<void> {
 
   changedEntries.forEach(entry => {
     const { diff, gzippedSize, minifiedSize, name, packageName } = entry;
-    const fixtureColumn = chalk.bold(packageName) + '\n' + name + (diff.empty ? chalk.cyan(' (new)') : '');
+    const fixtureColumn = pc.bold(packageName) + '\n' + name + (diff.empty ? pc.cyan(' (new)') : '');
 
     const minifiedBefore = diff.empty ? 'N/A' : formatBytes(minifiedSize - diff.minified.delta);
     const gzippedBefore = diff.empty ? 'N/A' : formatBytes(gzippedSize - diff.gzip.delta);
@@ -57,5 +57,5 @@ export async function cliReporter(report: ComparedReport): Promise<void> {
     return;
   }
 
-  console.log(`${chalk.green('[✔]')} No changes found`);
+  console.log(`${pc.green('[✔]')} No changes found`);
 }

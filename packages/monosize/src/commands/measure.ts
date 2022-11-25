@@ -1,10 +1,10 @@
-import * as chalk from 'chalk';
 import * as Table from 'cli-table3';
 import * as fs from 'fs';
-import * as del from 'del';
+import { deleteAsync } from 'del';
 import * as glob from 'glob';
 import * as path from 'path';
-import { CommandModule } from 'yargs';
+import * as pc from 'picocolors';
+import type { CommandModule } from 'yargs';
 
 import { CliOptions } from '../index';
 import { buildFixture } from '../utils/buildFixture';
@@ -18,10 +18,10 @@ async function measure(options: CliOptions) {
   const startTime = process.hrtime();
   const artifactsDir = path.resolve(process.cwd(), 'dist', 'monosize');
 
-  await del(artifactsDir);
+  await deleteAsync(artifactsDir);
 
   if (!quiet) {
-    console.log(`${chalk.blue('[i]')} artifacts dir is cleared`);
+    console.log(`${pc.blue('[i]')} artifacts dir is cleared`);
   }
 
   const fixtures = glob.sync('bundle-size/*.fixture.js', {
@@ -29,7 +29,7 @@ async function measure(options: CliOptions) {
   });
 
   if (!quiet) {
-    console.log(`${chalk.blue('[i]')} Measuring bundle size for ${fixtures.length} fixture(s)...`);
+    console.log(`${pc.blue('[i]')} Measuring bundle size for ${fixtures.length} fixture(s)...`);
     console.log(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
   }
 

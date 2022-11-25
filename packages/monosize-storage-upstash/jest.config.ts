@@ -10,6 +10,7 @@ export default {
   transform: {
     '^.+\\.[tj]s$': 'ts-jest',
   },
+  testEnvironment: 'node',
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/monosize-storage-upstash',
 };

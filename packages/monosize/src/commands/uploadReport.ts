@@ -1,6 +1,6 @@
-import * as chalk from 'chalk';
 import { isCI } from 'ci-info';
-import { CommandModule } from 'yargs';
+import * as pc from 'picocolors';
+import type { CommandModule } from 'yargs';
 
 import { CliOptions } from '../index';
 import { collectLocalReport } from '../utils/collectLocalReport';
@@ -11,7 +11,7 @@ type UploadOptions = CliOptions & { branch: string; 'commit-sha': string };
 
 async function uploadReport(options: UploadOptions) {
   if (!isCI) {
-    console.log(`${chalk.red('[e]')} This is command can be executed only in CI`);
+    console.log(`${pc.red('[e]')} This is command can be executed only in CI`);
     process.exit(1);
   }
 
@@ -25,7 +25,7 @@ async function uploadReport(options: UploadOptions) {
 
   if (!quiet) {
     console.log(
-      [chalk.blue('[i]'), `Local report prepared in ${hrToSeconds(process.hrtime(localReportStartTime))}`].join(' '),
+      [pc.blue('[i]'), `Local report prepared in ${hrToSeconds(process.hrtime(localReportStartTime))}`].join(' '),
     );
   }
 
@@ -39,7 +39,7 @@ async function uploadReport(options: UploadOptions) {
   }
 
   if (!quiet) {
-    console.log([chalk.blue('[i]'), `Report uploaded in ${hrToSeconds(process.hrtime(uploadStartTime))}`].join(' '));
+    console.log([pc.blue('[i]'), `Report uploaded in ${hrToSeconds(process.hrtime(uploadStartTime))}`].join(' '));
     console.log(`Completed in ${hrToSeconds(process.hrtime(startTime))}`);
   }
 }

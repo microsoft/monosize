@@ -1,4 +1,4 @@
-import * as prettyBytes from 'pretty-bytes';
+import prettyBytes from 'pretty-bytes';
 import * as process from 'process';
 
 export function formatBytes(value: number): string {
