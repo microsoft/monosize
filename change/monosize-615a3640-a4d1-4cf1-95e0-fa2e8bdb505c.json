@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: handle ESM configs, export config type",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

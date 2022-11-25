@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Fri, 25 Nov 2022 16:20:16 GMT and should not be manually modified.
+This log was last generated on Fri, 25 Nov 2022 16:53:18 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.0.7
+
+Fri, 25 Nov 2022 16:53:18 GMT
+
+### Patches
+
+- fix: handle ESM configs, export config type (olfedias@microsoft.com)
 
 ## 0.0.6
 

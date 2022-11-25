@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Fri, 25 Nov 2022 16:53:18 GMT",
+      "tag": "monosize_v0.0.7",
+      "version": "0.0.7",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "93524bb6467450869f2c4b24a1b5bad9690f19bd",
+            "comment": "fix: handle ESM configs, export config type"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 25 Nov 2022 16:20:16 GMT",
       "tag": "monosize_v0.0.6",
       "version": "0.0.6",
