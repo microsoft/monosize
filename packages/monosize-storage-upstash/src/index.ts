@@ -16,7 +16,7 @@ function createUpstashStorage(config: UpstashStorageConfig): StorageAdapter {
     const result = await redis.get<{ commitSHA: string; data: BundleSizeReport } | null>(branch);
 
     if (result === null) {
-      throw new Error(/* TODO */);
+      throw new Error('monosize-storage-upstash: Failed to get data from a remote host');
     }
 
     // TODO: validate data with schema

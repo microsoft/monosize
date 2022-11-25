@@ -1,5 +1,6 @@
 {
-  "root": "packages/monosize-storage-upstash",
+  "name": "monosize-storage-upstash",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/monosize-storage-upstash/src",
   "targets": {
     "build": {
@@ -28,9 +29,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/monosize-storage-upstash"],
+      "outputs": ["{workspaceRoot}/coverage/packages/monosize-storage-upstash"],
       "options": {
-        "jestConfig": "packages/monosize-storage-upstash/jest.config.js",
+        "jestConfig": "packages/monosize-storage-upstash/jest.config.ts",
         "passWithNoTests": true
       }
     }

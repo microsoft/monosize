@@ -13,7 +13,7 @@ const cliSetup = yargs
   .scriptName('monosize')
   .version(false).argv;
 
-export type CliOptions = typeof cliSetup;
+export type CliOptions = { quiet: boolean };
 
 export type { BundleSizeReport, StorageAdapter } from './types';
 

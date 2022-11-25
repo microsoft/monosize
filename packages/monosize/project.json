@@ -1,5 +1,6 @@
 {
-  "root": "packages/monosize",
+  "name": "monosize",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/monosize/src",
   "targets": {
     "build": {
@@ -37,9 +38,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/monosize"],
+      "outputs": ["{workspaceRoot}/coverage/packages/monosize"],
       "options": {
-        "jestConfig": "packages/monosize/jest.config.js",
+        "jestConfig": "packages/monosize/jest.config.ts",
         "passWithNoTests": true
       }
     }

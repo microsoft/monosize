@@ -6,5 +6,5 @@
     "types": ["environment"]
   },
   "include": ["**/*.ts"],
-  "exclude": ["jest.setup.ts", "**/*.spec.ts", "**/*.test.ts", "**/__fixture__/*.ts"]
+  "exclude": ["jest.setup.ts", "**/*.spec.ts", "**/*.test.ts", "**/__fixture__/*.ts", "jest.config.ts"]
 }
