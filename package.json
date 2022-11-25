@@ -68,6 +68,7 @@
     "yargs": "^17.6.2"
   },
   "resolutions": {
-    "@nrwl/workspace@15.2.1": "patch:@nrwl/workspace@npm:15.2.1#.yarn/patches/@nrwl-workspace-npm-15.2.1-719c36a62e.patch"
+    "@nrwl/workspace@15.2.1": "patch:@nrwl/workspace@npm:15.2.1#.yarn/patches/@nrwl-workspace-npm-15.2.1-719c36a62e.patch",
+    "beachball@2.31.5": "patch:beachball@npm:2.31.5#.yarn/patches/beachball-npm-2.31.5-0e84ec4233.patch"
   }
 }
