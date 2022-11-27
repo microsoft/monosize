@@ -31,7 +31,8 @@ export async function readConfig(quiet = true): Promise<MonoSizeConfig> {
   let userConfig;
 
   if (process.env.NODE_ENV === 'test') {
-    // Jest does not support ESM imports natively
+    // Jest does not support ESM imports natively without "NODE_OPTIONS=--experimental-vm-modules"
+    // eslint-disable-next-line unicorn/prefer-module
     userConfig = require(configPath);
   } else {
     const configFile = await import(configPath);

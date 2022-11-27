@@ -21,6 +21,7 @@ describe('compareReports', () => {
     compareResultsInReports.mockImplementation(() => sampleComparedReport);
 
     const options: CompareReportsOptions = { quiet: true, branch: branchName, output: 'cli' };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await api.handler(options as any);
 
     expect(getRemoteReport).toHaveBeenCalledWith(branchName);

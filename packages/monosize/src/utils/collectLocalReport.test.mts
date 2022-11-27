@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import tmp from 'tmp';
 
 // This mock should be not required 😮
