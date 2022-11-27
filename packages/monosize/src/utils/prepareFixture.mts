@@ -1,8 +1,8 @@
 import AjvModule from 'ajv';
 import { transformAsync } from '@babel/core';
-import fs from 'fs';
-import path from 'path';
-import { BabelFileResult } from '@babel/core';
+import fs from 'node:fs';
+import path from 'node:path';
+import type { BabelFileResult } from '@babel/core';
 
 import { fixtureSchema } from '../schemas.mjs';
 
@@ -83,10 +83,19 @@ export async function prepareFixture(fixture: string): Promise<PreparedFixture> 
     );
   }
 
+  if (!result.code) {
+    throw new Error(
+      [
+        `Babel did not return code in its results for the fixture "${fixture}".`,
+        'Please check the fixture for syntax errors.',
+      ].join('\n'),
+    );
+  }
+
   const outputFixturePath = path.resolve(process.cwd(), 'dist', fixture);
 
   await fs.promises.mkdir(path.dirname(outputFixturePath), { recursive: true });
-  await fs.promises.writeFile(outputFixturePath, result.code!);
+  await fs.promises.writeFile(outputFixturePath, result.code);
 
   return {
     absolutePath: outputFixturePath,

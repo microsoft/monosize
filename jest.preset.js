@@ -1,9 +1,8 @@
 module.exports = {
-  extensionsToTreatAsEsm: ['.ts', '.tsx', '.mts'],
   testMatch: ['**/*.test.mts'],
   testEnvironment: 'node',
   transform: {
-    '^.+\\.m?[tj]s$': [
+    '^.+\\.m?ts$': [
       'ts-jest',
       {
         useESM: true,

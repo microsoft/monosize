@@ -1,7 +1,7 @@
 import pc from 'picocolors';
 import { gzipSizeFromFile } from 'gzip-size';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import { minify } from 'terser';
 import webpack from 'webpack';
 import type { Configuration as WebpackConfiguration } from 'webpack';

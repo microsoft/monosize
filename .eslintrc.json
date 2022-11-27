@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx", "import"],
+  "plugins": ["@nrwl/nx", "import", "unicorn"],
   "extends": ["plugin:import/typescript"],
   "settings": {
     "import/resolver": {
@@ -37,6 +37,13 @@
       "files": ["*.ts", "*.tsx", "*.mts"],
       "extends": ["plugin:@nrwl/nx/typescript"],
       "rules": {}
+    },
+    {
+      "files": ["*.mts"],
+      "rules": {
+        "unicorn/prefer-module": "error",
+        "unicorn/prefer-node-protocol": "error"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

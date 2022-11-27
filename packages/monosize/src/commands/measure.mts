@@ -1,8 +1,8 @@
 import Table from 'cli-table3';
-import fs from 'fs';
 import { deleteAsync } from 'del';
 import glob from 'glob';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import pc from 'picocolors';
 import type { CommandModule } from 'yargs';
 

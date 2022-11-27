@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import pc from 'picocolors';
 import prettier from 'prettier';
 import { findPackageRoot } from 'workspace-tools';
@@ -38,13 +38,14 @@ function formatDelta(diff: DiffByMetric): string {
 }
 
 export async function markdownReporter(result: ComparedReport, commitSHA: string, repository: string, quiet: boolean) {
-  const packageRoot = findPackageRoot(__dirname);
+  const dirname = new URL('.', import.meta.url).pathname;
+  const packageRoot = findPackageRoot(dirname);
 
   if (!packageRoot) {
     throw new Error(
       [
         'Failed to find a package root (directory that contains "package.json" file)',
-        `Lookup start in: ${__dirname}`,
+        `Lookup start in: ${dirname}`,
       ].join('\n'),
     );
   }
