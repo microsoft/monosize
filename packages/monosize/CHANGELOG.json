@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Sun, 27 Nov 2022 22:40:02 GMT",
+      "tag": "monosize_v0.0.8",
+      "version": "0.0.8",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "a68f889021044f9c82c2d1d9db916d4ca9c88b97",
+            "comment": "fix: remove usage of CJS vars, add linting"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 25 Nov 2022 16:53:18 GMT",
       "tag": "monosize_v0.0.7",
       "version": "0.0.7",

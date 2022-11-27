@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Fri, 25 Nov 2022 16:53:18 GMT and should not be manually modified.
+This log was last generated on Sun, 27 Nov 2022 22:40:02 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.0.8
+
+Sun, 27 Nov 2022 22:40:02 GMT
+
+### Patches
+
+- fix: remove usage of CJS vars, add linting (olfedias@microsoft.com)
 
 ## 0.0.7
 
