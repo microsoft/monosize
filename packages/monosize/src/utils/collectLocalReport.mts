@@ -43,7 +43,7 @@ type CollectLocalReportOptions = {
 export async function collectLocalReport(options: Partial<CollectLocalReportOptions> = {}): Promise<BundleSizeReport> {
   const { reportFilesGlob, root = findGitRoot(process.cwd()) } = {
     root: undefined,
-    reportFilesGlob: 'packages/**/dist/bundle-size/bundle-size.json',
+    reportFilesGlob: 'packages/**/dist/bundle-size/monosize.json',
     ...options,
   };
 
