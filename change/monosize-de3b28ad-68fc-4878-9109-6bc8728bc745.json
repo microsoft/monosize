@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: update glob in collectLocalReport",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

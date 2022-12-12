@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Mon, 12 Dec 2022 17:37:53 GMT",
+      "tag": "monosize_v0.0.9",
+      "version": "0.0.9",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "a062005583df1f6eae730da317ab7ca1296de3c4",
+            "comment": "fix: update glob in collectLocalReport"
+          }
+        ]
+      }
+    },
+    {
       "date": "Sun, 27 Nov 2022 22:40:02 GMT",
       "tag": "monosize_v0.0.8",
       "version": "0.0.8",
