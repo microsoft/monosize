@@ -7,6 +7,7 @@
   "types": "./src/index.d.mts",
   "dependencies": {
     "@upstash/redis": "^1.18.0",
-    "monosize": "^0.0.8"
+    "monosize": "^0.0.8",
+    "tslib": "^2.4.1"
   }
 }

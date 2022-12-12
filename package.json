@@ -71,6 +71,7 @@
   },
   "resolutions": {
     "@nrwl/workspace@15.2.1": "patch:@nrwl/workspace@npm:15.2.1#.yarn/patches/@nrwl-workspace-npm-15.2.1-719c36a62e.patch",
-    "beachball@2.31.5": "patch:beachball@npm:2.31.5#.yarn/patches/beachball-npm-2.31.5-0e84ec4233.patch"
+    "beachball@2.31.5": "patch:beachball@npm:2.31.5#.yarn/patches/beachball-npm-2.31.5-0e84ec4233.patch",
+    "@nrwl/js@15.2.1": "patch:@nrwl/js@npm:15.2.1#.yarn/patches/@nrwl-js-npm-15.2.1-0239976f03.patch"
   }
 }

@@ -958,6 +958,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nrwl/js@patch:@nrwl/js@npm:15.2.1#.yarn/patches/@nrwl-js-npm-15.2.1-0239976f03.patch::locator=monosize-monorepo%40workspace%3A.":
+  version: 15.2.1
+  resolution: "@nrwl/js@patch:@nrwl/js@npm%3A15.2.1#.yarn/patches/@nrwl-js-npm-15.2.1-0239976f03.patch::version=15.2.1&hash=2bece5&locator=monosize-monorepo%40workspace%3A."
+  dependencies:
+    "@nrwl/devkit": 15.2.1
+    "@nrwl/jest": 15.2.1
+    "@nrwl/linter": 15.2.1
+    "@nrwl/workspace": 15.2.1
+    "@parcel/watcher": 2.0.4
+    chalk: 4.1.0
+    fast-glob: 3.2.7
+    fs-extra: ^10.1.0
+    ignore: ^5.0.4
+    js-tokens: ^4.0.0
+    minimatch: 3.0.5
+    source-map-support: 0.5.19
+    tree-kill: 1.2.2
+  checksum: 3b7b91f933696301324612ee901cbb18713f2d1024f040610e2b941f8a654922b47d9287f7578092b873b31dfcd264579cd87b20c5714aa1169ebd3d832b60fb
+  languageName: node
+  linkType: hard
+
 "@nrwl/linter@npm:15.2.1":
   version: 15.2.1
   resolution: "@nrwl/linter@npm:15.2.1"
