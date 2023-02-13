@@ -1,0 +1,40 @@
+{
+  "name": "monosize-storage-azure",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/monosize-storage-azure/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/monosize-storage-azure",
+        "main": "packages/monosize-storage-azure/src/index.ts",
+        "tsConfig": "packages/monosize-storage-azure/tsconfig.lib.json",
+        "assets": [
+          "packages/monosize-storage-azure/README.md",
+          {
+            "glob": "LICENSE.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/monosize-storage-azure/**/*.mts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/packages/monosize-storage-azure"],
+      "options": {
+        "jestConfig": "packages/monosize-storage-azure/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
