@@ -2,6 +2,21 @@
   "name": "monosize-storage-upstash",
   "entries": [
     {
+      "date": "Mon, 13 Feb 2023 12:55:07 GMT",
+      "tag": "monosize-storage-upstash_v0.0.10",
+      "version": "0.0.10",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-upstash",
+            "commit": "5b851170d3ee6e8d1e2b2aa012e9a8c90822d868",
+            "comment": "chore: enable typings"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 13 Feb 2023 11:26:46 GMT",
       "tag": "monosize-storage-upstash_v0.0.9",
       "version": "0.0.9",
