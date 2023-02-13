@@ -16,7 +16,7 @@ function createAzureStorage(config: AzureStorageConfig): StorageAdapter {
       const result = (await response.json()) as Array<BundleSizeReportEntry & { commitSHA: string }>;
 
       const remoteReport = result.map(entity => {
-        const { commitSHA: _, ...rest } = entity;
+        const { commitSHA, ...rest } = entity;
         return rest;
       });
       const { commitSHA } = result[result.length - 1];

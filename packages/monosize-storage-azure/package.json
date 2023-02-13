@@ -9,6 +9,7 @@
     "@azure/data-tables": "^13.0.0",
     "monosize": "^0.0.9",
     "node-fetch": "^3.3.0",
+    "picocolors": "^1.0.0",
     "tslib": "^2.4.1"
   }
 }
