@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: enable typings",
+  "packageName": "monosize-storage-upstash",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
