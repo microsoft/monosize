@@ -1,19 +1,33 @@
-# monosize
+<div align="center">
+  <h1>monosize 📦</h1>
+  <br />
+  <b>Mono</b>repo + bundle<b>size</b>
+  <br/>
+  <span>Monosize is a CLI tool to measure bundle size locally and on CI.</span>
+</div>
 
-A CLI tool to measure bundle size locally and on CI.
+## Install
 
-### Usage
+```sh
+# yarn
+yarn add --dev monosize
 
-> NOTE: `monosize` requires building packages first before doing any kind of measurements. Make sure to accommodate this in your pipeline
+# npm
+npm install --save-dev monosize
+```
 
-#### Fixtures
+## Usage
+
+> Note: `monosize` requires building packages first before doing any kind of measurements. Make sure to accommodate this in your pipeline
+
+### Fixtures
 
 Fixtures declare exports that should be measured by the `monosize` tool. Fixtures are created inside each package.
 
 For example:
 
 ```js
-import { Component } from '@library/react-component';
+import { Component } from '@library/component';
 
 console.log(Component);
 // 👆 "console.log()" is the easiest way to prevent tree-shaking
@@ -24,14 +38,14 @@ export default {
 };
 ```
 
-### Configuration
+## Configuration
 
-For custom advanced behavior of `monosize`, you can create a `monosize.config.js` in the root of your project directory (next to `package.json`).
+For custom advanced behavior of `monosize`, you can create a `monosize.config.mjs` in the root of your project directory (next to `package.json`).
 
 ```
 my-proj/
 ├─ src/
-├─ monosize.config.js
+├─ monosize.config.mjs
 ├─ node_modules/
 ├─ bundle-size/
 │  ├─ Fixture.fixture.js
@@ -53,14 +67,19 @@ my-proj-b/
 ├─ bundle-size/
 │  ├─ Fixture.fixture.js
 ├─ package.json
-monosize.config.js
+monosize.config.mjs
 
 ```
 
-#### Config API
+### Config API
 
 ```js
-module.exports = {
+// monosize.config.mjs
+import storageAdapter from 'monosize-storage-*';
+
+export default {
+  repository: 'https://github.com/__ORG__/__REPOSITORY__',
+  storage: storageAdapter(),
   webpack: config => {
     // customize config here
     return config;
@@ -68,9 +87,15 @@ module.exports = {
 };
 ```
 
-### Commands
+### Using storage adapters
 
-#### `compare-reports`
+To store reference results and run comparisons you need to use a storage adapter. Following adapters are available:
+
+- [`monosize-storage-upstash`](../monosize-storage-upstash)
+
+## Commands
+
+### `compare-reports`
 
 Compares local (requires call of `monosize measure` first) and remote results, provides output to CLI or to a Markdown file.
 
@@ -78,7 +103,7 @@ Compares local (requires call of `monosize measure` first) and remote results, p
 monosize compare-reports --branch=main --output=["cli"|"markdown"] [--quiet]
 ```
 
-#### `measure`
+### `measure`
 
 ```sh
 monosize measure [--quiet]
@@ -92,7 +117,9 @@ Builds fixtures and produces artifacts. For each fixture:
 
 A report file `monosize.json` that is used by other steps.
 
-#### `upload-report`
+### `upload-report`
+
+> Note: requires a configured storage adapter.
 
 ```sh
 monosize upload-report --branch=main --commit-sha=HASH [--quiet]
@@ -100,7 +127,7 @@ monosize upload-report --branch=main --commit-sha=HASH [--quiet]
 
 Aggregates local results to a single report and uploads data to Azure Table Storage.
 
-> NOTE: should be called only during CI builds.
+> Note: should be called only during CI builds.
 
 ## Contributing
 
