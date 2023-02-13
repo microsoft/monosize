@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: export BundleSizeReportEntry type",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

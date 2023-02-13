@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Mon, 13 Feb 2023 11:26:46 GMT",
+      "tag": "monosize_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "2c1f902b6b16416215f8630cf6224db306d0c742",
+            "comment": "feat: export BundleSizeReportEntry type"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 12 Dec 2022 17:37:53 GMT",
       "tag": "monosize_v0.0.9",
       "version": "0.0.9",

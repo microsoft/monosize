@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "feat: add adapter for Azure",
-  "packageName": "monosize-storage-azure",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

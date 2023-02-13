@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Mon, 12 Dec 2022 17:37:53 GMT and should not be manually modified.
+This log was last generated on Mon, 13 Feb 2023 11:26:46 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.0
+
+Mon, 13 Feb 2023 11:26:46 GMT
+
+### Minor changes
+
+- feat: export BundleSizeReportEntry type (olfedias@microsoft.com)
 
 ## 0.0.9
 
