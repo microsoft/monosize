@@ -22,7 +22,7 @@
     "pretty-bytes": "^6.0.0",
     "terser": "^5.16.0",
     "tslib": "^2.4.1",
-    "webpack": "^5.75.0",
+    "webpack": "^5.76.0",
     "workspace-tools": "^0.29.1",
     "yargs": "^17.6.2"
   }
