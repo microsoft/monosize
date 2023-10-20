@@ -2,11 +2,7 @@
 export default {
   displayName: 'monosize-storage-azure',
   preset: '../../jest.preset.js',
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
-    },
-  },
+  globals: {},
   resolver: '<rootDir>/../../jest.resolver.js',
   coverageDirectory: '../../coverage/packages/monosize-storage-azure',
 };

@@ -1,8 +1,0 @@
-{
-  "version": 2,
-  "projects": {
-    "monosize": "packages/monosize",
-    "monosize-storage-upstash": "packages/monosize-storage-upstash"
-  },
-  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
-}

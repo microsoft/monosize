@@ -4,12 +4,14 @@
   "sourceRoot": "packages/monosize-storage-azure/src",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
       "options": {
         "outputPath": "dist/packages/monosize-storage-azure",
         "main": "packages/monosize-storage-azure/src/index.ts",
         "tsConfig": "packages/monosize-storage-azure/tsconfig.lib.json",
+        "outputFileExtensionForEsm": ".mjs",
         "assets": [
           "packages/monosize-storage-azure/README.md",
           {
@@ -21,14 +23,14 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["packages/monosize-storage-azure/**/*.mts"]
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/monosize-storage-azure"],
       "options": {
         "jestConfig": "packages/monosize-storage-azure/jest.config.ts",
