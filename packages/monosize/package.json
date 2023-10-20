@@ -9,7 +9,7 @@
     "monosize": "./bin/monosize.mjs"
   },
   "dependencies": {
-    "@babel/core": "^7.20.2",
+    "@babel/core": "^7.23.2",
     "ajv": "^8.11.2",
     "ci-info": "^3.7.0",
     "cli-table3": "^0.6.3",
@@ -22,7 +22,7 @@
     "pretty-bytes": "^6.0.0",
     "terser": "^5.16.0",
     "tslib": "^2.4.1",
-    "webpack": "^5.75.0",
+    "webpack": "^5.76.0",
     "workspace-tools": "^0.29.1",
     "yargs": "^17.6.2"
   }
