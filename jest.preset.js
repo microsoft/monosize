@@ -1,14 +1,6 @@
 module.exports = {
   testMatch: ['**/*.test.mts'],
   testEnvironment: 'node',
-  transform: {
-    '^.+\\.m?ts$': [
-      'ts-jest',
-      {
-        useESM: true,
-      },
-    ],
-  },
   moduleFileExtensions: ['js', 'ts', 'mts'],
   /* TODO: Update to latest Jest snapshotFormat
    * By default Nx has kept the older style of Jest Snapshot formats
