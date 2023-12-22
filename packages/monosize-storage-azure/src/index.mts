@@ -83,6 +83,11 @@ function createAzureStorage(config: AzureStorageConfig): StorageAdapter {
       }
     }
 
+    if (localReport.length === 0) {
+      console.log([pc.yellow('[w]'), 'No entries to upload'].join(' '));
+      return;
+    }
+
     localReport.forEach(entry => {
       transaction.upsertEntity(
         {

@@ -7,7 +7,7 @@ import { hrToSeconds } from '../utils/helpers.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { CliOptions } from '../index.mjs';
 
-type UploadOptions = CliOptions & { branch: string; 'commit-sha': string };
+type UploadOptions = CliOptions & { branch: string; 'report-files-glob': string; 'commit-sha': string };
 
 async function uploadReport(options: UploadOptions) {
   if (!isCI) {
@@ -21,7 +21,9 @@ async function uploadReport(options: UploadOptions) {
   const config = await readConfig(quiet);
 
   const localReportStartTime = process.hrtime();
-  const localReport = await collectLocalReport();
+  const localReport = await collectLocalReport({
+    ...(options['report-files-glob'] && { reportFilesGlob: options['report-files-glob'] }),
+  });
 
   if (!quiet) {
     console.log(
@@ -35,6 +37,7 @@ async function uploadReport(options: UploadOptions) {
     await config.storage.uploadReportToRemote(branch, commitSHA, localReport);
   } catch (e) {
     console.log([pc.red('[e]'), 'Upload of the report to a remote host failed...'].join(' '));
+    console.log(e);
     process.exit(1);
   }
 
@@ -54,6 +57,11 @@ const api: CommandModule<Record<string, unknown>, UploadOptions> = {
       type: 'string',
       description: 'A branch to associate a report',
       required: true,
+    },
+    'report-files-glob': {
+      type: 'string',
+      description: 'A glob pattern to search for report files in JSON format',
+      required: false,
     },
     'commit-sha': {
       type: 'string',
