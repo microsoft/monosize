@@ -4,12 +4,14 @@
   "sourceRoot": "packages/monosize-storage-upstash/src",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
       "options": {
         "outputPath": "dist/packages/monosize-storage-upstash",
         "main": "packages/monosize-storage-upstash/src/index.ts",
         "tsConfig": "packages/monosize-storage-upstash/tsconfig.lib.json",
+        "outputFileExtensionForEsm": ".mjs",
         "assets": [
           "packages/monosize-storage-upstash/README.md",
           {
@@ -21,14 +23,14 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["packages/monosize-storage-upstash/**/*.mts"]
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/monosize-storage-upstash"],
       "options": {
         "jestConfig": "packages/monosize-storage-upstash/jest.config.ts",

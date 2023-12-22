@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx", "import", "unicorn"],
+  "plugins": ["@nx", "import", "unicorn"],
   "extends": ["plugin:import/typescript"],
   "settings": {
     "import/resolver": {
@@ -18,7 +18,7 @@
     {
       "files": ["*.ts", "*.tsx", ".mts", "*.js", "*.jsx"],
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
+        "@nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,
@@ -35,7 +35,7 @@
     },
     {
       "files": ["*.ts", "*.tsx", "*.mts"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
+      "extends": ["plugin:@nx/typescript"],
       "rules": {}
     },
     {
@@ -47,7 +47,7 @@
     },
     {
       "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     },
     {

@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
+    "target": "ESNext",
     "types": ["environment", "jest", "node"]
   },
   "include": ["**/*.test.mts", "**/*.d.ts", "jest.config.ts"]
