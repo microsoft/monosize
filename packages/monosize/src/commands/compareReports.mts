@@ -9,7 +9,11 @@ import { compareResultsInReports } from '../utils/compareResultsInReports.mjs';
 import { hrToSeconds } from '../utils/helpers.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 
-export type CompareReportsOptions = CliOptions & { branch: string; output: 'cli' | 'markdown' };
+export type CompareReportsOptions = CliOptions & {
+  branch: string;
+  'report-files-glob'?: string;
+  output: 'cli' | 'markdown';
+};
 
 async function compareReports(options: CompareReportsOptions) {
   const { branch, output, quiet } = options;
@@ -18,7 +22,9 @@ async function compareReports(options: CompareReportsOptions) {
   const config = await readConfig(quiet);
 
   const localReportStartTime = process.hrtime();
-  const localReport = await collectLocalReport();
+  const localReport = await collectLocalReport({
+    ...(options['report-files-glob'] && { reportFilesGlob: options['report-files-glob'] }),
+  });
 
   if (!quiet) {
     console.log(
@@ -69,6 +75,11 @@ const api: CommandModule<Record<string, unknown>, CompareReportsOptions> = {
       type: 'string',
       description: 'A branch to compare against',
       default: 'main',
+    },
+    'report-files-glob': {
+      type: 'string',
+      description: 'A glob pattern to search for report files in JSON format',
+      required: false,
     },
     output: {
       alias: 'o',

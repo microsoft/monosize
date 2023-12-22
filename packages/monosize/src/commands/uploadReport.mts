@@ -7,7 +7,7 @@ import { hrToSeconds } from '../utils/helpers.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { CliOptions } from '../index.mjs';
 
-type UploadOptions = CliOptions & { branch: string; 'report-files-glob': string; 'commit-sha': string };
+type UploadOptions = CliOptions & { branch: string; 'report-files-glob'?: string; 'commit-sha': string };
 
 async function uploadReport(options: UploadOptions) {
   if (!isCI) {
