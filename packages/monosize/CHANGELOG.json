@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Fri, 22 Dec 2023 14:27:47 GMT",
+      "tag": "monosize_v0.2.1",
+      "version": "0.2.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "e00f11d3d8bc6e2874fd05d4ff0453e254877f7e",
+            "comment": "fix: add \"--report-files-glob\" to \"compare-reports\""
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 22 Dec 2023 13:44:44 GMT",
       "tag": "monosize_v0.2.0",
       "version": "0.2.0",

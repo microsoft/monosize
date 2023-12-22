@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: add \"--report-files-glob\" to \"compare-reports\"",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

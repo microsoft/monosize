@@ -1,11 +1,11 @@
 {
   "name": "monosize-storage-azure",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "types": "./src/index.d.mts",
   "dependencies": {
     "@azure/data-tables": "^13.0.0",
-    "monosize": "^0.2.0",
+    "monosize": "^0.2.1",
     "node-fetch": "^3.3.0",
     "picocolors": "^1.0.0",
     "tslib": "^2.4.1"

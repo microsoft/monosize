@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Fri, 22 Dec 2023 13:44:44 GMT and should not be manually modified.
+This log was last generated on Fri, 22 Dec 2023 14:27:47 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.1
+
+Fri, 22 Dec 2023 14:27:47 GMT
+
+### Patches
+
+- fix: add "--report-files-glob" to "compare-reports" (olfedias@microsoft.com)
 
 ## 0.2.0
 
