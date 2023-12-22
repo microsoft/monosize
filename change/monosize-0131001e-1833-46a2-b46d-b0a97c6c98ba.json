@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: support repositories that contain a single package",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}
