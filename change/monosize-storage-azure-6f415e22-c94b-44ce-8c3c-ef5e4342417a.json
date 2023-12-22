@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: improve error reporting",
+  "packageName": "monosize-storage-azure",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
