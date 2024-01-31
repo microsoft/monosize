@@ -3,9 +3,9 @@ jest.mock('node-fetch', () => fetch);
 
 import type { Response } from 'node-fetch';
 
-import createAzureStorage from './index.mjs';
-import type { AzureStorageConfig } from './index.mjs';
-import { sampleReport } from './__fixture__/sampleReport.mjs';
+import { createGetRemoteReport } from './getRemoteReport.mjs';
+import type { AzureStorageConfig } from './types.mjs';
+import { sampleReport } from './__fixture__/sampleReports.mjs';
 
 const testConfig: AzureStorageConfig = {
   endpoint: 'https://localhost',
@@ -28,7 +28,7 @@ describe('getRemoteReport', () => {
     };
     fetch.mockImplementation(() => Promise.resolve(value));
 
-    const { getRemoteReport } = createAzureStorage(testConfig);
+    const getRemoteReport = createGetRemoteReport(testConfig);
     const { remoteReport } = await getRemoteReport('main');
 
     expect(fetch).toHaveBeenCalledTimes(1);
@@ -48,7 +48,7 @@ describe('getRemoteReport', () => {
 
     jest.spyOn(console, 'log').mockImplementation(noop);
 
-    const { getRemoteReport } = createAzureStorage(testConfig);
+    const getRemoteReport = createGetRemoteReport(testConfig);
     const { remoteReport } = await getRemoteReport('main');
 
     expect(fetch).toHaveBeenCalledTimes(3);
