@@ -1,8 +1,16 @@
 # Change Log - monosize-storage-azure
 
-This log was last generated on Fri, 22 Dec 2023 14:27:47 GMT and should not be manually modified.
+This log was last generated on Wed, 31 Jan 2024 11:35:39 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.0.6
+
+Wed, 31 Jan 2024 11:35:39 GMT
+
+### Patches
+
+- feat(azure-adapter): split transactions by chunks (olfedias@microsoft.com)
 
 ## 0.0.5
 

@@ -2,6 +2,21 @@
   "name": "monosize-storage-azure",
   "entries": [
     {
+      "date": "Wed, 31 Jan 2024 11:35:39 GMT",
+      "tag": "monosize-storage-azure_v0.0.6",
+      "version": "0.0.6",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-azure",
+            "commit": "68a44828a69a1c13ca4859b07ff2aba2866e498e",
+            "comment": "feat(azure-adapter): split transactions by chunks"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 22 Dec 2023 14:27:47 GMT",
       "tag": "monosize-storage-azure_v0.0.5",
       "version": "0.0.5",
