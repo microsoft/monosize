@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "feat(azure-adapter): split transactions by chunks",
+  "packageName": "monosize-storage-azure",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
