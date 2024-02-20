@@ -1,11 +1,11 @@
 {
   "name": "monosize-storage-upstash",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "license": "MIT",
   "types": "./src/index.d.mts",
   "dependencies": {
     "@upstash/redis": "^1.18.0",
-    "monosize": "^0.2.1",
+    "monosize": "^0.2.2",
     "tslib": "^2.4.1"
   }
 }

@@ -2,6 +2,29 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Tue, 20 Feb 2024 17:06:09 GMT",
+      "tag": "monosize_v0.2.2",
+      "version": "0.2.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "fb614928d0a3d9439dde503844e9ddc506f18b09",
+            "comment": "fix: improve Windows compat"
+          }
+        ],
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "fb614928d0a3d9439dde503844e9ddc506f18b09",
+            "comment": "chore: migrate to vitest"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 22 Dec 2023 14:27:47 GMT",
       "tag": "monosize_v0.2.1",
       "version": "0.2.1",

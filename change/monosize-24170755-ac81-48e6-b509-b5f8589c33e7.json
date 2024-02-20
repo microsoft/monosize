@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: improve Windows compat",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

@@ -2,6 +2,29 @@
   "name": "monosize-storage-upstash",
   "entries": [
     {
+      "date": "Tue, 20 Feb 2024 17:06:09 GMT",
+      "tag": "monosize-storage-upstash_v0.0.13",
+      "version": "0.0.13",
+      "comments": {
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-upstash",
+            "commit": "fb614928d0a3d9439dde503844e9ddc506f18b09",
+            "comment": "chore: migrate to vitest"
+          }
+        ],
+        "patch": [
+          {
+            "author": "beachball",
+            "package": "monosize-storage-upstash",
+            "comment": "Bump monosize to v0.2.2",
+            "commit": "fb614928d0a3d9439dde503844e9ddc506f18b09"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 22 Dec 2023 14:27:47 GMT",
       "tag": "monosize-storage-upstash_v0.0.12",
       "version": "0.0.12",
