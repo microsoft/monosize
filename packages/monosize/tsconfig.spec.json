@@ -2,16 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "target": "ESNext",
-    "esModuleInterop": true,
-    "types": ["environment", "jest", "node"]
+    "types": ["vitest/importMeta", "vite/client", "environment", "node", "vitest"]
   },
-  "include": [
-    "jest.config.ts",
-    "jest.setup.ts",
-    "**/*.test.mts",
-    "**/*.d.ts",
-    "src/__fixture__/*.mts",
-    "src/__mocks__/*.ts"
-  ]
+  "include": ["vite.config.mts", "src/**/*.test.mts", "src/**/*.d.ts"]
 }

@@ -8,7 +8,11 @@ const defaultConfig: Partial<MonoSizeConfig> = {
   webpack: config => config,
 };
 
-let cache: MonoSizeConfig;
+let cache: MonoSizeConfig | undefined;
+
+export function resetConfigCache() {
+  cache = undefined;
+}
 
 export async function readConfig(quiet = true): Promise<MonoSizeConfig> {
   // don't use the cache in tests
@@ -27,18 +31,9 @@ export async function readConfig(quiet = true): Promise<MonoSizeConfig> {
     console.log([pc.blue('[i]'), `Using following config ${configPath}`].join(' '));
   }
 
+  const configFile = await import(configPath);
   // TODO: config validation via schema
-  let userConfig;
-
-  if (process.env.NODE_ENV === 'test') {
-    // Jest does not support ESM imports natively without "NODE_OPTIONS=--experimental-vm-modules"
-    // eslint-disable-next-line unicorn/prefer-module
-    userConfig = require(configPath);
-  } else {
-    const configFile = await import(configPath);
-
-    userConfig = configFile.default;
-  }
+  const userConfig = configFile.default;
 
   cache = {
     ...defaultConfig,

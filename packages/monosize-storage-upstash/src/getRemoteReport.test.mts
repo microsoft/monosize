@@ -1,11 +1,10 @@
-const fetch = jest.fn();
-
-jest.mock('node-fetch', () => ({
-  default: fetch,
-}));
+import { beforeEach, describe, it, vitest } from 'vitest';
 
 // import { sampleReport } from '../__fixture__/sampleReport';
 // import { getRemoteReport } from './getRemoteReport';
+
+const fetch = vitest.hoisted(() => vitest.fn());
+vitest.mock('node-fetch', () => ({ default: fetch }));
 
 function noop() {
   /* does nothing */
@@ -13,7 +12,7 @@ function noop() {
 
 describe('getRemoteReport', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vitest.resetAllMocks();
   });
 
   it('fetches a remote report', async () => {

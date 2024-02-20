@@ -51,7 +51,7 @@
       "rules": {}
     },
     {
-      "files": ["jest.setup.ts", "**/__fixtures__/**/*", "**/*.test.mts"],
+      "files": ["**/__fixtures__/**/*", "**/*.test.mts", "**/vite.config.mts"],
       "rules": {
         "import/no-extraneous-dependencies": "off"
       }

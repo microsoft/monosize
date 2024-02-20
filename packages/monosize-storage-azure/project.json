@@ -30,10 +30,9 @@
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/packages/monosize-storage-azure"],
       "options": {
-        "jestConfig": "packages/monosize-storage-azure/jest.config.ts",
         "passWithNoTests": true
       }
     }

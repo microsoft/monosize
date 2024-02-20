@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import tmp from 'tmp';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { buildFixture } from './buildFixture.mjs';
 import type { PreparedFixture } from './prepareFixture.mjs';
@@ -12,7 +13,7 @@ async function setup(fixtureContent: string): Promise<PreparedFixture> {
     unsafeCleanup: true,
   });
 
-  const spy = jest.spyOn(process, 'cwd');
+  const spy = vitest.spyOn(process, 'cwd');
   spy.mockReturnValue(packageDir.name);
 
   const fixtureDir = tmp.dirSync({
@@ -38,15 +39,15 @@ async function setup(fixtureContent: string): Promise<PreparedFixture> {
 const config: MonoSizeConfig = {
   repository: '',
   storage: {
-    getRemoteReport: jest.fn(),
-    uploadReportToRemote: jest.fn(),
+    getRemoteReport: vitest.fn(),
+    uploadReportToRemote: vitest.fn(),
   },
   webpack: config => config,
 };
 
 describe('buildFixture', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vitest.resetAllMocks();
   });
 
   it('builds fixtures and returns minified & GZIP sizes', async () => {

@@ -1,22 +1,28 @@
-const getRemoteReport = jest.fn();
-const collectLocalReport = jest.fn();
-const compareResultsInReports = jest.fn();
-const cliReporter = jest.fn();
-
-jest.mock('../reporters/cliReporter', () => ({ cliReporter }));
-jest.mock('../utils/collectLocalReport', () => ({ collectLocalReport }));
-jest.mock('../utils/compareResultsInReports', () => ({ compareResultsInReports }));
-jest.mock('../utils/readConfig', () => ({ readConfig: () => ({ storage: { getRemoteReport } }) }));
+import { describe, expect, it, vitest } from 'vitest';
 
 import { sampleReport } from '../__fixture__/sampleReport.mjs';
 import { sampleComparedReport } from '../__fixture__/sampleComparedReport.mjs';
 import api, { CompareReportsOptions } from './compareReports.mjs';
 
+const getRemoteReport = vitest.hoisted(() => vitest.fn());
+const cliReporter = vitest.hoisted(() => vitest.fn());
+const collectLocalReport = vitest.hoisted(() => vitest.fn());
+const compareResultsInReports = vitest.hoisted(() => vitest.fn());
+
+vitest.mock('../utils/readConfig', () => ({
+  readConfig: vitest.fn().mockResolvedValue({
+    storage: { getRemoteReport },
+  }),
+}));
+vitest.mock('../reporters/cliReporter', () => ({ cliReporter }));
+vitest.mock('../utils/collectLocalReport', () => ({ collectLocalReport }));
+vitest.mock('../utils/compareResultsInReports', () => ({ emptyDiff: {}, compareResultsInReports }));
+
 describe('compareReports', () => {
   it('fetches remote report and compares it with a local data', async () => {
     const branchName = 'master';
 
-    getRemoteReport.mockImplementation(() => ({ commitSHA: 'test', remoteReport: sampleReport }));
+    getRemoteReport.mockResolvedValue({ commitSHA: 'test', remoteReport: sampleReport });
     collectLocalReport.mockImplementation(() => sampleReport);
     compareResultsInReports.mockImplementation(() => sampleComparedReport);
 
