@@ -1,12 +1,19 @@
 {
   "targetDefaults": {
-    "build": { "cache": true },
+    "build": {
+      "cache": true
+    },
     "lint": {
       "cache": true,
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
     },
-    "test": { "cache": true },
-    "e2e": { "cache": true }
+    "test": {
+      "cache": true,
+      "inputs": ["default", "^default"]
+    },
+    "e2e": {
+      "cache": true
+    }
   },
   "extends": "@nx/workspace/presets/core.json",
   "affected": {

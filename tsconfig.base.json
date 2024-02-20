@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "traceResolution": true,
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,

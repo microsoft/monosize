@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import tmp from 'tmp';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { prepareFixture } from './prepareFixture.mjs';
 
@@ -10,7 +11,7 @@ async function setup(fixtureContent: string): Promise<string> {
     unsafeCleanup: true,
   });
 
-  const spy = jest.spyOn(process, 'cwd');
+  const spy = vitest.spyOn(process, 'cwd');
   spy.mockReturnValue(packageDir.name);
 
   const fixtureDir = tmp.dirSync({
@@ -30,7 +31,7 @@ async function setup(fixtureContent: string): Promise<string> {
 
 describe('prepareFixture', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vitest.resetAllMocks();
   });
 
   it('reads & removes metadata from a fixture file, writes it to "/dist"', async () => {
@@ -55,6 +56,7 @@ export default { foo: 'bar' }
     await expect(prepareFixture(fixturePath)).rejects.toMatchInlineSnapshot(
       `[Error: unknown file: Validation failed for a schema in a component: data must have required property 'name']`,
     );
+
   });
 
   it('throws when metadata is missing', async () => {

@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { ComparedReport, emptyDiff } from './compareResultsInReports.mjs';
 import { getChangedEntriesInReport } from './getChangedEntriesInReport.mjs';
 

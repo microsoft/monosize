@@ -1,11 +1,12 @@
-const fetch = jest.fn();
-jest.mock('node-fetch', () => fetch);
-
 import type { Response } from 'node-fetch';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { createGetRemoteReport } from './getRemoteReport.mjs';
 import type { AzureStorageConfig } from './types.mjs';
 import { sampleReport } from './__fixture__/sampleReports.mjs';
+
+const fetch = vitest.hoisted(() => vitest.fn());
+vitest.mock('node-fetch', () => ({ default: fetch }));
 
 const testConfig: AzureStorageConfig = {
   endpoint: 'https://localhost',
@@ -17,7 +18,7 @@ function noop() {
 
 describe('getRemoteReport', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vitest.resetAllMocks();
   });
 
   it('fetches a remote report', async () => {
@@ -46,7 +47,7 @@ describe('getRemoteReport', () => {
       .mockImplementationOnce(() => Promise.reject(new Error('A fetch error')))
       .mockImplementation(() => Promise.resolve(value));
 
-    jest.spyOn(console, 'log').mockImplementation(noop);
+    vitest.spyOn(console, 'log').mockImplementation(noop);
 
     const getRemoteReport = createGetRemoteReport(testConfig);
     const { remoteReport } = await getRemoteReport('main');

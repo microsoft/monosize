@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { calculateDiffByMetric } from './calculateDiffByMetric.mjs';
 import type { BundleSizeReportEntry } from '../types.mjs';
 

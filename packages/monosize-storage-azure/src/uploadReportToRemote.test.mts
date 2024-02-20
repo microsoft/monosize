@@ -1,15 +1,15 @@
+import { beforeEach, beforeAll, describe, expect, it, vitest, type Mock } from 'vitest';
 import { createRowKey, ENTRIES_PER_CHUNK, splitArrayToChunks, uploadReportToRemote } from './uploadReportToRemote.mjs';
 
 import { sampleReport, bigReport } from './__fixture__/sampleReports.mjs';
 import { BundleSizeReportEntry } from 'monosize';
 
-const getRemoteReport = jest.fn() as jest.Mock<
-  Array<BundleSizeReportEntry & { partitionKey: string; rowKey: string }>,
-  []
->;
-const submitTransaction = jest.fn();
+const getRemoteReport = vitest.hoisted(
+  () => vitest.fn() as Mock<Array<BundleSizeReportEntry & { partitionKey: string; rowKey: string }>>,
+);
+const submitTransaction = vitest.hoisted(() => vitest.fn());
 
-jest.mock('@azure/data-tables', () => {
+vitest.mock('@azure/data-tables', async () => {
   const listEntities = () => {
     const data = getRemoteReport();
 
@@ -27,18 +27,18 @@ jest.mock('@azure/data-tables', () => {
     };
   };
 
-  const AzureNamedKeyCredential = jest.fn() as unknown as import('@azure/data-tables').AzureNamedKeyCredential;
-  const TableClient = jest.fn().mockImplementation(() => ({
+  const AzureNamedKeyCredential = vitest.fn() as unknown as import('@azure/data-tables').AzureNamedKeyCredential;
+  const TableClient = vitest.fn().mockImplementation(() => ({
     listEntities,
     submitTransaction,
   })) as unknown as import('@azure/data-tables').TableClient;
 
+  const azureTables = await vitest.importActual<typeof import('@azure/data-tables')>('@azure/data-tables');
   return {
+    ...azureTables,
+
     AzureNamedKeyCredential,
     TableClient,
-
-    odata: jest.requireActual('@azure/data-tables').odata,
-    TableTransaction: jest.requireActual('@azure/data-tables').TableTransaction,
   };
 });
 
@@ -59,7 +59,7 @@ describe('splitArrayToChunks', () => {
 
 describe('uploadReportToRemote', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vitest.clearAllMocks();
   });
 
   beforeAll(() => {
@@ -121,7 +121,7 @@ describe('uploadReportToRemote', () => {
 
   it('performs no actions if local report is empty', async () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const log = vitest.spyOn(console, 'log').mockImplementation(() => {});
     await uploadReportToRemote(branchName, commitSHA, []);
 
     expect(log).toHaveBeenCalledTimes(1);

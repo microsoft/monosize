@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { compareResultsInReports } from './compareResultsInReports.mjs';
 import type { BundleSizeReport } from '../types.mjs';
 
@@ -21,14 +23,14 @@ describe('compareResultsInReports', () => {
     const packageXyzReport = actual[2];
 
     expect(packageAbcReport.fileAbcA).toMatchInlineSnapshot(`
-      Object {
-        "diff": Object {
+      {
+        "diff": {
           "empty": false,
-          "gzip": Object {
+          "gzip": {
             "delta": -2,
             "percent": "-28.6%",
           },
-          "minified": Object {
+          "minified": {
             "delta": -2,
             "percent": "-16.7%",
           },
@@ -41,14 +43,14 @@ describe('compareResultsInReports', () => {
       }
     `);
     expect(packageAbcReport.fileAbcB).toMatchInlineSnapshot(`
-      Object {
-        "diff": Object {
+      {
+        "diff": {
           "empty": true,
-          "gzip": Object {
+          "gzip": {
             "delta": 1,
             "percent": "100%",
           },
-          "minified": Object {
+          "minified": {
             "delta": 1,
             "percent": "100%",
           },
@@ -61,14 +63,14 @@ describe('compareResultsInReports', () => {
       }
     `);
     expect(packageXyzReport).toMatchInlineSnapshot(`
-      Object {
-        "diff": Object {
+      {
+        "diff": {
           "empty": false,
-          "gzip": Object {
+          "gzip": {
             "delta": 0,
             "percent": "0%",
           },
-          "minified": Object {
+          "minified": {
             "delta": 0,
             "percent": "0%",
           },
