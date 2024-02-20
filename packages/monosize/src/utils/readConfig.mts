@@ -1,4 +1,5 @@
 import { findUp } from 'find-up';
+import { pathToFileURL } from 'node:url';
 import pc from 'picocolors';
 
 import type { MonoSizeConfig } from '../types.mjs';
@@ -31,7 +32,7 @@ export async function readConfig(quiet = true): Promise<MonoSizeConfig> {
     console.log([pc.blue('[i]'), `Using following config ${configPath}`].join(' '));
   }
 
-  const configFile = await import(configPath);
+  const configFile = await import(pathToFileURL(configPath).toString());
   // TODO: config validation via schema
   const userConfig = configFile.default;
 
