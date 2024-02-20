@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import pc from 'picocolors';
 import prettier from 'prettier';
 import { findPackageRoot } from 'workspace-tools';
@@ -9,10 +10,7 @@ import { formatBytes } from '../utils/helpers.mjs';
 import type { ComparedReport } from '../utils/compareResultsInReports.mjs';
 import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
 
-const icons = {
-  increase: 'increase.png',
-  decrease: 'decrease.png',
-};
+const icons = { increase: 'increase.png', decrease: 'decrease.png' };
 
 function getDirectionSymbol(value: number): string {
   const img = (iconName: string) =>
@@ -38,7 +36,7 @@ function formatDelta(diff: DiffByMetric): string {
 }
 
 export async function markdownReporter(result: ComparedReport, commitSHA: string, repository: string, quiet: boolean) {
-  const dirname = new URL('.', import.meta.url).pathname;
+  const dirname = fileURLToPath(new URL('.', import.meta.url));
   const packageRoot = findPackageRoot(dirname);
 
   if (!packageRoot) {
