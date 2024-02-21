@@ -1,8 +1,4 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import pc from 'picocolors';
-import prettier from 'prettier';
 import { findPackageRoot } from 'workspace-tools';
 
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
@@ -47,9 +43,6 @@ export async function markdownReporter(result: ComparedReport, commitSHA: string
       ].join('\n'),
     );
   }
-
-  const artifactsDir = path.resolve(packageRoot, 'dist');
-  const artifactsFilename = path.join(artifactsDir, 'monosize.md');
 
   const report = [];
 
@@ -109,10 +102,5 @@ export async function markdownReporter(result: ComparedReport, commitSHA: string
     `<sub>🤖 This report was generated against <a href='${repository}/commit/${commitSHA}'>${commitSHA}</a></sub>`,
   );
 
-  await fs.promises.mkdir(artifactsDir, { recursive: true });
-  await fs.promises.writeFile(artifactsFilename, prettier.format(report.join('\n'), { parser: 'markdown' }));
-
-  if (!quiet) {
-    console.log([pc.blue('[i]'), `A report file was written to ${artifactsFilename}`].join(' '));
-  }
+  console.log(report.join('\n'));
 }
