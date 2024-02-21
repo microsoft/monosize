@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "breaking: output markdown reports directly to console",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
