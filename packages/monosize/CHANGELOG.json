@@ -2,6 +2,35 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Wed, 21 Feb 2024 16:37:56 GMT",
+      "tag": "monosize_v0.3.0",
+      "version": "0.3.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "cdcc940ccf7143fbf9eb2d0a90f654709f57cbd0",
+            "comment": "breaking: output markdown reports directly to console"
+          }
+        ],
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "cdcc940ccf7143fbf9eb2d0a90f654709f57cbd0",
+            "comment": "feat: add debug mode to \"measure\" command"
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "cdcc940ccf7143fbf9eb2d0a90f654709f57cbd0",
+            "comment": "fix: do not parallel builds too much"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 20 Feb 2024 17:06:09 GMT",
       "tag": "monosize_v0.2.2",
       "version": "0.2.2",

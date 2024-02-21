@@ -1,8 +1,21 @@
 # Change Log - monosize
 
-This log was last generated on Tue, 20 Feb 2024 17:06:09 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Feb 2024 16:37:56 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.0
+
+Wed, 21 Feb 2024 16:37:56 GMT
+
+### Minor changes
+
+- breaking: output markdown reports directly to console (olfedias@microsoft.com)
+
+### Patches
+
+- feat: add debug mode to "measure" command (olfedias@microsoft.com)
+- fix: do not parallel builds too much (olfedias@microsoft.com)
 
 ## 0.2.2
 

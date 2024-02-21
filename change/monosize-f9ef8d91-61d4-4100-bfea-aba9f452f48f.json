@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: do not parallel builds too much",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}
