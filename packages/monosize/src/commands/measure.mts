@@ -12,8 +12,10 @@ import { prepareFixture } from '../utils/prepareFixture.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { CliOptions } from '../index.mjs';
 
-async function measure(options: CliOptions) {
-  const { quiet } = options;
+type MeasureOptions = CliOptions & { debug: boolean };
+
+async function measure(options: MeasureOptions) {
+  const { debug = false, quiet } = options;
 
   const startTime = process.hrtime();
   const artifactsDir = path.resolve(process.cwd(), 'dist', 'monosize');
@@ -21,6 +23,10 @@ async function measure(options: CliOptions) {
   await deleteAsync(artifactsDir);
 
   if (!quiet) {
+    if (debug) {
+      console.log(`${pc.blue('[i]')} running in debug mode...`);
+    }
+
     console.log(`${pc.blue('[i]')} artifacts dir is cleared`);
   }
 
@@ -37,7 +43,14 @@ async function measure(options: CliOptions) {
 
   const preparedFixtures = await Promise.all(fixtures.map(prepareFixture));
   const measurements = await Promise.all(
-    preparedFixtures.map(preparedFixture => buildFixture(preparedFixture, config, quiet)),
+    preparedFixtures.map(preparedFixture =>
+      buildFixture({
+        debug,
+        config,
+        preparedFixture,
+        quiet,
+      }),
+    ),
   );
 
   await fs.promises.writeFile(
@@ -62,10 +75,16 @@ async function measure(options: CliOptions) {
 
 // ---
 
-const api: CommandModule<Record<string, unknown>, CliOptions> = {
+const api: CommandModule<Record<string, unknown>, MeasureOptions> = {
   command: 'measure',
   describe: 'builds bundle size fixtures and generates JSON report',
   handler: measure,
+  builder: {
+    debug: {
+      type: 'boolean',
+      description: 'If true, will output additional artifacts for debugging',
+    },
+  },
 };
 
 export default api;
