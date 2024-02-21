@@ -11,6 +11,7 @@ import { formatBytes, hrToSeconds } from '../utils/helpers.mjs';
 import { prepareFixture } from '../utils/prepareFixture.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { CliOptions } from '../index.mjs';
+import type { BuildResult } from '../types.mjs';
 
 type MeasureOptions = CliOptions & { debug: boolean };
 
@@ -42,16 +43,18 @@ async function measure(options: MeasureOptions) {
   const config = await readConfig(quiet);
 
   const preparedFixtures = await Promise.all(fixtures.map(prepareFixture));
-  const measurements = await Promise.all(
-    preparedFixtures.map(preparedFixture =>
-      buildFixture({
+  const measurements: BuildResult[] = [];
+
+  for (const preparedFixture of preparedFixtures) {
+    measurements.push(
+      await buildFixture({
         debug,
         config,
         preparedFixture,
         quiet,
       }),
-    ),
-  );
+    );
+  }
 
   await fs.promises.writeFile(
     path.resolve(process.cwd(), 'dist', 'bundle-size', 'monosize.json'),
