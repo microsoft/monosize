@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "feat: add debug mode to \"measure\" command",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}

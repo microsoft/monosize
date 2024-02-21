@@ -6,12 +6,16 @@ import tmp from 'tmp';
 // This mock should be not required 😮
 // glob.sync() call in collectLocalReport.ts always returns an empty array on Linux/Windows in tests for an unknown
 // reason while files are present in filesystem
-vitest.mock('glob', () => ({
-  sync: () => [
-    'packages/package-a/dist/bundle-size/monosize.json',
-    'packages/package-b/dist/bundle-size/monosize.json',
-  ],
-}));
+vitest.mock('glob', async () => {
+  const actual = await vitest.importActual<Record<string, unknown>>('glob');
+  return {
+    ...actual,
+    sync: () => [
+      'packages/package-a/dist/bundle-size/monosize.json',
+      'packages/package-b/dist/bundle-size/monosize.json',
+    ],
+  };
+});
 
 import { collectLocalReport } from './collectLocalReport.mjs';
 import type { BuildResult } from '../types.mjs';

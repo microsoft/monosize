@@ -1,4 +1,4 @@
-import { sync as globSync } from 'glob';
+import glob from 'glob';
 import fs from 'node:fs';
 import path from 'node:path';
 import { findGitRoot, findPackageRoot } from 'workspace-tools';
@@ -47,7 +47,7 @@ export async function collectLocalReport(options: Partial<CollectLocalReportOpti
     ...options,
   };
 
-  const reportFiles = globSync(reportFilesGlob, { cwd: root });
+  const reportFiles = glob.sync(reportFilesGlob, { cwd: root });
   const reports = await Promise.all(reportFiles.map(readReportForPackage));
 
   return reports.reduce<BundleSizeReport>((acc, { packageName, packageReport }) => {

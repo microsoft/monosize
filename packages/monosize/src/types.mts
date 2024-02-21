@@ -7,7 +7,9 @@ export type BuildResult = {
   gzippedSize: number;
 };
 
-export type BundleSizeReportEntry = BuildResult & { packageName: string };
+export type BundleSizeReportEntry = Pick<BuildResult, 'name' | 'path' | 'minifiedSize' | 'gzippedSize'> & {
+  packageName: string;
+};
 export type BundleSizeReport = BundleSizeReportEntry[];
 
 export type StorageAdapter = {
