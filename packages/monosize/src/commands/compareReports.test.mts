@@ -26,7 +26,7 @@ describe('compareReports', () => {
     collectLocalReport.mockImplementation(() => sampleReport);
     compareResultsInReports.mockImplementation(() => sampleComparedReport);
 
-    const options: CompareReportsOptions = { quiet: true, branch: branchName, output: 'cli' };
+    const options: CompareReportsOptions = { quiet: true, branch: branchName, output: 'cli', deltaFormat: 'percent' };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await api.handler(options as any);
 
@@ -34,6 +34,7 @@ describe('compareReports', () => {
     expect(compareResultsInReports).toHaveBeenCalledWith(sampleReport, sampleReport);
     expect(cliReporter).toHaveBeenCalledWith(sampleComparedReport, {
       commitSHA: 'test',
+      deltaFormat: 'percent',
       repository: undefined,
       showUnchanged: false,
     });
