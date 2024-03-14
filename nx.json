@@ -3,16 +3,13 @@
     "build": {
       "cache": true
     },
-    "lint": {
+    "@nx/eslint:lint": {
       "cache": true,
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
     },
-    "test": {
+    "@nx/vite:test": {
       "cache": true,
       "inputs": ["default", "^default"]
-    },
-    "e2e": {
-      "cache": true
     }
   },
   "extends": "@nx/workspace/presets/core.json",
