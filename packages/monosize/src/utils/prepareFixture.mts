@@ -1,4 +1,4 @@
-import AjvModule from 'ajv';
+import * as AjvModule from 'ajv';
 import { transformAsync } from '@babel/core';
 import fs from 'node:fs';
 import path from 'node:path';
