@@ -6,5 +6,5 @@
     "types": ["environment", "node"]
   },
   "include": ["**/*.mts"],
-  "exclude": ["**/*.test.mts", "vite.config.mts"]
+  "exclude": ["**/*.test.mts", "vite.config.mts", "**/__fixture__/", "**/__mocks__/"]
 }
