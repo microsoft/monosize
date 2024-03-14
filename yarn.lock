@@ -2231,6 +2231,49 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nx/js@patch:@nx/js@npm:17.3.2#.yarn/patches/@nx-js-npm-17.3.2-1594e3f16f.patch::locator=monosize-monorepo%40workspace%3A.":
+  version: 17.3.2
+  resolution: "@nx/js@patch:@nx/js@npm%3A17.3.2#.yarn/patches/@nx-js-npm-17.3.2-1594e3f16f.patch::version=17.3.2&hash=a2f019&locator=monosize-monorepo%40workspace%3A."
+  dependencies:
+    "@babel/core": ^7.23.2
+    "@babel/plugin-proposal-decorators": ^7.22.7
+    "@babel/plugin-transform-class-properties": ^7.22.5
+    "@babel/plugin-transform-runtime": ^7.23.2
+    "@babel/preset-env": ^7.23.2
+    "@babel/preset-typescript": ^7.22.5
+    "@babel/runtime": ^7.22.6
+    "@nrwl/js": 17.3.2
+    "@nx/devkit": 17.3.2
+    "@nx/workspace": 17.3.2
+    "@phenomnomnominal/tsquery": ~5.0.1
+    babel-plugin-const-enum: ^1.0.1
+    babel-plugin-macros: ^2.8.0
+    babel-plugin-transform-typescript-metadata: ^0.3.1
+    chalk: ^4.1.0
+    columnify: ^1.6.0
+    detect-port: ^1.5.1
+    fast-glob: 3.2.7
+    fs-extra: ^11.1.0
+    ignore: ^5.0.4
+    js-tokens: ^4.0.0
+    minimatch: 9.0.3
+    npm-package-arg: 11.0.1
+    npm-run-path: ^4.0.1
+    ora: 5.3.0
+    semver: ^7.5.3
+    source-map-support: 0.5.19
+    ts-node: 10.9.1
+    tsconfig-paths: ^4.1.2
+    tslib: ^2.3.0
+  peerDependencies:
+    verdaccio: ^5.0.4
+  peerDependenciesMeta:
+    verdaccio:
+      optional: true
+  checksum: be0161e026b7dc51caf3058820f93390221223cdb987b1f3613068ecfa0c0b11b0b2844252467b6f579acbad91eca21c81b57c736f33679397f8a8194ca3aa8d
+  languageName: node
+  linkType: hard
+
 "@nx/linter@npm:17.3.2":
   version: 17.3.2
   resolution: "@nx/linter@npm:17.3.2"
