@@ -57,12 +57,10 @@
   },
   "dependencies": {
     "@azure/data-tables": "^13.0.0",
-    "@babel/core": "^7.23.2",
     "@upstash/redis": "^1.18.0",
-    "ajv": "^8.11.2",
+    "acorn": "^8.11.3",
     "ci-info": "^3.7.0",
     "cli-table3": "^0.6.3",
-    "del": "^7.0.0",
     "find-up": "^6.3.0",
     "glob": "^8.0.3",
     "gzip-size": "^7.0.0",
