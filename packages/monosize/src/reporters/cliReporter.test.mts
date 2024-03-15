@@ -22,9 +22,24 @@ expect.addSnapshotSerializer({
 });
 
 describe('cliReporter', () => {
-  it('renders a report to CLI output', async () => {
+  const options = {
+    repository: 'https://github.com/microsoft/monosize',
+    commitSHA: 'commit-hash',
+    showUnchanged: false,
+  };
+
+  it('wont render anything if there is nothing to compare', () => {
     const log = vitest.spyOn(console, 'log').mockImplementation(noop);
-    await cliReporter(sampleComparedReport);
+
+    cliReporter([], options);
+
+    expect(log.mock.calls[0][0]).toMatchInlineSnapshot('[✔] No changes found');
+  });
+
+  it('renders a report to CLI output', () => {
+    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+
+    cliReporter(sampleComparedReport, options);
 
     expect(log.mock.calls[0][0]).toMatchInlineSnapshot(`
       ┌────────────────────┬────────┬───────────────────────┐

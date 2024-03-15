@@ -4,7 +4,7 @@ import pc from 'picocolors';
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
 import { formatBytes } from '../utils/helpers.mjs';
 import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
-import type { ComparedReport } from '../utils/compareResultsInReports.mjs';
+import type { Reporter } from './shared.mjs';
 
 function getDirectionSymbol(value: number): string {
   if (value < 0) {
@@ -28,12 +28,21 @@ function formatDelta(diff: DiffByMetric): string {
   return colorFn(diff.percent + getDirectionSymbol(diff.delta));
 }
 
-export async function cliReporter(report: ComparedReport): Promise<void> {
-  const result = new Table({
+export const cliReporter: Reporter = (report, options) => {
+  const { commitSHA, repository } = options;
+  const footer = `🤖 This report was generated against '${repository}/commit/${commitSHA}'`;
+
+  const { changedEntries } = getChangedEntriesInReport(report);
+
+  const reportOutput = new Table({
     colAligns: ['left', 'right', 'right'],
     head: ['Fixture', 'Before', 'After (minified/GZIP)'],
   });
-  const { changedEntries } = getChangedEntriesInReport(report);
+
+  if (changedEntries.length === 0) {
+    console.log(`${pc.green('[✔]')} No changes found`);
+    return;
+  }
 
   changedEntries.forEach(entry => {
     const { diff, gzippedSize, minifiedSize, name, packageName } = entry;
@@ -49,13 +58,10 @@ export async function cliReporter(report: ComparedReport): Promise<void> {
     const afterColumn =
       formatDelta(diff.minified) + ' ' + minifiedAfter + '\n' + formatDelta(diff.gzip) + ' ' + gzippedAfter;
 
-    result.push([fixtureColumn, beforeColumn, afterColumn]);
+    reportOutput.push([fixtureColumn, beforeColumn, afterColumn]);
   });
 
-  if (result.length > 0) {
-    console.log(result.toString());
-    return;
-  }
-
-  console.log(`${pc.green('[✔]')} No changes found`);
-}
+  console.log(reportOutput.toString());
+  console.log('');
+  console.log(footer);
+};

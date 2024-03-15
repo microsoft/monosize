@@ -48,14 +48,18 @@ async function compareReports(options: CompareReportsOptions) {
     }
   }
 
-  const result = compareResultsInReports(localReport, remoteReport);
+  const reportsComparisonResult = compareResultsInReports(localReport, remoteReport);
 
   switch (output) {
     case 'cli':
-      await cliReporter(result);
+      cliReporter(reportsComparisonResult, { commitSHA, repository: config.repository, showUnchanged: false });
       break;
     case 'markdown':
-      await markdownReporter(result, commitSHA, config.repository, quiet);
+      markdownReporter(reportsComparisonResult, {
+        commitSHA,
+        repository: config.repository,
+        showUnchanged: true,
+      });
       break;
   }
 
