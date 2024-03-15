@@ -1,0 +1,8 @@
+# Catch All Rule
+* @layershifter @microsoft/fluentui-react-build
+
+
+# Packages
+packages/monosize @layershifter
+packages/monosize-storage-azure @layershifter
+packages/monosize-storage-upstash @layershifter
