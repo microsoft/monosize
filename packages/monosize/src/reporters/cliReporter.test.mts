@@ -26,6 +26,7 @@ describe('cliReporter', () => {
     repository: 'https://github.com/microsoft/monosize',
     commitSHA: 'commit-hash',
     showUnchanged: false,
+    deltaFormat: 'percent' as const,
   };
 
   it('wont render anything if there is nothing to compare', () => {
@@ -50,6 +51,24 @@ describe('cliReporter', () => {
       ├────────────────────┼────────┼───────────────────────┤
       │ foo-package        │    N/A │            100%↑ 1 kB │
       │ New entry (new)    │    N/A │           100%↑ 100 B │
+      └────────────────────┴────────┴───────────────────────┘
+    `);
+  });
+
+  it('renders a report to CLI output with specified "deltaFormat"', () => {
+    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+
+    cliReporter(sampleComparedReport, { ...options, deltaFormat: 'delta' });
+
+    expect(log.mock.calls[0][0]).toMatchInlineSnapshot(`
+      ┌────────────────────┬────────┬───────────────────────┐
+      │ Fixture            │ Before │ After (minified/GZIP) │
+      ├────────────────────┼────────┼───────────────────────┤
+      │ baz-package        │    0 B │            1 kB↑ 1 kB │
+      │ An entry with diff │    0 B │          100 B↑ 100 B │
+      ├────────────────────┼────────┼───────────────────────┤
+      │ foo-package        │    N/A │             1 B↑ 1 kB │
+      │ New entry (new)    │    N/A │            1 B↑ 100 B │
       └────────────────────┴────────┴───────────────────────┘
     `);
   });
