@@ -3,8 +3,8 @@ import { findPackageRoot } from 'workspace-tools';
 
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
 import { formatBytes } from '../utils/helpers.mjs';
-import type { ComparedReport } from '../utils/compareResultsInReports.mjs';
 import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
+import type { Reporter } from './shared.mjs';
 
 const icons = { increase: 'increase.png', decrease: 'decrease.png' };
 
@@ -31,29 +31,25 @@ function formatDelta(diff: DiffByMetric): string {
   return `\`${formatBytes(diff.delta)}\` ${getDirectionSymbol(diff.delta)}`;
 }
 
-export async function markdownReporter(result: ComparedReport, commitSHA: string, repository: string, quiet: boolean) {
-  const dirname = fileURLToPath(new URL('.', import.meta.url));
-  const packageRoot = findPackageRoot(dirname);
+export const markdownReporter: Reporter = (report, options) => {
+  const { commitSHA, repository, showUnchanged } = options;
+  const footer = `<sub>🤖 This report was generated against <a href='${repository}/commit/${commitSHA}'>${commitSHA}</a></sub>`;
 
-  if (!packageRoot) {
-    throw new Error(
-      [
-        'Failed to find a package root (directory that contains "package.json" file)',
-        `Lookup start in: ${dirname}`,
-      ].join('\n'),
-    );
+  assertPackageRoot();
+
+  const { changedEntries, unchangedEntries } = getChangedEntriesInReport(report);
+
+  const reportOutput = ['## 📊 Bundle size report', ''];
+
+  if (changedEntries.length === 0) {
+    reportOutput.push(`✅ No changes found`);
+    console.log(reportOutput.join('\n'));
+    return;
   }
 
-  const report = [];
-
-  report.push('## 📊 Bundle size report');
-  report.push('');
-
-  const { changedEntries, unchangedEntries } = getChangedEntriesInReport(result);
-
   if (changedEntries.length > 0) {
-    report.push('| Package & Exports | Baseline (minified/GZIP) | PR    | Change     |');
-    report.push('| :---------------- | -----------------------: | ----: | ---------: |');
+    reportOutput.push('| Package & Exports | Baseline (minified/GZIP) | PR    | Change     |');
+    reportOutput.push('| :---------------- | -----------------------: | ----: | ---------: |');
 
     changedEntries.forEach(entry => {
       const title = `<samp>${entry.packageName}</samp> <br /> <abbr title='${entry.path}'>${entry.name}</abbr>`;
@@ -71,19 +67,19 @@ export async function markdownReporter(result: ComparedReport, commitSHA: string
         ? '🆕 New entry'
         : [`${formatDelta(entry.diff.minified)}`, '<br />', `${formatDelta(entry.diff.gzip)}`].join('');
 
-      report.push(`| ${title} | ${before} | ${after} | ${difference}|`);
+      reportOutput.push(`| ${title} | ${before} | ${after} | ${difference}|`);
     });
 
-    report.push('');
+    reportOutput.push('');
   }
 
-  if (unchangedEntries.length > 0) {
-    report.push('<details>');
-    report.push('<summary>Unchanged fixtures</summary>');
-    report.push('');
+  if (showUnchanged && unchangedEntries.length > 0) {
+    reportOutput.push('<details>');
+    reportOutput.push('<summary>Unchanged fixtures</summary>');
+    reportOutput.push('');
 
-    report.push('| Package & Exports | Size (minified/GZIP) |');
-    report.push('| ----------------- | -------------------: |');
+    reportOutput.push('| Package & Exports | Size (minified/GZIP) |');
+    reportOutput.push('| ----------------- | -------------------: |');
 
     unchangedEntries.forEach(entry => {
       const title = `<samp>${entry.packageName}</samp> <br /> <abbr title='${entry.path}'>${entry.name}</abbr>`;
@@ -91,16 +87,28 @@ export async function markdownReporter(result: ComparedReport, commitSHA: string
         '',
       );
 
-      report.push(`| ${title} | ${size} |`);
+      reportOutput.push(`| ${title} | ${size} |`);
     });
 
-    report.push('</details>');
+    reportOutput.push('</details>');
   }
 
   // TODO: use repo settings
-  report.push(
-    `<sub>🤖 This report was generated against <a href='${repository}/commit/${commitSHA}'>${commitSHA}</a></sub>`,
-  );
+  reportOutput.push(footer);
 
-  console.log(report.join('\n'));
+  console.log(reportOutput.join('\n'));
+};
+
+function assertPackageRoot() {
+  const dirname = fileURLToPath(new URL('.', import.meta.url));
+  const packageRoot = findPackageRoot(dirname);
+
+  if (!packageRoot) {
+    throw new Error(
+      [
+        'Failed to find a package root (directory that contains "package.json" file)',
+        `Lookup start in: ${dirname}`,
+      ].join('\n'),
+    );
+  }
 }

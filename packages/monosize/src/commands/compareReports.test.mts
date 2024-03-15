@@ -32,6 +32,10 @@ describe('compareReports', () => {
 
     expect(getRemoteReport).toHaveBeenCalledWith(branchName);
     expect(compareResultsInReports).toHaveBeenCalledWith(sampleReport, sampleReport);
-    expect(cliReporter).toHaveBeenCalledWith(sampleComparedReport);
+    expect(cliReporter).toHaveBeenCalledWith(sampleComparedReport, {
+      commitSHA: 'test',
+      repository: undefined,
+      showUnchanged: false,
+    });
   });
 });
