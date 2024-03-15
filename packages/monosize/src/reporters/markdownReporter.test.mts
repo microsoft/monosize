@@ -12,6 +12,7 @@ describe('markdownReporter', () => {
     repository: 'https://github.com/microsoft/monosize',
     commitSHA: 'commit-hash',
     showUnchanged: true,
+    deltaFormat: 'delta' as const,
   };
 
   it('wont render anything if there is nothing to compare', () => {
@@ -32,6 +33,15 @@ describe('markdownReporter', () => {
     const log = vitest.spyOn(console, 'log').mockImplementation(noop);
 
     markdownReporter(sampleComparedReport, options);
+    const output = prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
+
+    expect(output).toMatchSnapshot();
+  });
+
+  it('renders a report to a file with specified "deltaFormat"', () => {
+    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+
+    markdownReporter(sampleComparedReport, { ...options, deltaFormat: 'percent' });
     const output = prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
 
     expect(output).toMatchSnapshot();

@@ -4,7 +4,7 @@ import { findPackageRoot } from 'workspace-tools';
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
 import { formatBytes } from '../utils/helpers.mjs';
 import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
-import type { Reporter } from './shared.mjs';
+import { formatDeltaFactory, type Reporter } from './shared.mjs';
 
 const icons = { increase: 'increase.png', decrease: 'decrease.png' };
 
@@ -23,16 +23,14 @@ function getDirectionSymbol(value: number): string {
   return '';
 }
 
-function formatDelta(diff: DiffByMetric): string {
-  if (diff.delta === 0) {
-    return '';
-  }
+function formatDelta(diff: DiffByMetric, deltaFormat: keyof DiffByMetric): string {
+  const output = formatDeltaFactory(diff, { deltaFormat, directionSymbol: getDirectionSymbol });
 
-  return `\`${formatBytes(diff.delta)}\` ${getDirectionSymbol(diff.delta)}`;
+  return typeof output === 'string' ? output : `\`${output.deltaOutput}\` ${output.dirSymbol}`;
 }
 
 export const markdownReporter: Reporter = (report, options) => {
-  const { commitSHA, repository, showUnchanged } = options;
+  const { commitSHA, repository, showUnchanged, deltaFormat } = options;
   const footer = `<sub>🤖 This report was generated against <a href='${repository}/commit/${commitSHA}'>${commitSHA}</a></sub>`;
 
   assertPackageRoot();
@@ -65,7 +63,11 @@ export const markdownReporter: Reporter = (report, options) => {
       );
       const difference = entry.diff.empty
         ? '🆕 New entry'
-        : [`${formatDelta(entry.diff.minified)}`, '<br />', `${formatDelta(entry.diff.gzip)}`].join('');
+        : [
+            `${formatDelta(entry.diff.minified, deltaFormat)}`,
+            '<br />',
+            `${formatDelta(entry.diff.gzip, deltaFormat)}`,
+          ].join('');
 
       reportOutput.push(`| ${title} | ${before} | ${after} | ${difference}|`);
     });
