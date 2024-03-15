@@ -1,0 +1,45 @@
+diff --git a/src/executors/tsc/tsc.impl.js b/src/executors/tsc/tsc.impl.js
+index ebaf0575224dda78fcedaf4be33f6bb9fe98c33d..b7e654761c1af75e534f322a9f1ad1414ad5fef8 100644
+--- a/src/executors/tsc/tsc.impl.js
++++ b/src/executors/tsc/tsc.impl.js
+@@ -17,7 +17,11 @@ function determineModuleFormatFromTsConfig(absolutePathToTsConfig) {
+     if (tsConfig.options.module === ts.ModuleKind.ES2015 ||
+         tsConfig.options.module === ts.ModuleKind.ES2020 ||
+         tsConfig.options.module === ts.ModuleKind.ES2022 ||
+-        tsConfig.options.module === ts.ModuleKind.ESNext) {
++        tsConfig.options.module === ts.ModuleKind.ESNext ||
++
++        // in order to make tsc executor resolve to ESM, we need to force it against node16/nodenext - in reality this is dangeours operation as node16/nodenext provides no guarantees if shipped code is commonjs or esm
++        tsConfig.options.module === ts.ModuleKind.Node16 ||
++        tsConfig.options.module === ts.ModuleKind.NodeNext) {
+         return 'esm';
+     }
+     else {
+diff --git a/src/utils/buildable-libs-utils.js b/src/utils/buildable-libs-utils.js
+index 79a0eba5b4df41e7996f1afed183c4f2df9b3cf9..f95d9b4587ad57774a9e430136f7d11d9b7bba1c 100644
+--- a/src/utils/buildable-libs-utils.js
++++ b/src/utils/buildable-libs-utils.js
+@@ -246,7 +246,7 @@ function checkDependentProjectsHaveBeenBuilt(root, projectName, targetName, proj
+       ${missing.map((x) => ` - ${x.node.name}`).join('\n')}
+ 
+       You might be missing a "targetDefaults" configuration in your root nx.json (https://nx.dev/reference/project-configuration#target-defaults),
+-      or "dependsOn" configured in ${projectName}'s project.json (https://nx.dev/reference/project-configuration#dependson) 
++      or "dependsOn" configured in ${projectName}'s project.json (https://nx.dev/reference/project-configuration#dependson)
+     `);
+         return false;
+     }
+@@ -277,7 +277,13 @@ function updatePaths(dependencies, paths) {
+         // If there are outputs
+         if (dep.outputs && dep.outputs.length > 0) {
+             // Directly map the dependency name to the output paths (dist/packages/..., etc.)
+-            paths[dep.name] = dep.outputs;
++            // paths[dep.name] = dep.outputs;
++
++            // Force Nx to resolve to .mts
++            // - if node16/nodeNext is enabled, TS won't follow standard algorithm (if path alias points to directory - nx case) to resolve package.json#types
++            // - thus we need to explicitly point path alias to .d.mts
++            paths[dep.name] = dep.outputs.map(out => out + '/src/index.d.mts');
++
+             // check for secondary entrypoints
+             // For each registered path
+             for (const path of pathsKeys) {

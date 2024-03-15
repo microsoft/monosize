@@ -21,7 +21,8 @@
     "baseUrl": ".",
     "paths": {
       "monosize": ["packages/monosize/src/index.mts"],
-      "monosize-storage-upstash": ["packages/monosize-storage-upstash/src/index.mts"]
+      "monosize-storage-upstash": ["packages/monosize-storage-upstash/src/index.mts"],
+      "monosize-storage-azure": ["packages/monosize-storage-azure/src/index.mts"]
     },
     "typeRoots": ["node_modules/@types", "./typings"]
   },
