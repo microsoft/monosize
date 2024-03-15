@@ -3,8 +3,33 @@
   <br />
   <b>Mono</b>repo + bundle<b>size</b>
   <br/>
-  <span>Monosize is a CLI tool to measure bundle size locally and on CI.</span>
+  <span>Monosize is a CLI tool to measure bundle size locally and on CI</span>
 </div>
+
+- 📚Designed to be used in CI/CD pipelines
+- 🎱Designed to represent real-world scenarios
+- 🧰Supports single packages & monorepos
+- 🍿Supports various bundlers (Webpack, Esbuild, implement your own? 🐱)
+- ☁️Supports various storage adapters
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Install](#install)
+- [Usage](#usage)
+  - [Fixtures](#fixtures)
+- [Configuration](#configuration)
+  - [Config API](#config-api)
+  - [Bundler adapters](#bundler-adapters)
+  - [Storage adapters](#storage-adapters)
+- [Commands](#commands)
+  - [`compare-reports`](#compare-reports)
+  - [`measure`](#measure)
+  - [`upload-report`](#upload-report)
+- [Contributing](#contributing)
+- [Trademarks](#trademarks)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Install
 
@@ -29,18 +54,18 @@ For example:
 ```js
 import { Component } from '@library/component';
 
-console.log(Component);
-// 👆 "console.log()" is the easiest way to prevent tree-shaking
+export { Component };
+// 👆 "export" is required to be able to measure the size of the component
 
 export default {
   name: 'Component',
-  // 👆 defines a name for story that will be used in output
+  // 👆 defines a name for a fixture that will be used in output
 };
 ```
 
 ## Configuration
 
-For custom advanced behavior of `monosize`, you can create a `monosize.config.mjs` in the root of your project directory (next to `package.json`).
+You need to create a `monosize.config.mjs` in the root of your project directory (next to `package.json`) to configure storage and bundler adapters.
 
 ```
 my-proj/
@@ -68,7 +93,6 @@ my-proj-b/
 │  ├─ Fixture.fixture.js
 ├─ package.json
 monosize.config.mjs
-
 ```
 
 ### Config API
@@ -76,18 +100,25 @@ monosize.config.mjs
 ```js
 // monosize.config.mjs
 import storageAdapter from 'monosize-storage-*';
+import webpackBundler from 'monosize-bundler-webpack';
 
 export default {
   repository: 'https://github.com/__ORG__/__REPOSITORY__',
   storage: storageAdapter(),
-  webpack: config => {
+  bundler: webpackBundler(config => {
     // customize config here
     return config;
-  },
+  }),
 };
 ```
 
-### Using storage adapters
+### Bundler adapters
+
+To build fixtures and produce artifacts you need to use a bundler adapter. Following adapters are available:
+
+- [`monosize-bundler-webpack`](../monosize-bundler-webpack)
+
+### Storage adapters
 
 To store reference results and run comparisons you need to use a storage adapter. Following adapters are available:
 

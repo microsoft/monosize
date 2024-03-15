@@ -21,6 +21,12 @@ const cliSetup = yargs(hideBin(process.argv))
 
 export type CliOptions = { quiet: boolean };
 
-export type { BundleSizeReportEntry, BundleSizeReport, MonoSizeConfig, StorageAdapter } from './types.mjs';
+export type {
+  BundleSizeReportEntry,
+  BundleSizeReport,
+  MonoSizeConfig,
+  BundlerAdapter,
+  StorageAdapter,
+} from './types.mjs';
 
 export default cliSetup;

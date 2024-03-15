@@ -1,11 +1,11 @@
 import Table from 'cli-table3';
 import glob from 'glob';
+import { gzipSizeFromFile } from 'gzip-size';
 import fs from 'node:fs';
 import path from 'node:path';
 import pc from 'picocolors';
 import type { CommandModule } from 'yargs';
 
-import { buildFixture } from '../utils/buildFixture.mjs';
 import { formatBytes, hrToSeconds } from '../utils/helpers.mjs';
 import { prepareFixture } from '../utils/prepareFixture.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
@@ -46,13 +46,20 @@ async function measure(options: MeasureOptions) {
   const measurements: BuildResult[] = [];
 
   for (const preparedFixture of preparedFixtures) {
-    const buildResult = await buildFixture({ debug, config, preparedFixture, quiet });
+    const { outputPath } = await config.bundler.buildFixture({
+      debug,
+      fixturePath: preparedFixture.absolutePath,
+      quiet,
+    });
+
+    const minifiedSize = (await fs.promises.stat(outputPath)).size;
+    const gzippedSize = await gzipSizeFromFile(outputPath);
 
     measurements.push({
       name: preparedFixture.name,
       path: preparedFixture.relativePath,
-      minifiedSize: buildResult.minifiedSize,
-      gzippedSize: buildResult.gzippedSize,
+      minifiedSize,
+      gzippedSize,
     });
   }
 
