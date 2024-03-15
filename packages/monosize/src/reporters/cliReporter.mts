@@ -4,7 +4,7 @@ import pc from 'picocolors';
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
 import { formatBytes } from '../utils/helpers.mjs';
 import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
-import type { Reporter } from './shared.mjs';
+import { formatDeltaFactory, type Reporter } from './shared.mjs';
 
 function getDirectionSymbol(value: number): string {
   if (value < 0) {
@@ -18,18 +18,16 @@ function getDirectionSymbol(value: number): string {
   return '';
 }
 
-function formatDelta(diff: DiffByMetric): string {
-  if (diff.delta === 0) {
-    return '';
-  }
+function formatDelta(diff: DiffByMetric, deltaFormat: keyof DiffByMetric): string {
+  const output = formatDeltaFactory(diff, { deltaFormat, directionSymbol: getDirectionSymbol });
 
   const colorFn = diff.delta > 0 ? pc.red : pc.green;
 
-  return colorFn(diff.percent + getDirectionSymbol(diff.delta));
+  return typeof output === 'string' ? output : colorFn(output.deltaOutput + output.dirSymbol);
 }
 
 export const cliReporter: Reporter = (report, options) => {
-  const { commitSHA, repository } = options;
+  const { commitSHA, repository, deltaFormat } = options;
   const footer = `🤖 This report was generated against '${repository}/commit/${commitSHA}'`;
 
   const { changedEntries } = getChangedEntriesInReport(report);
@@ -56,7 +54,13 @@ export const cliReporter: Reporter = (report, options) => {
 
     const beforeColumn = minifiedBefore + '\n' + gzippedBefore;
     const afterColumn =
-      formatDelta(diff.minified) + ' ' + minifiedAfter + '\n' + formatDelta(diff.gzip) + ' ' + gzippedAfter;
+      formatDelta(diff.minified, deltaFormat) +
+      ' ' +
+      minifiedAfter +
+      '\n' +
+      formatDelta(diff.gzip, deltaFormat) +
+      ' ' +
+      gzippedAfter;
 
     reportOutput.push([fixtureColumn, beforeColumn, afterColumn]);
   });

@@ -8,15 +8,17 @@ import { collectLocalReport } from '../utils/collectLocalReport.mjs';
 import { compareResultsInReports } from '../utils/compareResultsInReports.mjs';
 import { hrToSeconds } from '../utils/helpers.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
+import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
 
 export type CompareReportsOptions = CliOptions & {
   branch: string;
   'report-files-glob'?: string;
   output: 'cli' | 'markdown';
+  deltaFormat: keyof DiffByMetric;
 };
 
 async function compareReports(options: CompareReportsOptions) {
-  const { branch, output, quiet } = options;
+  const { branch, output, quiet, deltaFormat } = options;
   const startTime = process.hrtime();
 
   const config = await readConfig(quiet);
@@ -52,13 +54,19 @@ async function compareReports(options: CompareReportsOptions) {
 
   switch (output) {
     case 'cli':
-      cliReporter(reportsComparisonResult, { commitSHA, repository: config.repository, showUnchanged: false });
+      cliReporter(reportsComparisonResult, {
+        commitSHA,
+        repository: config.repository,
+        showUnchanged: false,
+        deltaFormat: deltaFormat ?? 'percent',
+      });
       break;
     case 'markdown':
       markdownReporter(reportsComparisonResult, {
         commitSHA,
         repository: config.repository,
         showUnchanged: true,
+        deltaFormat: deltaFormat ?? 'delta',
       });
       break;
   }
@@ -91,6 +99,11 @@ const api: CommandModule<Record<string, unknown>, CompareReportsOptions> = {
       choices: ['cli', 'markdown'],
       description: 'Defines a reporter to produce output',
       default: 'cli',
+    },
+    deltaFormat: {
+      type: 'string',
+      choices: ['delta', 'percent'],
+      description: 'Defines format of delta output',
     },
   },
   handler: compareReports,
