@@ -77,7 +77,6 @@
     "yargs": "^17.6.2"
   },
   "resolutions": {
-    "beachball@2.31.5": "patch:beachball@npm:2.31.5#.yarn/patches/beachball-npm-2.31.5-0e84ec4233.patch",
-    "@nx/js@17.3.2": "patch:@nx/js@npm:17.3.2#.yarn/patches/@nx-js-npm-17.3.2-1594e3f16f.patch"
+    "beachball@2.31.5": "patch:beachball@npm:2.31.5#.yarn/patches/beachball-npm-2.31.5-0e84ec4233.patch"
   }
 }
