@@ -3,11 +3,7 @@ import type ES from 'acorn';
 import fs from 'node:fs';
 import path from 'node:path';
 
-export type PreparedFixture = {
-  absolutePath: string;
-  relativePath: string;
-  name: string;
-};
+import type { PreparedFixture } from '../types.mjs';
 
 /**
  * Prepares a fixture file to be compiled with a bundler, grabs data from a default export and removes it.

@@ -1,13 +1,10 @@
 import fs from 'node:fs';
-import path from 'node:path';
 import tmp from 'tmp';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
-import { buildFixture } from './buildFixture.mjs';
-import type { PreparedFixture } from './prepareFixture.mjs';
-import type { MonoSizeConfig } from '../types.mjs';
+import { createWebpackBundler } from './createWebpackBundler.mjs';
 
-async function setup(fixtureContent: string): Promise<PreparedFixture> {
+async function setup(fixtureContent: string): Promise<string> {
   const packageDir = tmp.dirSync({
     prefix: 'buildFixture',
     unsafeCleanup: true,
@@ -28,52 +25,46 @@ async function setup(fixtureContent: string): Promise<PreparedFixture> {
 
   await fs.promises.writeFile(fixture.name, fixtureContent);
 
-  return {
-    absolutePath: fixture.name,
-    relativePath: path.relative(packageDir.name, fixture.name),
-
-    name: 'Test fixture',
-  };
+  return fixture.name;
 }
 
-const config: MonoSizeConfig = {
-  repository: '',
-  storage: {
-    getRemoteReport: vitest.fn(),
-    uploadReportToRemote: vitest.fn(),
-  },
-  webpack: config => {
+const webpackBundler = createWebpackBundler({
+  enhanceConfig: config => {
     // Disable pathinfo to make the output deterministic in snapshots
     config.output!.pathinfo = false;
 
     return config;
   },
-};
+});
 
 describe('buildFixture', () => {
   beforeEach(() => {
     vitest.resetAllMocks();
   });
 
-  it('builds fixtures and returns minified & GZIP sizes', async () => {
-    const fixture = await setup(`console.log('Hello world')`);
-    const buildResult = await buildFixture({ preparedFixture: fixture, debug: false, config, quiet: true });
+  it('builds fixtures', async () => {
+    const fixturePath = await setup(`
+      const hello = 'Hello';
+      const world = 'world';
 
-    expect(buildResult.name).toBe('Test fixture');
-    expect(buildResult.path).toMatch(/monosize[\\|/]test\.fixture\.js/);
+      console.log(hello);
+    `);
+    const buildResult = await webpackBundler.buildFixture({
+      debug: false,
+      fixturePath,
+      quiet: true,
+    });
+
     expect(buildResult.outputPath).toMatch(/monosize[\\|/]test\.output\.js/);
-
-    expect(buildResult.minifiedSize).toBeGreaterThan(1);
-    expect(buildResult.gzippedSize).toBeGreaterThan(1);
+    expect(await fs.promises.readFile(buildResult.outputPath, 'utf-8')).toMatchInlineSnapshot('"console.log(\\"Hello\\");"');
   });
 
   it('should throw on compilation errors', async () => {
-    const fixture = await setup(`import something from 'unknown-pkg'`);
+    const fixturePath = await setup(`import something from 'unknown-pkg'`);
     await expect(
-      buildFixture({
-        preparedFixture: fixture,
+      webpackBundler.buildFixture({
         debug: false,
-        config,
+        fixturePath,
         quiet: true,
       }),
     ).rejects.toBeDefined();
@@ -81,7 +72,7 @@ describe('buildFixture', () => {
 
   describe('debug mode', () => {
     it('does not output additional files when disabled', async () => {
-      const fixture = await setup(`
+      const fixturePath = await setup(`
       const tokens = {
         foo: 'foo',
         bar: 'bar',
@@ -91,10 +82,9 @@ describe('buildFixture', () => {
 
       console.log(foo);
     `);
-      const buildResult = await buildFixture({
-        preparedFixture: fixture,
+      const buildResult = await webpackBundler.buildFixture({
         debug: false,
-        config,
+        fixturePath,
         quiet: true,
       });
       const output = await fs.promises.readFile(buildResult.outputPath, 'utf-8');
@@ -106,7 +96,7 @@ describe('buildFixture', () => {
     });
 
     it('provides partially minified output when enabled', async () => {
-      const fixture = await setup(`
+      const fixturePath = await setup(`
       const tokens = {
         foo: 'foo',
         bar: 'bar',
@@ -116,10 +106,9 @@ describe('buildFixture', () => {
 
       console.log(foo);
     `);
-      const buildResult = await buildFixture({
-        preparedFixture: fixture,
+      const buildResult = await webpackBundler.buildFixture({
         debug: true,
-        config,
+        fixturePath,
         quiet: true,
       });
 

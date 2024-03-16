@@ -15,10 +15,7 @@
     "gzip-size": "^7.0.0",
     "picocolors": "^1.0.0",
     "pretty-bytes": "^6.0.0",
-    "terser": "^5.16.0",
-    "terser-webpack-plugin": "^5.3.1",
     "tslib": "^2.4.1",
-    "webpack": "^5.76.0",
     "workspace-tools": "^0.29.1",
     "yargs": "^17.6.2"
   }

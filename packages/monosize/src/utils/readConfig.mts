@@ -5,9 +5,6 @@ import pc from 'picocolors';
 import type { MonoSizeConfig } from '../types.mjs';
 
 const CONFIG_FILE_NAME = ['monosize.config.js', 'monosize.config.mjs'];
-const defaultConfig: Partial<MonoSizeConfig> = {
-  webpack: config => config,
-};
 
 let cache: MonoSizeConfig | undefined;
 
@@ -36,10 +33,7 @@ export async function readConfig(quiet = true): Promise<MonoSizeConfig> {
   // TODO: config validation via schema
   const userConfig = configFile.default;
 
-  cache = {
-    ...defaultConfig,
-    ...userConfig,
-  } as MonoSizeConfig;
+  cache = { ...userConfig } as MonoSizeConfig;
 
   return cache;
 }

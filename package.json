@@ -15,7 +15,8 @@
     "test": "nx affected:test"
   },
   "nano-staged": {
-    "**/*.{js,json,ts,ts}": "prettier --write"
+    "**/*.{js,json,ts,tsx}": "prettier --write",
+    "**/*.{md}": "doctoc -u"
   },
   "simple-git-hooks": {
     "pre-commit": "./node_modules/.bin/nano-staged"
@@ -40,6 +41,7 @@
     "@vitest/coverage-v8": "0.34.6",
     "@vitest/ui": "0.34.7",
     "beachball": "2.31.5",
+    "doctoc": "2.2.1",
     "eslint": "8.48.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-import-resolver-typescript": "3.6.1",
