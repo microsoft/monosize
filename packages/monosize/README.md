@@ -1,16 +1,20 @@
 <div align="center">
+  <img width="600" alt="A sample report produced by monosize" src="https://raw.githubusercontent.com/microsoft/monosize/main/.github/images/gh-report.png">
   <h1>monosize 📦</h1>
-  <br />
   <b>Mono</b>repo + bundle<b>size</b>
   <br/>
   <span>Monosize is a CLI tool to measure bundle size locally and on CI</span>
+  <br />
+  <br />
 </div>
 
-- 📚Designed to be used in CI/CD pipelines
-- 🎱Designed to represent real-world scenarios
-- 🧰Supports single packages & monorepos
-- 🍿Supports various bundlers (Webpack, Esbuild, implement your own? 🐱)
-- ☁️Supports various storage adapters
+- 📚 Designed to be used in CI/CD pipelines
+- 🎱 Designed to represent real-world scenarios
+- 🧰 Supports single packages & monorepos
+- 🍿 Supports various bundlers ([Webpack](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-webpack), [esbuild](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-esbuild), implement your own? 🐱)
+- ☁️ Supports various storage adapters
+
+<hr />
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -23,8 +27,8 @@
   - [Bundler adapters](#bundler-adapters)
   - [Storage adapters](#storage-adapters)
 - [Commands](#commands)
-  - [`compare-reports`](#compare-reports)
   - [`measure`](#measure)
+  - [`compare-reports`](#compare-reports)
   - [`upload-report`](#upload-report)
 - [Contributing](#contributing)
 - [Trademarks](#trademarks)
@@ -116,15 +120,30 @@ export default {
 
 To build fixtures and produce artifacts you need to use a bundler adapter. Following adapters are available:
 
-- [`monosize-bundler-webpack`](../monosize-bundler-webpack)
+- [`monosize-bundler-webpack`](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-webpack)
+- [`monosize-bundler-esbuild`](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-esbuild)
 
 ### Storage adapters
 
 To store reference results and run comparisons you need to use a storage adapter. Following adapters are available:
 
-- [`monosize-storage-upstash`](../monosize-storage-upstash)
+- [`monosize-storage-upstash`](https://github.com/microsoft/monosize/tree/main/packages/monosize-storage-upstash)
 
 ## Commands
+
+### `measure`
+
+```sh
+monosize measure [--debug] [--quiet]
+```
+
+Builds fixtures and produces artifacts. For each fixture:
+
+- `[fixture].fixture.js` - a modified fixture without a default export, used by a bundler
+- `[fixture].output.js` - a fully minified file, used for measurements
+- `[fixture].debug.js` - a partially minified file, useful for debugging (optional, if `--debug` is passed)
+
+Produces a report file (`dist/bundle-size/monosize.json`) that is used by other steps.
 
 ### `compare-reports`
 
@@ -133,20 +152,6 @@ Compares local (requires call of `monosize measure` first) and remote results, p
 ```sh
 monosize compare-reports --branch=main --output=["cli"|"markdown"] [--quiet]
 ```
-
-### `measure`
-
-```sh
-monosize measure [--quiet]
-```
-
-Builds fixtures and produces artifacts. For each fixture:
-
-- `[fixture].fixture.js` - a modified fixture without a default export, used by a bundler
-- `[fixture].output.js` - a partially minified file, useful for debugging
-- `[fixture].min.js` - a fully minified file, used for measurements
-
-A report file `monosize.json` that is used by other steps.
 
 ### `upload-report`
 
