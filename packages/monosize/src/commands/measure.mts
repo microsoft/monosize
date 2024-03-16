@@ -12,15 +12,16 @@ import { readConfig } from '../utils/readConfig.mjs';
 import type { CliOptions } from '../index.mjs';
 import type { BuildResult } from '../types.mjs';
 
-type MeasureOptions = CliOptions & { debug: boolean };
+export type MeasureOptions = CliOptions & { debug: boolean };
 
 async function measure(options: MeasureOptions) {
   const { debug = false, quiet } = options;
 
   const startTime = process.hrtime();
-  const artifactsDir = path.resolve(process.cwd(), 'dist', 'monosize');
+  const artifactsDir = path.resolve(process.cwd(), 'dist', 'bundle-size');
 
   await fs.promises.rm(artifactsDir, { recursive: true, force: true });
+  await fs.promises.mkdir(artifactsDir, { recursive: true });
 
   if (!quiet) {
     if (debug) {
@@ -45,20 +46,17 @@ async function measure(options: MeasureOptions) {
   const measurements: BuildResult[] = [];
 
   for (const preparedFixture of preparedFixtures) {
-    measurements.push(
-      await buildFixture({
-        debug,
-        config,
-        preparedFixture,
-        quiet,
-      }),
-    );
+    const buildResult = await buildFixture({ debug, config, preparedFixture, quiet });
+
+    measurements.push({
+      name: preparedFixture.name,
+      path: preparedFixture.relativePath,
+      minifiedSize: buildResult.minifiedSize,
+      gzippedSize: buildResult.gzippedSize,
+    });
   }
 
-  await fs.promises.writeFile(
-    path.resolve(process.cwd(), 'dist', 'bundle-size', 'monosize.json'),
-    JSON.stringify(measurements),
-  );
+  await fs.promises.writeFile(path.resolve(artifactsDir, 'monosize.json'), JSON.stringify(measurements));
 
   if (!quiet) {
     const table = new Table({
