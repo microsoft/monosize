@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: initial release",
+  "packageName": "monosize-bundler-esbuild",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
