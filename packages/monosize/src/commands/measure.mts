@@ -1,5 +1,4 @@
 import Table from 'cli-table3';
-import { deleteAsync } from 'del';
 import glob from 'glob';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -21,7 +20,7 @@ async function measure(options: MeasureOptions) {
   const startTime = process.hrtime();
   const artifactsDir = path.resolve(process.cwd(), 'dist', 'monosize');
 
-  await deleteAsync(artifactsDir);
+  await fs.promises.rm(artifactsDir, { recursive: true, force: true });
 
   if (!quiet) {
     if (debug) {

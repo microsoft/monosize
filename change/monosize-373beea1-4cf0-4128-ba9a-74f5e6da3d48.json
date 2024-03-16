@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: replace Babel with Acorn",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}

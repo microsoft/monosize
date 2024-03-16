@@ -44,7 +44,11 @@ export default { name: 'Test fixture' }
     expect(fixtureData.name).toBe('Test fixture');
 
     expect(await fs.promises.readFile(fixtureData.absolutePath, 'utf8')).toMatchInlineSnapshot(
-      `"import Component from '@react-component';"`,
+      `
+      "import Component from '@react-component';
+
+      "
+    `,
     );
   });
 
@@ -54,7 +58,10 @@ export default { foo: 'bar' }
 `);
 
     await expect(prepareFixture(fixturePath)).rejects.toMatchInlineSnapshot(
-      `[Error: unknown file: Validation failed for a schema in a component: data must have required property 'name']`,
+      `
+      [Error: A default export should contain a property "name".
+      For example: export default { name: 'Test fixture' }]
+    `,
     );
 
   });
