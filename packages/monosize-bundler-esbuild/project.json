@@ -1,0 +1,38 @@
+{
+  "name": "monosize-bundler-esbuild",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/monosize-bundler-esbuild/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
+      "options": {
+        "outputPath": "dist/packages/monosize-bundler-esbuild",
+        "main": "packages/monosize-bundler-esbuild/src/index.ts",
+        "tsConfig": "packages/monosize-bundler-esbuild/tsconfig.lib.json",
+        "outputFileExtensionForEsm": ".mjs",
+        "assets": [
+          "packages/monosize-bundler-esbuild/README.md",
+          {
+            "glob": "LICENSE.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/packages/monosize-bundler-esbuild"],
+      "options": {
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
