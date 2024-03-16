@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: make bundlers configurable [BREAKING]",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "fix: normalize tsconfig.lib.json exclude patterns",
-  "packageName": "monosize-storage-azure",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "none"
-}

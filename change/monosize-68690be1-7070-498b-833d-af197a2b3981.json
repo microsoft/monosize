@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: delete proper directory in measure()",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

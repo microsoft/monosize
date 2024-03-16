@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "chore: switch to TS module ESNext with Node resolution",
-  "packageName": "monosize",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "none"
-}

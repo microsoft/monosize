@@ -1,8 +1,23 @@
 # Change Log - monosize
 
-This log was last generated on Wed, 21 Feb 2024 16:37:56 GMT and should not be manually modified.
+This log was last generated on Sat, 16 Mar 2024 11:26:36 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.4.0
+
+Sat, 16 Mar 2024 11:26:36 GMT
+
+### Minor changes
+
+- feat(monosize): unify reporters API and behaviours (hochelmartin@gmail.com)
+- feat: make bundlers configurable [BREAKING] (olfedias@microsoft.com)
+- feat: add deltaFormat to reporters API configurable via CLI (hochelmartin@gmail.com)
+
+### Patches
+
+- chore: replace Babel with Acorn (olfedias@microsoft.com)
+- fix: delete proper directory in measure() (olfedias@microsoft.com)
 
 ## 0.3.0
 

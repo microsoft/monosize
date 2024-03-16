@@ -1,11 +1,11 @@
 {
   "name": "monosize-bundler-esbuild",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "types": "./src/index.d.mts",
   "dependencies": {
     "esbuild": "^0.20.2",
-    "monosize": "^0.3.0",
+    "monosize": "^0.4.0",
     "picocolors": "^1.0.0",
     "tslib": "^2.4.1"
   }

@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: add deltaFormat to reporters API configurable via CLI",
-  "packageName": "monosize",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}

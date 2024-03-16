@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat(monosize): unify reporters API and behaviours",
-  "packageName": "monosize",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}

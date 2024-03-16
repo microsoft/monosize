@@ -1,0 +1,26 @@
+{
+  "name": "monosize-bundler-esbuild",
+  "entries": [
+    {
+      "date": "Sat, 16 Mar 2024 11:26:36 GMT",
+      "tag": "monosize-bundler-esbuild_v0.0.2",
+      "version": "0.0.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-esbuild",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc",
+            "comment": "chore: initial release"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-esbuild",
+            "comment": "Bump monosize to v0.4.0",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc"
+          }
+        ]
+      }
+    }
+  ]
+}

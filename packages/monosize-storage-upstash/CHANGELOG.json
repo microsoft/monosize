@@ -2,6 +2,29 @@
   "name": "monosize-storage-upstash",
   "entries": [
     {
+      "date": "Sat, 16 Mar 2024 11:26:36 GMT",
+      "tag": "monosize-storage-upstash_v0.0.15",
+      "version": "0.0.15",
+      "comments": {
+        "none": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize-storage-upstash",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc",
+            "comment": "fix: normalize tsconfig.lib.json exclude patterns"
+          }
+        ],
+        "patch": [
+          {
+            "author": "beachball",
+            "package": "monosize-storage-upstash",
+            "comment": "Bump monosize to v0.4.0",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 21 Feb 2024 16:37:56 GMT",
       "tag": "monosize-storage-upstash_v0.0.14",
       "version": "0.0.14",

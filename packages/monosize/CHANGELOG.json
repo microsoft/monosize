@@ -2,6 +2,61 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Sat, 16 Mar 2024 11:26:36 GMT",
+      "tag": "monosize_v0.4.0",
+      "version": "0.4.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc",
+            "comment": "feat(monosize): unify reporters API and behaviours"
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc",
+            "comment": "feat: make bundlers configurable [BREAKING]"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc",
+            "comment": "feat: add deltaFormat to reporters API configurable via CLI"
+          }
+        ],
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc",
+            "comment": "chore: replace Babel with Acorn"
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc",
+            "comment": "fix: delete proper directory in measure()"
+          }
+        ],
+        "none": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc",
+            "comment": "fix: normalize tsconfig.lib.json exclude patterns"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize",
+            "commit": "4a10d13398a1f3e6f1f59f9f55d34b295d784dbc",
+            "comment": "chore: switch to TS module ESNext with Node resolution"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 21 Feb 2024 16:37:56 GMT",
       "tag": "monosize_v0.3.0",
       "version": "0.3.0",

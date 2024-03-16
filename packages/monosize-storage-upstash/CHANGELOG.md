@@ -1,8 +1,16 @@
 # Change Log - monosize-storage-upstash
 
-This log was last generated on Wed, 21 Feb 2024 16:37:56 GMT and should not be manually modified.
+This log was last generated on Sat, 16 Mar 2024 11:26:36 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.0.15
+
+Sat, 16 Mar 2024 11:26:36 GMT
+
+### Patches
+
+- Bump monosize to v0.4.0
 
 ## 0.0.14
 

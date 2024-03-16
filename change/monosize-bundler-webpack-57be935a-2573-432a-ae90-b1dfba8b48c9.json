@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: initial release",
-  "packageName": "monosize-bundler-webpack",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}
