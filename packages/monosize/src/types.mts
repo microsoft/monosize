@@ -34,6 +34,20 @@ export type BundlerAdapter = {
   }>;
 };
 
+/**
+ * @kind shared
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type BundlerAdapterFactoryConfig<T extends Record<string, any>> = (config: T) => T;
+
+/**
+ * @kind shared
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type BundleAdapterFactory<T extends Record<string, any>> = (
+  options: BundlerAdapterFactoryConfig<T>,
+) => BundlerAdapter;
+
 export type MonoSizeConfig = {
   repository: string;
   storage: StorageAdapter;

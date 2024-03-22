@@ -27,6 +27,8 @@ export type {
   MonoSizeConfig,
   BundlerAdapter,
   StorageAdapter,
+  BundlerAdapterFactoryConfig,
+  BundleAdapterFactory,
 } from './types.mjs';
 
 export default cliSetup;

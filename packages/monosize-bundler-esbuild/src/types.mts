@@ -1,3 +1,4 @@
+import type { BundlerAdapterFactoryConfig } from 'monosize';
 import type { BuildOptions } from 'esbuild';
 
-export type EsbuildBundlerOptions = (config: BuildOptions) => BuildOptions;
+export type EsbuildBundlerOptions = BundlerAdapterFactoryConfig<BuildOptions>;
