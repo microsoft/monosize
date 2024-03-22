@@ -1,5 +1,5 @@
 {
-  "type": "major",
+  "type": "minor",
   "comment": "feat:BREAKING CHANGE - change create*Bundler api to accept callback handler only",
   "packageName": "monosize-bundler-esbuild",
   "email": "hochelmartin@gmail.com",

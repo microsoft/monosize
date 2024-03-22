@@ -19,7 +19,7 @@ function createEsbuildConfig(fixturePath: string): BuildOptions {
   };
 }
 
-type RunViteOptions = {
+type RunEsbuildOptions = {
   enhanceConfig: EsbuildBundlerOptions;
 
   fixturePath: string;
