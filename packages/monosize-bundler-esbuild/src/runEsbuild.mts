@@ -28,7 +28,7 @@ type RunEsbuildOptions = {
   quiet: boolean;
 };
 
-export async function runEsbuild(options: RunViteOptions): Promise<null> {
+export async function runEsbuild(options: RunEsbuildOptions): Promise<null> {
   const { enhanceConfig, fixturePath, outputPath, quiet } = options;
 
   const startTime = process.hrtime();
