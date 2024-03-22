@@ -28,13 +28,12 @@ async function setup(fixtureContent: string): Promise<string> {
   return fixture.name;
 }
 
-const webpackBundler = createWebpackBundler({
-  enhanceConfig: config => {
-    // Disable pathinfo to make the output deterministic in snapshots
-    config.output!.pathinfo = false;
+const webpackBundler = createWebpackBundler(config => {
+  // Disable pathinfo to make the output deterministic in snapshots
+  config.output ??= {};
+  config.output.pathinfo = false;
 
-    return config;
-  },
+  return config;
 });
 
 describe('buildFixture', () => {
@@ -56,7 +55,9 @@ describe('buildFixture', () => {
     });
 
     expect(buildResult.outputPath).toMatch(/monosize[\\|/]test\.output\.js/);
-    expect(await fs.promises.readFile(buildResult.outputPath, 'utf-8')).toMatchInlineSnapshot('"console.log(\\"Hello\\");"');
+    expect(await fs.promises.readFile(buildResult.outputPath, 'utf-8')).toMatchInlineSnapshot(
+      '"console.log(\\"Hello\\");"',
+    );
   });
 
   it('should throw on compilation errors', async () => {

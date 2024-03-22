@@ -150,7 +150,7 @@ Produces a report file (`dist/bundle-size/monosize.json`) that is used by other 
 Compares local (requires call of `monosize measure` first) and remote results, provides output to CLI or to a Markdown file.
 
 ```sh
-monosize compare-reports --branch=main --output=["cli"|"markdown"] [--quiet]
+monosize compare-reports --branch=main --output=["cli"|"markdown"] --deltaFormat=["delta"|"percent"] [--quiet]
 ```
 
 ### `upload-report`

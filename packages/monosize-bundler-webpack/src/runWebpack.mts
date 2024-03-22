@@ -62,7 +62,7 @@ function createWebpackConfig(fixturePath: string, outputPath: string, debug: boo
 }
 
 type RunWebpackOptions = {
-  enhanceConfig: NonNullable<WebpackBundlerOptions['enhanceConfig']>;
+  enhanceConfig: WebpackBundlerOptions;
 
   fixturePath: string;
   outputPath: string;

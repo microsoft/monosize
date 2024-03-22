@@ -19,8 +19,8 @@ function createEsbuildConfig(fixturePath: string): BuildOptions {
   };
 }
 
-type RunViteOptions = {
-  enhanceConfig: NonNullable<EsbuildBundlerOptions['enhanceConfig']>;
+type RunEsbuildOptions = {
+  enhanceConfig: EsbuildBundlerOptions;
 
   fixturePath: string;
   outputPath: string;
@@ -28,7 +28,7 @@ type RunViteOptions = {
   quiet: boolean;
 };
 
-export async function runEsbuild(options: RunViteOptions): Promise<null> {
+export async function runEsbuild(options: RunEsbuildOptions): Promise<null> {
   const { enhanceConfig, fixturePath, outputPath, quiet } = options;
 
   const startTime = process.hrtime();
