@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Fri, 22 Mar 2024 14:27:41 GMT",
+      "tag": "monosize_v0.5.0",
+      "version": "0.5.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize",
+            "commit": "93a2578e0f5e4a757a78525fe703d8bc5d6f0e86",
+            "comment": "feat: implement shared interface for createBunlder api"
+          }
+        ]
+      }
+    },
+    {
       "date": "Sat, 16 Mar 2024 11:26:36 GMT",
       "tag": "monosize_v0.4.0",
       "version": "0.4.0",

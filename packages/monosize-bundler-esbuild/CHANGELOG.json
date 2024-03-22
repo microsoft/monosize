@@ -2,6 +2,27 @@
   "name": "monosize-bundler-esbuild",
   "entries": [
     {
+      "date": "Fri, 22 Mar 2024 14:27:41 GMT",
+      "tag": "monosize-bundler-esbuild_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize-bundler-esbuild",
+            "commit": "93a2578e0f5e4a757a78525fe703d8bc5d6f0e86",
+            "comment": "feat:BREAKING CHANGE - change create*Bundler api to accept callback handler only"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-esbuild",
+            "comment": "Bump monosize to v0.5.0",
+            "commit": "93a2578e0f5e4a757a78525fe703d8bc5d6f0e86"
+          }
+        ]
+      }
+    },
+    {
       "date": "Sat, 16 Mar 2024 11:26:36 GMT",
       "tag": "monosize-bundler-esbuild_v0.0.2",
       "version": "0.0.2",

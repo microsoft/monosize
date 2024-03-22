@@ -1,8 +1,16 @@
 # Change Log - monosize-storage-azure
 
-This log was last generated on Sat, 16 Mar 2024 11:26:36 GMT and should not be manually modified.
+This log was last generated on Fri, 22 Mar 2024 14:27:41 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.0.10
+
+Fri, 22 Mar 2024 14:27:41 GMT
+
+### Patches
+
+- Bump monosize to v0.5.0
 
 ## 0.0.9
 
