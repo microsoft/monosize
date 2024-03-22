@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: implement shared interface for createBunlder api",
+  "packageName": "monosize",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "patch"
+}

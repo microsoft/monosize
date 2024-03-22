@@ -1,0 +1,7 @@
+{
+  "type": "major",
+  "comment": "feat:BREAKING CHANGE - change create*Bundler api to accept callback handler only",
+  "packageName": "monosize-bundler-webpack",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "patch"
+}
