@@ -13,5 +13,6 @@ module.exports = {
     '**/project.json',
     '**/README.md',
   ],
+  disallowedChangeTypes: ['major'],
   hooks: require('./beachball.hooks'),
 };
