@@ -1,5 +1,3 @@
 import type { BuildOptions } from 'esbuild';
 
-export type EsbuildBundlerOptions = {
-  enhanceConfig?: (config: BuildOptions) => BuildOptions;
-};
+export type EsbuildBundlerOptions = (config: BuildOptions) => BuildOptions;

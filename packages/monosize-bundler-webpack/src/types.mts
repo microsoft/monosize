@@ -1,5 +1,3 @@
 import type { Configuration as WebpackConfiguration } from 'webpack';
 
-export type WebpackBundlerOptions = {
-  enhanceConfig?: (config: WebpackConfiguration) => WebpackConfiguration;
-};
+export type WebpackBundlerOptions = (config: WebpackConfiguration) => WebpackConfiguration;

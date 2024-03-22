@@ -4,11 +4,9 @@ import { runTerser } from './runTerser.mjs';
 import { runWebpack } from './runWebpack.mjs';
 import type { WebpackBundlerOptions } from './types.mjs';
 
-const DEFAULT_CONFIG_ENHANCER: NonNullable<WebpackBundlerOptions['enhanceConfig']> = config => config;
+const DEFAULT_CONFIG_ENHANCER: WebpackBundlerOptions = config => config;
 
-export function createWebpackBundler(options: WebpackBundlerOptions = {}): BundlerAdapter {
-  const { enhanceConfig = DEFAULT_CONFIG_ENHANCER } = options;
-
+export function createWebpackBundler(configEnhancerCallback = DEFAULT_CONFIG_ENHANCER): BundlerAdapter {
   return {
     buildFixture: async function (options) {
       const { debug, fixturePath, quiet } = options;
@@ -17,7 +15,7 @@ export function createWebpackBundler(options: WebpackBundlerOptions = {}): Bundl
       const debugOutputPath = fixturePath.replace(/\.fixture.js$/, '.debug.js');
 
       await runWebpack({
-        enhanceConfig,
+        enhanceConfig: configEnhancerCallback,
         fixturePath,
         outputPath,
         debug,

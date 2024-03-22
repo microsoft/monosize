@@ -20,7 +20,7 @@ function createEsbuildConfig(fixturePath: string): BuildOptions {
 }
 
 type RunViteOptions = {
-  enhanceConfig: NonNullable<EsbuildBundlerOptions['enhanceConfig']>;
+  enhanceConfig: EsbuildBundlerOptions;
 
   fixturePath: string;
   outputPath: string;
