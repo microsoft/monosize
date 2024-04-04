@@ -35,6 +35,7 @@ jobs:
             yarn-cache-folder-
 
       - run: yarn install --immutable
+      - run: yarn dedupe --check
       - run: yarn check-dependencies
       - run: yarn nx affected --target=lint --parallel --max-parallel=3
       - run: yarn nx affected --target=build --parallel --max-parallel=3
