@@ -14,19 +14,19 @@ import type { BuildResult } from '../types.mjs';
 
 export type MeasureOptions = CliOptions & { 
   debug: boolean 
-  artifcatsLocation: string;
+  artifactsLocation: string;
 };
 
 async function measure(options: MeasureOptions) {
-  const { debug = false, quiet, artifcatsLocation = 'dist/bundle-size'} = options;
+  const { debug = false, quiet, artifactsLocation = 'dist/bundle-size'} = options;
 
   const startTime = process.hrtime();
 
-  const artifactsDir = path.resolve(process.cwd(), artifcatsLocation);
+  const artifactsDir = path.resolve(process.cwd(), artifactsLocation);
 
-  // thrown error if cwd is set as artifcatsLocation is set to '.' since next step is to rm everything
+  // thrown error if cwd is set as artifactsLocation is set to '.' since next step is to rm everything
   if (artifactsDir === process.cwd()) {
-    throw new Error("'--artifcatsLocation' cannot be the same as current working directory");
+    throw new Error("'--artifactsLocation' cannot be the same as current working directory");
   }
 
   await fs.promises.rm(artifactsDir, { recursive: true, force: true });
@@ -100,7 +100,7 @@ const api: CommandModule<Record<string, unknown>, MeasureOptions> = {
       type: 'boolean',
       description: 'If true, will output additional artifacts for debugging',
     },
-    artifcatsLocation: {
+    artifactsLocation: {
       type: 'string',
       description: 'Relative path where the artifcat file "monosize.json" will be stored',
     },
