@@ -3,14 +3,16 @@ import type ES from 'acorn';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { PreparedFixture } from '../types.mjs';
+export type PreparedFixture = {
+  artifactPath: string;
+  name: string;
+};
 
 /**
  * Prepares a fixture file to be compiled with a bundler, grabs data from a default export and removes it.
  */
-export async function prepareFixture(fixture: string): Promise<PreparedFixture> {
-  const sourceFixturePath = path.resolve(process.cwd(), fixture);
-  const sourceFixtureCode = await fs.promises.readFile(sourceFixturePath, 'utf8');
+export async function prepareFixture(artifactDir: string, sourcePath: string): Promise<PreparedFixture> {
+  const sourceFixtureCode = await fs.promises.readFile(sourcePath, 'utf8');
 
   // A transform that:
   // - reads metadata (name, threshold, etc.)
@@ -64,15 +66,13 @@ export async function prepareFixture(fixture: string): Promise<PreparedFixture> 
   }
 
   const modifiedCode = sourceFixtureCode.slice(0, defaultExport.start) + sourceFixtureCode.slice(defaultExport.end);
-  const outputFixturePath = path.resolve(process.cwd(), 'dist', fixture);
+  const outputFixturePath = path.resolve(artifactDir, path.basename(sourcePath));
 
   await fs.promises.mkdir(path.dirname(outputFixturePath), { recursive: true });
   await fs.promises.writeFile(outputFixturePath, modifiedCode);
 
   return {
-    absolutePath: outputFixturePath,
-    relativePath: fixture,
-
+    artifactPath: outputFixturePath,
     name: name.value.value,
   };
 }
