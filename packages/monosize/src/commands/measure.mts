@@ -25,7 +25,7 @@ async function measure(options: MeasureOptions) {
 
   // thrown error if cwd is set as artifactsLocation is set to '.' since next step is to rm everything
   if (artifactsDir === process.cwd()) {
-    throw new Error("'--artifactsLocation' cannot be the same as current working directory");
+    throw new Error("'--artifacts-location' cannot be the same as current working directory");
   }
 
   await fs.promises.rm(artifactsDir, { recursive: true, force: true });
