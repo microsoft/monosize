@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Fri, 22 Mar 2024 14:27:41 GMT and should not be manually modified.
+This log was last generated on Fri, 10 May 2024 09:04:46 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.5.1
+
+Fri, 10 May 2024 09:04:46 GMT
+
+### Patches
+
+- feat: add `--artifacts-location` option to `monosize measure` (olfedias@microsoft.com)
 
 ## 0.5.0
 
