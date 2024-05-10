@@ -1,9 +1,3 @@
-export type PreparedFixture = {
-  absolutePath: string;
-  relativePath: string;
-  name: string;
-};
-
 export type BuildResult = {
   name: string;
   path: string;

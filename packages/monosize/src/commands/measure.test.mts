@@ -7,7 +7,10 @@ import api, { type MeasureOptions } from './measure.mjs';
 
 const buildFixture = vitest.hoisted(() =>
   vitest.fn().mockImplementation(async ({ fixturePath }) => {
-    const outputPath = path.resolve(path.dirname(fixturePath), 'test.output.js');
+    const outputPath = path.resolve(
+      path.dirname(fixturePath),
+      path.basename(fixturePath).replace('.fixture.js', '.output.js'),
+    );
     await fs.cp(fixturePath, outputPath);
 
     return { outputPath };
@@ -33,7 +36,9 @@ async function setup(fixtures: { [key: string]: string }) {
     await fs.writeFile(path.resolve(fixturesDir, fixture), content);
   }
 
-  console.log('fixtureDir.name', packageDir.name);
+  return {
+    packageDir: packageDir.name,
+  };
 }
 
 describe('measure', () => {
@@ -42,7 +47,7 @@ describe('measure', () => {
   });
 
   it('builds fixtures and created a report', async () => {
-    await setup({
+    const { packageDir } = await setup({
       'foo.fixture.js': `
         console.log("foo");
         export default { name: 'foo' };
@@ -52,13 +57,23 @@ describe('measure', () => {
         export default { name: 'bar' };
       `,
     });
-    const options: MeasureOptions = { quiet: true, debug: false };
+    const options: MeasureOptions = { quiet: true, debug: false, 'artifacts-location': 'output' };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await api.handler(options as any);
 
-    const report = JSON.parse(
-      await fs.readFile(path.resolve(process.cwd(), 'dist', 'bundle-size', 'monosize.json'), 'utf-8'),
-    );
+    // Fixtures
+
+    expect(await fs.readdir(path.resolve(packageDir, 'output'))).toEqual([
+      'bar.fixture.js',
+      'bar.output.js',
+      'foo.fixture.js',
+      'foo.output.js',
+      'monosize.json',
+    ]);
+
+    // Report
+
+    const report = JSON.parse(await fs.readFile(path.resolve(process.cwd(), 'output', 'monosize.json'), 'utf-8'));
 
     expect(report).toEqual([
       {

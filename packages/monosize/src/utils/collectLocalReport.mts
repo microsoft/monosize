@@ -8,8 +8,7 @@ import type { BuildResult, BundleSizeReport } from '../types.mjs';
 async function readReportForPackage(
   reportFile: string,
 ): Promise<{ packageName: string; packageReport: BuildResult[] }> {
-  const reportFilePath = path.resolve(process.cwd(), reportFile);
-  const packageRoot = findPackageRoot(reportFilePath);
+  const packageRoot = findPackageRoot(reportFile);
 
   if (!packageRoot) {
     throw new Error(
@@ -21,14 +20,14 @@ async function readReportForPackage(
   }
 
   const packageName = path.basename(packageRoot);
-  const packageReportJSON = await fs.promises.readFile(reportFilePath, 'utf8');
+  const packageReportJSON = await fs.promises.readFile(reportFile, 'utf8');
 
   try {
     const packageReport = JSON.parse(packageReportJSON) as BuildResult[];
 
     return { packageName, packageReport };
   } catch (e) {
-    throw new Error([`Failed to read JSON from "${reportFilePath}":`, (e as Error).toString()].join('\n'));
+    throw new Error([`Failed to read JSON from "${reportFile}":`, (e as Error).toString()].join('\n'));
   }
 }
 
@@ -47,7 +46,7 @@ export async function collectLocalReport(options: Partial<CollectLocalReportOpti
     ...options,
   };
 
-  const reportFiles = glob.sync(reportFilesGlob, { cwd: root });
+  const reportFiles = glob.sync(reportFilesGlob, { absolute: true, cwd: root });
   const reports = await Promise.all(reportFiles.map(readReportForPackage));
 
   return reports.reduce<BundleSizeReport>((acc, { packageName, packageReport }) => {

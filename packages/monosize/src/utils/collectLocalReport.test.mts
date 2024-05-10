@@ -24,9 +24,6 @@ function mkPackagesDir() {
   const projectDir = tmp.dirSync({ prefix: 'collectLocalReport', unsafeCleanup: true });
   const packagesDir = tmp.dirSync({ dir: projectDir.name, name: 'packages', unsafeCleanup: true });
 
-  const spy = vitest.spyOn(process, 'cwd');
-  spy.mockReturnValue(projectDir.name);
-
   // is required as root directory is determined based on Git project
   tmp.dirSync({ dir: projectDir.name, name: '.git', unsafeCleanup: true });
 

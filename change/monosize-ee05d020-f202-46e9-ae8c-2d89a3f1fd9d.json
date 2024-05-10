@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "feat: add `--artifacts-location` option to `monosize measure`",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}

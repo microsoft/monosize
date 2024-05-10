@@ -12,13 +12,21 @@ import { readConfig } from '../utils/readConfig.mjs';
 import type { CliOptions } from '../index.mjs';
 import type { BuildResult } from '../types.mjs';
 
-export type MeasureOptions = CliOptions & { debug: boolean };
+export type MeasureOptions = CliOptions & {
+  debug: boolean;
+  'artifacts-location': string;
+};
 
 async function measure(options: MeasureOptions) {
-  const { debug = false, quiet } = options;
+  const { debug = false, quiet, 'artifacts-location': artifactsLocation } = options;
 
   const startTime = process.hrtime();
-  const artifactsDir = path.resolve(process.cwd(), 'dist', 'bundle-size');
+  const artifactsDir = path.resolve(process.cwd(), artifactsLocation);
+
+  // thrown error if cwd is set as artifactsLocation is set to '.' since next step is to rm everything
+  if (artifactsDir === process.cwd()) {
+    throw new Error("'--artifacts-location' cannot be the same as current working directory");
+  }
 
   await fs.promises.rm(artifactsDir, { recursive: true, force: true });
   await fs.promises.mkdir(artifactsDir, { recursive: true });
@@ -32,6 +40,7 @@ async function measure(options: MeasureOptions) {
   }
 
   const fixtures = glob.sync('bundle-size/*.fixture.js', {
+    absolute: true,
     cwd: process.cwd(),
   });
 
@@ -41,14 +50,13 @@ async function measure(options: MeasureOptions) {
   }
 
   const config = await readConfig(quiet);
-
-  const preparedFixtures = await Promise.all(fixtures.map(prepareFixture));
   const measurements: BuildResult[] = [];
 
-  for (const preparedFixture of preparedFixtures) {
+  for (const fixturePath of fixtures) {
+    const { artifactPath, name } = await prepareFixture(artifactsDir, fixturePath);
     const { outputPath } = await config.bundler.buildFixture({
       debug,
-      fixturePath: preparedFixture.absolutePath,
+      fixturePath: artifactPath,
       quiet,
     });
 
@@ -56,8 +64,8 @@ async function measure(options: MeasureOptions) {
     const gzippedSize = await gzipSizeFromFile(outputPath);
 
     measurements.push({
-      name: preparedFixture.name,
-      path: preparedFixture.relativePath,
+      name,
+      path: path.relative(process.cwd(), fixturePath).replaceAll(path.sep, '/'),
       minifiedSize,
       gzippedSize,
     });
@@ -90,6 +98,12 @@ const api: CommandModule<Record<string, unknown>, MeasureOptions> = {
     debug: {
       type: 'boolean',
       description: 'If true, will output additional artifacts for debugging',
+    },
+    'artifacts-location': {
+      type: 'string',
+      description:
+        'Relative path to the package root where the artifact files will be stored (monosize.json & bundler output). If specified, "--report-files-glob" in "monosize collect-reports" & "monosize upload-reports" should be set accordingly.',
+      default: 'dist/bundle-size',
     },
   },
 };

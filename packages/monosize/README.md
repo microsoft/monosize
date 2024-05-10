@@ -28,8 +28,11 @@
   - [Storage adapters](#storage-adapters)
 - [Commands](#commands)
   - [`measure`](#measure)
+    - [Options](#options)
   - [`compare-reports`](#compare-reports)
+    - [Options](#options-1)
   - [`upload-report`](#upload-report)
+    - [Options](#options-2)
 - [Contributing](#contributing)
 - [Trademarks](#trademarks)
 
@@ -134,7 +137,7 @@ To store reference results and run comparisons you need to use a storage adapter
 ### `measure`
 
 ```sh
-monosize measure [--debug] [--quiet]
+monosize measure [--debug] [--artifacts-location] [--quiet]
 ```
 
 Builds fixtures and produces artifacts. For each fixture:
@@ -145,25 +148,44 @@ Builds fixtures and produces artifacts. For each fixture:
 
 Produces a report file (`dist/bundle-size/monosize.json`) that is used by other steps.
 
+#### Options
+
+- `artifacts-location` - defines relative path from the package root where the artifact files will be stored (`monosize.json` & bundler output). If specified, `--report-files-glob` in `monosize collect-reports` & `monosize upload-reports` should be set accordingly.
+
 ### `compare-reports`
 
 Compares local (requires call of `monosize measure` first) and remote results, provides output to CLI or to a Markdown file.
 
 ```sh
-monosize compare-reports --branch=main --output=["cli"|"markdown"] --deltaFormat=["delta"|"percent"] [--quiet]
+monosize compare-reports --branch=main --output=["cli"|"markdown"] [--deltaFormat=["delta"|"percent"]] [--report-files-glob] [--quiet]
 ```
+
+#### Options
+
+- `branch` - the branch to compare the results with, usually `main`
+- `output` - defines the output formatter, either `cli` or `markdown`
+- `deltaFormat` - defines the format of the delta column, either `delta` or `percent`
+- `report-files-glob` - defines a glob pattern to search for report files, defaults to `packages/**/dist/bundle-size/monosize.json`
 
 ### `upload-report`
 
-> Note: requires a configured storage adapter.
+> [!CAUTION]
+> Should be called only during CI builds.
+
+> [!TIP]
+> Requires a configured storage adapter.
 
 ```sh
-monosize upload-report --branch=main --commit-sha=HASH [--quiet]
+monosize upload-report --branch=main --commit-sha=HASH [--report-files-glob] [--quiet]
 ```
 
 Aggregates local results to a single report and uploads data to Azure Table Storage.
 
-> Note: should be called only during CI builds.
+#### Options
+
+- `branch` - the branch to compare the results with, usually `main`
+- `commit-sha` - the commit SHA to associate the report with
+- `report-files-glob` - defines a glob pattern to search for report files, defaults to `packages/**/dist/bundle-size/monosize.json`
 
 ## Contributing
 
