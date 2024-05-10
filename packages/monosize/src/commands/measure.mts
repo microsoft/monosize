@@ -65,7 +65,7 @@ async function measure(options: MeasureOptions) {
 
     measurements.push({
       name,
-      path: path.relative(process.cwd(), fixturePath),
+      path: path.relative(process.cwd(), fixturePath).replaceAll(path.sep, '/'),
       minifiedSize,
       gzippedSize,
     });
