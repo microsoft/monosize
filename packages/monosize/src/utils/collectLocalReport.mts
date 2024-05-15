@@ -7,9 +7,9 @@ import { findUp } from 'find-up';
 import type { BuildResult, BundleSizeReport, MonoSizeConfig } from '../types.mjs';
 
 async function getPackageRoot(filepath: string): Promise<string> {
-  const root = await findUp(['package.json', 'project.json'], { cwd: path.dirname(filepath) });
+  const rootConfig = await findUp(['package.json', 'project.json'], { cwd: path.dirname(filepath) });
 
-  if (!root) {
+  if (!rootConfig) {
     throw new Error(
       [
         'Failed to find a package root (directory that contains "package.json" or "project.json" file)',
@@ -19,15 +19,22 @@ async function getPackageRoot(filepath: string): Promise<string> {
     );
   }
 
-  return root;
+  return path.dirname(rootConfig);
 }
 
-const packageNameConfigFiles: Record<string, (rootConfigPath: string) => Promise<string>> = {
-  'package.json': async (rootConfigPath: string) => JSON.parse(await fs.promises.readFile(rootConfigPath, 'utf8')).name,
-  'project.json': async (rootConfigPath: string) => JSON.parse(await fs.promises.readFile(rootConfigPath, 'utf8')).name,
-};
 async function getPackageName(packageRoot: string): Promise<string> {
-  const getPackageNameFromConfigFile = packageNameConfigFiles[path.basename(packageRoot)];
+  const paths = {
+    packageJson: path.join(packageRoot, 'package.json'),
+    projectJson: path.join(packageRoot, 'project.json'),
+  };
+  let getPackageNameFromConfigFile;
+
+  if (fs.existsSync(paths.packageJson)) {
+    getPackageNameFromConfigFile = async () => JSON.parse(await fs.promises.readFile(paths.packageJson, 'utf8')).name;
+  }
+  if (fs.existsSync(paths.projectJson)) {
+    getPackageNameFromConfigFile = async () => JSON.parse(await fs.promises.readFile(paths.projectJson, 'utf8')).name;
+  }
 
   if (!getPackageNameFromConfigFile) {
     throw new Error(
@@ -40,7 +47,7 @@ async function getPackageName(packageRoot: string): Promise<string> {
   }
 
   try {
-    const packageName = await getPackageNameFromConfigFile(packageRoot);
+    const packageName = await getPackageNameFromConfigFile();
     return packageName;
   } catch (err) {
     throw new Error(
@@ -92,14 +99,14 @@ export async function collectLocalReport(options: Options): Promise<BundleSizeRe
   } = {
     root: undefined,
     reportFilesGlob: 'packages/**/dist/bundle-size/monosize.json',
+    ...defaultResolvers,
     ...options,
   };
 
   const resolvers = {
-    ...defaultResolvers,
     packageName,
     packageRoot,
-  } as Required<Resolvers>;
+  };
 
   const reportFiles = glob.sync(reportFilesGlob, { absolute: true, cwd: root });
   const reports = await Promise.all(reportFiles.map(reportFile => readReportForPackage(reportFile, resolvers)));

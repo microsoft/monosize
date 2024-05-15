@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import fs from 'node:fs';
+import path from 'node:path';
 import tmp from 'tmp';
 
 // This mock should be not required 😮
@@ -19,6 +20,7 @@ vitest.mock('glob', async () => {
 
 import { collectLocalReport } from './collectLocalReport.mjs';
 import type { BuildResult } from '../types.mjs';
+import { findUp } from 'find-up';
 
 function mkPackagesDir() {
   const projectDir = tmp.dirSync({ prefix: 'collectLocalReport', unsafeCleanup: true });
@@ -30,13 +32,17 @@ function mkPackagesDir() {
   return { packagesDir: packagesDir.name, rootDir: projectDir.name };
 }
 
-function mkReportDir(packagesDir: string): string {
-  const distDir = tmp.dirSync({ dir: packagesDir, name: 'dist', unsafeCleanup: true });
-  const monosizeDir = tmp.dirSync({ dir: distDir.name, name: 'bundle-size', unsafeCleanup: true });
+function mkReportDir(packagesDir: string, packageName: string, packageRootConfigName: string) {
+  const packageRoot = tmp.dirSync({ dir: packagesDir, name: packageName, unsafeCleanup: true }).name;
+  const distDir = tmp.dirSync({ dir: packageRoot, name: 'dist', unsafeCleanup: true }).name;
+  const monosizeDir = tmp.dirSync({ dir: distDir, name: 'bundle-size', unsafeCleanup: true });
 
-  tmp.fileSync({ dir: packagesDir, name: 'package.json' });
+  const packageRootConfigPath = tmp.fileSync({ dir: packageRoot, name: packageRootConfigName }).name;
+  fs.writeFileSync(packageRootConfigPath, JSON.stringify({ name: packageName }));
 
-  return tmp.fileSync({ dir: monosizeDir.name, name: 'monosize.json' }).name;
+  const reportPath = tmp.fileSync({ dir: monosizeDir.name, name: 'monosize.json' }).name;
+
+  return reportPath;
 }
 
 describe('collectLocalReport', () => {
@@ -47,8 +53,8 @@ describe('collectLocalReport', () => {
   it('aggregates all local reports to a single one', async () => {
     const { packagesDir, rootDir } = mkPackagesDir();
 
-    const reportAPath = mkReportDir(tmp.dirSync({ dir: packagesDir, name: 'package-a', unsafeCleanup: true }).name);
-    const reportBPath = mkReportDir(tmp.dirSync({ dir: packagesDir, name: 'package-b', unsafeCleanup: true }).name);
+    const reportAPath = mkReportDir(packagesDir, 'package-a', 'package.json');
+    const reportBPath = mkReportDir(packagesDir, 'package-b', 'project.json');
 
     const reportA: BuildResult[] = [
       { name: 'fixtureA1', path: 'path/fixtureA1.js', minifiedSize: 100, gzippedSize: 50 },
@@ -89,8 +95,8 @@ describe('collectLocalReport', () => {
   it('throws an error if a report file contains invalid JSON', async () => {
     const { packagesDir, rootDir } = mkPackagesDir();
 
-    const reportAPath = mkReportDir(tmp.dirSync({ dir: packagesDir, name: 'package-a', unsafeCleanup: true }).name);
-    const reportBPath = mkReportDir(tmp.dirSync({ dir: packagesDir, name: 'package-b', unsafeCleanup: true }).name);
+    const reportAPath = mkReportDir(packagesDir, 'package-a', 'package.json');
+    const reportBPath = mkReportDir(packagesDir, 'package-b', 'project.json');
 
     const reportB: BuildResult[] = [{ name: 'fixtureB', path: 'path/fixtureB.js', minifiedSize: 10, gzippedSize: 5 }];
 
@@ -98,5 +104,102 @@ describe('collectLocalReport', () => {
     await fs.promises.writeFile(reportBPath, JSON.stringify(reportB));
 
     await expect(collectLocalReport({ root: rootDir })).rejects.toThrow(/Failed to read JSON/);
+  });
+
+  describe('resolver overrides', () => {
+    it('should create local report based on packageName config override', async () => {
+      const { packagesDir, rootDir } = mkPackagesDir();
+
+      const reportAPath = mkReportDir(packagesDir, 'package-a', 'package.json');
+      const reportBPath = mkReportDir(packagesDir, 'package-b', 'project.json');
+
+      const reportA: BuildResult[] = [
+        { name: 'fixtureA1', path: 'path/fixtureA1.js', minifiedSize: 100, gzippedSize: 50 },
+      ];
+      const reportB: BuildResult[] = [{ name: 'fixtureB', path: 'path/fixtureB.js', minifiedSize: 10, gzippedSize: 5 }];
+
+      await fs.promises.writeFile(reportAPath, JSON.stringify(reportA));
+      await fs.promises.writeFile(reportBPath, JSON.stringify(reportB));
+
+      const actual = (
+        await collectLocalReport({
+          root: rootDir,
+          packageName: async packageRoot => {
+            if (fs.existsSync(path.join(packageRoot, 'package.json'))) {
+              return (
+                JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'package.json'), 'utf-8')).name +
+                '-overridden-pkg'
+              );
+            }
+            if (fs.existsSync(path.join(packageRoot, 'project.json'))) {
+              return (
+                JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'project.json'), 'utf-8')).name +
+                '-overridden-project'
+              );
+            }
+
+            return 'unknown';
+          },
+        })
+      ).map(({ packageName }) => ({ packageName }));
+
+      expect(actual).toMatchInlineSnapshot(`
+      [
+        {
+          "packageName": "package-a-overridden-pkg",
+        },
+        {
+          "packageName": "package-b-overridden-project",
+        },
+      ]
+    `);
+    });
+
+    it('should local report based on packageRoo and packageName config overrides', async () => {
+      const { packagesDir, rootDir } = mkPackagesDir();
+
+      const reportAPath = mkReportDir(packagesDir, 'package-a', 'johny5.json');
+      const reportBPath = mkReportDir(packagesDir, 'package-b', 'johny5.json');
+
+      const reportA: BuildResult[] = [
+        { name: 'fixtureA1', path: 'path/fixtureA1.js', minifiedSize: 100, gzippedSize: 50 },
+      ];
+      const reportB: BuildResult[] = [{ name: 'fixtureB', path: 'path/fixtureB.js', minifiedSize: 10, gzippedSize: 5 }];
+
+      await fs.promises.writeFile(reportAPath, JSON.stringify(reportA));
+      await fs.promises.writeFile(reportBPath, JSON.stringify(reportB));
+
+      const actual = (
+        await collectLocalReport({
+          root: rootDir,
+          packageRoot: async reportFile => {
+            const rootConfig = await findUp('johny5.json', { cwd: path.dirname(reportFile) });
+
+            if (rootConfig) {
+              return path.dirname(rootConfig);
+            }
+
+            return 'unknown';
+          },
+          packageName: async packageRoot => {
+            return (
+              JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'johny5.json'), 'utf-8')).name +
+              '-not-disassembled'
+            );
+          },
+        })
+      ).map(({ packageName }) => ({ packageName }));
+
+      expect(actual).toMatchInlineSnapshot(`
+      [
+        {
+          "packageName": "package-a-not-disassembled",
+        },
+        {
+          "packageName": "package-b-not-disassembled",
+        },
+      ]
+    `);
+    });
   });
 });
