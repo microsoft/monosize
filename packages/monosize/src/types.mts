@@ -46,6 +46,19 @@ export type MonoSizeConfig = {
   repository: string;
   storage: StorageAdapter;
   bundler: BundlerAdapter;
+  /**
+   * Override package name resolution used within compare-reports and upload-report.
+   *
+   * By default we try to read package name from "package.json" or "project.json" files.
+   * You can override this behavior by providing your own implementation.
+   */
   packageName?: (packageRoot: string) => Promise<string>;
-  packagePath?: (filepath: string) => Promise<string>;
+  /**
+   *
+   * Override package root resolution used within compare-reports and upload-report.
+   *
+   * By default we try to resolve package root by traversing up the directory tree until we find "package.json" or "project.json" files.
+   * You can override this behavior by providing your own implementation.
+   */
+  packageRoot?: (filepath: string) => Promise<string>;
 };
