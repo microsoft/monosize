@@ -22,7 +22,8 @@ async function uploadReport(options: UploadOptions) {
 
   const localReportStartTime = process.hrtime();
   const localReport = await collectLocalReport({
-    ...(options['report-files-glob'] && { reportFilesGlob: options['report-files-glob'] }),
+    ...config,
+    reportFilesGlob: options['report-files-glob'] ?? undefined,
   });
 
   if (!quiet) {

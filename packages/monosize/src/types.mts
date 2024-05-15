@@ -46,4 +46,6 @@ export type MonoSizeConfig = {
   repository: string;
   storage: StorageAdapter;
   bundler: BundlerAdapter;
+  packageName?: (packageRoot: string) => Promise<string>;
+  packagePath?: (filepath: string) => Promise<string>;
 };

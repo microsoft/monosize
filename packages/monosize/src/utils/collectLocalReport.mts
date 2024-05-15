@@ -1,14 +1,55 @@
 import glob from 'glob';
 import fs from 'node:fs';
 import path from 'node:path';
-import { findGitRoot, findPackageRoot } from 'workspace-tools';
+import { findGitRoot } from 'workspace-tools';
 
-import type { BuildResult, BundleSizeReport } from '../types.mjs';
+import type { BuildResult, BundleSizeReport, MonoSizeConfig } from '../types.mjs';
+import { findUp } from 'find-up';
 
+async function getPackageName(root: string): Promise<string> {
+  const packageNameSourcesPaths = {
+    packageJson: path.join(root, 'package.json'),
+    projectJson: path.join(root, 'project.json'),
+  };
+
+  const hasPackageJson = fs.existsSync(packageNameSourcesPaths.packageJson);
+  const hasProjectJson = fs.existsSync(packageNameSourcesPaths.projectJson);
+
+  if (!(hasPackageJson || hasProjectJson)) {
+    throw new Error(
+      [
+        'Failed to find a package root (directory that contains "package.json" or "project.json" file)',
+        `Package root location: ${root}`,
+      ].join('\n'),
+    );
+  }
+
+  try {
+    if (hasPackageJson) {
+      return JSON.parse(fs.readFileSync(packageNameSourcesPaths.packageJson, 'utf8')).name as string;
+    }
+
+    if (hasProjectJson) {
+      return JSON.parse(fs.readFileSync(packageNameSourcesPaths.projectJson, 'utf8')).name as string;
+    }
+
+    throw new Error('Failed to read package name from "package.json" or "project.json"');
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+}
+
+/**
+ *
+ * @param reportFile - absolute path to the report file
+ */
 async function readReportForPackage(
   reportFile: string,
+  resolvePackageName = getPackageName,
 ): Promise<{ packageName: string; packageReport: BuildResult[] }> {
-  const packageRoot = findPackageRoot(reportFile);
+  const packageRoot = await findUp(['package.json', 'project.json'], { cwd: path.dirname(reportFile) });
+  // const packageRoot = searchUp(reportFile, process.cwd());
 
   if (!packageRoot) {
     throw new Error(
@@ -19,7 +60,7 @@ async function readReportForPackage(
     );
   }
 
-  const packageName = path.basename(packageRoot);
+  const packageName = await resolvePackageName(packageRoot);
   const packageReportJSON = await fs.promises.readFile(reportFile, 'utf8');
 
   try {
@@ -36,18 +77,24 @@ type CollectLocalReportOptions = {
   reportFilesGlob: string;
 };
 
+interface Options extends Partial<CollectLocalReportOptions>, Pick<MonoSizeConfig, 'packageName' | 'packagePath'> {}
+
 /**
  * Collects all reports for packages to a single one.
  */
-export async function collectLocalReport(options: Partial<CollectLocalReportOptions> = {}): Promise<BundleSizeReport> {
-  const { reportFilesGlob, root = findGitRoot(process.cwd()) } = {
+export async function collectLocalReport(options: Options): Promise<BundleSizeReport> {
+  const {
+    packageName,
+    reportFilesGlob,
+    root = findGitRoot(process.cwd()),
+  } = {
     root: undefined,
     reportFilesGlob: 'packages/**/dist/bundle-size/monosize.json',
     ...options,
   };
 
   const reportFiles = glob.sync(reportFilesGlob, { absolute: true, cwd: root });
-  const reports = await Promise.all(reportFiles.map(readReportForPackage));
+  const reports = await Promise.all(reportFiles.map(reportFile => readReportForPackage(reportFile, packageName)));
 
   return reports.reduce<BundleSizeReport>((acc, { packageName, packageReport }) => {
     const processedReport = packageReport.map(reportEntry => ({ packageName, ...reportEntry }));
