@@ -109,14 +109,27 @@ monosize.config.mjs
 import storageAdapter from 'monosize-storage-*';
 import webpackBundler from 'monosize-bundler-webpack';
 
-export default {
+/** @type {import('monosize').MonoSizeConfig} */
+const config = {
   repository: 'https://github.com/__ORG__/__REPOSITORY__',
   storage: storageAdapter(),
   bundler: webpackBundler(config => {
     // customize config here
     return config;
   }),
+
+  // Optional `compare-reports`/`upload-reports` commands config overrides
+  packageRoot: async reportFile => {
+    // provide custom logic on how to resolve package root
+    return '...';
+  },
+  packageName: async packageRoot => {
+    // provide custom logic on how to resolve packageName used within reports
+    return '...';
+  },
 };
+
+export default config;
 ```
 
 ### Bundler adapters
@@ -160,6 +173,10 @@ Compares local (requires call of `monosize measure` first) and remote results, p
 monosize compare-reports --branch=main --output=["cli"|"markdown"] [--deltaFormat=["delta"|"percent"]] [--report-files-glob] [--quiet]
 ```
 
+> [!TIP]
+> In order to resolve package name used within report, we look for `package.json` or `project.json` by default to identify project root and use `#name` property from obtained configuration.
+> If you have custom solution that needs changes please use monosize configuration API (`MonoSizeConfig.packageName` or `MonoSizeConfig.packageRoot`).
+
 #### Options
 
 - `branch` - the branch to compare the results with, usually `main`
@@ -174,6 +191,10 @@ monosize compare-reports --branch=main --output=["cli"|"markdown"] [--deltaForma
 
 > [!TIP]
 > Requires a configured storage adapter.
+
+> [!TIP]
+> In order to resolve package name used within report, we look for `package.json` or `project.json` by default to identify project root and use `#name` property from obtained configuration.
+> If you have custom solution that needs changes please use monosize configuration API (`MonoSizeConfig.packageName` or `MonoSizeConfig.packageRoot`).
 
 ```sh
 monosize upload-report --branch=main --commit-sha=HASH [--report-files-glob] [--quiet]
