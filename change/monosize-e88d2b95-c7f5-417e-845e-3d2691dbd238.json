@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: create packageName from package.json or project.json by default and add packageName,packageRoot global configuration options overrides. [BREAKING-CHANGE]",
+  "packageName": "monosize",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "patch"
+}

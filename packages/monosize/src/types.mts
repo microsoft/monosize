@@ -42,8 +42,33 @@ export type BundleAdapterFactory<T extends Record<string, any>> = (
   options: BundlerAdapterFactoryConfig<T>,
 ) => BundlerAdapter;
 
+type ReportResolvers = {
+  /**
+   * Override package name resolution used within compare-reports and upload-report.
+   *
+   * By default we try to read package name from "package.json" or "project.json" files.
+   * You can override this behavior by providing your own implementation.
+   */
+  packageName?: (packageRoot: string) => Promise<string>;
+  /**
+   *
+   * Override package root resolution used within compare-reports and upload-report.
+   *
+   * By default we try to resolve package root by traversing up the directory tree until we find "package.json" or "project.json" files.
+   * You can override this behavior by providing your own implementation.
+   *
+   * @param reportFilePath - absolute path to the report file (monosize.json)
+   */
+  packageRoot?: (reportFilePath: string) => Promise<string>;
+};
+
 export type MonoSizeConfig = {
   repository: string;
   storage: StorageAdapter;
   bundler: BundlerAdapter;
+  /**
+   * Report Commands Configuration Overrides
+   * Use this if you need to customize package name or package root resolution logic within bundle reports.
+   */
+  reportResolvers?: ReportResolvers;
 };

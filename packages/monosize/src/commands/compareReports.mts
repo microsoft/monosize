@@ -25,7 +25,8 @@ async function compareReports(options: CompareReportsOptions) {
 
   const localReportStartTime = process.hrtime();
   const localReport = await collectLocalReport({
-    ...(options['report-files-glob'] && { reportFilesGlob: options['report-files-glob'] }),
+    ...config,
+    reportFilesGlob: options['report-files-glob'] ?? undefined,
   });
 
   if (!quiet) {
