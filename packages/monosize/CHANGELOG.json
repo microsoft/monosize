@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Thu, 16 May 2024 15:04:43 GMT",
+      "tag": "monosize_v0.6.0",
+      "version": "0.6.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize",
+            "commit": "e037ff19e68dc2fc725f27b42822ae35729d49d1",
+            "comment": "feat: create packageName from package.json or project.json by default and add packageName,packageRoot global configuration options overrides. [BREAKING-CHANGE]"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 10 May 2024 09:04:46 GMT",
       "tag": "monosize_v0.5.1",
       "version": "0.5.1",

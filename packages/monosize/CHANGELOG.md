@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Fri, 10 May 2024 09:04:46 GMT and should not be manually modified.
+This log was last generated on Thu, 16 May 2024 15:04:43 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.6.0
+
+Thu, 16 May 2024 15:04:43 GMT
+
+### Minor changes
+
+- feat: create packageName from package.json or project.json by default and add packageName,packageRoot global configuration options overrides. [BREAKING-CHANGE] (hochelmartin@gmail.com)
 
 ## 0.5.1
 
