@@ -155,7 +155,7 @@ describe('collectLocalReport', () => {
     `);
     });
 
-    it('should local report based on packageRoo and packageName config overrides', async () => {
+    it('should local report based on packageRoot and packageName config overrides', async () => {
       const { packagesDir, rootDir } = mkPackagesDir();
 
       const reportAPath = mkReportDir(packagesDir, 'package-a', 'johny5.json');
