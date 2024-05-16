@@ -1,6 +1,3 @@
-import { fileURLToPath } from 'node:url';
-import { findPackageRoot } from 'workspace-tools';
-
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
 import { formatBytes } from '../utils/helpers.mjs';
 import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
@@ -32,8 +29,6 @@ function formatDelta(diff: DiffByMetric, deltaFormat: keyof DiffByMetric): strin
 export const markdownReporter: Reporter = (report, options) => {
   const { commitSHA, repository, showUnchanged, deltaFormat } = options;
   const footer = `<sub>🤖 This report was generated against <a href='${repository}/commit/${commitSHA}'>${commitSHA}</a></sub>`;
-
-  assertPackageRoot();
 
   const { changedEntries, unchangedEntries } = getChangedEntriesInReport(report);
 
@@ -100,17 +95,3 @@ export const markdownReporter: Reporter = (report, options) => {
 
   console.log(reportOutput.join('\n'));
 };
-
-function assertPackageRoot() {
-  const dirname = fileURLToPath(new URL('.', import.meta.url));
-  const packageRoot = findPackageRoot(dirname);
-
-  if (!packageRoot) {
-    throw new Error(
-      [
-        'Failed to find a package root (directory that contains "package.json" file)',
-        `Lookup start in: ${dirname}`,
-      ].join('\n'),
-    );
-  }
-}
