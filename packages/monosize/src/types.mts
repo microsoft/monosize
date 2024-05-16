@@ -42,10 +42,7 @@ export type BundleAdapterFactory<T extends Record<string, any>> = (
   options: BundlerAdapterFactoryConfig<T>,
 ) => BundlerAdapter;
 
-export type MonoSizeConfig = {
-  repository: string;
-  storage: StorageAdapter;
-  bundler: BundlerAdapter;
+type ReportResolvers = {
   /**
    * Override package name resolution used within compare-reports and upload-report.
    *
@@ -63,4 +60,15 @@ export type MonoSizeConfig = {
    * @param reportFilePath - absolute path to the report file (monosize.json)
    */
   packageRoot?: (reportFilePath: string) => Promise<string>;
+};
+
+export type MonoSizeConfig = {
+  repository: string;
+  storage: StorageAdapter;
+  bundler: BundlerAdapter;
+  /**
+   * Report Commands Configuration Overrides
+   * Use this if you need to customize package name or package root resolution logic within bundle reports.
+   */
+  reportResolvers?: ReportResolvers;
 };

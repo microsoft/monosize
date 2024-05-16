@@ -81,7 +81,7 @@ type CollectLocalReportOptions = {
   reportFilesGlob: string;
 };
 
-type Resolvers = Pick<MonoSizeConfig, 'packageName' | 'packageRoot'>;
+type Resolvers = Pick<MonoSizeConfig, 'reportResolvers'>;
 const defaultResolvers = { packageName: getPackageName, packageRoot: getPackageRoot };
 
 interface Options extends Partial<CollectLocalReportOptions>, Resolvers {}
@@ -91,21 +91,16 @@ interface Options extends Partial<CollectLocalReportOptions>, Resolvers {}
  */
 export async function collectLocalReport(options: Options): Promise<BundleSizeReport> {
   const {
-    packageName,
-    packageRoot,
+    reportResolvers,
     reportFilesGlob,
     root = findGitRoot(process.cwd()),
   } = {
     root: undefined,
     reportFilesGlob: 'packages/**/dist/bundle-size/monosize.json',
-    ...defaultResolvers,
     ...options,
   };
 
-  const resolvers = {
-    packageName,
-    packageRoot,
-  };
+  const resolvers = { ...defaultResolvers, ...reportResolvers };
 
   const reportFiles = glob.sync(reportFilesGlob, { absolute: true, cwd: root });
   const reports = await Promise.all(reportFiles.map(reportFile => readReportForPackage(reportFile, resolvers)));

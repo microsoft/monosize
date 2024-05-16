@@ -119,13 +119,15 @@ const config = {
   }),
 
   // Optional `compare-reports`/`upload-reports` commands config overrides
-  packageRoot: async reportFile => {
-    // provide custom logic on how to resolve package root
-    return '...';
-  },
-  packageName: async packageRoot => {
-    // provide custom logic on how to resolve packageName used within reports
-    return '...';
+  reportResolvers: {
+    packageRoot: async reportFile => {
+      // provide custom logic on how to resolve package root
+      return '...';
+    },
+    packageName: async packageRoot => {
+      // provide custom logic on how to resolve packageName used within reports
+      return '...';
+    },
   },
 };
 
@@ -175,7 +177,7 @@ monosize compare-reports --branch=main --output=["cli"|"markdown"] [--deltaForma
 
 > [!TIP]
 > In order to resolve package name used within report, we look for `package.json` or `project.json` by default to identify project root and use `#name` property from obtained configuration.
-> If you have custom solution that needs changes please use monosize configuration API (`MonoSizeConfig.packageName` or `MonoSizeConfig.packageRoot`).
+> If you have custom solution that needs changes please use monosize configuration API (`MonoSizeConfig.reportResolvers`).
 
 #### Options
 
@@ -194,7 +196,7 @@ monosize compare-reports --branch=main --output=["cli"|"markdown"] [--deltaForma
 
 > [!TIP]
 > In order to resolve package name used within report, we look for `package.json` or `project.json` by default to identify project root and use `#name` property from obtained configuration.
-> If you have custom solution that needs changes please use monosize configuration API (`MonoSizeConfig.packageName` or `MonoSizeConfig.packageRoot`).
+> If you have custom solution that needs changes please use monosize configuration API (`MonoSizeConfig.reportResolvers`).
 
 ```sh
 monosize upload-report --branch=main --commit-sha=HASH [--report-files-glob] [--quiet]

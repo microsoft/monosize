@@ -124,21 +124,23 @@ describe('collectLocalReport', () => {
       const actual = (
         await collectLocalReport({
           root: rootDir,
-          packageName: async packageRoot => {
-            if (fs.existsSync(path.join(packageRoot, 'package.json'))) {
-              return (
-                JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'package.json'), 'utf-8')).name +
-                '-overridden-pkg'
-              );
-            }
-            if (fs.existsSync(path.join(packageRoot, 'project.json'))) {
-              return (
-                JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'project.json'), 'utf-8')).name +
-                '-overridden-project'
-              );
-            }
+          reportResolvers: {
+            packageName: async packageRoot => {
+              if (fs.existsSync(path.join(packageRoot, 'package.json'))) {
+                return (
+                  JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'package.json'), 'utf-8')).name +
+                  '-overridden-pkg'
+                );
+              }
+              if (fs.existsSync(path.join(packageRoot, 'project.json'))) {
+                return (
+                  JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'project.json'), 'utf-8')).name +
+                  '-overridden-project'
+                );
+              }
 
-            return 'unknown';
+              return 'unknown';
+            },
           },
         })
       ).map(({ packageName }) => ({ packageName }));
@@ -172,20 +174,22 @@ describe('collectLocalReport', () => {
       const actual = (
         await collectLocalReport({
           root: rootDir,
-          packageRoot: async reportFile => {
-            const rootConfig = await findUp('johny5.json', { cwd: path.dirname(reportFile) });
+          reportResolvers: {
+            packageRoot: async reportFile => {
+              const rootConfig = await findUp('johny5.json', { cwd: path.dirname(reportFile) });
 
-            if (rootConfig) {
-              return path.dirname(rootConfig);
-            }
+              if (rootConfig) {
+                return path.dirname(rootConfig);
+              }
 
-            return 'unknown';
-          },
-          packageName: async packageRoot => {
-            return (
-              JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'johny5.json'), 'utf-8')).name +
-              '-not-disassembled'
-            );
+              return 'unknown';
+            },
+            packageName: async packageRoot => {
+              return (
+                JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'johny5.json'), 'utf-8')).name +
+                '-not-disassembled'
+              );
+            },
           },
         })
       ).map(({ packageName }) => ({ packageName }));
