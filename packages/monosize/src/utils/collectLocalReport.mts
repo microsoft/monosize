@@ -6,14 +6,14 @@ import { findUp } from 'find-up';
 
 import type { BuildResult, BundleSizeReport, MonoSizeConfig } from '../types.mjs';
 
-async function getPackageRoot(filepath: string): Promise<string> {
-  const rootConfig = await findUp(['package.json', 'project.json'], { cwd: path.dirname(filepath) });
+async function getPackageRoot(reportFilePath: string): Promise<string> {
+  const rootConfig = await findUp(['package.json', 'project.json'], { cwd: path.dirname(reportFilePath) });
 
   if (!rootConfig) {
     throw new Error(
       [
         'Failed to find a package root (directory that contains "package.json" or "project.json" file)',
-        `Report file location: ${filepath}`,
+        `Report file location: ${reportFilePath}`,
         `Tip: You can override package root resolution by providing "packageRoot" function in the configuration`,
       ].join('\n'),
     );
@@ -68,8 +68,7 @@ async function readReportForPackage(
   const packageName = await resolvers.packageName(packageRoot);
 
   try {
-    const packageReportJSON = await fs.promises.readFile(reportFile, 'utf8');
-    const packageReport = JSON.parse(packageReportJSON) as BuildResult[];
+    const packageReport: BuildResult[] = JSON.parse(await fs.promises.readFile(reportFile, 'utf8'));
 
     return { packageName, packageReport };
   } catch (e) {

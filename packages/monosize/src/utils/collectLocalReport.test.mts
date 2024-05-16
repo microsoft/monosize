@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import tmp from 'tmp';
+import { findUp } from 'find-up';
 
 // This mock should be not required 😮
 // glob.sync() call in collectLocalReport.ts always returns an empty array on Linux/Windows in tests for an unknown
@@ -20,7 +21,6 @@ vitest.mock('glob', async () => {
 
 import { collectLocalReport } from './collectLocalReport.mjs';
 import type { BuildResult } from '../types.mjs';
-import { findUp } from 'find-up';
 
 function mkPackagesDir() {
   const projectDir = tmp.dirSync({ prefix: 'collectLocalReport', unsafeCleanup: true });

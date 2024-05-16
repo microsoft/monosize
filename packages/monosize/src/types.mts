@@ -59,6 +59,8 @@ export type MonoSizeConfig = {
    *
    * By default we try to resolve package root by traversing up the directory tree until we find "package.json" or "project.json" files.
    * You can override this behavior by providing your own implementation.
+   *
+   * @param reportFilePath - absolute path to the report file (monosize.json)
    */
-  packageRoot?: (filepath: string) => Promise<string>;
+  packageRoot?: (reportFilePath: string) => Promise<string>;
 };
