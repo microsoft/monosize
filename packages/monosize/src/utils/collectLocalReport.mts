@@ -1,7 +1,7 @@
 import glob from 'glob';
 import fs from 'node:fs';
 import path from 'node:path';
-import { findGitRoot } from 'workspace-tools';
+import { execSync } from 'node:child_process';
 import { findUp } from 'find-up';
 
 import type { BuildResult, BundleSizeReport, MonoSizeConfig } from '../types.mjs';
@@ -106,4 +106,10 @@ export async function collectLocalReport(options: Options): Promise<BundleSizeRe
 
     return [...acc, ...processedReport];
   }, []);
+}
+
+function findGitRoot(cwd: string) {
+  const output = execSync('git rev-parse --show-toplevel', { cwd });
+
+  return output.toString().trim();
 }
