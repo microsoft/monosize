@@ -65,7 +65,7 @@ describe('collectLocalReport', () => {
     await fs.promises.writeFile(reportAPath, JSON.stringify(reportA));
     await fs.promises.writeFile(reportBPath, JSON.stringify(reportB));
 
-    expect(await collectLocalReport({ root: rootDir })).toMatchInlineSnapshot(`
+    expect(await collectLocalReport({ root: rootDir, reportFilesGlob: undefined })).toMatchInlineSnapshot(`
       [
         {
           "gzippedSize": 50,
