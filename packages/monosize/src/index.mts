@@ -15,6 +15,7 @@ const cliSetup = yargs(hideBin(process.argv))
     description: 'Suppress verbose build output',
     default: false,
   })
+  .strict()
   .help()
   .scriptName('monosize')
   .version(false).argv;
