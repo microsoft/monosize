@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: resolve default argument resolution bug within collectLocalReport",
+  "packageName": "monosize",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "patch"
+}
