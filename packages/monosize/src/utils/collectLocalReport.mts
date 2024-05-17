@@ -92,13 +92,9 @@ interface Options extends Partial<CollectLocalReportOptions>, Resolvers {}
 export async function collectLocalReport(options: Options): Promise<BundleSizeReport> {
   const {
     reportResolvers,
-    reportFilesGlob,
+    reportFilesGlob = 'packages/**/dist/bundle-size/monosize.json',
     root = findGitRoot(process.cwd()),
-  } = {
-    root: undefined,
-    reportFilesGlob: 'packages/**/dist/bundle-size/monosize.json',
-    ...options,
-  };
+  } = options;
 
   const resolvers = { ...defaultResolvers, ...reportResolvers };
 
