@@ -1,10 +1,10 @@
 {
   "name": "monosize-bundler-webpack",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT",
   "types": "./src/index.d.mts",
   "dependencies": {
-    "monosize": "^0.6.0",
+    "monosize": "^0.6.1",
     "picocolors": "^1.0.0",
     "terser": "^5.16.0",
     "terser-webpack-plugin": "^5.3.1",

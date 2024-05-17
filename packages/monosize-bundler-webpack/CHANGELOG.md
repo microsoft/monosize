@@ -1,8 +1,16 @@
 # Change Log - monosize-bundler-webpack
 
-This log was last generated on Thu, 16 May 2024 15:04:43 GMT and should not be manually modified.
+This log was last generated on Fri, 17 May 2024 08:39:46 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.3
+
+Fri, 17 May 2024 08:39:46 GMT
+
+### Patches
+
+- Bump monosize to v0.6.1
 
 ## 0.1.2
 

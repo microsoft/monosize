@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Thu, 16 May 2024 15:04:43 GMT and should not be manually modified.
+This log was last generated on Fri, 17 May 2024 08:39:46 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.6.1
+
+Fri, 17 May 2024 08:39:46 GMT
+
+### Patches
+
+- fix: resolve default argument resolution bug within collectLocalReport (hochelmartin@gmail.com)
 
 ## 0.6.0
 

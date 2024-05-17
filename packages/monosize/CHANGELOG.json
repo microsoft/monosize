@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Fri, 17 May 2024 08:39:46 GMT",
+      "tag": "monosize_v0.6.1",
+      "version": "0.6.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize",
+            "commit": "957bc0bf6ffb97f970ed165a102c6c08920d736a",
+            "comment": "fix: resolve default argument resolution bug within collectLocalReport"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 16 May 2024 15:04:43 GMT",
       "tag": "monosize_v0.6.0",
       "version": "0.6.0",
