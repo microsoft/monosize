@@ -16,7 +16,6 @@
     "picocolors": "^1.0.0",
     "pretty-bytes": "^6.0.0",
     "tslib": "^2.4.1",
-    "workspace-tools": "^0.29.1",
     "yargs": "^17.6.2"
   }
 }
