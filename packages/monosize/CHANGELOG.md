@@ -1,8 +1,17 @@
 # Change Log - monosize
 
-This log was last generated on Fri, 17 May 2024 08:39:46 GMT and should not be manually modified.
+This log was last generated on Mon, 20 May 2024 09:09:44 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.6.2
+
+Mon, 20 May 2024 09:09:44 GMT
+
+### Patches
+
+- feat: inline findGitRoot func and remove workspace-tools from deps in order to ship less JS (hochelmartin@gmail.com)
+- fix: enable strict CLI mode in order to provide proper feedback when invalid commands/flags are used (hochelmartin@gmail.com)
 
 ## 0.6.1
 

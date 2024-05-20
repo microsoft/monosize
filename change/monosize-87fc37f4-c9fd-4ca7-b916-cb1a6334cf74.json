@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: enable strict CLI mode in order to provide proper feedback when invalid commands/flags are used",
-  "packageName": "monosize",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}

@@ -2,6 +2,21 @@
   "name": "monosize-storage-azure",
   "entries": [
     {
+      "date": "Mon, 20 May 2024 09:09:44 GMT",
+      "tag": "monosize-storage-azure_v0.0.14",
+      "version": "0.0.14",
+      "comments": {
+        "patch": [
+          {
+            "author": "beachball",
+            "package": "monosize-storage-azure",
+            "comment": "Bump monosize to v0.6.2",
+            "commit": "14bfdbedaf05c02031df79f0523c36a91d3c9b20"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 17 May 2024 08:39:46 GMT",
       "tag": "monosize-storage-azure_v0.0.13",
       "version": "0.0.13",

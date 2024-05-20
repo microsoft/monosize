@@ -2,6 +2,27 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Mon, 20 May 2024 09:09:44 GMT",
+      "tag": "monosize_v0.6.2",
+      "version": "0.6.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize",
+            "commit": "14bfdbedaf05c02031df79f0523c36a91d3c9b20",
+            "comment": "feat: inline findGitRoot func and remove workspace-tools from deps in order to ship less JS"
+          },
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize",
+            "commit": "14bfdbedaf05c02031df79f0523c36a91d3c9b20",
+            "comment": "fix: enable strict CLI mode in order to provide proper feedback when invalid commands/flags are used"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 17 May 2024 08:39:46 GMT",
       "tag": "monosize_v0.6.1",
       "version": "0.6.1",

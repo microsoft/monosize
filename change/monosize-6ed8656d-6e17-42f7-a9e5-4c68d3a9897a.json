@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "feat: inline findGitRoot func and remove workspace-tools from deps in order to ship less JS",
-  "packageName": "monosize",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}
