@@ -29,6 +29,7 @@
 - [Commands](#commands)
   - [`measure`](#measure)
     - [Options](#options)
+    - [Examples](#examples)
   - [`compare-reports`](#compare-reports)
     - [Options](#options-1)
   - [`upload-report`](#upload-report)
@@ -152,7 +153,7 @@ To store reference results and run comparisons you need to use a storage adapter
 ### `measure`
 
 ```sh
-monosize measure [--debug] [--artifacts-location] [--quiet]
+monosize measure [--debug] [--artifacts-location] [--fixtures] [--quiet]
 ```
 
 Builds fixtures and produces artifacts. For each fixture:
@@ -166,6 +167,12 @@ Produces a report file (`dist/bundle-size/monosize.json`) that is used by other 
 #### Options
 
 - `artifacts-location` - defines relative path from the package root where the artifact files will be stored (`monosize.json` & bundler output). If specified, `--report-files-glob` in `monosize collect-reports` & `monosize upload-reports` should be set accordingly.
+- `fixtures` - optional argument to pass a fixture filename or globbing pattern. If not specified, all fixture files matching a `*.fixture.js` pattern will be measured.
+
+#### Examples
+
+`monosize measure --fixtures ba*` - matches any fixtures with filenames starting with `ba`
+`monosize measure --fixtures Fixture.fixture.js` - matches a fixture with the exact filename
 
 ### `compare-reports`
 

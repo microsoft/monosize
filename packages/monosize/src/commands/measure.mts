@@ -15,10 +15,11 @@ import type { BuildResult } from '../types.mjs';
 export type MeasureOptions = CliOptions & {
   debug: boolean;
   'artifacts-location': string;
+  fixtures?: string;
 };
 
 async function measure(options: MeasureOptions) {
-  const { debug = false, quiet, 'artifacts-location': artifactsLocation } = options;
+  const { debug = false, quiet, 'artifacts-location': artifactsLocation, fixtures: fixturesGlob } = options;
 
   const startTime = process.hrtime();
   const artifactsDir = path.resolve(process.cwd(), artifactsLocation);
@@ -39,10 +40,16 @@ async function measure(options: MeasureOptions) {
     console.log(`${pc.blue('[i]')} artifacts dir is cleared`);
   }
 
-  const fixtures = glob.sync('bundle-size/*.fixture.js', {
+  const fixtureFilesGlob = fixturesGlob ? fixturesGlob : '*.fixture.js'; 
+  const fixtures = glob.sync(`bundle-size/${fixtureFilesGlob}`, {
     absolute: true,
     cwd: process.cwd(),
   });
+
+  if (!fixtures.length && fixturesGlob) {    
+    console.log(`${pc.red('[e]')} No matching fixtures found for globbing pattern '${fixturesGlob}'`);
+    process.exit(1);
+  }
 
   if (!quiet) {
     console.log(`${pc.blue('[i]')} Measuring bundle size for ${fixtures.length} fixture(s)...`);
