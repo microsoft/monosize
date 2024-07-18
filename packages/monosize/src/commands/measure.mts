@@ -15,11 +15,11 @@ import type { BuildResult } from '../types.mjs';
 export type MeasureOptions = CliOptions & {
   debug: boolean;
   'artifacts-location': string;
-  fixtures?: string;
+  fixtures: string;
 };
 
 async function measure(options: MeasureOptions) {
-  const { debug = false, quiet, 'artifacts-location': artifactsLocation, fixtures: fixturesGlob } = options;
+  const { debug = false, quiet, 'artifacts-location': artifactsLocation, fixtures: fixturesGlob = '*.fixture.js' } = options;
 
   const startTime = process.hrtime();
   const artifactsDir = path.resolve(process.cwd(), artifactsLocation);
@@ -40,14 +40,13 @@ async function measure(options: MeasureOptions) {
     console.log(`${pc.blue('[i]')} artifacts dir is cleared`);
   }
 
-  const fixtureFilesGlob = fixturesGlob ? fixturesGlob : '*.fixture.js'; 
-  const fixtures = glob.sync(`bundle-size/${fixtureFilesGlob}`, {
+  const fixtures = glob.sync(`bundle-size/${fixturesGlob}`, {
     absolute: true,
     cwd: process.cwd(),
   });
 
   if (!fixtures.length && fixturesGlob) {    
-    console.log(`${pc.red('[e]')} No matching fixtures found for globbing pattern '${fixturesGlob}'`);
+    console.error(`${pc.red('[e]')} No matching fixtures found for globbing pattern '${fixturesGlob}'`);
     process.exit(1);
   }
 
@@ -112,6 +111,11 @@ const api: CommandModule<Record<string, unknown>, MeasureOptions> = {
         'Relative path to the package root where the artifact files will be stored (monosize.json & bundler output). If specified, "--report-files-glob" in "monosize collect-reports" & "monosize upload-reports" should be set accordingly.',
       default: 'dist/bundle-size',
     },
+    fixtures: {
+      type: 'string',
+      description: 'Filename glob pattern to target whatever fixture files you want to measure.',
+      default: '*.fixture.js'
+    }
   },
 };
 

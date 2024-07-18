@@ -22,6 +22,12 @@ vitest.mock('../utils/readConfig', () => ({
   }),
 }));
 
+vitest.mock('picocolors', () => ({
+  default: ({
+    red: () => ''
+  })
+}));
+
 async function setup(fixtures: { [key: string]: string }) {
   const packageDir = tmp.dirSync({ unsafeCleanup: true });
 
@@ -39,7 +45,7 @@ async function setup(fixtures: { [key: string]: string }) {
     packageDir: packageDir.name,
   };
 }
-const getMockedFixtures = (fixtureNames: string[]) => (
+const getMockedFixtures = (...fixtureNames: string[]) => (
   fixtureNames.reduce((acc, item) => ({
     ...acc,
     [`${item}.fixture.js`]: `
@@ -49,9 +55,8 @@ const getMockedFixtures = (fixtureNames: string[]) => (
   }), {})
 );
 
-function noop(num?: number) {
-  /* does nothing */
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
 
 describe('measure', () => {
   beforeEach(() => {
@@ -59,8 +64,9 @@ describe('measure', () => {
   });
 
   it('builds fixtures and created a report', async () => {
-    const { packageDir } = await setup(getMockedFixtures(['foo', 'bar']));
-    const options: MeasureOptions = { quiet: true, debug: false, 'artifacts-location': 'output' };
+    const { packageDir } = await setup(getMockedFixtures('foo', 'bar'));
+    const options: MeasureOptions = { quiet: true, debug: false, 'artifacts-location': 'output', fixtures: '*.fixture.js' };
+    
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await api.handler(options as any);
 
@@ -95,7 +101,7 @@ describe('measure', () => {
   }); 
 
   it('builds single targeted fixture when full filename passed', async () => {
-    const { packageDir } = await setup(getMockedFixtures(['foo', 'bar', 'baz']));
+    const { packageDir } = await setup(getMockedFixtures('foo', 'bar', 'baz'));
     const options: MeasureOptions = { quiet: true, debug: false, 'artifacts-location': 'output', fixtures: 'foo.fixture.js' };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await api.handler(options as any);
@@ -110,7 +116,7 @@ describe('measure', () => {
   });
 
   it('builds only targeted fixtures with pattern passed', async () => {
-    const { packageDir } = await setup(getMockedFixtures(['foo', 'bar', 'baz']));
+    const { packageDir } = await setup(getMockedFixtures('foo', 'bar', 'baz'));
     const options: MeasureOptions = { quiet: true, debug: false, 'artifacts-location': 'output', fixtures: 'ba*' };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -128,7 +134,7 @@ describe('measure', () => {
   });
 
   it('returns exit code of 1 and displays message when fixtures argument fails to match any fixture filename', async () => {
-    const log = vitest.spyOn(console, 'log').mockImplementation(noop);    
+    const errorLog = vitest.spyOn(console, 'error').mockImplementation(noop);    
     const mockExit = vitest.spyOn(process, 'exit').mockImplementation(noop as any);
 
     await setup({});
@@ -137,7 +143,7 @@ describe('measure', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await api.handler(options as any);
 
-    expect(log.mock.calls[0][0]).toMatch(/No matching fixtures found for globbing pattern/);
+    expect(errorLog.mock.calls[0][0]).toMatchInlineSnapshot(`" No matching fixtures found for globbing pattern 'invalid-filename.js'"`);
     expect(mockExit).toHaveBeenCalledWith(1);
   });
 
