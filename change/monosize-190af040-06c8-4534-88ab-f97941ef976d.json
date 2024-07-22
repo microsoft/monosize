@@ -1,5 +1,5 @@
 {
-  "type": "minor",
+  "type": "patch",
   "comment": "feat: implement --fixtures argument for measure CLI command",
   "packageName": "monosize",
   "email": "ben.keen@gmail.com",

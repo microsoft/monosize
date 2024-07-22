@@ -19,7 +19,7 @@ export type MeasureOptions = CliOptions & {
 };
 
 async function measure(options: MeasureOptions) {
-  const { debug = false, quiet, 'artifacts-location': artifactsLocation, fixtures: fixturesGlob = '*.fixture.js' } = options;
+  const { debug = false, quiet, 'artifacts-location': artifactsLocation, fixtures: fixturesGlob } = options;
 
   const startTime = process.hrtime();
   const artifactsDir = path.resolve(process.cwd(), artifactsLocation);
