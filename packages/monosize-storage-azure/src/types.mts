@@ -5,5 +5,5 @@ export type AzureStorageConfig = {
   /**
    * @default 'AzureNamedKeyCredential'
    */
-  authType: AzureAuthenticationType;
+  authType?: AzureAuthenticationType;
 };
