@@ -53,6 +53,16 @@ vitest.mock('@azure/data-tables', async () => {
   };
 });
 
+vitest.mock('@azure/identity', () => {
+  const AzurePipelinesCredential = vitest.fn().mockImplementation(() => {
+    return {
+      getToken: vitest.fn().mockResolvedValue({ token: 'mock-token' }),
+    };
+  });
+
+  return { AzurePipelinesCredential };
+});
+
 const commitSHA = 'commit-sha';
 const branchName = 'main';
 
@@ -94,6 +104,40 @@ describe('uploadReportToRemote', () => {
 
     getRemoteReport.mockReturnValueOnce(remoteReport);
     const uploadReportToRemote = createUploadReportToRemote(testConfig);
+    await uploadReportToRemote(branchName, commitSHA, localReport);
+
+    expect(submitTransaction).toHaveBeenCalledTimes(1);
+    expect(submitTransaction).toHaveBeenCalledWith([
+      ['delete', { partitionKey: 'main', rowKey: createRowKey(sampleReport[1]) }],
+      [
+        'upsert',
+        { ...sampleReport[0], commitSHA, partitionKey: 'main', rowKey: createRowKey(sampleReport[0]) },
+        'Replace',
+      ],
+    ]);
+  });
+
+  it('uploads a report to the remote using AzurePipelinesCredential authType', async () => {
+    // Remote report contains 2 entries, local report contains 1 entry
+    // => 1 entry should be deleted, 1 entry should be upserted
+
+    Object.assign(process.env, {
+      AZURE_TENANT_ID: 'azure-tenant-id',
+      AZURE_CLIENT_ID: 'azure-client-id',
+      AZURE_SERVICE_CONNECTION_ID: 'azure-service-connection-id',
+      SYSTEM_ACCESSTOKEN: 'system-access-token',
+    });
+
+    const remoteReport = sampleReport.map(entry => ({
+      ...entry,
+
+      partitionKey: 'main',
+      rowKey: createRowKey(entry),
+    }));
+    const localReport = sampleReport.slice(0, 1);
+
+    getRemoteReport.mockReturnValueOnce(remoteReport);
+    const uploadReportToRemote = createUploadReportToRemote({ ...testConfig, authType: 'AzurePipelinesCredential' });
     await uploadReportToRemote(branchName, commitSHA, localReport);
 
     expect(submitTransaction).toHaveBeenCalledTimes(1);
