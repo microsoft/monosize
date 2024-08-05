@@ -1,7 +1,7 @@
-import { AzureNamedKeyCredential, odata, TableClient, TableTransaction } from '@azure/data-tables';
-import { AzurePipelinesCredential } from '@azure/identity';
+import { odata, TableTransaction } from '@azure/data-tables';
 import { BundleSizeReportEntry, BundleSizeReport, StorageAdapter } from 'monosize';
 import pc from 'picocolors';
+import { createTableClient } from './createTableClient.mjs';
 import type { AzureStorageConfig } from './types.mjs';
 
 export const ENTRIES_PER_CHUNK = 90;
@@ -24,7 +24,7 @@ export function createUploadReportToRemote(config: AzureStorageConfig) {
     commitSHA: string,
     localReport: BundleSizeReport,
   ): ReturnType<StorageAdapter['uploadReportToRemote']> {
-    const client = getTableClient(authType);
+    const client = createTableClient(authType);
 
     if (localReport.length === 0) {
       console.log([pc.yellow('[w]'), 'No entries to upload'].join(' '));
@@ -76,52 +76,4 @@ export function createUploadReportToRemote(config: AzureStorageConfig) {
   }
 
   return uploadReportToRemote;
-}
-
-function getTableClient(authType: NonNullable<AzureStorageConfig['authType']>): TableClient {
-  if (typeof process.env['BUNDLESIZE_ACCOUNT_NAME'] !== 'string') {
-    throw new Error('monosize-storage-azure: "BUNDLESIZE_ACCOUNT_NAME" is not defined in your process.env');
-  }
-  const AZURE_STORAGE_ACCOUNT = process.env['BUNDLESIZE_ACCOUNT_NAME'];
-  const AZURE_STORAGE_TABLE_NAME = 'latest';
-
-  if (authType === 'AzurePipelinesCredential') {
-    if (typeof process.env['AZURE_TENANT_ID'] !== 'string') {
-      throw new Error('monosize-storage-azure: "AZURE_TENANT_ID" is not defined in your process.env');
-    }
-    if (typeof process.env['AZURE_CLIENT_ID'] !== 'string') {
-      throw new Error('monosize-storage-azure: "AZURE_CLIENT_ID" is not defined in your process.env');
-    }
-    if (typeof process.env['AZURE_SERVICE_CONNECTION_ID'] !== 'string') {
-      throw new Error('monosize-storage-azure: "AZURE_SERVICE_CONNECTION_ID" is not defined in your process.env');
-    }
-    if (typeof process.env['SYSTEM_ACCESSTOKEN'] !== 'string') {
-      throw new Error('monosize-storage-azure: "SYSTEM_ACCESSTOKEN" is not defined in your process.env');
-    }
-    const tenantId = process.env['AZURE_TENANT_ID'];
-    const clientId = process.env['AZURE_CLIENT_ID'];
-    const serviceConnectionId = process.env['AZURE_SERVICE_CONNECTION_ID'];
-    const systemAccessToken = process.env['SYSTEM_ACCESSTOKEN'];
-
-    return new TableClient(
-      `https://${AZURE_STORAGE_ACCOUNT}.table.core.windows.net`,
-      AZURE_STORAGE_TABLE_NAME,
-      new AzurePipelinesCredential(tenantId, clientId, serviceConnectionId, systemAccessToken),
-    );
-  } else {
-    /**
-     * Defaults to AzureNamedKeyCredential
-     */
-    if (typeof process.env['BUNDLESIZE_ACCOUNT_KEY'] !== 'string') {
-      throw new Error('monosize-storage-azure: "BUNDLESIZE_ACCOUNT_KEY" is not defined in your process.env');
-    }
-
-    const AZURE_ACCOUNT_KEY = process.env['BUNDLESIZE_ACCOUNT_KEY'];
-
-    return new TableClient(
-      `https://${AZURE_STORAGE_ACCOUNT}.table.core.windows.net`,
-      AZURE_STORAGE_TABLE_NAME,
-      new AzureNamedKeyCredential(AZURE_STORAGE_ACCOUNT, AZURE_ACCOUNT_KEY),
-    );
-  }
 }
