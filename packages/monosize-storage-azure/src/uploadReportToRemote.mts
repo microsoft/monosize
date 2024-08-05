@@ -17,14 +17,14 @@ export function splitArrayToChunks<T>(arr: T[], size: number): T[][] {
 }
 
 export function createUploadReportToRemote(config: AzureStorageConfig) {
-  const { authType = 'AzureNamedKeyCredential' } = config;
+  const { authType = 'AzureNamedKeyCredential', tableName = 'latest' } = config;
 
   async function uploadReportToRemote(
     branch: string,
     commitSHA: string,
     localReport: BundleSizeReport,
   ): ReturnType<StorageAdapter['uploadReportToRemote']> {
-    const client = createTableClient(authType);
+    const client = createTableClient({ authType, tableName });
 
     if (localReport.length === 0) {
       console.log([pc.yellow('[w]'), 'No entries to upload'].join(' '));

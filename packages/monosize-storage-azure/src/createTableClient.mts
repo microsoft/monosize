@@ -2,8 +2,10 @@ import { AzureNamedKeyCredential, TableClient } from '@azure/data-tables';
 import { AzurePipelinesCredential } from '@azure/identity';
 import type { AzureStorageConfig } from './types.mjs';
 
-export function createTableClient(authType: NonNullable<AzureStorageConfig['authType']>): TableClient {
-  const AZURE_STORAGE_TABLE_NAME = 'latest';
+export function createTableClient(options: Required<Pick<AzureStorageConfig, 'authType' | 'tableName'>>): TableClient {
+  const { authType, tableName } = options;
+
+  const AZURE_STORAGE_TABLE_NAME = tableName;
 
   if (authType === 'AzureNamedKeyCredential') {
     const requiredEnvVars = ['BUNDLESIZE_ACCOUNT_NAME', 'BUNDLESIZE_ACCOUNT_KEY'];
