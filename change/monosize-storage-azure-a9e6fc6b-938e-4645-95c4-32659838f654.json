@@ -1,6 +1,6 @@
 {
   "type": "patch",
-  "comment": "feat: add support for federated identity authentication with azure pipelines.",
+  "comment": "feat: add support for workload identity authentication with azure pipelines.",
   "packageName": "monosize-storage-azure",
   "email": "tristan.watanabe@gmail.com",
   "dependentChangeType": "patch"
