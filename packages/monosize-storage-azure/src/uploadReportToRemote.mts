@@ -2,7 +2,7 @@ import { AzureNamedKeyCredential, odata, TableClient, TableTransaction } from '@
 import { AzurePipelinesCredential } from '@azure/identity';
 import { BundleSizeReportEntry, BundleSizeReport, StorageAdapter } from 'monosize';
 import pc from 'picocolors';
-import type { AzureAuthenticationType, AzureStorageConfig } from './types.mjs';
+import type { AzureStorageConfig } from './types.mjs';
 
 export const ENTRIES_PER_CHUNK = 90;
 
@@ -32,7 +32,7 @@ export function createUploadReportToRemote(config: AzureStorageConfig) {
     }
 
     const transaction = new TableTransaction();
-    const entitiesIterator = await client.listEntities({
+    const entitiesIterator = client.listEntities({
       queryOptions: {
         filter: odata`PartitionKey eq ${branch}`,
       },
@@ -78,7 +78,7 @@ export function createUploadReportToRemote(config: AzureStorageConfig) {
   return uploadReportToRemote;
 }
 
-function getTableClient(authType: AzureAuthenticationType): TableClient {
+function getTableClient(authType: NonNullable<AzureStorageConfig['authType']>): TableClient {
   if (typeof process.env['BUNDLESIZE_ACCOUNT_NAME'] !== 'string') {
     throw new Error('monosize-storage-azure: "BUNDLESIZE_ACCOUNT_NAME" is not defined in your process.env');
   }
