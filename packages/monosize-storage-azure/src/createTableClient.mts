@@ -6,6 +6,16 @@ export function createTableClient(authType: NonNullable<AzureStorageConfig['auth
   const AZURE_STORAGE_ACCOUNT = getEnvValueOrThrow('BUNDLESIZE_ACCOUNT_NAME');
   const AZURE_STORAGE_TABLE_NAME = 'latest';
 
+  if (authType === 'AzureNamedKeyCredential') {
+    const AZURE_ACCOUNT_KEY = getEnvValueOrThrow('BUNDLESIZE_ACCOUNT_KEY');
+
+    return new TableClient(
+      `https://${AZURE_STORAGE_ACCOUNT}.table.core.windows.net`,
+      AZURE_STORAGE_TABLE_NAME,
+      new AzureNamedKeyCredential(AZURE_STORAGE_ACCOUNT, AZURE_ACCOUNT_KEY),
+    );
+  }
+
   if (authType === 'AzurePipelinesCredential') {
     const tenantId = getEnvValueOrThrow('AZURE_TENANT_ID');
     const clientId = getEnvValueOrThrow('AZURE_CLIENT_ID');
@@ -17,19 +27,9 @@ export function createTableClient(authType: NonNullable<AzureStorageConfig['auth
       AZURE_STORAGE_TABLE_NAME,
       new AzurePipelinesCredential(tenantId, clientId, serviceConnectionId, systemAccessToken),
     );
-  } else {
-    /**
-     * Defaults to AzureNamedKeyCredential
-     */
-
-    const AZURE_ACCOUNT_KEY = getEnvValueOrThrow('BUNDLESIZE_ACCOUNT_KEY');
-
-    return new TableClient(
-      `https://${AZURE_STORAGE_ACCOUNT}.table.core.windows.net`,
-      AZURE_STORAGE_TABLE_NAME,
-      new AzureNamedKeyCredential(AZURE_STORAGE_ACCOUNT, AZURE_ACCOUNT_KEY),
-    );
   }
+
+  throw new Error(`monosize-storage-azure: "authType: ${authType}" is not supported`);
 }
 
 function getEnvValueOrThrow(envParamName: string): string {
