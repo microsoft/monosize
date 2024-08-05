@@ -3,11 +3,17 @@ import { AzurePipelinesCredential } from '@azure/identity';
 import type { AzureStorageConfig } from './types.mjs';
 
 export function createTableClient(authType: NonNullable<AzureStorageConfig['authType']>): TableClient {
-  const AZURE_STORAGE_ACCOUNT = getEnvValueOrThrow('BUNDLESIZE_ACCOUNT_NAME');
   const AZURE_STORAGE_TABLE_NAME = 'latest';
 
   if (authType === 'AzureNamedKeyCredential') {
-    const AZURE_ACCOUNT_KEY = getEnvValueOrThrow('BUNDLESIZE_ACCOUNT_KEY');
+    const requiredEnvVars = ['BUNDLESIZE_ACCOUNT_NAME', 'BUNDLESIZE_ACCOUNT_KEY'];
+    validateRequiredEnvVariables({
+      requiredEnvVars,
+      authType,
+    });
+
+    const AZURE_STORAGE_ACCOUNT = process.env['BUNDLESIZE_ACCOUNT_NAME'] as string;
+    const AZURE_ACCOUNT_KEY = process.env['BUNDLESIZE_ACCOUNT_KEY'] as string;
 
     return new TableClient(
       `https://${AZURE_STORAGE_ACCOUNT}.table.core.windows.net`,
@@ -17,25 +23,43 @@ export function createTableClient(authType: NonNullable<AzureStorageConfig['auth
   }
 
   if (authType === 'AzurePipelinesCredential') {
-    const tenantId = getEnvValueOrThrow('AZURE_TENANT_ID');
-    const clientId = getEnvValueOrThrow('AZURE_CLIENT_ID');
-    const serviceConnectionId = getEnvValueOrThrow('AZURE_SERVICE_CONNECTION_ID');
-    const systemAccessToken = getEnvValueOrThrow('SYSTEM_ACCESSTOKEN');
+    const requiredEnvVars = [
+      'BUNDLESIZE_ACCOUNT_NAME',
+      'AZURE_TENANT_ID',
+      'AZURE_CLIENT_ID',
+      'AZURE_SERVICE_CONNECTION_ID',
+      'SYSTEM_ACCESSTOKEN',
+    ];
+    validateRequiredEnvVariables({
+      requiredEnvVars,
+      authType,
+    });
+
+    const AZURE_STORAGE_ACCOUNT = process.env['BUNDLESIZE_ACCOUNT_NAME'] as string;
+    const TENANT_ID = process.env['AZURE_TENANT_ID'] as string;
+    const CLIENT_ID = process.env['AZURE_CLIENT_ID'] as string;
+    const SERVICE_CONNECTION_ID = process.env['AZURE_SERVICE_CONNECTION_ID'] as string;
+    const SYSTEM_ACCESSTOKEN = process.env['SYSTEM_ACCESSTOKEN'] as string;
 
     return new TableClient(
       `https://${AZURE_STORAGE_ACCOUNT}.table.core.windows.net`,
       AZURE_STORAGE_TABLE_NAME,
-      new AzurePipelinesCredential(tenantId, clientId, serviceConnectionId, systemAccessToken),
+      new AzurePipelinesCredential(TENANT_ID, CLIENT_ID, SERVICE_CONNECTION_ID, SYSTEM_ACCESSTOKEN),
     );
   }
 
   throw new Error(`monosize-storage-azure: "authType: ${authType}" is not supported`);
 }
 
-function getEnvValueOrThrow(envParamName: string): string {
-  if (typeof process.env[envParamName] !== 'string') {
-    throw new Error(`monosize-storage-azure: ${envParamName} is not defined in your process.env`);
-  }
+function validateRequiredEnvVariables(options: { requiredEnvVars: string[]; authType: string }): void {
+  const { requiredEnvVars, authType } = options;
+  const missingEnvVars = requiredEnvVars.filter(envParamName => typeof process.env[envParamName] !== 'string');
 
-  return process.env[envParamName];
+  if (missingEnvVars.length > 0) {
+    throw new Error(
+      `monosize-storage-azure: Missing required environment variable(s) for authType ${authType}: ${missingEnvVars.join(
+        ', ',
+      )} not in your process.env.`,
+    );
+  }
 }
