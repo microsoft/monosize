@@ -1,6 +1,8 @@
-import { AzureNamedKeyCredential, odata, TableClient, TableTransaction } from '@azure/data-tables';
-import { BundleSizeReportEntry, StorageAdapter } from 'monosize';
+import { odata, TableTransaction } from '@azure/data-tables';
+import { BundleSizeReportEntry, BundleSizeReport, StorageAdapter } from 'monosize';
 import pc from 'picocolors';
+import { createTableClient } from './createTableClient.mjs';
+import type { AzureStorageConfig } from './types.mjs';
 
 export const ENTRIES_PER_CHUNK = 90;
 
@@ -14,71 +16,64 @@ export function splitArrayToChunks<T>(arr: T[], size: number): T[][] {
   return [...Array(Math.ceil(arr.length / size))].map((_, i) => arr.slice(i * size, (i + 1) * size));
 }
 
-export const uploadReportToRemote: StorageAdapter['uploadReportToRemote'] = async (branch, commitSHA, localReport) => {
-  if (typeof process.env['BUNDLESIZE_ACCOUNT_KEY'] !== 'string') {
-    throw new Error('monosize-storage-azure: "BUNDLESIZE_ACCOUNT_KEY" is not defined in your process.env');
-  }
+export function createUploadReportToRemote(config: AzureStorageConfig) {
+  const { authType = 'AzureNamedKeyCredential', tableName = 'latest' } = config;
 
-  if (typeof process.env['BUNDLESIZE_ACCOUNT_NAME'] !== 'string') {
-    throw new Error('monosize-storage-azure: "BUNDLESIZE_ACCOUNT_NAME" is not defined in your process.env');
-  }
+  async function uploadReportToRemote(
+    branch: string,
+    commitSHA: string,
+    localReport: BundleSizeReport,
+  ): ReturnType<StorageAdapter['uploadReportToRemote']> {
+    const client = createTableClient({ authType, tableName });
 
-  if (localReport.length === 0) {
-    console.log([pc.yellow('[w]'), 'No entries to upload'].join(' '));
-    return;
-  }
+    if (localReport.length === 0) {
+      console.log([pc.yellow('[w]'), 'No entries to upload'].join(' '));
+      return;
+    }
 
-  const AZURE_STORAGE_ACCOUNT = process.env['BUNDLESIZE_ACCOUNT_NAME'];
-  const AZURE_STORAGE_TABLE_NAME = 'latest';
-  const AZURE_ACCOUNT_KEY = process.env['BUNDLESIZE_ACCOUNT_KEY'];
+    const transaction = new TableTransaction();
+    const entitiesIterator = client.listEntities({
+      queryOptions: {
+        filter: odata`PartitionKey eq ${branch}`,
+      },
+    });
 
-  const credentials = new AzureNamedKeyCredential(AZURE_STORAGE_ACCOUNT, AZURE_ACCOUNT_KEY);
-  const client = new TableClient(
-    `https://${AZURE_STORAGE_ACCOUNT}.table.core.windows.net`,
-    AZURE_STORAGE_TABLE_NAME,
-    credentials,
-  );
+    for await (const entity of entitiesIterator) {
+      // We can't delete and create entries with the same "rowKey" in the same transaction
+      // => we delete only entries not present in existing report
+      const isEntryPresentInExistingReport = Boolean(localReport.find(entry => createRowKey(entry) === entity.rowKey));
+      const shouldEntryBeDeleted = !isEntryPresentInExistingReport;
 
-  const transaction = new TableTransaction();
-  const entitiesIterator = await client.listEntities({
-    queryOptions: {
-      filter: odata`PartitionKey eq ${branch}`,
-    },
-  });
+      if (shouldEntryBeDeleted) {
+        transaction.deleteEntity(entity.partitionKey as string, entity.rowKey as string);
+      }
+    }
 
-  for await (const entity of entitiesIterator) {
-    // We can't delete and create entries with the same "rowKey" in the same transaction
-    // => we delete only entries not present in existing report
-    const isEntryPresentInExistingReport = Boolean(localReport.find(entry => createRowKey(entry) === entity.rowKey));
-    const shouldEntryBeDeleted = !isEntryPresentInExistingReport;
+    localReport.forEach(entry => {
+      transaction.upsertEntity(
+        {
+          partitionKey: branch,
+          rowKey: createRowKey(entry),
 
-    if (shouldEntryBeDeleted) {
-      transaction.deleteEntity(entity.partitionKey as string, entity.rowKey as string);
+          name: entry.name,
+          packageName: entry.packageName,
+          path: entry.path,
+
+          minifiedSize: entry.minifiedSize,
+          gzippedSize: entry.gzippedSize,
+
+          commitSHA,
+        },
+        'Replace',
+      );
+    });
+
+    const chunks = splitArrayToChunks(transaction.actions, ENTRIES_PER_CHUNK);
+
+    for (const chunk of chunks) {
+      await client.submitTransaction(chunk);
     }
   }
 
-  localReport.forEach(entry => {
-    transaction.upsertEntity(
-      {
-        partitionKey: branch,
-        rowKey: createRowKey(entry),
-
-        name: entry.name,
-        packageName: entry.packageName,
-        path: entry.path,
-
-        minifiedSize: entry.minifiedSize,
-        gzippedSize: entry.gzippedSize,
-
-        commitSHA,
-      },
-      'Replace',
-    );
-  });
-
-  const chunks = splitArrayToChunks(transaction.actions, ENTRIES_PER_CHUNK);
-
-  for (const chunk of chunks) {
-    await client.submitTransaction(chunk);
-  }
-};
+  return uploadReportToRemote;
+}

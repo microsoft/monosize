@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "@azure/data-tables": "^13.0.0",
+    "@azure/identity": "^4.4.0",
     "@upstash/redis": "^1.18.0",
     "acorn": "^8.11.3",
     "ci-info": "^3.7.0",

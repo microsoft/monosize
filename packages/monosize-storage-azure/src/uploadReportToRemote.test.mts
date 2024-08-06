@@ -1,13 +1,24 @@
 import { beforeEach, beforeAll, describe, expect, it, vitest, type Mock } from 'vitest';
-import { createRowKey, ENTRIES_PER_CHUNK, splitArrayToChunks, uploadReportToRemote } from './uploadReportToRemote.mjs';
+import {
+  createRowKey,
+  ENTRIES_PER_CHUNK,
+  splitArrayToChunks,
+  createUploadReportToRemote,
+} from './uploadReportToRemote.mjs';
 
 import { sampleReport, bigReport } from './__fixture__/sampleReports.mjs';
 import { BundleSizeReportEntry } from 'monosize';
+import type { AzureStorageConfig } from './types.mjs';
 
 const getRemoteReport = vitest.hoisted(
   () => vitest.fn() as Mock<Array<BundleSizeReportEntry & { partitionKey: string; rowKey: string }>>,
 );
 const submitTransaction = vitest.hoisted(() => vitest.fn());
+
+const testConfig: AzureStorageConfig = {
+  endpoint: 'https://localhost',
+  authType: 'AzureNamedKeyCredential',
+};
 
 vitest.mock('@azure/data-tables', async () => {
   const listEntities = () => {
@@ -82,6 +93,7 @@ describe('uploadReportToRemote', () => {
     const localReport = sampleReport.slice(0, 1);
 
     getRemoteReport.mockReturnValueOnce(remoteReport);
+    const uploadReportToRemote = createUploadReportToRemote(testConfig);
     await uploadReportToRemote(branchName, commitSHA, localReport);
 
     expect(submitTransaction).toHaveBeenCalledTimes(1);
@@ -105,6 +117,7 @@ describe('uploadReportToRemote', () => {
     const localReport = bigReport;
 
     getRemoteReport.mockReturnValueOnce(remoteReport);
+    const uploadReportToRemote = createUploadReportToRemote(testConfig);
     await uploadReportToRemote(branchName, commitSHA, localReport);
 
     expect(submitTransaction).toHaveBeenCalledTimes(Math.ceil(localReport.length / ENTRIES_PER_CHUNK));
@@ -122,6 +135,7 @@ describe('uploadReportToRemote', () => {
   it('performs no actions if local report is empty', async () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const log = vitest.spyOn(console, 'log').mockImplementation(() => {});
+    const uploadReportToRemote = createUploadReportToRemote(testConfig);
     await uploadReportToRemote(branchName, commitSHA, []);
 
     expect(log).toHaveBeenCalledTimes(1);
