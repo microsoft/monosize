@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Mon, 20 May 2024 09:09:44 GMT and should not be manually modified.
+This log was last generated on Tue, 06 Aug 2024 20:40:08 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.6.3
+
+Tue, 06 Aug 2024 20:40:08 GMT
+
+### Patches
+
+- feat: implement --fixtures argument for measure CLI command (ben.keen@gmail.com)
 
 ## 0.6.2
 

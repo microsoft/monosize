@@ -2,6 +2,27 @@
   "name": "monosize-storage-azure",
   "entries": [
     {
+      "date": "Tue, 06 Aug 2024 20:40:08 GMT",
+      "tag": "monosize-storage-azure_v0.0.15",
+      "version": "0.0.15",
+      "comments": {
+        "patch": [
+          {
+            "author": "tristan.watanabe@gmail.com",
+            "package": "monosize-storage-azure",
+            "commit": "e968bcd7b04e2530bcd1d55b9f2e328386d734a5",
+            "comment": "feat: add support for workload identity authentication with azure pipelines."
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-storage-azure",
+            "comment": "Bump monosize to v0.6.3",
+            "commit": "e968bcd7b04e2530bcd1d55b9f2e328386d734a5"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 20 May 2024 09:09:44 GMT",
       "tag": "monosize-storage-azure_v0.0.14",
       "version": "0.0.14",
