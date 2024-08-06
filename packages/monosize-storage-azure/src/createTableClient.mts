@@ -50,7 +50,7 @@ export function createTableClient(options: Required<Pick<AzureStorageConfig, 'au
     );
   }
 
-  throw new Error(`monosize-storage-azure: "authType: ${authType}" is not supported`);
+  throw new Error(`monosize-storage-azure: "authType: ${authType}" is not supported.`);
 }
 
 function validateRequiredEnvVariables(options: { requiredEnvVars: string[]; authType: string }): void {

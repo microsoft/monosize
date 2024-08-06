@@ -1,8 +1,8 @@
-import { describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import { AzureNamedKeyCredential, TableClient } from '@azure/data-tables';
 import { AzurePipelinesCredential } from '@azure/identity';
 import { createTableClient } from './createTableClient.mjs';
-import { beforeEach } from 'node:test';
+import type { AzureAuthenticationType } from './types.mjs';
 
 vitest.mock('@azure/data-tables', () => {
   return {
@@ -71,6 +71,15 @@ describe('createTableClient', () => {
       'https://test-account-name.table.core.windows.net',
       tableName,
       expect.any(AzurePipelinesCredential),
+    );
+  });
+
+  it('should throw an error for unsupported authType', () => {
+    const authType = 'AzureNamedKeyCredentail' as AzureAuthenticationType;
+    const tableName = 'test-table';
+
+    expect(() => createTableClient({ authType, tableName })).toThrow(
+      `monosize-storage-azure: "authType: ${authType}" is not supported.`,
     );
   });
 });
