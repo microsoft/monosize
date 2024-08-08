@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Tue, 06 Aug 2024 20:40:08 GMT",
+      "tag": "monosize_v0.6.3",
+      "version": "0.6.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "ben.keen@gmail.com",
+            "package": "monosize",
+            "commit": "e968bcd7b04e2530bcd1d55b9f2e328386d734a5",
+            "comment": "feat: implement --fixtures argument for measure CLI command"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 20 May 2024 09:09:44 GMT",
       "tag": "monosize_v0.6.2",
       "version": "0.6.2",
