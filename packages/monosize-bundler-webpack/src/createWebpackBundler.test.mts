@@ -124,6 +124,7 @@ describe('buildFixture', () => {
       // Output should contain the original variable names
       expect(debugOutput).toMatchInlineSnapshot(`
       "/******/ (() => {
+          // webpackBootstrap
           const tokens_foo = \\"foo\\";
           console.log((function() {
               return tokens_foo;
