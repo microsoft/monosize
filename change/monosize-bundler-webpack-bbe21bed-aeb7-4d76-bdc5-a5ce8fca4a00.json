@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: bump webpack",
+  "packageName": "monosize-bundler-webpack",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
