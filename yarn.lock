@@ -7493,7 +7493,7 @@ __metadata:
     ts-node: 10.9.1
     tslib: ^2.4.1
     typescript: 5.3.3
-    vite: 5.1.7
+    vite: 5.1.8
     vitest: 0.34.6
     webpack: ^5.94.0
     yargs: ^17.6.2
@@ -9791,9 +9791,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:5.1.7, vite@npm:^3.0.0 || ^4.0.0 || ^5.0.0-0, vite@npm:^3.1.0 || ^4.0.0 || ^5.0.0-0":
-  version: 5.1.7
-  resolution: "vite@npm:5.1.7"
+"vite@npm:5.1.8, vite@npm:^3.0.0 || ^4.0.0 || ^5.0.0-0, vite@npm:^3.1.0 || ^4.0.0 || ^5.0.0-0":
+  version: 5.1.8
+  resolution: "vite@npm:5.1.8"
   dependencies:
     esbuild: ^0.19.3
     fsevents: ~2.3.3
@@ -9827,7 +9827,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: d4b363b5f0aed5b34a859108120eac84cf6762527372de814ac037afca9e33dbadd4eb64be8517954093e06f8958e237d1ebf962751963cfc408220edf0cf917
+  checksum: e5c5c0ad918d2e102200fec08e5e3936ba0c2be62475d5690b3a6940022ff6e5c90e739f38d17b4d3a7e30e8bd8f910f4238ab6ea7936b770595f2238d36b9b5
   languageName: node
   linkType: hard
 
