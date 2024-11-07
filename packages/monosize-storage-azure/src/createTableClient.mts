@@ -1,5 +1,5 @@
 import { AzureNamedKeyCredential, TableClient } from '@azure/data-tables';
-import { AzurePipelinesCredential } from '@azure/identity';
+import { AzurePipelinesCredential, DefaultAzureCredential } from '@azure/identity';
 import type { AzureStorageConfig } from './types.mjs';
 
 export function createTableClient(options: Required<Pick<AzureStorageConfig, 'authType' | 'tableName'>>): TableClient {
@@ -47,6 +47,29 @@ export function createTableClient(options: Required<Pick<AzureStorageConfig, 'au
       `https://${AZURE_STORAGE_ACCOUNT}.table.core.windows.net`,
       AZURE_STORAGE_TABLE_NAME,
       new AzurePipelinesCredential(TENANT_ID, CLIENT_ID, SERVICE_CONNECTION_ID, SYSTEM_ACCESSTOKEN),
+    );
+  }
+
+  if (authType === 'DefaultAzureCredential') {
+    // DefaultAzureCredential will obtain these from environment variables, thus why we need to assert on them while they are not used directly in code
+    const requiredEnvVars = [
+      'BUNDLESIZE_ACCOUNT_NAME',
+      'AZURE_TENANT_ID',
+      'AZURE_CLIENT_ID',
+      'AZURE_SERVICE_CONNECTION_ID',
+    ];
+    validateRequiredEnvVariables({
+      requiredEnvVars,
+      authType,
+    });
+
+    const AZURE_STORAGE_ACCOUNT = process.env['BUNDLESIZE_ACCOUNT_NAME'] as string;
+    const TENANT_ID = process.env['AZURE_TENANT_ID'] as string;
+
+    return new TableClient(
+      `https://${AZURE_STORAGE_ACCOUNT}.table.core.windows.net`,
+      AZURE_STORAGE_TABLE_NAME,
+      new DefaultAzureCredential({ tenantId: TENANT_ID }),
     );
   }
 
