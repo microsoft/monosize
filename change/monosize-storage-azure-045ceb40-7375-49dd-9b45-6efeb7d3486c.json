@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "feat(monosize-storage-azure): add support for DefaultAzureCredential",
-  "packageName": "monosize-storage-azure",
-  "email": "hochelmartin@gmail.com",
-  "dependentChangeType": "patch"
-}

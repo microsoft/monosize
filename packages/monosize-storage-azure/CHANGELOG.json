@@ -2,6 +2,21 @@
   "name": "monosize-storage-azure",
   "entries": [
     {
+      "date": "Thu, 07 Nov 2024 14:43:21 GMT",
+      "tag": "monosize-storage-azure_v0.0.16",
+      "version": "0.0.16",
+      "comments": {
+        "patch": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize-storage-azure",
+            "commit": "3e278dff488fd25b33b4612d645dc1a199c7d62d",
+            "comment": "feat(monosize-storage-azure): add support for DefaultAzureCredential"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 06 Aug 2024 20:40:08 GMT",
       "tag": "monosize-storage-azure_v0.0.15",
       "version": "0.0.15",

@@ -1,8 +1,16 @@
 # Change Log - monosize-storage-azure
 
-This log was last generated on Tue, 06 Aug 2024 20:40:08 GMT and should not be manually modified.
+This log was last generated on Thu, 07 Nov 2024 14:43:21 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.0.16
+
+Thu, 07 Nov 2024 14:43:21 GMT
+
+### Patches
+
+- feat(monosize-storage-azure): add support for DefaultAzureCredential (hochelmartin@gmail.com)
 
 ## 0.0.15
 
