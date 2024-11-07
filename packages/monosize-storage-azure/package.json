@@ -4,8 +4,8 @@
   "license": "MIT",
   "types": "./src/index.d.mts",
   "dependencies": {
-    "@azure/data-tables": "^13.0.0",
-    "@azure/identity": "^4.4.0",
+    "@azure/data-tables": "^13.2.2",
+    "@azure/identity": "^4.5.0",
     "monosize": "^0.6.3",
     "node-fetch": "^3.3.0",
     "picocolors": "^1.0.0",
