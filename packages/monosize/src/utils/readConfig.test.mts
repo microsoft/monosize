@@ -1,21 +1,26 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { workspaceRoot } from 'nx/src/devkit-exports';
 import tmp from 'tmp';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { readConfig, resetConfigCache } from './readConfig.mjs';
 
-async function setup(configContent: string): Promise<string> {
-  const packageDir = tmp.dirSync({ prefix: 'test-package', unsafeCleanup: true });
-  const config = tmp.fileSync({ dir: packageDir.name, name: 'monosize.config.js' });
+async function setup(configContent: string) {
+  // Heads up!
+  // GH actions has a weird naming of the temp directory that breaks path resolution:
+  // "C:\Users\RUNNER~1\AppData" gets transformed to "file:///C:/Users/RUNNER%7E1/AppData"
+  const tmpDir = path.join(workspaceRoot, 'node_modules', '.tmp');
+  await fs.promises.mkdir(tmpDir, { recursive: true });
+
+  const packageDir = tmp.dirSync({ prefix: 'test-package', unsafeCleanup: true, tmpdir: tmpDir });
+  const config = tmp.fileSync({ dir: packageDir.name, name: 'monosize.config.js', tmpdir: tmpDir });
 
   const spy = vitest.spyOn(process, 'cwd');
   spy.mockReturnValue(packageDir.name);
 
   await fs.promises.writeFile(config.name, configContent);
-
-  return path.relative(packageDir.name, config.name);
 }
 
 describe('readConfig', () => {
