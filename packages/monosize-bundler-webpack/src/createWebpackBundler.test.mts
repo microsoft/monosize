@@ -56,7 +56,7 @@ describe('buildFixture', () => {
 
     expect(buildResult.outputPath).toMatch(/monosize[\\|/]test\.output\.js/);
     expect(await fs.promises.readFile(buildResult.outputPath, 'utf-8')).toMatchInlineSnapshot(
-      '"console.log(\\"Hello\\");"',
+      `"console.log("Hello");"`,
     );
   });
 
@@ -93,7 +93,7 @@ describe('buildFixture', () => {
       expect(buildResult.outputPath).toMatch(/monosize[\\|/]test\.output\.js/);
       expect(buildResult.debugOutputPath).toBeUndefined();
 
-      expect(output).toMatchInlineSnapshot('"(()=>{const o=\\"foo\\";console.log((function(){return o}))})();"');
+      expect(output).toMatchInlineSnapshot(`"(()=>{const o="foo";console.log((function(){return o}))})();"`);
     });
 
     it('provides partially minified output when enabled', async () => {
@@ -119,19 +119,19 @@ describe('buildFixture', () => {
       const output = await fs.promises.readFile(buildResult.outputPath, 'utf-8');
       const debugOutput = await fs.promises.readFile(buildResult.debugOutputPath!, 'utf-8');
 
-      expect(output).toMatchInlineSnapshot('"(()=>{const o=\\"foo\\";console.log((function(){return o}))})();"');
+      expect(output).toMatchInlineSnapshot(`"(()=>{const o="foo";console.log((function(){return o}))})();"`);
 
       // Output should contain the original variable names
       expect(debugOutput).toMatchInlineSnapshot(`
-      "/******/ (() => {
-          // webpackBootstrap
-          const tokens_foo = \\"foo\\";
-          console.log((function() {
-              return tokens_foo;
-          }));
-      })
-      /******/ ();"
-    `);
+        "/******/ (() => {
+            // webpackBootstrap
+            const tokens_foo = "foo";
+            console.log((function() {
+                return tokens_foo;
+            }));
+        })
+        /******/ ();"
+      `);
     });
   });
 });
