@@ -28,7 +28,7 @@ async function setup(fixtureContent: string): Promise<string> {
   return fs.realpath(fixture.name);
 }
 
-const viteBundler = createEsbuildBundler();
+const esbuildBundler = createEsbuildBundler();
 
 describe('buildFixture', () => {
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe('buildFixture', () => {
 
     console.log(hello)
     `);
-    const buildResult = await viteBundler.buildFixture({
+    const buildResult = await esbuildBundler.buildFixture({
       debug: false,
       fixturePath,
       quiet: true,
@@ -50,7 +50,7 @@ describe('buildFixture', () => {
 
     expect(buildResult.outputPath).toMatch(/monosize[\\|/]test\.output\.js/);
     expect(await fs.readFile(buildResult.outputPath, 'utf-8')).toMatchInlineSnapshot(`
-      "(()=>{var o=\\"Hello world\\";console.log(o);})();
+      "(()=>{var o="Hello world";console.log(o);})();
       "
     `);
   });
@@ -59,11 +59,11 @@ describe('buildFixture', () => {
     const fixturePath = await setup(`import something from 'unknown-pkg'`);
 
     await expect(
-      viteBundler.buildFixture({
+      esbuildBundler.buildFixture({
         debug: false,
         fixturePath,
         quiet: true,
       }),
-    ).rejects.toContain(/failed to resolve import "unknown-pkg" from/);
+    ).rejects.toThrow(/Could not resolve "unknown-pkg"/);
   });
 });

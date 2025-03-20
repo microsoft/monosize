@@ -36,11 +36,11 @@ describe('runTerser', () => {
     await runTerser(options);
 
     expect(await fs.promises.readFile(options.outputPath, 'utf-8')).toMatchInlineSnapshot(
-      '"const hello=\\"Hello\\",world=\\"world\\";console.log(hello);"',
+      `"const hello="Hello",world="world";console.log(hello);"`,
     );
     expect(await fs.promises.readFile(options.debugOutputPath, 'utf-8')).toMatchInlineSnapshot(
       `
-      "const hello = \\"Hello\\", world = \\"world\\";
+      "const hello = "Hello", world = "world";
 
       console.log(hello);"
     `,
