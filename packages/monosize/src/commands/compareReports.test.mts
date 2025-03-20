@@ -9,14 +9,14 @@ const cliReporter = vitest.hoisted(() => vitest.fn());
 const collectLocalReport = vitest.hoisted(() => vitest.fn());
 const compareResultsInReports = vitest.hoisted(() => vitest.fn());
 
-vitest.mock('../utils/readConfig', () => ({
+vitest.mock('../utils/readConfig.mts', () => ({
   readConfig: vitest.fn().mockResolvedValue({
     storage: { getRemoteReport },
   }),
 }));
-vitest.mock('../reporters/cliReporter', () => ({ cliReporter }));
-vitest.mock('../utils/collectLocalReport', () => ({ collectLocalReport }));
-vitest.mock('../utils/compareResultsInReports', () => ({ emptyDiff: {}, compareResultsInReports }));
+vitest.mock('../reporters/cliReporter.mts', () => ({ cliReporter }));
+vitest.mock('../utils/collectLocalReport.mts', () => ({ collectLocalReport }));
+vitest.mock('../utils/compareResultsInReports.mts', () => ({ emptyDiff: {}, compareResultsInReports }));
 
 describe('compareReports', () => {
   it('fetches remote report and compares it with a local data', async () => {
