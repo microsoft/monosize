@@ -143,4 +143,17 @@ describe('uploadReportToRemote', () => {
 
     expect(submitTransaction).not.toHaveBeenCalled();
   });
+
+  it('throws an error if branch contains invalid characters', async () => {
+    const uploadReportToRemote = createUploadReportToRemote(testConfig);
+
+    // Test with invalid branch names
+    const invalidBranches = ['feature/new-1', 'feature\\new-2', 'refs/heads/feature/new-3'];
+
+    for (const invalidBranch of invalidBranches) {
+      await expect(uploadReportToRemote(invalidBranch, commitSHA, sampleReport)).rejects.toThrow(
+        `monosize-storage-azure: invalid branch name "${invalidBranch}". Branch names cannot contain forward (/) or backward (\\) slashes.`,
+      );
+    }
+  });
 });
