@@ -16,7 +16,7 @@ const buildFixture = vitest.hoisted(() =>
   }),
 );
 
-vitest.mock('../utils/readConfig', () => ({
+vitest.mock('../utils/readConfig.mts', () => ({
   readConfig: vitest.fn().mockResolvedValue({
     bundler: { buildFixture },
   }),
@@ -66,7 +66,7 @@ describe('measure', () => {
   it('builds fixtures and created a report', async () => {
     const { packageDir } = await setup(getMockedFixtures('foo', 'bar'));
     const options: MeasureOptions = { quiet: true, debug: false, 'artifacts-location': 'output', fixtures: '*.fixture.js' };
-    
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await api.handler(options as any);
 
@@ -98,7 +98,7 @@ describe('measure', () => {
         gzippedSize: expect.any(Number),
       },
     ]);
-  }); 
+  });
 
   it('builds single targeted fixture when full filename passed', async () => {
     const { packageDir } = await setup(getMockedFixtures('foo', 'bar', 'baz'));
@@ -134,7 +134,7 @@ describe('measure', () => {
   });
 
   it('returns exit code of 1 and displays message when fixtures argument fails to match any fixture filename', async () => {
-    const errorLog = vitest.spyOn(console, 'error').mockImplementation(noop);    
+    const errorLog = vitest.spyOn(console, 'error').mockImplementation(noop);
     const mockExit = vitest.spyOn(process, 'exit').mockImplementation(noop as any);
 
     await setup({});
