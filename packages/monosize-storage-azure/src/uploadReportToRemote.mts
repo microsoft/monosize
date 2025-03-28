@@ -24,6 +24,13 @@ export function createUploadReportToRemote(config: AzureStorageConfig) {
     commitSHA: string,
     localReport: BundleSizeReport,
   ): ReturnType<StorageAdapter['uploadReportToRemote']> {
+    // Validate the branch name
+    if (/[\\/]/.test(branch)) {
+      throw new Error(
+        `monosize-storage-azure: invalid branch name "${branch}". Branch names cannot contain forward (/) or backward (\\) slashes.`,
+      );
+    }
+
     const client = createTableClient({ authType, tableName });
 
     if (localReport.length === 0) {
