@@ -9,9 +9,6 @@ export default defineConfig({
 
   test: {
     reporters: ['default'],
-    cache: {
-      dir: '../../node_modules/.vitest',
-    },
     include: ['src/**/*.test.mts'],
   },
 });

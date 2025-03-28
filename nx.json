@@ -13,12 +13,12 @@
     }
   },
   "extends": "@nx/workspace/presets/core.json",
-  "affected": {
-    "defaultBase": "main"
-  },
   "pluginsConfig": {
     "@nx/js": {
       "analyzeSourceFiles": false
     }
-  }
+  },
+  "useInferencePlugins": false,
+  "defaultBase": "main",
+  "useLegacyCache": true
 }

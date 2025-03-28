@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: bump Nx to 18.3.5",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}
