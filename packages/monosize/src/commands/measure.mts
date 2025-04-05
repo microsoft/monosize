@@ -59,7 +59,7 @@ async function measure(options: MeasureOptions) {
   if (!quiet) {
     log.info(`Measuring bundle size for ${fixtures.length} fixture(s)...`);
     log.raw(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
-    log.info(`Using ${config.bundler.name}${bundlerSupportsParallel ? ' (parallel mode) ' : ''} as a bundler...`);
+    log.info(`Using ${config.bundler.name}${bundlerSupportsParallel ? ' (parallel mode)' : ''} as a bundler...`);
   }
 
   if (bundlerSupportsParallel) {
