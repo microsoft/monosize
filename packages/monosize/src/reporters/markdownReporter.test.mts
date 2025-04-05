@@ -15,12 +15,12 @@ describe('markdownReporter', () => {
     deltaFormat: 'delta' as const,
   };
 
-  it('wont render anything if there is nothing to compare', () => {
+  it('wont render anything if there is nothing to compare', async () => {
     const log = vitest.spyOn(console, 'log').mockImplementation(noop);
 
     markdownReporter([], options);
+    const output = await prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
 
-    const output = prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
     expect(output).toMatchInlineSnapshot(`
       "## 📊 Bundle size report
 
@@ -29,20 +29,20 @@ describe('markdownReporter', () => {
     `);
   });
 
-  it('renders a report to a file', () => {
+  it('renders a report to a file', async () => {
     const log = vitest.spyOn(console, 'log').mockImplementation(noop);
 
     markdownReporter(sampleComparedReport, options);
-    const output = prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
+    const output = await prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
 
     expect(output).toMatchSnapshot();
   });
 
-  it('renders a report to a file with specified "deltaFormat"', () => {
+  it('renders a report to a file with specified "deltaFormat"', async () => {
     const log = vitest.spyOn(console, 'log').mockImplementation(noop);
 
     markdownReporter(sampleComparedReport, { ...options, deltaFormat: 'percent' });
-    const output = prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
+    const output = await prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
 
     expect(output).toMatchSnapshot();
   });
