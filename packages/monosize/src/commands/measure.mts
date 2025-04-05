@@ -1,16 +1,17 @@
 import Table from 'cli-table3';
-import glob from 'glob';
+import { glob } from 'glob';
 import { gzipSizeFromFile } from 'gzip-size';
 import fs from 'node:fs';
 import path from 'node:path';
 import pc from 'picocolors';
 import type { CommandModule } from 'yargs';
 
-import { formatBytes, hrToSeconds } from '../utils/helpers.mjs';
+import { formatBytes } from '../utils/helpers.mjs';
 import { prepareFixture } from '../utils/prepareFixture.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { CliOptions } from '../index.mjs';
 import type { BuildResult } from '../types.mjs';
+import { log, timestamp } from '../output.mjs';
 
 export type MeasureOptions = CliOptions & {
   debug: boolean;
@@ -21,7 +22,7 @@ export type MeasureOptions = CliOptions & {
 async function measure(options: MeasureOptions) {
   const { debug = false, quiet, 'artifacts-location': artifactsLocation, fixtures: fixturesGlob } = options;
 
-  const startTime = process.hrtime();
+  const startTime = timestamp();
   const artifactsDir = path.resolve(process.cwd(), artifactsLocation);
 
   // thrown error if cwd is set as artifactsLocation is set to '.' since next step is to rm everything
@@ -34,48 +35,85 @@ async function measure(options: MeasureOptions) {
 
   if (!quiet) {
     if (debug) {
-      console.log(`${pc.blue('[i]')} running in debug mode...`);
+      log.info('Running in debug mode...');
     }
 
-    console.log(`${pc.blue('[i]')} artifacts dir is cleared`);
+    log.info('Artifacts dir is cleared');
   }
 
-  const fixtures = glob.sync(`bundle-size/${fixturesGlob}`, {
+  const fixtures = await glob(`bundle-size/${fixturesGlob}`, {
     absolute: true,
     cwd: process.cwd(),
   });
 
-  if (!fixtures.length && fixturesGlob) {    
-    console.error(`${pc.red('[e]')} No matching fixtures found for globbing pattern '${fixturesGlob}'`);
+  if (!fixtures.length && fixturesGlob) {
+    log.error(`No matching fixtures found for globbing pattern '${fixturesGlob}'`);
     process.exit(1);
-  }
-
-  if (!quiet) {
-    console.log(`${pc.blue('[i]')} Measuring bundle size for ${fixtures.length} fixture(s)...`);
-    console.log(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
   }
 
   const config = await readConfig(quiet);
   const measurements: BuildResult[] = [];
 
-  for (const fixturePath of fixtures) {
-    const { artifactPath, name } = await prepareFixture(artifactsDir, fixturePath);
-    const { outputPath } = await config.bundler.buildFixture({
+  const bundlerSupportsParallel = !!config.bundler.buildFixtures;
+
+  if (!quiet) {
+    log.info(`Measuring bundle size for ${fixtures.length} fixture(s)...`);
+    log.raw(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
+    log.info(`Using ${config.bundler.name}${bundlerSupportsParallel ? ' (parallel mode)' : ''} as a bundler...`);
+  }
+
+  if (bundlerSupportsParallel) {
+    const preparedFixtures = await Promise.all(fixtures.map(fixturePath => prepareFixture(artifactsDir, fixturePath)));
+
+    const buildStartTime = timestamp();
+    const buildResults = await config.bundler.buildFixtures!({
       debug,
-      fixturePath: artifactPath,
+      fixturePaths: preparedFixtures.map(f => f.artifactPath),
+      rootDir: process.cwd(),
       quiet,
     });
 
-    const minifiedSize = (await fs.promises.stat(outputPath)).size;
-    const gzippedSize = await gzipSizeFromFile(outputPath);
+    for (const result of buildResults) {
+      const minifiedSize = (await fs.promises.stat(result.outputPath)).size;
+      const gzippedSize = await gzipSizeFromFile(result.outputPath);
 
-    measurements.push({
-      name,
-      path: path.relative(process.cwd(), fixturePath).replaceAll(path.sep, '/'),
-      minifiedSize,
-      gzippedSize,
-    });
+      measurements.push({
+        name: preparedFixtures.find(f => f.artifactPath === result.fixturePath)!.name,
+        path: path.relative(process.cwd(), result.fixturePath).replaceAll(path.sep, '/'),
+        minifiedSize,
+        gzippedSize,
+      });
+    }
+
+    log.info(`Fixtures built`, buildStartTime);
+  } else {
+    for (const fixturePath of fixtures) {
+      const { artifactPath, name } = await prepareFixture(artifactsDir, fixturePath);
+
+      const buildStartTime = timestamp();
+      const { outputPath } = await config.bundler.buildFixture({
+        debug,
+        fixturePath: artifactPath,
+        quiet,
+      });
+
+      const minifiedSize = (await fs.promises.stat(outputPath)).size;
+      const gzippedSize = await gzipSizeFromFile(outputPath);
+
+      measurements.push({
+        name,
+        path: path.relative(process.cwd(), fixturePath).replaceAll(path.sep, '/'),
+        minifiedSize,
+        gzippedSize,
+      });
+
+      if (!quiet) {
+        log.info(`Fixture "${path.basename(fixturePath)}" built`, buildStartTime);
+      }
+    }
   }
+
+  measurements.sort((a, b) => a.path.localeCompare(b.path, 'en'));
 
   await fs.promises.writeFile(path.resolve(artifactsDir, 'monosize.json'), JSON.stringify(measurements));
 
@@ -89,8 +127,8 @@ async function measure(options: MeasureOptions) {
       table.push([r.name, formatBytes(r.minifiedSize), formatBytes(r.gzippedSize)]);
     });
 
-    console.log(table.toString());
-    console.log(`Completed in ${hrToSeconds(process.hrtime(startTime))}`);
+    log.raw(table.toString());
+    log.finish(`Completed`, startTime);
   }
 }
 
@@ -114,8 +152,8 @@ const api: CommandModule<Record<string, unknown>, MeasureOptions> = {
     fixtures: {
       type: 'string',
       description: 'Filename glob pattern to target whatever fixture files you want to measure.',
-      default: '*.fixture.js'
-    }
+      default: '*.fixture.js',
+    },
   },
 };
 

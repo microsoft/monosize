@@ -1,4 +1,3 @@
-import type { Response } from 'node-fetch';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { createGetRemoteReport } from './getRemoteReport.mjs';
@@ -6,7 +5,7 @@ import type { AzureStorageConfig } from './types.mjs';
 import { sampleReport } from './__fixture__/sampleReports.mjs';
 
 const fetch = vitest.hoisted(() => vitest.fn());
-vitest.mock('node-fetch', () => ({ default: fetch }));
+global.fetch = fetch;
 
 const testConfig: AzureStorageConfig = {
   endpoint: 'https://localhost',

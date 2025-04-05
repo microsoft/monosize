@@ -5,8 +5,12 @@ export function formatBytes(value: number): string {
   return prettyBytes(value, { maximumFractionDigits: 3 });
 }
 
-export function hrToSeconds(hrtime: ReturnType<typeof process.hrtime>): string {
-  const raw = hrtime[0] + hrtime[1] / 1e9;
+export function formatHrTime(hrtime: ReturnType<typeof process.hrtime>): string {
+  const number = hrtime[0] * 1e9 + hrtime[1];
 
-  return raw.toFixed(2) + 's';
+  if (number >= 1e9) {
+    return (number / 1e9).toFixed(2) + 's';
+  }
+
+  return (number / 1e6).toFixed(0) + 'ms';
 }
