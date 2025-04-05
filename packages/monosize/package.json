@@ -12,11 +12,11 @@
     "monosize": "./bin/monosize.mjs"
   },
   "dependencies": {
-    "acorn": "^8.11.3",
-    "ci-info": "^3.7.0",
-    "cli-table3": "^0.6.3",
-    "find-up": "^6.3.0",
-    "glob": "^8.0.3",
+    "acorn": "^8.14.1",
+    "ci-info": "^4.2.0",
+    "cli-table3": "^0.6.5",
+    "find-up": "^7.0.0",
+    "glob": "^11.0.1",
     "gzip-size": "^7.0.0",
     "picocolors": "^1.0.0",
     "pretty-bytes": "^6.0.0",
