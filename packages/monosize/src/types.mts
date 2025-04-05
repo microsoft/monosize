@@ -26,6 +26,7 @@ export type BundlerAdapter = {
     outputPath: string;
     debugOutputPath?: string;
   }>;
+  name: string;
 };
 
 /**

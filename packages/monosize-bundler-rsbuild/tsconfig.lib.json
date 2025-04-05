@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "declaration": true,
+    "types": ["environment", "node"]
+  },
+  "include": ["**/*.mts"],
+  "exclude": ["**/*.test.mts", "vite.config.mts", "**/__fixture__/", "**/__mocks__/"]
+}
