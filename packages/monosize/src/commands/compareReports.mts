@@ -6,8 +6,9 @@ import { markdownReporter } from '../reporters/markdownReporter.mjs';
 import { collectLocalReport } from '../utils/collectLocalReport.mjs';
 import { compareResultsInReports } from '../utils/compareResultsInReports.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
-import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
+import type { DiffByMetric } from '../utils/calculateDiff.mjs';
 import { logger, timestamp } from '../logger.mjs';
+import { parseThreshold } from '../utils/helpers.mjs';
 
 export type CompareReportsOptions = CliOptions & {
   branch: string;
@@ -16,11 +17,14 @@ export type CompareReportsOptions = CliOptions & {
   deltaFormat: keyof DiffByMetric;
 };
 
+export const DEFAULT_THRESHOLD = '10%';
+
 async function compareReports(options: CompareReportsOptions) {
   const { branch, output, quiet, deltaFormat } = options;
   const startTime = timestamp();
 
   const config = await readConfig(quiet);
+  const threshold = parseThreshold(config.threshold ?? DEFAULT_THRESHOLD);
 
   const localReportStartTime = timestamp();
   const localReport = await collectLocalReport({
@@ -43,7 +47,7 @@ async function compareReports(options: CompareReportsOptions) {
     }
   }
 
-  const reportsComparisonResult = compareResultsInReports(localReport, remoteReport);
+  const reportsComparisonResult = compareResultsInReports(localReport, remoteReport, threshold);
 
   switch (output) {
     case 'cli':
@@ -63,9 +67,18 @@ async function compareReports(options: CompareReportsOptions) {
       });
       break;
   }
+  const hasExceededThreshold = reportsComparisonResult.some(entry => entry.diff.exceedsThreshold);
 
   if (!quiet) {
+    if (hasExceededThreshold) {
+      logger.error(`Some entries exceeded the threshold`);
+    }
+
     logger.finish(`Completed`, startTime);
+  }
+
+  if (hasExceededThreshold) {
+    process.exit(1);
   }
 }
 

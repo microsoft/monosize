@@ -3,7 +3,7 @@ import pc from 'picocolors';
 
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
 import { formatBytes } from '../utils/helpers.mjs';
-import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
+import type { DiffByMetric } from '../utils/calculateDiff.mjs';
 import { logger } from '../logger.mjs';
 import { formatDeltaFactory, type Reporter } from './shared.mjs';
 
@@ -45,7 +45,11 @@ export const cliReporter: Reporter = (report, options) => {
 
   changedEntries.forEach(entry => {
     const { diff, gzippedSize, minifiedSize, name, packageName } = entry;
-    const fixtureColumn = pc.bold(packageName) + '\n' + name + (diff.empty ? pc.cyan(' (new)') : '');
+
+    const primaryLine = pc.bold(packageName);
+    const secondaryLine = name + (diff.empty ? pc.cyan(' (new)') : '');
+    const tertiaryLine = diff.exceedsThreshold ? pc.red(`(${pc.bold('!')} over threshold)`) : undefined;
+    const fixtureColumn = primaryLine + '\n' + secondaryLine + (tertiaryLine ? '\n' + tertiaryLine : '');
 
     const minifiedBefore = diff.empty ? 'N/A' : formatBytes(minifiedSize - diff.minified.delta);
     const gzippedBefore = diff.empty ? 'N/A' : formatBytes(gzippedSize - diff.gzip.delta);

@@ -39,3 +39,22 @@ exports[`markdownReporter > renders a report to a file with specified "deltaForm
 <sub>🤖 This report was generated against <a href='https://github.com/microsoft/monosize/commit/commit-hash'>commit-hash</a></sub>
 "
 `;
+
+exports[`markdownReporter > renders a report with exceeded threshold 1`] = `
+"## 📊 Bundle size report
+
+| Package & Exports                                                                                               | Baseline (minified/GZIP) |                  PR |                                                                                                                                                                                                 Change |
+| :-------------------------------------------------------------------------------------------------------------- | -----------------------: | ------------------: | -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <samp>baz-package</samp> <br /> <abbr title='baz.fixture.js'>An entry with diff</abbr> <br /> ⚠️ over threshold |         \`0 B\`<br />\`0 B\` | \`1 kB\`<br />\`100 B\` | \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /><br />\`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> |
+
+<details>
+<summary>Unchanged fixtures</summary>
+
+| Package & Exports                                                                         | Size (minified/GZIP) |
+| ----------------------------------------------------------------------------------------- | -------------------: |
+| <samp>bar-package</samp> <br /> <abbr title='bar.fixture.js'>An entry without diff</abbr> |  \`1 kB\`<br />\`100 B\` |
+
+</details>
+<sub>🤖 This report was generated against <a href='https://github.com/microsoft/monosize/commit/commit-hash'>commit-hash</a></sub>
+"
+`;

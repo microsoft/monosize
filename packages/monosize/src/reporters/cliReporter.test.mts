@@ -2,7 +2,7 @@ import stripAnsi from 'strip-ansi';
 import { describe, it, expect, vitest } from 'vitest';
 
 import { cliReporter } from './cliReporter.mjs';
-import { sampleComparedReport } from '../__fixture__/sampleComparedReport.mjs';
+import { sampleComparedReport, reportWithExceededThreshold } from '../__fixture__/sampleComparedReport.mjs';
 import { logger } from '../logger.mjs';
 
 function noop() {
@@ -70,6 +70,22 @@ describe('cliReporter', () => {
       ├────────────────────┼────────┼───────────────────────┤
       │ foo-package        │    N/A │             1 B↑ 1 kB │
       │ New entry (new)    │    N/A │            1 B↑ 100 B │
+      └────────────────────┴────────┴───────────────────────┘
+    `);
+  });
+
+  it('renders a report with exceeded threshold', () => {
+    const logSpy = vitest.spyOn(logger, 'raw').mockImplementation(noop);
+
+    cliReporter(reportWithExceededThreshold, { ...options, deltaFormat: 'delta' });
+
+    expect(logSpy.mock.calls[0][0]).toMatchInlineSnapshot(`
+      ┌────────────────────┬────────┬───────────────────────┐
+      │ Fixture            │ Before │ After (minified/GZIP) │
+      ├────────────────────┼────────┼───────────────────────┤
+      │ baz-package        │    0 B │            1 kB↑ 1 kB │
+      │ An entry with diff │    0 B │          100 B↑ 100 B │
+      │ (! over threshold) │        │                       │
       └────────────────────┴────────┴───────────────────────┘
     `);
   });
