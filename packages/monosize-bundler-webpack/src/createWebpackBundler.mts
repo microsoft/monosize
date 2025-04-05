@@ -39,6 +39,6 @@ export function createWebpackBundler(configEnhancerCallback = DEFAULT_CONFIG_ENH
         }),
       };
     },
-    name: 'webpack',
+    name: 'Webpack',
   };
 }

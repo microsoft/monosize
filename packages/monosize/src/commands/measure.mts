@@ -54,39 +54,62 @@ async function measure(options: MeasureOptions) {
   const config = await readConfig(quiet);
   const measurements: BuildResult[] = [];
 
+  const bundlerSupportsParallel = !!config.bundler.buildFixtures;
+
   if (!quiet) {
-    log.info(`${pc.blue('[i]')} Measuring bundle size for ${fixtures.length} fixture(s)...`);
+    log.info(`Measuring bundle size for ${fixtures.length} fixture(s)...`);
     log.raw(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
-    log.info(`Using ${config.bundler.name} as a bundler...`);
+    log.info(`Using ${config.bundler.name}${bundlerSupportsParallel ? ' (parallel mode) ' : ''} as a bundler...`);
   }
 
-  for (const fixturePath of fixtures) {
-    const prepareStartTime = timestamp();
-    const { artifactPath, name } = await prepareFixture(artifactsDir, fixturePath);
-
-    if (!quiet) {
-      log.info(`Fixture "${name}" prepared`, prepareStartTime);
-    }
+  if (bundlerSupportsParallel) {
+    const preparedFixtures = await Promise.all(fixtures.map(fixturePath => prepareFixture(artifactsDir, fixturePath)));
 
     const buildStartTime = timestamp();
-    const { outputPath } = await config.bundler.buildFixture({
+    const buildResults = await config.bundler.buildFixtures!({
       debug,
-      fixturePath: artifactPath,
+      fixturePaths: preparedFixtures.map(f => f.artifactPath),
+      rootDir: process.cwd(),
       quiet,
     });
 
-    const minifiedSize = (await fs.promises.stat(outputPath)).size;
-    const gzippedSize = await gzipSizeFromFile(outputPath);
+    for (const result of buildResults) {
+      const minifiedSize = (await fs.promises.stat(result.outputPath)).size;
+      const gzippedSize = await gzipSizeFromFile(result.outputPath);
 
-    measurements.push({
-      name,
-      path: path.relative(process.cwd(), fixturePath).replaceAll(path.sep, '/'),
-      minifiedSize,
-      gzippedSize,
-    });
+      measurements.push({
+        name: preparedFixtures.find(f => f.artifactPath === result.fixturePath)!.name,
+        path: path.relative(process.cwd(), result.fixturePath).replaceAll(path.sep, '/'),
+        minifiedSize,
+        gzippedSize,
+      });
+    }
 
-    if (!quiet) {
-      log.info(`Fixture "${name}" built`, buildStartTime);
+    log.info(`Fixtures built`, buildStartTime);
+  } else {
+    for (const fixturePath of fixtures) {
+      const { artifactPath, name } = await prepareFixture(artifactsDir, fixturePath);
+
+      const buildStartTime = timestamp();
+      const { outputPath } = await config.bundler.buildFixture({
+        debug,
+        fixturePath: artifactPath,
+        quiet,
+      });
+
+      const minifiedSize = (await fs.promises.stat(outputPath)).size;
+      const gzippedSize = await gzipSizeFromFile(outputPath);
+
+      measurements.push({
+        name,
+        path: path.relative(process.cwd(), fixturePath).replaceAll(path.sep, '/'),
+        minifiedSize,
+        gzippedSize,
+      });
+
+      if (!quiet) {
+        log.info(`Fixture "${path.basename(fixturePath)}" built`, buildStartTime);
+      }
     }
   }
 
