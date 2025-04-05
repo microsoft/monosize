@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: unify logging",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}

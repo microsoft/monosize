@@ -3,6 +3,7 @@ import path from 'node:path';
 import tmp from 'tmp';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import api, { type MeasureOptions } from './measure.mjs';
+import { logger } from '../logger.mjs';
 
 const buildFixture = vitest.hoisted(() =>
   vitest.fn().mockImplementation(async ({ fixturePath }) => {
@@ -141,7 +142,8 @@ describe('measure', () => {
   });
 
   it('returns exit code of 1 and displays message when fixtures argument fails to match any fixture filename', async () => {
-    const errorLog = vitest.spyOn(console, 'error').mockImplementation(noop);
+    const errorLog = vitest.spyOn(logger, 'error').mockImplementation(noop);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mockExit = vitest.spyOn(process, 'exit').mockImplementation(noop as any);
 
     await setup({});
@@ -155,7 +157,7 @@ describe('measure', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await api.handler(options as any);
 
-    expect(errorLog.mock.calls[0][0]).toMatch(/No matching fixtures found for globbing pattern 'invalid-filename.js'/)
+    expect(errorLog.mock.calls[0][0]).toMatch(/No matching fixtures found for globbing pattern 'invalid-filename.js'/);
     expect(mockExit).toHaveBeenCalledWith(1);
   });
 });

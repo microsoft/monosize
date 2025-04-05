@@ -4,6 +4,7 @@ import pc from 'picocolors';
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
 import { formatBytes } from '../utils/helpers.mjs';
 import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
+import { logger } from '../logger.mjs';
 import { formatDeltaFactory, type Reporter } from './shared.mjs';
 
 function getDirectionSymbol(value: number): string {
@@ -38,7 +39,7 @@ export const cliReporter: Reporter = (report, options) => {
   });
 
   if (changedEntries.length === 0) {
-    console.log(`${pc.green('[✔]')} No changes found`);
+    logger.success('No changes found');
     return;
   }
 
@@ -65,7 +66,7 @@ export const cliReporter: Reporter = (report, options) => {
     reportOutput.push([fixtureColumn, beforeColumn, afterColumn]);
   });
 
-  console.log(reportOutput.toString());
-  console.log('');
-  console.log(footer);
+  logger.raw(reportOutput.toString());
+  logger.raw('');
+  logger.raw(footer);
 };

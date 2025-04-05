@@ -1,8 +1,9 @@
 import prettier from 'prettier';
 import { describe, expect, it, vitest } from 'vitest';
 
-import { markdownReporter } from './markdownReporter.mjs';
 import { sampleComparedReport } from '../__fixture__/sampleComparedReport.mjs';
+import { logger } from '../logger.mjs';
+import { markdownReporter } from './markdownReporter.mjs';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -16,10 +17,10 @@ describe('markdownReporter', () => {
   };
 
   it('wont render anything if there is nothing to compare', async () => {
-    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+    const log = vitest.spyOn(logger, 'raw').mockImplementation(noop);
 
     markdownReporter([], options);
-    const output = await prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
+    const output = await prettier.format(log.mock.calls[0][0] as string, { parser: 'markdown' });
 
     expect(output).toMatchInlineSnapshot(`
       "## 📊 Bundle size report
@@ -30,19 +31,19 @@ describe('markdownReporter', () => {
   });
 
   it('renders a report to a file', async () => {
-    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+    const rawLog = vitest.spyOn(logger, 'raw').mockImplementation(noop);
 
     markdownReporter(sampleComparedReport, options);
-    const output = await prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
+    const output = await prettier.format(rawLog.mock.calls[0][0] as string, { parser: 'markdown' });
 
     expect(output).toMatchSnapshot();
   });
 
   it('renders a report to a file with specified "deltaFormat"', async () => {
-    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+    const log = vitest.spyOn(logger, 'raw').mockImplementation(noop);
 
     markdownReporter(sampleComparedReport, { ...options, deltaFormat: 'percent' });
-    const output = await prettier.format(log.mock.calls[0][0], { parser: 'markdown' });
+    const output = await prettier.format(log.mock.calls[0][0] as string, { parser: 'markdown' });
 
     expect(output).toMatchSnapshot();
   });
