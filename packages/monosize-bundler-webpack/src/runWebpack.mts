@@ -1,10 +1,8 @@
-import pc from 'picocolors';
 import path from 'node:path';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 import type { Configuration as WebpackConfiguration } from 'webpack';
 
-import { hrToSeconds } from './helpers.mjs';
 import { WebpackBundlerOptions } from './types.mjs';
 
 function createWebpackConfig(fixturePath: string, outputPath: string, debug: boolean): WebpackConfiguration {
@@ -72,24 +70,13 @@ type RunWebpackOptions = {
 };
 
 export async function runWebpack(options: RunWebpackOptions): Promise<null> {
-  const { enhanceConfig, fixturePath, outputPath, debug, quiet } = options;
-  const webpackStartTime = process.hrtime();
-
+  const { enhanceConfig, fixturePath, outputPath, debug } = options;
   const webpackConfig = enhanceConfig(createWebpackConfig(fixturePath, outputPath, debug));
 
   return new Promise((resolve, reject) => {
     const compiler = webpack(webpackConfig);
 
     compiler.run((err, result) => {
-      if (!quiet) {
-        console.log(
-          [
-            pc.blue('[i]'),
-            `"${path.basename(fixturePath)}": Webpack in ${hrToSeconds(process.hrtime(webpackStartTime))}`,
-          ].join(' '),
-        );
-      }
-
       if (err) {
         reject(err);
       }

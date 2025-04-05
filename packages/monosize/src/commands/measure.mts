@@ -34,13 +34,13 @@ async function measure(options: MeasureOptions) {
 
   if (!quiet) {
     if (debug) {
-      console.log(`${pc.blue('[i]')} running in debug mode...`);
+      console.log(`${pc.blue('[i]')} Running in debug mode...`);
     }
 
-    console.log(`${pc.blue('[i]')} artifacts dir is cleared`);
+    console.log(`${pc.blue('[i]')} Artifacts dir is cleared`);
   }
 
-  const fixtures = glob.sync(`bundle-size/${fixturesGlob}`, {
+  const fixtures = await glob(`bundle-size/${fixturesGlob}`, {
     absolute: true,
     cwd: process.cwd(),
   });
@@ -50,15 +50,18 @@ async function measure(options: MeasureOptions) {
     process.exit(1);
   }
 
-  if (!quiet) {
-    console.log(`${pc.blue('[i]')} Measuring bundle size for ${fixtures.length} fixture(s)...`);
-    console.log(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
-  }
-
   const config = await readConfig(quiet);
   const measurements: BuildResult[] = [];
 
+  if (!quiet) {
+    console.log(`${pc.blue('[i]')} Measuring bundle size for ${fixtures.length} fixture(s)...`);
+    console.log(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
+    console.log(`Using ${config.bundler.name} as a bundler...`);
+  }
+
   for (const fixturePath of fixtures) {
+    const fixtureStartTime = process.hrtime();
+
     const { artifactPath, name } = await prepareFixture(artifactsDir, fixturePath);
     const { outputPath } = await config.bundler.buildFixture({
       debug,
@@ -75,6 +78,12 @@ async function measure(options: MeasureOptions) {
       minifiedSize,
       gzippedSize,
     });
+
+    if (!quiet) {
+      console.log(
+        `${pc.blue('[i]')} Fixture "${path.basename(fixturePath)}" built in ${hrToSeconds(process.hrtime(fixtureStartTime))}`,
+      );
+    }
   }
 
   measurements.sort((a, b) => a.path.localeCompare(b.path, 'en'));
