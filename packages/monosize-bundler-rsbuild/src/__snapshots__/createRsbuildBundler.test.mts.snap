@@ -1,0 +1,85 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`buildFixture > builds fixtures 1`] = `
+"(() => {
+  var r = {},
+    o = {};
+  function e(t) {
+    var n = o[t];
+    if (void 0 !== n) return n.exports;
+    var s = (o[t] = { exports: {} });
+    return r[t](s, s.exports, e), s.exports;
+  }
+  (e.rv = () => "0.0.0"),
+    (e.ruid = "bundler=rspack@0.0.0"),
+    console.log("Hello");
+})();
+"
+`;
+
+exports[`buildFixture > debug mode > does not output additional files when disabled 1`] = `
+"(() => {
+  var r = {},
+    o = {};
+  function e(t) {
+    var n = o[t];
+    if (void 0 !== n) return n.exports;
+    var u = (o[t] = { exports: {} });
+    return r[t](u, u.exports, e), u.exports;
+  }
+  (e.rv = () => "0.0.0"), (e.ruid = "bundler=rspack@0.0.0");
+  let t = { foo: "foo" };
+  console.log(function () {
+    return t.foo;
+  });
+})();
+"
+`;
+
+exports[`buildFixture > debug mode > provides partially minified output when enabled 1`] = `
+"(() => {
+  var r = {},
+    o = {};
+  function e(t) {
+    var n = o[t];
+    if (void 0 !== n) return n.exports;
+    var u = (o[t] = { exports: {} });
+    return r[t](u, u.exports, e), u.exports;
+  }
+  (e.rv = () => "0.0.0"), (e.ruid = "bundler=rspack@0.0.0");
+  let t = { foo: "foo" };
+  console.log(function () {
+    return t.foo;
+  });
+})();
+"
+`;
+
+exports[`buildFixture > debug mode > provides partially minified output when enabled 2`] = `
+"(() => {
+  var __webpack_modules__ = {};
+  var __webpack_module_cache__ = {};
+  function __webpack_require__(moduleId) {
+    var cachedModule = __webpack_module_cache__[moduleId];
+    if (cachedModule !== undefined) {
+      return cachedModule.exports;
+    }
+    var module = (__webpack_module_cache__[moduleId] = { exports: {} });
+    __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+    return module.exports;
+  }
+  (() => {
+    __webpack_require__.rv = () => "0.0.0";
+  })();
+  (() => {
+    __webpack_require__.ruid = "bundler=rspack@0.0.0";
+  })();
+  const tokens = { foo: "foo", bar: "bar" };
+  function foo() {
+    return tokens.foo;
+  }
+  const bar = 1;
+  console.log(foo);
+})();
+"
+`;
