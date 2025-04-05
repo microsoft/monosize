@@ -4,6 +4,104 @@ import type { BundlerAdapter, BundlerAdapterFactoryConfig } from 'monosize';
 
 const DEFAULT_CONFIG_ENHANCER: BundlerAdapterFactoryConfig<RsbuildConfig> = config => config;
 
+function createEntironmentConfig(params: {
+  rootDir: string;
+  fixturePath: string;
+  fixtureName: string;
+  outputDir: string;
+  outputName: string;
+  debugOutputName: string;
+  debug?: boolean;
+}): Record<string, EnvironmentConfig> {
+  const { rootDir, fixturePath, fixtureName, outputDir, outputName, debugOutputName, debug } = params;
+
+  const environmentConfig: EnvironmentConfig = {
+    source: {
+      entry: {
+        index: path.resolve(rootDir, fixturePath),
+      },
+    },
+
+    output: {
+      externals: {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+      },
+      target: 'web',
+
+      emitAssets: false,
+
+      filename: {
+        js: outputName,
+      },
+      distPath: {
+        root: outputDir,
+        js: './',
+      },
+
+      // minify: true,
+    },
+
+    performance: {
+      chunkSplit: {
+        strategy: 'all-in-one',
+      },
+    },
+  };
+
+  const envName = fixtureName.replace(/\.fixture\.js$/, '');
+  const debugEnvName = `${envName}:debug`;
+
+  const fixtureConfigs = {
+    [envName]: environmentConfig,
+
+    ...(debug && {
+      [debugEnvName]: {
+        ...environmentConfig,
+
+        output: {
+          ...environmentConfig.output,
+          filename: {
+            js: debugOutputName,
+          },
+          minify: false,
+        },
+      },
+    }),
+  };
+
+  return fixtureConfigs;
+}
+
+async function runRsbuild(params: {
+  rootDir: string;
+  environments: Record<string, EnvironmentConfig>;
+  configEnhancerCallback: BundlerAdapterFactoryConfig<RsbuildConfig>;
+}): Promise<void> {
+  const { rootDir, environments, configEnhancerCallback } = params;
+
+  const rsbuild = await createRsbuild({
+    loadEnv: false,
+
+    rsbuildConfig: configEnhancerCallback({
+      root: rootDir,
+      mode: 'production',
+
+      dev: {
+        progressBar: false,
+      },
+
+      environments,
+    }),
+  });
+
+  const buildResult = await rsbuild.build({
+    watch: false,
+  });
+
+  await buildResult.close();
+}
+
 export function createRsbuildBundler(configEnhancerCallback = DEFAULT_CONFIG_ENHANCER): BundlerAdapter {
   return {
     buildFixture: async function (options) {
@@ -22,75 +120,20 @@ export function createRsbuildBundler(configEnhancerCallback = DEFAULT_CONFIG_ENH
       const outputPath = path.join(outputDir, outputName);
       const debugOutputPath = path.join(outputDir, debugOutputName);
 
-      const rsbuildConfig: EnvironmentConfig = {
-        source: {
-          entry: {
-            index: path.resolve(rootDir, fixturePath),
-          },
-        },
+      await runRsbuild({
+        rootDir,
+        environments: createEntironmentConfig({
+          rootDir,
+          fixturePath,
+          fixtureName,
+          outputDir,
+          outputName,
+          debugOutputName,
 
-        output: {
-          externals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
-          },
-          target: 'web',
-
-          emitAssets: false,
-
-          filename: {
-            js: outputName,
-          },
-          distPath: {
-            root: outputDir,
-            js: './',
-          },
-
-          minify: true,
-        },
-
-        performance: {
-          chunkSplit: {
-            strategy: 'all-in-one',
-          },
-        },
-      };
-
-      const rsbuild = await createRsbuild({
-        cwd: rootDir,
-        environment: [debug && 'debug', 'default'].filter(Boolean) as string[],
-        loadEnv: false,
-
-        rsbuildConfig: configEnhancerCallback({
-          root: rootDir,
-          mode: 'production',
-
-          dev: {
-            progressBar: false,
-          },
-
-          environments: {
-            default: rsbuildConfig,
-            debug: {
-              ...rsbuildConfig,
-
-              output: {
-                ...rsbuildConfig.output,
-                filename: {
-                  js: debugOutputName,
-                },
-                minify: false,
-              },
-            },
-          },
+          debug,
         }),
+        configEnhancerCallback,
       });
-
-      const buildResult = await rsbuild.build({
-        watch: false,
-      });
-
-      await buildResult.close();
 
       return {
         outputPath,
@@ -129,87 +172,29 @@ export function createRsbuildBundler(configEnhancerCallback = DEFAULT_CONFIG_ENH
         };
       });
 
-      const environmentConfigs = assets.reduce<Record<string, EnvironmentConfig>>((acc, asset) => {
+      const environments = assets.reduce<Record<string, EnvironmentConfig>>((acc, asset) => {
         const { outputDir, fixtureName, fixturePath, outputName, debugOutputName } = asset;
-
-        const environmentConfig: EnvironmentConfig = {
-          source: {
-            entry: {
-              index: path.resolve(rootDir, fixturePath),
-            },
-          },
-
-          output: {
-            externals: {
-              react: 'React',
-              'react-dom': 'ReactDOM',
-            },
-            target: 'web',
-
-            emitAssets: false,
-
-            filename: {
-              js: outputName,
-            },
-            distPath: {
-              root: outputDir,
-              js: './',
-            },
-
-            minify: true,
-          },
-
-          performance: {
-            chunkSplit: {
-              strategy: 'all-in-one',
-            },
-          },
-        };
-
-        const envName = fixtureName.replace(/\.fixture\.js$/, '');
-        const debugEnvName = `${envName}.debug`;
-
-        const fixtureConfigs = {
-          [envName]: environmentConfig,
-
-          ...(debug && {
-            [debugEnvName]: {
-              ...environmentConfig,
-
-              output: {
-                ...environmentConfig.output,
-                filename: {
-                  js: debugOutputName,
-                },
-                minify: false,
-              },
-            },
-          }),
-        };
 
         return {
           ...acc,
-          ...fixtureConfigs,
+          ...createEntironmentConfig({
+            rootDir,
+            fixturePath,
+            fixtureName,
+            outputDir,
+            outputName,
+            debugOutputName,
+
+            debug,
+          }),
         };
       }, {});
 
-      const rsbuild = await createRsbuild({
-        loadEnv: false,
-        rsbuildConfig: configEnhancerCallback({
-          root: rootDir,
-          mode: 'production',
-
-          dev: {
-            progressBar: false,
-          },
-          environments: environmentConfigs,
-        }),
+      await runRsbuild({
+        rootDir,
+        environments,
+        configEnhancerCallback,
       });
-      const buildResult = await rsbuild.build({
-        watch: false,
-      });
-
-      await buildResult.close();
 
       return assets.map(asset => ({
         fixturePath: asset.fixturePath,
