@@ -1,4 +1,4 @@
-import { ComparedReport, ComparedReportEntry } from './compareResultsInReports.mjs';
+import type { ComparedReport, ComparedReportEntry } from './compareResultsInReports.mjs';
 
 function compareReports(a: ComparedReportEntry, b: ComparedReportEntry) {
   return a.packageName.localeCompare(b.packageName) || a.path.localeCompare(b.path);

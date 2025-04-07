@@ -1,6 +1,5 @@
 import { findUp } from 'find-up';
 import { pathToFileURL } from 'node:url';
-import pc from 'picocolors';
 
 import { log } from '../output.mjs';
 import type { MonoSizeConfig } from '../types.mjs';

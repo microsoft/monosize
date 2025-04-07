@@ -6,6 +6,14 @@ import { findUp } from 'find-up';
 
 import type { BuildResult, BundleSizeReport, MonoSizeConfig } from '../types.mjs';
 
+type CollectLocalReportOptions = {
+  root: string | undefined;
+  reportFilesGlob: string;
+};
+type ReportResolvers = Required<NonNullable<MonoSizeConfig['reportResolvers']>>;
+
+interface Options extends Partial<CollectLocalReportOptions>, Pick<MonoSizeConfig, 'reportResolvers'> {}
+
 async function getPackageRoot(reportFilePath: string): Promise<string> {
   const rootConfig = await findUp(['package.json', 'project.json'], { cwd: path.dirname(reportFilePath) });
 
@@ -48,6 +56,7 @@ async function getPackageName(packageRoot: string): Promise<string> {
 
   try {
     const packageName = await getPackageNameFromConfigFile();
+
     return packageName;
   } catch (err) {
     throw new Error(
@@ -58,7 +67,7 @@ async function getPackageName(packageRoot: string): Promise<string> {
 
 async function readReportForPackage(
   reportFile: string,
-  resolvers: typeof defaultResolvers,
+  resolvers: ReportResolvers,
 ): Promise<{ packageName: string; packageReport: BuildResult[] }> {
   const packageRoot = await resolvers.packageRoot(reportFile);
   const packageName = await resolvers.packageName(packageRoot);
@@ -72,15 +81,16 @@ async function readReportForPackage(
   }
 }
 
-type CollectLocalReportOptions = {
-  root: string | undefined;
-  reportFilesGlob: string;
+function findGitRoot(cwd: string) {
+  const output = execSync('git rev-parse --show-toplevel', { cwd });
+
+  return output.toString().trim();
+}
+
+const DEFAULT_RESOLVERS: ReportResolvers = {
+  packageName: getPackageName,
+  packageRoot: getPackageRoot,
 };
-
-type Resolvers = Pick<MonoSizeConfig, 'reportResolvers'>;
-const defaultResolvers = { packageName: getPackageName, packageRoot: getPackageRoot };
-
-interface Options extends Partial<CollectLocalReportOptions>, Resolvers {}
 
 /**
  * Collects all reports for packages to a single one.
@@ -92,7 +102,7 @@ export async function collectLocalReport(options: Options): Promise<BundleSizeRe
     root = findGitRoot(process.cwd()),
   } = options;
 
-  const resolvers = { ...defaultResolvers, ...reportResolvers };
+  const resolvers = { ...DEFAULT_RESOLVERS, ...reportResolvers };
 
   const reportFiles = await glob(reportFilesGlob, { absolute: true, cwd: root });
   const reports = await Promise.all(reportFiles.map(reportFile => readReportForPackage(reportFile, resolvers)));
@@ -104,10 +114,4 @@ export async function collectLocalReport(options: Options): Promise<BundleSizeRe
       return [...acc, ...processedReport];
     }, [])
     .sort(a => a.path.localeCompare(a.path, 'en'));
-}
-
-function findGitRoot(cwd: string) {
-  const output = execSync('git rev-parse --show-toplevel', { cwd });
-
-  return output.toString().trim();
 }

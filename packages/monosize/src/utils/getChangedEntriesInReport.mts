@@ -1,5 +1,5 @@
+import type { ComparedReport } from './compareResultsInReports.mjs';
 import { sortComparedReport } from './sortComparedReport.mjs';
-import { ComparedReport } from './compareResultsInReports.mjs';
 
 type EntriesInReport = {
   changedEntries: ComparedReport;
