@@ -14,8 +14,9 @@ describe('compareResultsInReports', () => {
       { packageName: 'abc', name: 'abc-a', path: 'abc-b.js', minifiedSize: 12, gzippedSize: 7 },
       { packageName: 'xyz', name: 'xyz', path: 'xyz.js', minifiedSize: 10, gzippedSize: 5 },
     ];
+    const threshold = { size: 5, type: 'size' } as const;
 
-    const actual = compareResultsInReports(localReport, remoteReport);
+    const actual = compareResultsInReports(localReport, remoteReport, threshold);
     const packageAbcReport = {
       fileAbcA: actual[0],
       fileAbcB: actual[1],
@@ -26,6 +27,7 @@ describe('compareResultsInReports', () => {
       {
         "diff": {
           "empty": false,
+          "exceedsThreshold": false,
           "gzip": {
             "delta": -2,
             "percent": "-28.6%",
@@ -46,6 +48,7 @@ describe('compareResultsInReports', () => {
       {
         "diff": {
           "empty": true,
+          "exceedsThreshold": false,
           "gzip": {
             "delta": 1,
             "percent": "100%",
@@ -66,6 +69,7 @@ describe('compareResultsInReports', () => {
       {
         "diff": {
           "empty": false,
+          "exceedsThreshold": false,
           "gzip": {
             "delta": 0,
             "percent": "0%",

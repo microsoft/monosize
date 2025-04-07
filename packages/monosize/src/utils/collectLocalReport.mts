@@ -1,10 +1,18 @@
-import glob from 'glob';
+import { glob } from 'glob';
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { findUp } from 'find-up';
 
 import type { BuildResult, BundleSizeReport, MonoSizeConfig } from '../types.mjs';
+
+type CollectLocalReportOptions = {
+  root: string | undefined;
+  reportFilesGlob: string;
+};
+type ReportResolvers = Required<NonNullable<MonoSizeConfig['reportResolvers']>>;
+
+interface Options extends Partial<CollectLocalReportOptions>, Pick<MonoSizeConfig, 'reportResolvers'> {}
 
 async function getPackageRoot(reportFilePath: string): Promise<string> {
   const rootConfig = await findUp(['package.json', 'project.json'], { cwd: path.dirname(reportFilePath) });
@@ -30,10 +38,10 @@ async function getPackageName(packageRoot: string): Promise<string> {
   let getPackageNameFromConfigFile;
 
   if (fs.existsSync(paths.packageJson)) {
-    getPackageNameFromConfigFile = async () => JSON.parse(await fs.promises.readFile(paths.packageJson, 'utf8')).name;
+    getPackageNameFromConfigFile = async () => JSON.parse(fs.readFileSync(paths.packageJson, 'utf8')).name;
   }
   if (fs.existsSync(paths.projectJson)) {
-    getPackageNameFromConfigFile = async () => JSON.parse(await fs.promises.readFile(paths.projectJson, 'utf8')).name;
+    getPackageNameFromConfigFile = async () => JSON.parse(fs.readFileSync(paths.projectJson, 'utf8')).name;
   }
 
   if (!getPackageNameFromConfigFile) {
@@ -48,6 +56,7 @@ async function getPackageName(packageRoot: string): Promise<string> {
 
   try {
     const packageName = await getPackageNameFromConfigFile();
+
     return packageName;
   } catch (err) {
     throw new Error(
@@ -56,19 +65,15 @@ async function getPackageName(packageRoot: string): Promise<string> {
   }
 }
 
-/**
- *
- * @param reportFile - absolute path to the report file
- */
 async function readReportForPackage(
   reportFile: string,
-  resolvers: typeof defaultResolvers,
+  resolvers: ReportResolvers,
 ): Promise<{ packageName: string; packageReport: BuildResult[] }> {
   const packageRoot = await resolvers.packageRoot(reportFile);
   const packageName = await resolvers.packageName(packageRoot);
 
   try {
-    const packageReport: BuildResult[] = JSON.parse(await fs.promises.readFile(reportFile, 'utf8'));
+    const packageReport: BuildResult[] = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
 
     return { packageName, packageReport };
   } catch (e) {
@@ -76,15 +81,16 @@ async function readReportForPackage(
   }
 }
 
-type CollectLocalReportOptions = {
-  root: string | undefined;
-  reportFilesGlob: string;
+function findGitRoot(cwd: string) {
+  const output = execSync('git rev-parse --show-toplevel', { cwd });
+
+  return output.toString().trim();
+}
+
+const DEFAULT_RESOLVERS: ReportResolvers = {
+  packageName: getPackageName,
+  packageRoot: getPackageRoot,
 };
-
-type Resolvers = Pick<MonoSizeConfig, 'reportResolvers'>;
-const defaultResolvers = { packageName: getPackageName, packageRoot: getPackageRoot };
-
-interface Options extends Partial<CollectLocalReportOptions>, Resolvers {}
 
 /**
  * Collects all reports for packages to a single one.
@@ -96,20 +102,16 @@ export async function collectLocalReport(options: Options): Promise<BundleSizeRe
     root = findGitRoot(process.cwd()),
   } = options;
 
-  const resolvers = { ...defaultResolvers, ...reportResolvers };
+  const resolvers = { ...DEFAULT_RESOLVERS, ...reportResolvers };
 
-  const reportFiles = glob.sync(reportFilesGlob, { absolute: true, cwd: root });
+  const reportFiles = await glob(reportFilesGlob, { absolute: true, cwd: root });
   const reports = await Promise.all(reportFiles.map(reportFile => readReportForPackage(reportFile, resolvers)));
 
-  return reports.reduce<BundleSizeReport>((acc, { packageName, packageReport }) => {
-    const processedReport = packageReport.map(reportEntry => ({ packageName, ...reportEntry }));
+  return reports
+    .reduce<BundleSizeReport>((acc, { packageName, packageReport }) => {
+      const processedReport = packageReport.map(reportEntry => ({ packageName, ...reportEntry }));
 
-    return [...acc, ...processedReport];
-  }, []);
-}
-
-function findGitRoot(cwd: string) {
-  const output = execSync('git rev-parse --show-toplevel', { cwd });
-
-  return output.toString().trim();
+      return [...acc, ...processedReport];
+    }, [])
+    .sort(a => a.path.localeCompare(a.path, 'en'));
 }

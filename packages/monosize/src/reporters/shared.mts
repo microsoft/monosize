@@ -1,4 +1,4 @@
-import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
+import type { DiffByMetric } from '../utils/calculateDiff.mjs';
 import type { ComparedReport } from '../utils/compareResultsInReports.mjs';
 import { formatBytes } from '../utils/helpers.mjs';
 

@@ -12,7 +12,7 @@ export type PreparedFixture = {
  * Prepares a fixture file to be compiled with a bundler, grabs data from a default export and removes it.
  */
 export async function prepareFixture(artifactDir: string, sourcePath: string): Promise<PreparedFixture> {
-  const sourceFixtureCode = await fs.promises.readFile(sourcePath, 'utf8');
+  const sourceFixtureCode = fs.readFileSync(sourcePath, 'utf8');
 
   // A transform that:
   // - reads metadata (name, threshold, etc.)

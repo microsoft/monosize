@@ -2,7 +2,8 @@ import stripAnsi from 'strip-ansi';
 import { describe, it, expect, vitest } from 'vitest';
 
 import { cliReporter } from './cliReporter.mjs';
-import { sampleComparedReport } from '../__fixture__/sampleComparedReport.mjs';
+import { sampleComparedReport, reportWithExceededThreshold } from '../__fixture__/sampleComparedReport.mjs';
+import { log } from '../output.mjs';
 
 function noop() {
   /* does nothing */
@@ -30,19 +31,19 @@ describe('cliReporter', () => {
   };
 
   it('wont render anything if there is nothing to compare', () => {
-    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+    const logSpy = vitest.spyOn(log, 'success').mockImplementation(noop);
 
     cliReporter([], options);
 
-    expect(log.mock.calls[0][0]).toMatchInlineSnapshot('[✔] No changes found');
+    expect(logSpy.mock.calls[0][0]).toMatchInlineSnapshot('No changes found');
   });
 
   it('renders a report to CLI output', () => {
-    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+    const logSpy = vitest.spyOn(console, 'log').mockImplementation(noop);
 
     cliReporter(sampleComparedReport, options);
 
-    expect(log.mock.calls[0][0]).toMatchInlineSnapshot(`
+    expect(logSpy.mock.calls[0][0]).toMatchInlineSnapshot(`
       ┌────────────────────┬────────┬───────────────────────┐
       │ Fixture            │ Before │ After (minified/GZIP) │
       ├────────────────────┼────────┼───────────────────────┤
@@ -56,11 +57,11 @@ describe('cliReporter', () => {
   });
 
   it('renders a report to CLI output with specified "deltaFormat"', () => {
-    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+    const logSpy = vitest.spyOn(log, 'raw').mockImplementation(noop);
 
     cliReporter(sampleComparedReport, { ...options, deltaFormat: 'delta' });
 
-    expect(log.mock.calls[0][0]).toMatchInlineSnapshot(`
+    expect(logSpy.mock.calls[0][0]).toMatchInlineSnapshot(`
       ┌────────────────────┬────────┬───────────────────────┐
       │ Fixture            │ Before │ After (minified/GZIP) │
       ├────────────────────┼────────┼───────────────────────┤
@@ -70,6 +71,22 @@ describe('cliReporter', () => {
       │ foo-package        │    N/A │             1 B↑ 1 kB │
       │ New entry (new)    │    N/A │            1 B↑ 100 B │
       └────────────────────┴────────┴───────────────────────┘
+    `);
+  });
+
+  it('renders a report with exceeded threshold', () => {
+    const logSpy = vitest.spyOn(log, 'raw').mockImplementation(noop);
+
+    cliReporter(reportWithExceededThreshold, { ...options, deltaFormat: 'delta' });
+
+    expect(logSpy.mock.calls[0][0]).toMatchInlineSnapshot(`
+      ┌─────────────────────┬────────┬───────────────────────┐
+      │ Fixture             │ Before │ After (minified/GZIP) │
+      ├─────────────────────┼────────┼───────────────────────┤
+      │ baz-package         │    0 B │            1 kB↑ 1 kB │
+      │ An entry with diff  │    0 B │          100 B↑ 100 B │
+      │ (⚠️ over threshold) │        │                       │
+      └─────────────────────┴────────┴───────────────────────┘
     `);
   });
 });

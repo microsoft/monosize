@@ -1,7 +1,8 @@
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
 import { formatBytes } from '../utils/helpers.mjs';
-import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
+import type { DiffByMetric } from '../utils/calculateDiff.mjs';
 import { formatDeltaFactory, type Reporter } from './shared.mjs';
+import { log } from '../output.mjs';
 
 const icons = { increase: 'increase.png', decrease: 'decrease.png' };
 
@@ -36,7 +37,7 @@ export const markdownReporter: Reporter = (report, options) => {
 
   if (changedEntries.length === 0) {
     reportOutput.push(`✅ No changes found`);
-    console.log(reportOutput.join('\n'));
+    log.raw(reportOutput.join('\n'));
     return;
   }
 
@@ -45,7 +46,11 @@ export const markdownReporter: Reporter = (report, options) => {
     reportOutput.push('| :---------------- | -----------------------: | ----: | ---------: |');
 
     changedEntries.forEach(entry => {
-      const title = `<samp>${entry.packageName}</samp> <br /> <abbr title='${entry.path}'>${entry.name}</abbr>`;
+      const primary = `<samp>${entry.packageName}</samp>`;
+      const secondary = `<abbr title='${entry.path}'>${entry.name}</abbr>`;
+      const tertiary = entry.diff.exceedsThreshold ? '⚠️ over threshold' : '';
+      const name = `${primary} <br /> ${secondary} ${tertiary ? `<br /> ${tertiary}` : ''}`;
+
       const before = entry.diff.empty
         ? [`\`${formatBytes(0)}\``, '<br />', `\`${formatBytes(0)}\``].join('')
         : [
@@ -64,7 +69,7 @@ export const markdownReporter: Reporter = (report, options) => {
             `${formatDelta(entry.diff.gzip, deltaFormat)}`,
           ].join('');
 
-      reportOutput.push(`| ${title} | ${before} | ${after} | ${difference}|`);
+      reportOutput.push(`| ${name} | ${before} | ${after} | ${difference}|`);
     });
 
     reportOutput.push('');
@@ -93,5 +98,5 @@ export const markdownReporter: Reporter = (report, options) => {
   // TODO: use repo settings
   reportOutput.push(footer);
 
-  console.log(reportOutput.join('\n'));
+  log.raw(reportOutput.join('\n'));
 };
