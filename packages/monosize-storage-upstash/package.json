@@ -2,6 +2,11 @@
   "name": "monosize-storage-upstash",
   "version": "0.0.21",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/monosize",
+    "directory": "packages/monosize-storage-upstash"
+  },
   "types": "./src/index.d.mts",
   "dependencies": {
     "@upstash/redis": "^1.18.0",

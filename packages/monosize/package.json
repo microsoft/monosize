@@ -2,6 +2,11 @@
   "name": "monosize",
   "version": "0.6.3",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/monosize",
+    "directory": "packages/monosize"
+  },
   "types": "./src/index.d.mts",
   "bin": {
     "monosize": "./bin/monosize.mjs"
