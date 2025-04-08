@@ -6,6 +6,7 @@
     "type": "git",
     "url": "https://github.com/microsoft/monosize"
   },
+  "directory": "packages/monosize-bundler-esbuild",
   "types": "./src/index.d.mts",
   "dependencies": {
     "esbuild": "^0.25.1",
