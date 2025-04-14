@@ -26,6 +26,9 @@ export type BundlerAdapter = {
     outputPath: string;
     debugOutputPath?: string;
   }>;
+
+  /** A friendly name of the bundler used for logging. */
+  name: string;
 };
 
 /**

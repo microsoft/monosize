@@ -1,9 +1,5 @@
 import fs from 'node:fs';
-import path from 'node:path';
-import pc from 'picocolors';
 import { minify } from 'terser';
-
-import { hrToSeconds } from './helpers.mjs';
 
 type RunTerserOptions = {
   fixturePath: string;
@@ -16,9 +12,7 @@ type RunTerserOptions = {
 };
 
 export async function runTerser(options: RunTerserOptions) {
-  const { fixturePath, debugOutputPath, sourcePath, outputPath, quiet } = options;
-
-  const startTime = process.hrtime();
+  const { fixturePath, debugOutputPath, sourcePath, outputPath } = options;
   const sourceContent = await fs.promises.readFile(sourcePath, 'utf8');
 
   // Performs only dead-code elimination
@@ -52,12 +46,4 @@ export async function runTerser(options: RunTerserOptions) {
 
   await fs.promises.writeFile(debugOutputPath, debugOutput.code);
   await fs.promises.writeFile(outputPath, minifiedOutput.code);
-
-  if (!quiet) {
-    console.log(
-      [pc.blue('[i]'), `"${path.basename(fixturePath)}": Terser in ${hrToSeconds(process.hrtime(startTime))}`].join(
-        ' ',
-      ),
-    );
-  }
 }

@@ -22,5 +22,6 @@ export function createEsbuildBundler(configEnhancerCallback = DEFAULT_CONFIG_ENH
         outputPath,
       };
     },
+    name: 'esbuild',
   };
 }

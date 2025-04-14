@@ -1,9 +1,7 @@
 import fs from 'node:fs/promises';
-import pc from 'picocolors';
 import path from 'node:path';
 import { build, type BuildOptions } from 'esbuild';
 
-import { hrToSeconds } from './helpers.mjs';
 import { EsbuildBundlerOptions } from './types.mjs';
 
 function createEsbuildConfig(fixturePath: string): BuildOptions {
@@ -29,9 +27,7 @@ type RunEsbuildOptions = {
 };
 
 export async function runEsbuild(options: RunEsbuildOptions): Promise<null> {
-  const { enhanceConfig, fixturePath, outputPath, quiet } = options;
-
-  const startTime = process.hrtime();
+  const { enhanceConfig, fixturePath, outputPath } = options;
   const esbuildConfig = enhanceConfig(createEsbuildConfig(fixturePath));
 
   const result = await build(esbuildConfig);
@@ -42,12 +38,6 @@ export async function runEsbuild(options: RunEsbuildOptions): Promise<null> {
   }
 
   await fs.writeFile(outputPath, outputFiles[0].contents);
-
-  if (!quiet) {
-    console.log(
-      [pc.blue('[i]'), `"${path.basename(fixturePath)}": Vite in ${hrToSeconds(process.hrtime(startTime))}`].join(' '),
-    );
-  }
 
   return null;
 }

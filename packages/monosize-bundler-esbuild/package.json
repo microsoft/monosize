@@ -11,7 +11,6 @@
   "dependencies": {
     "esbuild": "^0.25.1",
     "monosize": "^0.6.3",
-    "picocolors": "^1.0.0",
     "tslib": "^2.4.1"
   }
 }
