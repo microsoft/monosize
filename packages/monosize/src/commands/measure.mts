@@ -1,5 +1,5 @@
 import Table from 'cli-table3';
-import glob from 'glob';
+import { glob } from 'glob';
 import { gzipSizeFromFile } from 'gzip-size';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -76,6 +76,8 @@ async function measure(options: MeasureOptions) {
       gzippedSize,
     });
   }
+
+  measurements.sort((a, b) => a.path.localeCompare(b.path, 'en'));
 
   await fs.promises.writeFile(path.resolve(artifactsDir, 'monosize.json'), JSON.stringify(measurements));
 

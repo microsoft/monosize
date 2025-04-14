@@ -5,20 +5,6 @@ import path from 'node:path';
 import tmp from 'tmp';
 import { findUp } from 'find-up';
 
-// This mock should be not required 😮
-// glob.sync() call in collectLocalReport.ts always returns an empty array on Linux/Windows in tests for an unknown
-// reason while files are present in filesystem
-vitest.mock('glob', async () => {
-  const actual = await vitest.importActual<Record<string, unknown>>('glob');
-  return {
-    ...actual,
-    sync: () => [
-      'packages/package-a/dist/bundle-size/monosize.json',
-      'packages/package-b/dist/bundle-size/monosize.json',
-    ],
-  };
-});
-
 import { collectLocalReport } from './collectLocalReport.mjs';
 import type { BuildResult } from '../types.mjs';
 
@@ -128,13 +114,12 @@ describe('collectLocalReport', () => {
             packageName: async packageRoot => {
               if (fs.existsSync(path.join(packageRoot, 'package.json'))) {
                 return (
-                  JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'package.json'), 'utf-8')).name +
-                  '-overridden-pkg'
+                  JSON.parse(fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf-8')).name + '-overridden-pkg'
                 );
               }
               if (fs.existsSync(path.join(packageRoot, 'project.json'))) {
                 return (
-                  JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'project.json'), 'utf-8')).name +
+                  JSON.parse(fs.readFileSync(path.join(packageRoot, 'project.json'), 'utf-8')).name +
                   '-overridden-project'
                 );
               }
@@ -146,15 +131,15 @@ describe('collectLocalReport', () => {
       ).map(({ packageName }) => ({ packageName }));
 
       expect(actual).toMatchInlineSnapshot(`
-      [
-        {
-          "packageName": "package-a-overridden-pkg",
-        },
-        {
-          "packageName": "package-b-overridden-project",
-        },
-      ]
-    `);
+        [
+          {
+            "packageName": "package-a-overridden-pkg",
+          },
+          {
+            "packageName": "package-b-overridden-project",
+          },
+        ]
+      `);
     });
 
     it('should local report based on packageRoot and packageName config overrides', async () => {
@@ -186,8 +171,7 @@ describe('collectLocalReport', () => {
             },
             packageName: async packageRoot => {
               return (
-                JSON.parse(await fs.promises.readFile(path.join(packageRoot, 'johny5.json'), 'utf-8')).name +
-                '-not-disassembled'
+                JSON.parse(fs.readFileSync(path.join(packageRoot, 'johny5.json'), 'utf-8')).name + '-not-disassembled'
               );
             },
           },
@@ -195,15 +179,15 @@ describe('collectLocalReport', () => {
       ).map(({ packageName }) => ({ packageName }));
 
       expect(actual).toMatchInlineSnapshot(`
-      [
-        {
-          "packageName": "package-a-not-disassembled",
-        },
-        {
-          "packageName": "package-b-not-disassembled",
-        },
-      ]
-    `);
+        [
+          {
+            "packageName": "package-a-not-disassembled",
+          },
+          {
+            "packageName": "package-b-not-disassembled",
+          },
+        ]
+      `);
     });
   });
 });

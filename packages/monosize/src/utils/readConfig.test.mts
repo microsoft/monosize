@@ -6,8 +6,15 @@ import tmp from 'tmp';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { readConfig, resetConfigCache } from './readConfig.mjs';
+import type { MonoSizeConfig } from '../types.mjs';
 
-async function setup(configContent: string) {
+vitest.mock('../output.mjs', () => ({
+  log: {
+    error: vitest.fn(),
+  },
+}));
+
+async function setup(config: Partial<MonoSizeConfig>) {
   // Heads up!
   // GH actions has a weird naming of the temp directory that breaks path resolution:
   // "C:\Users\RUNNER~1\AppData" gets transformed to "file:///C:/Users/RUNNER%7E1/AppData"
@@ -15,12 +22,12 @@ async function setup(configContent: string) {
   await fs.promises.mkdir(tmpDir, { recursive: true });
 
   const packageDir = tmp.dirSync({ prefix: 'test-package', unsafeCleanup: true, tmpdir: tmpDir });
-  const config = tmp.fileSync({ dir: packageDir.name, name: 'monosize.config.js', tmpdir: tmpDir });
+  const configFile = tmp.fileSync({ dir: packageDir.name, name: 'monosize.config.js', tmpdir: tmpDir });
 
   const spy = vitest.spyOn(process, 'cwd');
   spy.mockReturnValue(packageDir.name);
 
-  await fs.promises.writeFile(config.name, configContent);
+  await fs.promises.writeFile(configFile.name, `export default ${JSON.stringify(config)}`);
 }
 
 describe('readConfig', () => {
@@ -34,11 +41,11 @@ describe('readConfig', () => {
   });
 
   it('should read config from package', async () => {
-    await setup(`export default { webpack: (config) => { config.foo = 'bar'; return config; } }`);
+    await setup({ repository: '@microsoft/monosize' });
 
-    const config = await readConfig(true);
-
-    expect(config.webpack?.({})).toEqual({ foo: 'bar' });
+    expect(await readConfig(true)).toMatchObject({
+      repository: '@microsoft/monosize',
+    });
   });
 
   it('should return default webpack config if no config file defined', async () => {
@@ -59,13 +66,15 @@ describe('readConfig', () => {
   it('should cache config', async () => {
     process.env.NODE_ENV = 'production';
 
-    await setup(`export default { webpack: (config) => config }`);
+    await setup({ repository: '@microsoft/monosize' });
     const firstConfig = await readConfig(true);
 
-    await setup(`export default { webpack: (config) => { config.foo = 'bar'; return config; } }`);
-    const config = await readConfig();
+    await setup({ repository: '@microsoft/fluentui' });
+    const secondConfig = await readConfig();
 
-    expect(firstConfig).toBe(config);
-    expect(config.webpack?.({})).toEqual({});
+    expect(firstConfig).toBe(secondConfig);
+    expect(secondConfig).toMatchObject({
+      repository: '@microsoft/monosize',
+    });
   });
 });

@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises';
+import fs from 'node:fs';
 import path from 'node:path';
 import tmp from 'tmp';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
@@ -10,7 +10,8 @@ const buildFixture = vitest.hoisted(() =>
       path.dirname(fixturePath),
       path.basename(fixturePath).replace('.fixture.js', '.output.js'),
     );
-    await fs.cp(fixturePath, outputPath);
+
+    fs.cpSync(fixturePath, outputPath);
 
     return { outputPath };
   }),
@@ -29,10 +30,10 @@ async function setup(fixtures: { [key: string]: string }) {
   cwd.mockReturnValue(packageDir.name);
 
   const fixturesDir = path.resolve(packageDir.name, 'bundle-size');
-  await fs.mkdir(fixturesDir);
+  fs.mkdirSync(fixturesDir);
 
   for (const [fixture, content] of Object.entries(fixtures)) {
-    await fs.writeFile(path.resolve(fixturesDir, fixture), content);
+    fs.writeFileSync(path.resolve(fixturesDir, fixture), content);
   }
 
   return {
@@ -73,7 +74,7 @@ describe('measure', () => {
 
     // Fixtures
 
-    expect(await fs.readdir(path.resolve(packageDir, 'output'))).toEqual([
+    expect(fs.readdirSync(path.resolve(packageDir, 'output'))).toEqual([
       'bar.fixture.js',
       'bar.output.js',
       'foo.fixture.js',
@@ -83,7 +84,7 @@ describe('measure', () => {
 
     // Report
 
-    const report = JSON.parse(await fs.readFile(path.resolve(process.cwd(), 'output', 'monosize.json'), 'utf-8'));
+    const report = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'output', 'monosize.json'), 'utf-8'));
 
     expect(report).toEqual([
       {
@@ -114,7 +115,7 @@ describe('measure', () => {
 
     // Fixtures
 
-    expect(await fs.readdir(path.resolve(packageDir, 'output'))).toEqual([
+    expect(fs.readdirSync(path.resolve(packageDir, 'output'))).toEqual([
       'foo.fixture.js',
       'foo.output.js',
       'monosize.json',
@@ -130,7 +131,7 @@ describe('measure', () => {
 
     // Fixtures
 
-    expect(await fs.readdir(path.resolve(packageDir, 'output'))).toEqual([
+    expect(fs.readdirSync(path.resolve(packageDir, 'output'))).toEqual([
       'bar.fixture.js',
       'bar.output.js',
       'baz.fixture.js',

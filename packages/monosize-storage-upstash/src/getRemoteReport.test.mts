@@ -4,7 +4,6 @@ import { beforeEach, describe, it, vitest } from 'vitest';
 // import { getRemoteReport } from './getRemoteReport';
 
 const fetch = vitest.hoisted(() => vitest.fn());
-vitest.mock('node-fetch', () => ({ default: fetch }));
 
 function noop() {
   /* does nothing */

@@ -1,4 +1,4 @@
-import glob from 'glob';
+import { glob } from 'glob';
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
@@ -30,10 +30,10 @@ async function getPackageName(packageRoot: string): Promise<string> {
   let getPackageNameFromConfigFile;
 
   if (fs.existsSync(paths.packageJson)) {
-    getPackageNameFromConfigFile = async () => JSON.parse(await fs.promises.readFile(paths.packageJson, 'utf8')).name;
+    getPackageNameFromConfigFile = async () => JSON.parse(fs.readFileSync(paths.packageJson, 'utf8')).name;
   }
   if (fs.existsSync(paths.projectJson)) {
-    getPackageNameFromConfigFile = async () => JSON.parse(await fs.promises.readFile(paths.projectJson, 'utf8')).name;
+    getPackageNameFromConfigFile = async () => JSON.parse(fs.readFileSync(paths.projectJson, 'utf8')).name;
   }
 
   if (!getPackageNameFromConfigFile) {
@@ -48,6 +48,7 @@ async function getPackageName(packageRoot: string): Promise<string> {
 
   try {
     const packageName = await getPackageNameFromConfigFile();
+
     return packageName;
   } catch (err) {
     throw new Error(
@@ -68,7 +69,7 @@ async function readReportForPackage(
   const packageName = await resolvers.packageName(packageRoot);
 
   try {
-    const packageReport: BuildResult[] = JSON.parse(await fs.promises.readFile(reportFile, 'utf8'));
+    const packageReport: BuildResult[] = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
 
     return { packageName, packageReport };
   } catch (e) {
@@ -98,14 +99,15 @@ export async function collectLocalReport(options: Options): Promise<BundleSizeRe
 
   const resolvers = { ...defaultResolvers, ...reportResolvers };
 
-  const reportFiles = glob.sync(reportFilesGlob, { absolute: true, cwd: root });
+  const reportFiles = await glob(reportFilesGlob, { absolute: true, cwd: root });
   const reports = await Promise.all(reportFiles.map(reportFile => readReportForPackage(reportFile, resolvers)));
 
   return reports.reduce<BundleSizeReport>((acc, { packageName, packageReport }) => {
     const processedReport = packageReport.map(reportEntry => ({ packageName, ...reportEntry }));
 
-    return [...acc, ...processedReport];
-  }, []);
+      return [...acc, ...processedReport];
+    }, [])
+    .sort((a, b) => a.path.localeCompare(b.path, 'en'));
 }
 
 function findGitRoot(cwd: string) {

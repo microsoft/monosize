@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import pc from 'picocolors';
 import type { BundleSizeReportEntry, StorageAdapter } from 'monosize';
 
