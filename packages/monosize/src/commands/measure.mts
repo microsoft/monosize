@@ -45,7 +45,7 @@ async function measure(options: MeasureOptions) {
     cwd: process.cwd(),
   });
 
-  if (!fixtures.length && fixturesGlob) {    
+  if (!fixtures.length && fixturesGlob) {
     console.error(`${pc.red('[e]')} No matching fixtures found for globbing pattern '${fixturesGlob}'`);
     process.exit(1);
   }
@@ -114,8 +114,8 @@ const api: CommandModule<Record<string, unknown>, MeasureOptions> = {
     fixtures: {
       type: 'string',
       description: 'Filename glob pattern to target whatever fixture files you want to measure.',
-      default: '*.fixture.js'
-    }
+      default: '*.fixture.js',
+    },
   },
 };
 
