@@ -54,6 +54,13 @@ describe('collectLocalReport', () => {
     expect(await collectLocalReport({ root: rootDir, reportFilesGlob: undefined })).toMatchInlineSnapshot(`
       [
         {
+          "gzippedSize": 5,
+          "minifiedSize": 10,
+          "name": "fixtureB",
+          "packageName": "package-b",
+          "path": "path/fixtureB.js",
+        },
+        {
           "gzippedSize": 50,
           "minifiedSize": 100,
           "name": "fixtureA1",
@@ -66,13 +73,6 @@ describe('collectLocalReport', () => {
           "name": "fixtureA2",
           "packageName": "package-a",
           "path": "path/fixtureA2.js",
-        },
-        {
-          "gzippedSize": 5,
-          "minifiedSize": 10,
-          "name": "fixtureB",
-          "packageName": "package-b",
-          "path": "path/fixtureB.js",
         },
       ]
     `);
