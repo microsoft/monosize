@@ -26,6 +26,7 @@
   - [Config API](#config-api)
   - [Bundler adapters](#bundler-adapters)
   - [Storage adapters](#storage-adapters)
+  - [Threshold](#threshold)
 - [Commands](#commands)
   - [`measure`](#measure)
     - [Options](#options)
@@ -130,6 +131,8 @@ const config = {
       return '...';
     },
   },
+
+  threshold: '10kb', // default is "10%"
 };
 
 export default config;
@@ -147,6 +150,12 @@ To build fixtures and produce artifacts you need to use a bundler adapter. Follo
 To store reference results and run comparisons you need to use a storage adapter. Following adapters are available:
 
 - [`monosize-storage-upstash`](https://github.com/microsoft/monosize/tree/main/packages/monosize-storage-upstash)
+
+### Threshold
+
+The threshold is used to determine if the bundle size is acceptable. It can be set in the configuration file and can be a percentage (e.g., `10%`) or an absolute size (e.g., `10kb`). The default value is `10%`.
+
+If the bundle size exceeds the threshold, the `compare-reports` command will fail with exit code `1`.
 
 ## Commands
 
