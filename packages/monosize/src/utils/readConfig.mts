@@ -1,7 +1,7 @@
 import { findUp } from 'find-up';
 import { pathToFileURL } from 'node:url';
-import pc from 'picocolors';
 
+import { logger } from '../logger.mjs';
 import type { MonoSizeConfig } from '../types.mjs';
 
 const CONFIG_FILE_NAME = ['monosize.config.js', 'monosize.config.mjs'];
@@ -21,12 +21,12 @@ export async function readConfig(quiet = true): Promise<MonoSizeConfig> {
   const configPath = await findUp(CONFIG_FILE_NAME, { cwd: process.cwd() });
 
   if (!configPath) {
-    console.log([pc.red('[e]'), `No config file found in ${configPath}`].join(' '));
+    logger.error(`No config file found in ${configPath}`);
     process.exit(1);
   }
 
   if (!quiet) {
-    console.log([pc.blue('[i]'), `Using following config ${configPath}`].join(' '));
+    logger.info(`Using following config ${configPath}`);
   }
 
   const configFile = await import(pathToFileURL(configPath).toString());

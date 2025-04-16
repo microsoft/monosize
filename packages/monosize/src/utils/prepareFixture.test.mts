@@ -50,7 +50,7 @@ export default { name: 'Test fixture' }
     expect(fixtureData.artifactPath).toBe(path.resolve(artifactsDir, 'test-fixture.js'));
     expect(fixtureData.name).toBe('Test fixture');
 
-    expect(await fs.promises.readFile(fixtureData.artifactPath, 'utf8')).toMatchInlineSnapshot(
+    expect(fs.readFileSync(fixtureData.artifactPath, 'utf8')).toMatchInlineSnapshot(
       `
       "import Component from '@react-component';
 

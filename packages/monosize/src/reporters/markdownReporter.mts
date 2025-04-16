@@ -2,6 +2,7 @@ import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mj
 import { formatBytes } from '../utils/helpers.mjs';
 import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
 import { formatDeltaFactory, type Reporter } from './shared.mjs';
+import { logger } from '../logger.mjs';
 
 const icons = { increase: 'increase.png', decrease: 'decrease.png' };
 
@@ -36,7 +37,7 @@ export const markdownReporter: Reporter = (report, options) => {
 
   if (changedEntries.length === 0) {
     reportOutput.push(`✅ No changes found`);
-    console.log(reportOutput.join('\n'));
+    logger.raw(reportOutput.join('\n'));
     return;
   }
 
@@ -93,5 +94,5 @@ export const markdownReporter: Reporter = (report, options) => {
   // TODO: use repo settings
   reportOutput.push(footer);
 
-  console.log(reportOutput.join('\n'));
+  logger.raw(reportOutput.join('\n'));
 };

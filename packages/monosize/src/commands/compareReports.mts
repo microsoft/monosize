@@ -1,4 +1,3 @@
-import pc from 'picocolors';
 import { CommandModule } from 'yargs';
 
 import { CliOptions } from '../index.mjs';
@@ -6,9 +5,9 @@ import { cliReporter } from '../reporters/cliReporter.mjs';
 import { markdownReporter } from '../reporters/markdownReporter.mjs';
 import { collectLocalReport } from '../utils/collectLocalReport.mjs';
 import { compareResultsInReports } from '../utils/compareResultsInReports.mjs';
-import { hrToSeconds } from '../utils/helpers.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { DiffByMetric } from '../utils/calculateDiffByMetric.mjs';
+import { logger, timestamp } from '../logger.mjs';
 
 export type CompareReportsOptions = CliOptions & {
   branch: string;
@@ -19,35 +18,28 @@ export type CompareReportsOptions = CliOptions & {
 
 async function compareReports(options: CompareReportsOptions) {
   const { branch, output, quiet, deltaFormat } = options;
-  const startTime = process.hrtime();
+  const startTime = timestamp();
 
   const config = await readConfig(quiet);
 
-  const localReportStartTime = process.hrtime();
+  const localReportStartTime = timestamp();
   const localReport = await collectLocalReport({
     ...config,
     reportFilesGlob: options['report-files-glob'],
   });
 
   if (!quiet) {
-    console.log(
-      [pc.blue('[i]'), `Local report prepared in ${hrToSeconds(process.hrtime(localReportStartTime))}`].join(' '),
-    );
+    logger.info(`Local report prepared`, localReportStartTime);
   }
 
-  const remoteReportStartTime = process.hrtime();
+  const remoteReportStartTime = timestamp();
   const { commitSHA, remoteReport } = await config.storage.getRemoteReport(branch);
 
   if (!quiet) {
     if (commitSHA === '') {
-      console.log([pc.blue('[i]'), `Remote report for "${branch}" branch was not found`].join(' '));
+      logger.info(`Remote report for "${branch}" branch was not found`);
     } else {
-      console.log(
-        [
-          pc.blue('[i]'),
-          `Remote report for "${commitSHA}" commit fetched in ${hrToSeconds(process.hrtime(remoteReportStartTime))}`,
-        ].join(' '),
-      );
+      logger.info(`Remote report for "${commitSHA}" commit fetched `, remoteReportStartTime);
     }
   }
 
@@ -73,7 +65,7 @@ async function compareReports(options: CompareReportsOptions) {
   }
 
   if (!quiet) {
-    console.log(`Completed in ${hrToSeconds(process.hrtime(startTime))}`);
+    logger.finish(`Completed`, startTime);
   }
 }
 

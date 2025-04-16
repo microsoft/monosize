@@ -1,50 +1,47 @@
 import { isCI } from 'ci-info';
-import pc from 'picocolors';
 import type { CommandModule } from 'yargs';
 
 import { collectLocalReport } from '../utils/collectLocalReport.mjs';
-import { hrToSeconds } from '../utils/helpers.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { CliOptions } from '../index.mjs';
+import { logger, timestamp } from '../logger.mjs';
 
 type UploadOptions = CliOptions & { branch: string; 'report-files-glob'?: string; 'commit-sha': string };
 
 async function uploadReport(options: UploadOptions) {
   if (!isCI) {
-    console.log(`${pc.red('[e]')} This is command can be executed only in CI`);
+    logger.error('This is command can be executed only in CI');
     process.exit(1);
   }
 
   const { branch, 'commit-sha': commitSHA, quiet } = options;
-  const startTime = process.hrtime();
+  const startTime = timestamp();
 
   const config = await readConfig(quiet);
 
-  const localReportStartTime = process.hrtime();
+  const localReportStartTime = timestamp();
   const localReport = await collectLocalReport({
     ...config,
     reportFilesGlob: options['report-files-glob'],
   });
 
   if (!quiet) {
-    console.log(
-      [pc.blue('[i]'), `Local report prepared in ${hrToSeconds(process.hrtime(localReportStartTime))}`].join(' '),
-    );
+    logger.info(`Local report prepared`, localReportStartTime);
   }
 
-  const uploadStartTime = process.hrtime();
+  const uploadStartTime = timestamp();
 
   try {
     await config.storage.uploadReportToRemote(branch, commitSHA, localReport);
   } catch (e) {
-    console.log([pc.red('[e]'), 'Upload of the report to a remote host failed...'].join(' '));
-    console.log(e);
+    logger.error('Upload of the report to a remote host failed...');
+    logger.error(e);
     process.exit(1);
   }
 
   if (!quiet) {
-    console.log([pc.blue('[i]'), `Report uploaded in ${hrToSeconds(process.hrtime(uploadStartTime))}`].join(' '));
-    console.log(`Completed in ${hrToSeconds(process.hrtime(startTime))}`);
+    logger.info('Report uploaded', uploadStartTime);
+    logger.finish(`Completed`, startTime);
   }
 }
 

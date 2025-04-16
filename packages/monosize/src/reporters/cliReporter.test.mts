@@ -3,6 +3,7 @@ import { describe, it, expect, vitest } from 'vitest';
 
 import { cliReporter } from './cliReporter.mjs';
 import { sampleComparedReport } from '../__fixture__/sampleComparedReport.mjs';
+import { logger } from '../logger.mjs';
 
 function noop() {
   /* does nothing */
@@ -30,19 +31,19 @@ describe('cliReporter', () => {
   };
 
   it('wont render anything if there is nothing to compare', () => {
-    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+    const logSpy = vitest.spyOn(logger, 'success').mockImplementation(noop);
 
     cliReporter([], options);
 
-    expect(log.mock.calls[0][0]).toMatchInlineSnapshot('[✔] No changes found');
+    expect(logSpy.mock.calls[0][0]).toMatchInlineSnapshot('No changes found');
   });
 
   it('renders a report to CLI output', () => {
-    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+    const logSpy = vitest.spyOn(console, 'log').mockImplementation(noop);
 
     cliReporter(sampleComparedReport, options);
 
-    expect(log.mock.calls[0][0]).toMatchInlineSnapshot(`
+    expect(logSpy.mock.calls[0][0]).toMatchInlineSnapshot(`
       ┌────────────────────┬────────┬───────────────────────┐
       │ Fixture            │ Before │ After (minified/GZIP) │
       ├────────────────────┼────────┼───────────────────────┤
@@ -56,11 +57,11 @@ describe('cliReporter', () => {
   });
 
   it('renders a report to CLI output with specified "deltaFormat"', () => {
-    const log = vitest.spyOn(console, 'log').mockImplementation(noop);
+    const logSpy = vitest.spyOn(logger, 'raw').mockImplementation(noop);
 
     cliReporter(sampleComparedReport, { ...options, deltaFormat: 'delta' });
 
-    expect(log.mock.calls[0][0]).toMatchInlineSnapshot(`
+    expect(logSpy.mock.calls[0][0]).toMatchInlineSnapshot(`
       ┌────────────────────┬────────┬───────────────────────┐
       │ Fixture            │ Before │ After (minified/GZIP) │
       ├────────────────────┼────────┼───────────────────────┤
