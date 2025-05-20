@@ -10,6 +10,11 @@ export type BundleSizeReportEntry = Pick<BuildResult, 'name' | 'path' | 'minifie
 };
 export type BundleSizeReport = BundleSizeReportEntry[];
 
+export type ThresholdValue = {
+  size: number;
+  type: 'size' | 'percent';
+};
+
 //
 // Storage
 
@@ -69,9 +74,16 @@ export type MonoSizeConfig = {
   repository: string;
   storage: StorageAdapter;
   bundler: BundlerAdapter;
+
   /**
    * Report Commands Configuration Overrides
    * Use this if you need to customize package name or package root resolution logic within bundle reports.
    */
   reportResolvers?: ReportResolvers;
+
+  /**
+   * A threshold limit for checking if the bundle size is within the limit.
+   * It should be a string with a number and unit. Format: `0.5 kB`, `1kB, `10%`.
+   */
+  threshold?: string;
 };
