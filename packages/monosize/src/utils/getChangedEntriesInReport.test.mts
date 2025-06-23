@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { ComparedReport, emptyDiff } from './compareResultsInReports.mjs';
+import { EMPTY_DIFF } from './calculateDiff.mjs';
+import { ComparedReport } from './compareResultsInReports.mjs';
 import { getChangedEntriesInReport } from './getChangedEntriesInReport.mjs';
 
 describe('getChangedEntriesInReport', () => {
   it('splits entries to changed an unchanged', () => {
     const report: ComparedReport = [
-      { packageName: 'abc', name: 'abc-a', path: 'abc-a.js', minifiedSize: 0, gzippedSize: 0, diff: emptyDiff },
+      { packageName: 'abc', name: 'abc-a', path: 'abc-a.js', minifiedSize: 0, gzippedSize: 0, diff: EMPTY_DIFF },
       {
         packageName: 'abc',
         name: 'abc-b',
@@ -15,12 +16,13 @@ describe('getChangedEntriesInReport', () => {
         gzippedSize: 0,
         diff: {
           empty: false,
+          exceedsThreshold: false,
 
           minified: { delta: 0, percent: '0%' },
           gzip: { delta: 0, percent: '0%' },
         },
       },
-      { packageName: 'xyz', name: 'xyz', path: 'xyz.js', minifiedSize: 0, gzippedSize: 0, diff: emptyDiff },
+      { packageName: 'xyz', name: 'xyz', path: 'xyz.js', minifiedSize: 0, gzippedSize: 0, diff: EMPTY_DIFF },
     ];
     const actual = getChangedEntriesInReport(report);
 
