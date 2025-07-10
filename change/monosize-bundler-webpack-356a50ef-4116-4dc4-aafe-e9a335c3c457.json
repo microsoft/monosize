@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "chore: add repository field to package.json",
-  "packageName": "monosize-bundler-webpack",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "none"
-}

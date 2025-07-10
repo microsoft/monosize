@@ -1,8 +1,22 @@
 # Change Log - monosize
 
-This log was last generated on Tue, 06 Aug 2024 20:40:08 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Jul 2025 14:01:30 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.7.0
+
+Thu, 10 Jul 2025 14:01:30 GMT
+
+### Minor changes
+
+- chore: remove custom logging, add bundler name (olfedias@microsoft.com)
+
+### Patches
+
+- feat: add support for threshold (olfedias@microsoft.com)
+- chore: unify logging (olfedias@microsoft.com)
+- chore: bump production dependencies (olfedias@microsoft.com)
 
 ## 0.6.3
 

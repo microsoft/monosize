@@ -2,6 +2,41 @@
   "name": "monosize-storage-azure",
   "entries": [
     {
+      "date": "Thu, 10 Jul 2025 14:01:30 GMT",
+      "tag": "monosize-storage-azure_v0.0.17",
+      "version": "0.0.17",
+      "comments": {
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-azure",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: add repository field to package.json"
+          }
+        ],
+        "patch": [
+          {
+            "author": "tristan.watanabe@gmail.com",
+            "package": "monosize-storage-azure",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "fix: add branch name validation."
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-azure",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: bump production dependencies"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-storage-azure",
+            "comment": "Bump monosize to v0.7.0",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 07 Nov 2024 14:43:21 GMT",
       "tag": "monosize-storage-azure_v0.0.16",
       "version": "0.0.16",

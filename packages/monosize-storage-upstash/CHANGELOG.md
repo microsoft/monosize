@@ -1,8 +1,17 @@
 # Change Log - monosize-storage-upstash
 
-This log was last generated on Tue, 06 Aug 2024 20:40:08 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Jul 2025 14:01:30 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.0.22
+
+Thu, 10 Jul 2025 14:01:30 GMT
+
+### Patches
+
+- chore: bump production dependencies (olfedias@microsoft.com)
+- Bump monosize to v0.7.0
 
 ## 0.0.21
 

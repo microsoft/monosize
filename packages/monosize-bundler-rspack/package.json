@@ -1,6 +1,6 @@
 {
   "name": "monosize-bundler-rspack",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   "types": "./src/index.d.mts",
   "dependencies": {
     "@rsbuild/core": "^1.3.3",
-    "monosize": "^0.6.3",
+    "monosize": "^0.7.0",
     "tslib": "^2.4.1"
   }
 }

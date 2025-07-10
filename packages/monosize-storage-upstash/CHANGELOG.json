@@ -2,6 +2,35 @@
   "name": "monosize-storage-upstash",
   "entries": [
     {
+      "date": "Thu, 10 Jul 2025 14:01:30 GMT",
+      "tag": "monosize-storage-upstash_v0.0.22",
+      "version": "0.0.22",
+      "comments": {
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-upstash",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: add repository field to package.json"
+          }
+        ],
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-upstash",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: bump production dependencies"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-storage-upstash",
+            "comment": "Bump monosize to v0.7.0",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 06 Aug 2024 20:40:08 GMT",
       "tag": "monosize-storage-upstash_v0.0.21",
       "version": "0.0.21",

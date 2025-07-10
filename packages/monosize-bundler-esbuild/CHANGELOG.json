@@ -2,6 +2,49 @@
   "name": "monosize-bundler-esbuild",
   "entries": [
     {
+      "date": "Thu, 10 Jul 2025 14:01:30 GMT",
+      "tag": "monosize-bundler-esbuild_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-esbuild",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: require \"name\" for bundlers"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-esbuild",
+            "comment": "Bump monosize to v0.7.0",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814"
+          }
+        ],
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-esbuild",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: add repository field to package.json"
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-esbuild",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: bump Nx to 20.6.2"
+          }
+        ],
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-esbuild",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: bump esbuild requirement"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 06 Aug 2024 20:40:08 GMT",
       "tag": "monosize-bundler-esbuild_v0.1.5",
       "version": "0.1.5",

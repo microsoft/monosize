@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "feat: add support for threshold",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

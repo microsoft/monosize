@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: add branch name validation.",
-  "packageName": "monosize-storage-azure",
-  "email": "tristan.watanabe@gmail.com",
-  "dependentChangeType": "patch"
-}

@@ -1,0 +1,26 @@
+{
+  "name": "monosize-bundler-rspack",
+  "entries": [
+    {
+      "date": "Thu, 10 Jul 2025 14:01:30 GMT",
+      "tag": "monosize-bundler-rspack_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-rspack",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "feat: initial release"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-rspack",
+            "comment": "Bump monosize to v0.7.0",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814"
+          }
+        ]
+      }
+    }
+  ]
+}

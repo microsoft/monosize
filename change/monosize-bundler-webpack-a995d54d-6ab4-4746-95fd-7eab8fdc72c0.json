@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "chore: remove custom logging, add bundler name",
-  "packageName": "monosize-bundler-webpack",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

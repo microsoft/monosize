@@ -2,6 +2,61 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Thu, 10 Jul 2025 14:01:30 GMT",
+      "tag": "monosize_v0.7.0",
+      "version": "0.7.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "feat: add support for threshold"
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: unify logging"
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: bump production dependencies"
+          }
+        ],
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: remove custom logging, add bundler name"
+          }
+        ],
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: add repository field to package.json"
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: bump Nx to 18.3.5"
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "c601cb174f97be81c5f458962bc4a798e2bfc814",
+            "comment": "chore: formating changes"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 06 Aug 2024 20:40:08 GMT",
       "tag": "monosize_v0.6.3",
       "version": "0.6.3",

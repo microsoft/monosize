@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: bump esbuild requirement",
-  "packageName": "monosize-bundler-esbuild",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

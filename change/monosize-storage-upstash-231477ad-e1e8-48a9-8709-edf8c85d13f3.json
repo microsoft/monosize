@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "chore: add repository field to package.json",
-  "packageName": "monosize-storage-upstash",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "none"
-}

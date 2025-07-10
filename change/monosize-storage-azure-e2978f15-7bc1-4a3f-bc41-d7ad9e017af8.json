@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "chore: add repository field to package.json",
-  "packageName": "monosize-storage-azure",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "none"
-}

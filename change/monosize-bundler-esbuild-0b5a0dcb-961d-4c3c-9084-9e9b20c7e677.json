@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "chore: require \"name\" for bundlers",
-  "packageName": "monosize-bundler-esbuild",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

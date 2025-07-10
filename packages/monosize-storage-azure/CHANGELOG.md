@@ -1,8 +1,18 @@
 # Change Log - monosize-storage-azure
 
-This log was last generated on Thu, 07 Nov 2024 14:43:21 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Jul 2025 14:01:30 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.0.17
+
+Thu, 10 Jul 2025 14:01:30 GMT
+
+### Patches
+
+- fix: add branch name validation. (tristan.watanabe@gmail.com)
+- chore: bump production dependencies (olfedias@microsoft.com)
+- Bump monosize to v0.7.0
 
 ## 0.0.16
 

@@ -1,8 +1,17 @@
 # Change Log - monosize-bundler-webpack
 
-This log was last generated on Thu, 07 Nov 2024 14:43:21 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Jul 2025 14:01:30 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.0
+
+Thu, 10 Jul 2025 14:01:30 GMT
+
+### Minor changes
+
+- chore: remove custom logging, add bundler name (olfedias@microsoft.com)
+- Bump monosize to v0.7.0
 
 ## 0.1.6
 

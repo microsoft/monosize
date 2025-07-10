@@ -1,6 +1,6 @@
 {
   "name": "monosize-bundler-esbuild",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   "types": "./src/index.d.mts",
   "dependencies": {
     "esbuild": "^0.25.1",
-    "monosize": "^0.6.3",
+    "monosize": "^0.7.0",
     "tslib": "^2.4.1"
   }
 }
