@@ -1,19 +1,19 @@
 {
-  "name": "monosize-bundler-rsbuild",
+  "name": "monosize-bundler-rspack",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/monosize-bundler-rsbuild/src",
+  "sourceRoot": "packages/monosize-bundler-rspack/src",
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "dependsOn": ["^build"],
       "options": {
-        "outputPath": "dist/packages/monosize-bundler-rsbuild",
-        "main": "packages/monosize-bundler-rsbuild/src/index.ts",
-        "tsConfig": "packages/monosize-bundler-rsbuild/tsconfig.lib.json",
+        "outputPath": "dist/packages/monosize-bundler-rspack",
+        "main": "packages/monosize-bundler-rspack/src/index.ts",
+        "tsConfig": "packages/monosize-bundler-rspack/tsconfig.lib.json",
         "outputFileExtensionForEsm": ".mjs",
         "assets": [
-          "packages/monosize-bundler-rsbuild/README.md",
+          "packages/monosize-bundler-rspack/README.md",
           {
             "glob": "LICENSE.md",
             "input": ".",
@@ -28,7 +28,7 @@
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["{workspaceRoot}/coverage/packages/monosize-bundler-rsbuild"],
+      "outputs": ["{workspaceRoot}/coverage/packages/monosize-bundler-rspack"],
       "options": {
         "passWithNoTests": true
       }

@@ -1,7 +1,7 @@
 {
   "type": "minor",
   "comment": "feat: initial release",
-  "packageName": "monosize-bundler-rsbuild",
+  "packageName": "monosize-bundler-rspack",
   "email": "olfedias@microsoft.com",
   "dependentChangeType": "patch"
 }

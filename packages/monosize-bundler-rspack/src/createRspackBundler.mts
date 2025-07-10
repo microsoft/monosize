@@ -63,7 +63,7 @@ export function createEnvironmentConfig(params: {
   };
 }
 
-export function createRsbuildBundler(configEnhancerCallback = DEFAULT_CONFIG_ENHANCER): BundlerAdapter {
+export function createRspackBundler(configEnhancerCallback = DEFAULT_CONFIG_ENHANCER): BundlerAdapter {
   return {
     buildFixture: async function (options) {
       const { debug, fixturePath } = options;
