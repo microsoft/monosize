@@ -4,7 +4,7 @@ import tmp from 'tmp';
 import { rspackVersion } from '@rspack/core';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
-import { createEnvironmentConfig, createRsbuildBundler } from './createRsbuildBundler.mjs';
+import { createEnvironmentConfig, createRspackBundler } from './createRspackBundler.mjs';
 
 async function setup(content: string): Promise<string> {
   const packageDir = tmp.dirSync({
@@ -82,7 +82,7 @@ describe('createEnvironmentConfig', () => {
 });
 
 describe('buildFixture', () => {
-  const rsbuildBundler = createRsbuildBundler(config => {
+  const rspackBundler = createRspackBundler(config => {
     // Specific config to get minification output consistent on *nix/Windows
 
     for (const environment in config.environments) {
@@ -111,7 +111,7 @@ describe('buildFixture', () => {
 
   it('builds fixtures', async () => {
     const fixturePath = await setup(`const hello = 'Hello'; console.log(hello);`);
-    const result = await rsbuildBundler.buildFixture({
+    const result = await rspackBundler.buildFixture({
       debug: false,
       fixturePath,
       quiet: true,
@@ -126,7 +126,7 @@ describe('buildFixture', () => {
     const fixturePath = await setup(`console..log(hello);`);
 
     await expect(
-      rsbuildBundler.buildFixture({
+      rspackBundler.buildFixture({
         debug: false,
         fixturePath,
         quiet: true,
@@ -142,7 +142,7 @@ describe('buildFixture', () => {
         const bar = 1;
         console.log(foo);
       `);
-      const buildResult = await rsbuildBundler.buildFixture({
+      const buildResult = await rspackBundler.buildFixture({
         debug: false,
         fixturePath,
         quiet: true,
@@ -165,7 +165,7 @@ describe('buildFixture', () => {
         const bar = 1;
         console.log(foo);
       `);
-      const buildResult = await rsbuildBundler.buildFixture({
+      const buildResult = await rspackBundler.buildFixture({
         debug: true,
         fixturePath,
         quiet: true,

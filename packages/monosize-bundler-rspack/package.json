@@ -1,11 +1,11 @@
 {
-  "name": "monosize-bundler-rsbuild",
+  "name": "monosize-bundler-rspack",
   "version": "0.0.1",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/microsoft/monosize",
-    "directory": "packages/monosize-bundler-rsbuild"
+    "directory": "packages/monosize-bundler-rspack"
   },
   "types": "./src/index.d.mts",
   "dependencies": {
