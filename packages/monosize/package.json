@@ -16,7 +16,7 @@
     "ci-info": "^4.2.0",
     "cli-table3": "^0.6.5",
     "find-up": "^7.0.0",
-    "glob": "^11.0.1",
+    "glob": "^13.0.0",
     "gzip-size": "^7.0.0",
     "picocolors": "^1.0.0",
     "pretty-bytes": "^6.0.0",
