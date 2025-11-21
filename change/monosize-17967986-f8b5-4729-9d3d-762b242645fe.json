@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: use glob@13",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
