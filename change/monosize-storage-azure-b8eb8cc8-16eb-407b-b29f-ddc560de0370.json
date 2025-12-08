@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: bump @azure/identity",
+  "packageName": "monosize-storage-azure",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
