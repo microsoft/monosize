@@ -2,6 +2,21 @@
   "name": "monosize-bundler-rspack",
   "entries": [
     {
+      "date": "Mon, 08 Dec 2025 13:02:38 GMT",
+      "tag": "monosize-bundler-rspack_v0.1.2",
+      "version": "0.1.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-rspack",
+            "commit": "712cf14795166e7d0fa14d2cfa329cc020856745",
+            "comment": "chore: bump @rsbuild/core"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 08 Dec 2025 12:45:18 GMT",
       "tag": "monosize-bundler-rspack_v0.1.1",
       "version": "0.1.1",

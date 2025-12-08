@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: bump @rsbuild/core",
-  "packageName": "monosize-bundler-rspack",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

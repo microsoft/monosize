@@ -1,8 +1,16 @@
 # Change Log - monosize-bundler-rspack
 
-This log was last generated on Mon, 08 Dec 2025 12:45:18 GMT and should not be manually modified.
+This log was last generated on Mon, 08 Dec 2025 13:02:38 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.2
+
+Mon, 08 Dec 2025 13:02:38 GMT
+
+### Patches
+
+- chore: bump @rsbuild/core (olfedias@microsoft.com)
 
 ## 0.1.1
 
