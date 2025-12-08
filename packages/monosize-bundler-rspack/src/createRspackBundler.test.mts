@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import prettier from 'prettier';
 import tmp from 'tmp';
-import { rspackVersion } from '@rspack/core';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { createEnvironmentConfig, createRspackBundler } from './createRspackBundler.mjs';
@@ -31,12 +30,9 @@ async function setup(content: string): Promise<string> {
 }
 
 async function prepareOutput(outputPath: string): Promise<string> {
-  const content = fs.readFileSync(outputPath, 'utf-8');
-  const formattedContent = await prettier.format(content, {
+  return await prettier.format(fs.readFileSync(outputPath, 'utf-8'), {
     filepath: outputPath,
   });
-
-  return formattedContent.replace(new RegExp(rspackVersion, 'g'), '0.0.0');
 }
 
 describe('createEnvironmentConfig', () => {
