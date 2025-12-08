@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Mon, 08 Dec 2025 12:45:18 GMT",
+      "tag": "monosize_v0.7.1",
+      "version": "0.7.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "8f375daed644e96d78311f391d78b79662ace83a",
+            "comment": "chore: use glob@13"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 10 Jul 2025 14:01:30 GMT",
       "tag": "monosize_v0.7.0",
       "version": "0.7.0",
