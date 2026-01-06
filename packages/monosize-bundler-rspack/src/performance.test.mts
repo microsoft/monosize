@@ -125,7 +125,7 @@ async function setupTest({ fixtureCount }: SetupTestOptions): Promise<SetupTestR
 
   // Test single-build mode
   const singleBuildStartTime = performance.now();
-  await rspackBundler.buildFixtures!({
+  await rspackBundler.buildFixtures({
     fixtures: fixtures.map(f => ({ fixturePath: f.path, name: f.name })),
     debug: false,
     quiet: true,

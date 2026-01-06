@@ -274,7 +274,7 @@ describe('buildFixtures', () => {
       },
     ]);
 
-    const buildResults = await rspackBundler.buildFixtures!({
+    const buildResults = await rspackBundler.buildFixtures({
       fixtures: fixtures.map(f => ({ fixturePath: f.path, name: f.name })),
       debug: false,
       quiet: true,
@@ -326,7 +326,7 @@ describe('buildFixtures', () => {
       },
     ]);
 
-    const buildResults = await rspackBundler.buildFixtures!({
+    const buildResults = await rspackBundler.buildFixtures({
       fixtures: fixtures.map(f => ({ fixturePath: f.path, name: f.name })),
       debug: true,
       quiet: true,
@@ -359,7 +359,7 @@ describe('buildFixtures', () => {
     ]);
 
     await expect(
-      rspackBundler.buildFixtures!({
+      rspackBundler.buildFixtures({
         fixtures: fixtures.map(f => ({ fixturePath: f.path, name: f.name })),
         debug: false,
         quiet: true,
@@ -427,7 +427,7 @@ describe('buildFixtures', () => {
 
     // Build using single-build mode (buildFixtures)
     const { fixtures: batchFixtures } = await setupMultiple(fixtureContents);
-    const batchResults = await rspackBundler.buildFixtures!({
+    const batchResults = await rspackBundler.buildFixtures({
       fixtures: batchFixtures.map(f => ({ fixturePath: f.path, name: f.name })),
       debug: false,
       quiet: true,
