@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Add single-build mode for Webpack bundler with 2.5-18x+ performance improvement (#1)",
+  "packageName": "monosize",
+  "email": "pjsw@microsoft.com",
+  "dependentChangeType": "patch"
+}
