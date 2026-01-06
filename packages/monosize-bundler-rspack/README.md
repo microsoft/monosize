@@ -49,3 +49,11 @@ export default {
   }),
 };
 ```
+
+#### Single Build Mode
+
+Runs a single build with multiple entry points. 8-14x faster for typical scenarios.
+
+```sh
+monosize measure --single-build
+```

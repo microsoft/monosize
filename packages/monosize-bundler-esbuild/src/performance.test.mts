@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import tmp from 'tmp';
 import { describe, expect, it, vitest } from 'vitest';
 
-import { createWebpackBundler } from './createWebpackBundler.mjs';
+import { createEsbuildBundler } from './createEsbuildBundler.mjs';
 
 function createFixtureContent(index: number): string {
   return `
@@ -64,11 +64,7 @@ async function setupMultipleFixtures(
   return { dir: fixtureDir.name, fixtures: fixtureResults };
 }
 
-const webpackBundler = createWebpackBundler(config => {
-  config.output ??= {};
-  config.output.pathinfo = false;
-  return config;
-});
+const esbuildBundler = createEsbuildBundler();
 
 interface SetupTestOptions {
   fixtureCount: number;
@@ -87,7 +83,7 @@ async function setupTest({ fixtureCount }: SetupTestOptions): Promise<SetupTestR
   // Test loop mode (original behavior)
   const loopStartTime = performance.now();
   for (const fixture of fixtures) {
-    await webpackBundler.buildFixture({
+    await esbuildBundler.buildFixture({
       debug: false,
       fixturePath: fixture.path,
       quiet: true,
@@ -110,7 +106,7 @@ async function setupTest({ fixtureCount }: SetupTestOptions): Promise<SetupTestR
 
   // Test single-build mode
   const singleBuildStartTime = performance.now();
-  await webpackBundler.buildFixtures!({
+  await esbuildBundler.buildFixtures!({
     fixtures: fixtures.map(f => ({ fixturePath: f.path, name: f.name })),
     debug: false,
     quiet: true,

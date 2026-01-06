@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import tmp from 'tmp';
 import { describe, expect, it, vitest } from 'vitest';
 
-import { createWebpackBundler } from './createWebpackBundler.mjs';
+import { createRspackBundler } from './createRspackBundler.mjs';
 
 function createFixtureContent(index: number): string {
   return `
@@ -64,9 +64,23 @@ async function setupMultipleFixtures(
   return { dir: fixtureDir.name, fixtures: fixtureResults };
 }
 
-const webpackBundler = createWebpackBundler(config => {
-  config.output ??= {};
-  config.output.pathinfo = false;
+const rspackBundler = createRspackBundler(config => {
+  for (const environment in config.environments) {
+    if (environment === 'debug') {
+      config.environments['debug'] ??= {};
+      config.environments['debug'].output ??= {};
+      config.environments['debug'].output.minify = {
+        js: true,
+        jsOptions: {
+          minimizerOptions: {
+            compress: false,
+            mangle: false,
+            minify: true,
+          },
+        },
+      };
+    }
+  }
   return config;
 });
 
@@ -87,7 +101,7 @@ async function setupTest({ fixtureCount }: SetupTestOptions): Promise<SetupTestR
   // Test loop mode (original behavior)
   const loopStartTime = performance.now();
   for (const fixture of fixtures) {
-    await webpackBundler.buildFixture({
+    await rspackBundler.buildFixture({
       debug: false,
       fixturePath: fixture.path,
       quiet: true,
@@ -99,7 +113,8 @@ async function setupTest({ fixtureCount }: SetupTestOptions): Promise<SetupTestR
   // Clean up outputs
   await Promise.all(
     fixtures.map(async f => {
-      const outputPath = f.path.replace(/\.fixture\.js$/, '.output.js');
+      const rootDir = f.path.replace(/[^/\\]+$/, '');
+      const outputPath = `${rootDir}dist/${f.name}.output.js`;
       try {
         await fs.promises.unlink(outputPath);
       } catch (e) {
@@ -110,7 +125,7 @@ async function setupTest({ fixtureCount }: SetupTestOptions): Promise<SetupTestR
 
   // Test single-build mode
   const singleBuildStartTime = performance.now();
-  await webpackBundler.buildFixtures!({
+  await rspackBundler.buildFixtures!({
     fixtures: fixtures.map(f => ({ fixturePath: f.path, name: f.name })),
     debug: false,
     quiet: true,

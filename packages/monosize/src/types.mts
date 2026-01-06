@@ -33,11 +33,10 @@ export type BundlerAdapter = {
   }>;
 
   /**
-   * Optional method to build multiple fixtures in a single build operation.
+   * Build multiple fixtures in a single build operation.
    * When implemented, this can significantly reduce build time for bundlers that support multiple entry points.
-   * Currently only supported by the Webpack bundler.
    */
-  buildFixtures?: (options: {
+  buildFixtures: (options: {
     fixtures: Array<{ fixturePath: string; name: string }>;
     debug: boolean;
     quiet: boolean;

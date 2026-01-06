@@ -59,7 +59,7 @@ async function buildFixturesInSingleMode(
   );
 
   // Build all fixtures at once
-  const buildResults = await config.bundler.buildFixtures!({
+  const buildResults = await config.bundler.buildFixtures({
     fixtures: preparedFixtures.map(f => ({ fixturePath: f.fixturePath, name: f.name })),
     debug,
     quiet,
@@ -176,16 +176,15 @@ async function measure(options: MeasureOptions) {
     logger.info(`Measuring bundle size for ${fixtures.length} fixture(s)...`);
     logger.raw(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
     logger.info(`Using ${config.bundler.name} as a bundler...`);
-    if (singleBuild && config.bundler.buildFixtures) {
+    if (singleBuild) {
       logger.info('Using single-build mode...');
     }
   }
 
   // Build fixtures using the appropriate mode
-  const measurements =
-    singleBuild && config.bundler.buildFixtures
-      ? await buildFixturesInSingleMode(config, fixtures, artifactsDir, debug, quiet)
-      : await buildFixturesInLoopMode(config, fixtures, artifactsDir, debug, quiet);
+  const measurements = singleBuild
+    ? await buildFixturesInSingleMode(config, fixtures, artifactsDir, debug, quiet)
+    : await buildFixturesInLoopMode(config, fixtures, artifactsDir, debug, quiet);
 
   measurements.sort((a, b) => a.path.localeCompare(b.path, 'en'));
 
@@ -219,7 +218,7 @@ const api: CommandModule<Record<string, unknown>, MeasureOptions> = {
     'single-build': {
       type: 'boolean',
       description:
-        'If true and supported by the bundler, all fixtures will be built in a single bundler run with multiple entry points. Currently only supported by Webpack bundler. This can significantly reduce build time.',
+        'If true, all fixtures will be built in a single bundler run with multiple entry points. This can significantly reduce build time.',
       default: false,
     },
   },

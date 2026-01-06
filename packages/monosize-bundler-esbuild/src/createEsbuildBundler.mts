@@ -1,6 +1,6 @@
 import type { BundlerAdapter } from 'monosize';
 
-import { runEsbuild } from './runEsbuild.mjs';
+import { runEsbuild, runEsbuildMultiEntry } from './runEsbuild.mjs';
 import type { EsbuildBundlerOptions } from './types.mjs';
 
 const DEFAULT_CONFIG_ENHANCER: EsbuildBundlerOptions = config => config;
@@ -22,6 +22,28 @@ export function createEsbuildBundler(configEnhancerCallback = DEFAULT_CONFIG_ENH
         outputPath,
       };
     },
+
+    buildFixtures: async function (options) {
+      const { fixtures, quiet } = options;
+
+      const fixturesWithPaths = fixtures.map(({ fixturePath, name }) => ({
+        fixturePath,
+        name,
+        outputPath: fixturePath.replace(/\.fixture.js$/, '.output.js'),
+      }));
+
+      await runEsbuildMultiEntry({
+        enhanceConfig: configEnhancerCallback,
+        fixtures: fixturesWithPaths.map(f => ({ fixturePath: f.fixturePath, outputPath: f.outputPath })),
+        quiet,
+      });
+
+      return fixturesWithPaths.map(({ name, outputPath }) => ({
+        name,
+        outputPath,
+      }));
+    },
+
     name: 'esbuild',
   };
 }

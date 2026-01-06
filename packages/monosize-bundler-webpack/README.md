@@ -49,38 +49,10 @@ export default {
 };
 ```
 
-## Performance Optimization
+#### Single Build Mode
 
-### Single Build Mode
-
-The Webpack bundler supports a single-build mode that can significantly improve build performance when measuring multiple fixtures. Instead of running a separate Webpack build for each fixture, this mode runs a single build with multiple entry points.
-
-To enable single-build mode, use the `--single-build` flag with the `measure` command:
+Runs a single build with multiple entry points. 3-15x faster for typical scenarios.
 
 ```sh
 monosize measure --single-build
 ```
-
-**Performance benefits:**
-- ~7-9x faster for typical monorepo scenarios
-- Reduced overhead from Webpack initialization and configuration
-- Single shared cache and compilation context
-
-**When to use:**
-- Large monorepos with many fixtures
-- CI/CD pipelines where build time matters
-- Local development for faster feedback
-
-**Example:**
-
-```sh
-# Standard mode (builds each fixture separately)
-monosize measure
-# Takes: ~1200ms for 10 fixtures
-
-# Single-build mode (builds all fixtures together)
-monosize measure --single-build
-# Takes: ~160ms for 10 fixtures (7.5x faster)
-```
-
-Note: Single-build mode is currently only available for the Webpack bundler.
