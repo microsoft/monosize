@@ -16,17 +16,13 @@ export type MeasureOptions = CliOptions & {
   debug: boolean;
   'artifacts-location': string;
   fixtures: string;
-  'single-build': boolean;
+  'build-mode'?: 'batch' | 'sequential';
 };
 
 /**
  * Measures the size of a single built fixture output.
  */
-async function measureFixtureSize(
-  outputPath: string,
-  name: string,
-  originalPath: string,
-): Promise<BuildResult> {
+async function measureFixtureSize(outputPath: string, name: string, originalPath: string): Promise<BuildResult> {
   const minifiedSize = (await fs.promises.stat(outputPath)).size;
   const gzippedSize = await gzipSizeFromFile(outputPath);
 
@@ -39,9 +35,9 @@ async function measureFixtureSize(
 }
 
 /**
- * Builds fixtures using single-build mode (all at once with multi-entry).
+ * Builds fixtures using batch mode (all at once with multi-entry).
  */
-async function buildFixturesInSingleMode(
+async function buildFixturesInBatchMode(
   config: Awaited<ReturnType<typeof readConfig>>,
   fixtures: string[],
   artifactsDir: string,
@@ -73,16 +69,16 @@ async function buildFixturesInSingleMode(
   );
 
   if (!quiet) {
-    logger.info(`All ${fixtures.length} fixture(s) built in single build`, buildStartTime);
+    logger.info(`All ${fixtures.length} fixture(s) built in batch mode`, buildStartTime);
   }
 
   return measurements;
 }
 
 /**
- * Builds fixtures using loop mode (one at a time).
+ * Builds fixtures using sequential mode (one at a time).
  */
-async function buildFixturesInLoopMode(
+async function buildFixturesInSequentialMode(
   config: Awaited<ReturnType<typeof readConfig>>,
   fixtures: string[],
   artifactsDir: string,
@@ -139,7 +135,7 @@ async function measure(options: MeasureOptions) {
     quiet,
     'artifacts-location': artifactsLocation,
     fixtures: fixturesGlob,
-    'single-build': singleBuild = false,
+    'build-mode': buildMode = 'batch',
   } = options;
 
   const startTime = timestamp();
@@ -176,15 +172,14 @@ async function measure(options: MeasureOptions) {
     logger.info(`Measuring bundle size for ${fixtures.length} fixture(s)...`);
     logger.raw(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
     logger.info(`Using ${config.bundler.name} as a bundler...`);
-    if (singleBuild) {
-      logger.info('Using single-build mode...');
-    }
+    logger.info(`Build mode: ${buildMode}`);
   }
 
   // Build fixtures using the appropriate mode
-  const measurements = singleBuild
-    ? await buildFixturesInSingleMode(config, fixtures, artifactsDir, debug, quiet)
-    : await buildFixturesInLoopMode(config, fixtures, artifactsDir, debug, quiet);
+  const measurements =
+    buildMode === 'batch'
+      ? await buildFixturesInBatchMode(config, fixtures, artifactsDir, debug, quiet)
+      : await buildFixturesInSequentialMode(config, fixtures, artifactsDir, debug, quiet);
 
   measurements.sort((a, b) => a.path.localeCompare(b.path, 'en'));
 
@@ -215,11 +210,12 @@ const api: CommandModule<Record<string, unknown>, MeasureOptions> = {
       description: 'Filename glob pattern to target whatever fixture files you want to measure.',
       default: '*.fixture.js',
     },
-    'single-build': {
-      type: 'boolean',
+    'build-mode': {
+      type: 'string',
+      choices: ['batch', 'sequential'] as const,
       description:
-        'If true, all fixtures will be built in a single bundler run with multiple entry points. This can significantly reduce build time.',
-      default: false,
+        'Build mode: "batch" builds all fixtures in a single bundler run (faster), "sequential" builds one at a time.',
+      default: 'batch',
     },
   },
 };

@@ -31,24 +31,24 @@ exports[`buildFixture > debug mode > provides partially minified output when ena
 "
 `;
 
-exports[`buildFixtures > builds multiple fixtures in a single build 1`] = `
+exports[`buildFixtures > builds fixtures in batch mode 1`] = `
 "console.log(function () {
   return "foo";
 });
 "
 `;
 
-exports[`buildFixtures > builds multiple fixtures in a single build 2`] = `
+exports[`buildFixtures > builds fixtures in batch mode 2`] = `
 "console.log("Hello2");
 "
 `;
 
-exports[`buildFixtures > builds multiple fixtures in a single build 3`] = `
+exports[`buildFixtures > builds fixtures in batch mode 3`] = `
 "console.log("Hello3");
 "
 `;
 
-exports[`buildFixtures > builds multiple fixtures in debug mode 1`] = `
+exports[`buildFixtures > builds fixtures in batch mode with debug 1`] = `
 "(() => {
   const tokens1 = { foo: "foo", bar: "bar" };
   function foo1() {
@@ -60,7 +60,7 @@ exports[`buildFixtures > builds multiple fixtures in debug mode 1`] = `
 "
 `;
 
-exports[`buildFixtures > builds multiple fixtures in debug mode 2`] = `
+exports[`buildFixtures > builds fixtures in batch mode with debug 2`] = `
 "(() => {
   const tokens2 = { foo: "foo", bar: "bar" };
   function foo2() {

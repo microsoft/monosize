@@ -239,7 +239,7 @@ describe('buildFixtures', () => {
     vitest.resetAllMocks();
   });
 
-  it('builds multiple fixtures in a single build', async () => {
+  it('builds fixtures in batch mode', async () => {
     const { fixtures } = await setupMultiple([
       {
         name: 'fixture1',
@@ -296,7 +296,7 @@ describe('buildFixtures', () => {
     expect(await prepareOutput(buildResults[2].outputPath)).toMatchSnapshot();
   });
 
-  it('builds multiple fixtures in debug mode', async () => {
+  it('builds fixtures in batch mode with debug', async () => {
     const { fixtures } = await setupMultiple([
       {
         name: 'fixture1',
@@ -413,19 +413,19 @@ describe('buildFixtures', () => {
 
     // Build using loop mode (buildFixture for each)
     const { fixtures: loopFixtures } = await setupMultiple(fixtureContents);
-    const loopOutputs: Array<{ name: string; content: string }> = [];
+    const loopOutputs = await Promise.all(
+      loopFixtures.map(async fixture => {
+        const result = await rspackBundler.buildFixture({
+          fixturePath: fixture.path,
+          debug: false,
+          quiet: true,
+        });
+        const content = await prepareOutput(result.outputPath);
+        return { name: fixture.name, content };
+      }),
+    );
 
-    for (const fixture of loopFixtures) {
-      const result = await rspackBundler.buildFixture({
-        fixturePath: fixture.path,
-        debug: false,
-        quiet: true,
-      });
-      const content = await prepareOutput(result.outputPath);
-      loopOutputs.push({ name: fixture.name, content });
-    }
-
-    // Build using single-build mode (buildFixtures)
+    // Build using batch mode (buildFixtures)
     const { fixtures: batchFixtures } = await setupMultiple(fixtureContents);
     const batchResults = await rspackBundler.buildFixtures({
       fixtures: batchFixtures.map(f => ({ fixturePath: f.path, name: f.name })),
@@ -445,10 +445,6 @@ describe('buildFixtures', () => {
     batchOutputs.sort((a, b) => a.name.localeCompare(b.name));
 
     // Validate outputs are identical
-    expect(batchOutputs).toHaveLength(loopOutputs.length);
-    for (let i = 0; i < loopOutputs.length; i++) {
-      expect(batchOutputs[i].name).toBe(loopOutputs[i].name);
-      expect(batchOutputs[i].content).toBe(loopOutputs[i].content);
-    }
+    expect(batchOutputs).toEqual(loopOutputs);
   });
 });

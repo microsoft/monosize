@@ -180,7 +180,7 @@ export function createRspackBundler(configEnhancerCallback = DEFAULT_CONFIG_ENHA
       // Use the root directory of the first fixture for the build
       const rootDir = path.dirname(fixtures[0].fixturePath);
 
-      // Build all fixtures in a single rsbuild run
+      // Build all fixtures in batch mode
       const rsbuild = await createRsbuild({
         loadEnv: false,
         rsbuildConfig: configEnhancerCallback({

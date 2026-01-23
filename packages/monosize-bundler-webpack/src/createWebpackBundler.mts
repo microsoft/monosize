@@ -51,10 +51,10 @@ export function createWebpackBundler(configEnhancerCallback = DEFAULT_CONFIG_ENH
         debugOutputPath: fixturePath.replace(/\.fixture.js$/, '.debug.js'),
       }));
 
-      // Build all fixtures in a single webpack run
+      // Build all fixtures in batch mode
       await runWebpackMultiEntry({
         enhanceConfig: configEnhancerCallback,
-        fixtures: fixturesWithPaths.map(f => ({ fixturePath: f.fixturePath, outputPath: f.outputPath })),
+        fixtures: fixturesWithPaths,
         debug,
         quiet,
       });

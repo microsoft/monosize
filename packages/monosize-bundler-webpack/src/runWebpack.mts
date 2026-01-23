@@ -6,7 +6,7 @@ import type { Configuration as WebpackConfiguration } from 'webpack';
 import { WebpackBundlerOptions } from './types.mjs';
 
 /**
- * Creates the base Webpack configuration shared by both single and multi-entry builds.
+ * Creates the base Webpack configuration shared by both sequential and batch builds.
  */
 function createBaseWebpackConfig(debug: boolean): Partial<WebpackConfiguration> {
   return {

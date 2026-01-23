@@ -33,7 +33,7 @@ export type BundlerAdapter = {
   }>;
 
   /**
-   * Build multiple fixtures in a single build operation.
+   * Build fixtures in a batch operation.
    * When implemented, this can significantly reduce build time for bundlers that support multiple entry points.
    */
   buildFixtures: (options: {

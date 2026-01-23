@@ -34,7 +34,7 @@ export function createEsbuildBundler(configEnhancerCallback = DEFAULT_CONFIG_ENH
 
       await runEsbuildMultiEntry({
         enhanceConfig: configEnhancerCallback,
-        fixtures: fixturesWithPaths.map(f => ({ fixturePath: f.fixturePath, outputPath: f.outputPath })),
+        fixtures: fixturesWithPaths,
         quiet,
       });
 

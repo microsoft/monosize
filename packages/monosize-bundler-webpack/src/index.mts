@@ -1,1 +1,1 @@
-export { createWebpackBundler, createWebpackBundler as default } from './createWebpackBundler.mjs';
+export { createWebpackBundler as default } from './createWebpackBundler.mjs';
