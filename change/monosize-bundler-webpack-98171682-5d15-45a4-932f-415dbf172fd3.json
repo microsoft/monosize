@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: add support for batch build mode",
-  "packageName": "monosize-bundler-webpack",
-  "email": "pjsw@microsoft.com",
-  "dependentChangeType": "patch"
-}

@@ -2,6 +2,27 @@
   "name": "monosize-bundler-rspack",
   "entries": [
     {
+      "date": "Tue, 27 Jan 2026 13:37:07 GMT",
+      "tag": "monosize-bundler-rspack_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "pjsw@microsoft.com",
+            "package": "monosize-bundler-rspack",
+            "commit": "ec5280ba7cba42110638b6e880d1df4725e51534",
+            "comment": "feat: add support for batch build mode"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-rspack",
+            "comment": "Bump monosize to v0.8.0",
+            "commit": "ec5280ba7cba42110638b6e880d1df4725e51534"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 08 Dec 2025 13:02:38 GMT",
       "tag": "monosize-bundler-rspack_v0.1.2",
       "version": "0.1.2",

@@ -1,6 +1,6 @@
 {
   "name": "monosize-bundler-webpack",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   },
   "types": "./src/index.d.mts",
   "dependencies": {
-    "monosize": "^0.7.1",
+    "monosize": "^0.8.0",
     "terser": "^5.16.0",
     "terser-webpack-plugin": "^5.3.1",
     "tslib": "^2.4.1",

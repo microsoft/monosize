@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Mon, 08 Dec 2025 12:45:18 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jan 2026 13:37:07 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.8.0
+
+Tue, 27 Jan 2026 13:37:07 GMT
+
+### Minor changes
+
+- feat: Add build-mode option, defaults to `batch` mode to improve build performance (pjsw@microsoft.com)
 
 ## 0.7.1
 

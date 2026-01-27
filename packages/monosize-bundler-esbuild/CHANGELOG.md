@@ -1,8 +1,17 @@
 # Change Log - monosize-bundler-esbuild
 
-This log was last generated on Mon, 08 Dec 2025 12:45:18 GMT and should not be manually modified.
+This log was last generated on Tue, 27 Jan 2026 13:37:07 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.0
+
+Tue, 27 Jan 2026 13:37:07 GMT
+
+### Minor changes
+
+- feat: add support for batch build mode (pjsw@microsoft.com)
+- Bump monosize to v0.8.0
 
 ## 0.2.1
 
