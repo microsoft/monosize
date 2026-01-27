@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: Add build-mode option, defaults to `batch` mode to improve build performance",
+  "packageName": "monosize",
+  "email": "pjsw@microsoft.com",
+  "dependentChangeType": "patch"
+}

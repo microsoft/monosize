@@ -5,7 +5,10 @@ import type { Configuration as WebpackConfiguration } from 'webpack';
 
 import { WebpackBundlerOptions } from './types.mjs';
 
-function createWebpackConfig(fixturePath: string, outputPath: string, debug: boolean): WebpackConfiguration {
+/**
+ * Creates the base Webpack configuration shared by both sequential and batch builds.
+ */
+function createBaseWebpackConfig(debug: boolean): Partial<WebpackConfiguration> {
   return {
     name: 'client',
     target: 'web',
@@ -19,15 +22,6 @@ function createWebpackConfig(fixturePath: string, outputPath: string, debug: boo
       'react-dom': 'ReactDOM',
     },
 
-    entry: fixturePath,
-    output: {
-      filename: path.basename(outputPath),
-      path: path.dirname(outputPath),
-
-      ...(debug && {
-        pathinfo: true,
-      }),
-    },
     performance: {
       hints: false,
     },
@@ -59,6 +53,74 @@ function createWebpackConfig(fixturePath: string, outputPath: string, debug: boo
   };
 }
 
+function createWebpackConfig(fixturePath: string, outputPath: string, debug: boolean): WebpackConfiguration {
+  return {
+    ...createBaseWebpackConfig(debug),
+
+    entry: fixturePath,
+    output: {
+      filename: path.basename(outputPath),
+      path: path.dirname(outputPath),
+
+      ...(debug && {
+        pathinfo: true,
+      }),
+    },
+  } as WebpackConfiguration;
+}
+
+function createMultiEntryWebpackConfig(
+  fixtures: Array<{ fixturePath: string; outputPath: string }>,
+  debug: boolean,
+): WebpackConfiguration {
+  // Build entry object with keys derived from output filenames
+  const entry = fixtures.reduce<Record<string, string>>(
+    (acc, { fixturePath, outputPath }) => {
+      const entryName = path.basename(outputPath, path.extname(outputPath));
+      acc[entryName] = fixturePath;
+      return acc;
+    },
+    {},
+  );
+
+  // All fixtures should output to the same directory
+  const outputDir = path.dirname(fixtures[0].outputPath);
+
+  return {
+    ...createBaseWebpackConfig(debug),
+
+    entry,
+    output: {
+      filename: '[name].js',
+      path: outputDir,
+
+      ...(debug && {
+        pathinfo: true,
+      }),
+    },
+  } as WebpackConfiguration;
+}
+
+/**
+ * Shared function to compile a webpack configuration.
+ */
+async function compileWebpackConfig(config: WebpackConfiguration): Promise<null> {
+  return new Promise((resolve, reject) => {
+    const compiler = webpack(config);
+
+    compiler.run((err, result) => {
+      if (err) {
+        reject(err);
+      }
+      if (result && result.hasErrors()) {
+        reject(result.compilation.errors.join('\n'));
+      }
+
+      resolve(null);
+    });
+  });
+}
+
 type RunWebpackOptions = {
   enhanceConfig: WebpackBundlerOptions;
 
@@ -72,19 +134,20 @@ type RunWebpackOptions = {
 export async function runWebpack(options: RunWebpackOptions): Promise<null> {
   const { enhanceConfig, fixturePath, outputPath, debug } = options;
   const webpackConfig = enhanceConfig(createWebpackConfig(fixturePath, outputPath, debug));
+  return compileWebpackConfig(webpackConfig);
+}
 
-  return new Promise((resolve, reject) => {
-    const compiler = webpack(webpackConfig);
+type RunWebpackMultiEntryOptions = {
+  enhanceConfig: WebpackBundlerOptions;
 
-    compiler.run((err, result) => {
-      if (err) {
-        reject(err);
-      }
-      if (result && result.hasErrors()) {
-        reject(result.compilation.errors.join('\n'));
-      }
+  fixtures: Array<{ fixturePath: string; outputPath: string }>;
 
-      resolve(null);
-    });
-  });
+  debug: boolean;
+  quiet: boolean;
+};
+
+export async function runWebpackMultiEntry(options: RunWebpackMultiEntryOptions): Promise<null> {
+  const { enhanceConfig, fixtures, debug } = options;
+  const webpackConfig = enhanceConfig(createMultiEntryWebpackConfig(fixtures, debug));
+  return compileWebpackConfig(webpackConfig);
 }

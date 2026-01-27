@@ -5,22 +5,24 @@ import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import api, { type MeasureOptions } from './measure.mjs';
 import { logger } from '../logger.mjs';
 
-const buildFixture = vitest.hoisted(() =>
-  vitest.fn().mockImplementation(async ({ fixturePath }) => {
-    const outputPath = path.resolve(
-      path.dirname(fixturePath),
-      path.basename(fixturePath).replace('.fixture.js', '.output.js'),
-    );
+const buildFixtures = vitest.hoisted(() =>
+  vitest.fn().mockImplementation(async ({ fixtures }) => {
+    return fixtures.map(({ fixturePath, name }: { fixturePath: string; name: string }) => {
+      const outputPath = path.resolve(
+        path.dirname(fixturePath),
+        path.basename(fixturePath).replace('.fixture.js', '.output.js'),
+      );
 
-    fs.cpSync(fixturePath, outputPath);
+      fs.cpSync(fixturePath, outputPath);
 
-    return { outputPath };
+      return { name, outputPath };
+    });
   }),
 );
 
 vitest.mock('../utils/readConfig.mts', () => ({
   readConfig: vitest.fn().mockResolvedValue({
-    bundler: { buildFixture },
+    bundler: { buildFixtures },
   }),
 }));
 
@@ -125,7 +127,12 @@ describe('measure', () => {
 
   it('builds only targeted fixtures with pattern passed', async () => {
     const { packageDir } = await setup(getMockedFixtures('foo', 'bar', 'baz'));
-    const options: MeasureOptions = { quiet: true, debug: false, 'artifacts-location': 'output', fixtures: 'ba*' };
+    const options: MeasureOptions = {
+      quiet: true,
+      debug: false,
+      'artifacts-location': 'output',
+      fixtures: 'ba*',
+    };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await api.handler(options as any);

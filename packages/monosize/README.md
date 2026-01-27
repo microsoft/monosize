@@ -162,7 +162,7 @@ If the bundle size exceeds the threshold, the `compare-reports` command will fai
 ### `measure`
 
 ```sh
-monosize measure [--debug] [--artifacts-location] [--fixtures] [--quiet]
+monosize measure [--debug] [--artifacts-location] [--fixtures] [--build-mode] [--quiet]
 ```
 
 Builds fixtures and produces artifacts. For each fixture:
@@ -177,11 +177,13 @@ Produces a report file (`dist/bundle-size/monosize.json`) that is used by other 
 
 - `artifacts-location` - defines relative path from the package root where the artifact files will be stored (`monosize.json` & bundler output). If specified, `--report-files-glob` in `monosize collect-reports` & `monosize upload-reports` should be set accordingly.
 - `fixtures` - optional argument to pass a fixture filename or globbing pattern. If not specified, all fixture files matching a `*.fixture.js` pattern will be measured.
+- `build-mode` - controls how fixtures are built. `batch` builds all fixtures in a single bundler run with multiple entry points (3-15x faster). `sequential` builds one at a time. Default: `batch`.
 
 #### Examples
 
 `monosize measure --fixtures ba*` - matches any fixtures with filenames starting with `ba`
 `monosize measure --fixtures Fixture.fixture.js` - matches a fixture with the exact filename
+`monosize measure --build-mode=sequential` - builds fixtures one at a time (slower but useful for debugging)
 
 ### `compare-reports`
 

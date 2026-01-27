@@ -41,3 +41,41 @@ export async function runEsbuild(options: RunEsbuildOptions): Promise<null> {
 
   return null;
 }
+
+type RunEsbuildMultiEntryOptions = {
+  enhanceConfig: EsbuildBundlerOptions;
+
+  fixtures: Array<{ fixturePath: string; outputPath: string }>;
+
+  quiet: boolean;
+};
+
+export async function runEsbuildMultiEntry(options: RunEsbuildMultiEntryOptions): Promise<null> {
+  const { enhanceConfig, fixtures } = options;
+
+  // All fixtures should output to the same directory
+  const outputDir = path.dirname(fixtures[0].outputPath);
+
+  // Build entry object with keys derived from output filenames
+  const entryPoints = fixtures.reduce<Record<string, string>>((acc, { fixturePath, outputPath }) => {
+    const entryName = path.basename(outputPath, path.extname(outputPath));
+    acc[entryName] = fixturePath;
+    return acc;
+  }, {});
+
+  const esbuildConfig = enhanceConfig({
+    logLevel: 'silent',
+
+    entryPoints,
+
+    minify: true,
+    bundle: true,
+
+    outdir: outputDir,
+    outExtension: { '.js': '.js' },
+  });
+
+  await build(esbuildConfig);
+
+  return null;
+}

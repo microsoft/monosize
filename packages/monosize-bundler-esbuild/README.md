@@ -48,3 +48,13 @@ export default {
   }),
 };
 ```
+
+#### Batch Build Mode
+
+By default, monosize uses batch mode which runs a single build with multiple entry points. This is 6-7x faster for typical scenarios.
+
+To use sequential mode instead (builds one fixture at a time):
+
+```sh
+monosize measure --build-mode=sequential
+```

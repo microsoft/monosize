@@ -30,3 +30,44 @@ exports[`buildFixture > debug mode > provides partially minified output when ena
 })();
 "
 `;
+
+exports[`buildFixtures > builds fixtures in batch mode 1`] = `
+"console.log(function () {
+  return "foo";
+});
+"
+`;
+
+exports[`buildFixtures > builds fixtures in batch mode 2`] = `
+"console.log("Hello2");
+"
+`;
+
+exports[`buildFixtures > builds fixtures in batch mode 3`] = `
+"console.log("Hello3");
+"
+`;
+
+exports[`buildFixtures > builds fixtures in batch mode with debug 1`] = `
+"(() => {
+  const tokens1 = { foo: "foo", bar: "bar" };
+  function foo1() {
+    return tokens1.foo;
+  }
+  const bar1 = 1;
+  console.log(foo1);
+})();
+"
+`;
+
+exports[`buildFixtures > builds fixtures in batch mode with debug 2`] = `
+"(() => {
+  const tokens2 = { foo: "foo", bar: "bar" };
+  function foo2() {
+    return tokens2.foo;
+  }
+  const bar2 = 1;
+  console.log(foo2);
+})();
+"
+`;
