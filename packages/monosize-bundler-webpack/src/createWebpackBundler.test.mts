@@ -105,7 +105,7 @@ describe('buildFixture', () => {
       expect(buildResult.outputPath).toMatch(/monosize[\\|/]test\.output\.js/);
       expect(buildResult.debugOutputPath).toBeUndefined();
 
-      expect(output).toMatchInlineSnapshot(`"(()=>{const o="foo";console.log((function(){return o}))})();"`);
+      expect(output).toMatchInlineSnapshot(`"(()=>{const o="foo";console.log(function(){return o})})();"`);
     });
 
     it('provides partially minified output when enabled', async () => {
@@ -131,18 +131,17 @@ describe('buildFixture', () => {
       const output = await fs.promises.readFile(buildResult.outputPath, 'utf-8');
       const debugOutput = await fs.promises.readFile(buildResult.debugOutputPath!, 'utf-8');
 
-      expect(output).toMatchInlineSnapshot(`"(()=>{const o="foo";console.log((function(){return o}))})();"`);
+      expect(output).toMatchInlineSnapshot(`"(()=>{const o="foo";console.log(function(){return o})})();"`);
 
       // Output should contain the original variable names
       expect(debugOutput).toMatchInlineSnapshot(`
         "/******/ (() => {
             // webpackBootstrap
             const tokens_foo = "foo";
-            console.log((function() {
+            console.log(function() {
                 return tokens_foo;
-            }));
-        })
-        /******/ ();"
+            });
+        })();"
       `);
     });
   });
@@ -200,7 +199,7 @@ describe('buildFixtures', () => {
     expect(buildResults[0].name).toBe('fixture1');
     expect(buildResults[0].outputPath).toMatch(/monosize[\\|/]fixture1\.output\.js/);
     expect(await fs.promises.readFile(buildResults[0].outputPath, 'utf-8')).toMatchInlineSnapshot(
-      `"(()=>{const o="foo";console.log((function(){return o}))})();"`,
+      `"(()=>{const o="foo";console.log(function(){return o})})();"`,
     );
 
     expect(buildResults[1].name).toBe('fixture2');
@@ -266,21 +265,19 @@ describe('buildFixtures', () => {
       "/******/ (() => {
           // webpackBootstrap
           const tokens1_foo = "foo";
-          console.log((function() {
+          console.log(function() {
               return tokens1_foo;
-          }));
-      })
-      /******/ ();"
+          });
+      })();"
     `);
     expect(debugOutput2).toMatchInlineSnapshot(`
       "/******/ (() => {
           // webpackBootstrap
           const tokens2_foo = "foo";
-          console.log((function() {
+          console.log(function() {
               return tokens2_foo;
-          }));
-      })
-      /******/ ();"
+          });
+      })();"
     `);
   });
 
