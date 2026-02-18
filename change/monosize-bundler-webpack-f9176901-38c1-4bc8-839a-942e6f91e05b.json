@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: bump to Nx 22",
+  "packageName": "monosize-bundler-webpack",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}

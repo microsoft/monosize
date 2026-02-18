@@ -2,6 +2,7 @@
   "name": "monosize-storage-upstash",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/monosize-storage-upstash/src",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -27,12 +28,11 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/packages/monosize-storage-upstash"],
       "options": {
         "passWithNoTests": true
       }
     }
-  },
-  "tags": []
+  }
 }

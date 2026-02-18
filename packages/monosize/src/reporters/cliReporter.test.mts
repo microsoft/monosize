@@ -1,5 +1,5 @@
 import stripAnsi from 'strip-ansi';
-import { describe, it, expect, vitest } from 'vitest';
+import { beforeEach, describe, it, expect, vitest } from 'vitest';
 
 import { cliReporter } from './cliReporter.mjs';
 import { sampleComparedReport, reportWithExceededThreshold } from '../__fixture__/sampleComparedReport.mjs';
@@ -29,6 +29,10 @@ describe('cliReporter', () => {
     showUnchanged: false,
     deltaFormat: 'percent' as const,
   };
+
+  beforeEach(() => {
+    vitest.clearAllMocks();
+  });
 
   it('wont render anything if there is nothing to compare', () => {
     const logSpy = vitest.spyOn(logger, 'success').mockImplementation(noop);

@@ -2,6 +2,7 @@
   "name": "monosize-bundler-rspack",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/monosize-bundler-rspack/src",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -27,12 +28,11 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/packages/monosize-bundler-rspack"],
       "options": {
         "passWithNoTests": true
       }
     }
-  },
-  "tags": []
+  }
 }
