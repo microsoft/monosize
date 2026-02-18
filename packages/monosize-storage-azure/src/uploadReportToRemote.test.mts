@@ -7,12 +7,9 @@ import {
 } from './uploadReportToRemote.mjs';
 
 import { sampleReport, bigReport } from './__fixture__/sampleReports.mjs';
-import { BundleSizeReportEntry } from 'monosize';
 import type { AzureStorageConfig } from './types.mjs';
 
-const getRemoteReport = vitest.hoisted(
-  () => vitest.fn() as Mock<Array<BundleSizeReportEntry & { partitionKey: string; rowKey: string }>>,
-);
+const getRemoteReport = vitest.hoisted(() => vitest.fn());
 const submitTransaction = vitest.hoisted(() => vitest.fn());
 
 const testConfig: AzureStorageConfig = {
@@ -21,35 +18,34 @@ const testConfig: AzureStorageConfig = {
 };
 
 vitest.mock('@azure/data-tables', async () => {
-  const listEntities = () => {
-    const data = getRemoteReport();
-
-    return {
-      [Symbol.asyncIterator]: () => ({
-        next: async () => {
-          const value = data.shift();
-
-          return {
-            value,
-            done: value === undefined,
-          };
-        },
-      }),
-    };
-  };
-
   const AzureNamedKeyCredential = vitest.fn() as unknown as import('@azure/data-tables').AzureNamedKeyCredential;
-  const TableClient = vitest.fn().mockImplementation(() => ({
-    listEntities,
-    submitTransaction,
-  })) as unknown as import('@azure/data-tables').TableClient;
+
+  class TableClientMock {
+    listEntities () {
+      const data = getRemoteReport();
+
+      return {
+        [Symbol.asyncIterator]: () => ({
+          next: async () => {
+            const value = data.shift();
+
+            return {
+              value,
+              done: value === undefined,
+            };
+          },
+        }),
+      };
+    };
+    submitTransaction = submitTransaction;
+  }
 
   const azureTables = await vitest.importActual<typeof import('@azure/data-tables')>('@azure/data-tables');
   return {
     ...azureTables,
 
     AzureNamedKeyCredential,
-    TableClient,
+    TableClient: TableClientMock as unknown as import('@azure/data-tables').TableClient,
   };
 });
 

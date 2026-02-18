@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: bump to Nx 22",
+  "packageName": "monosize-storage-azure",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}

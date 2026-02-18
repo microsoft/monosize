@@ -1,5 +1,5 @@
 import prettier from 'prettier';
-import { describe, expect, it, vitest } from 'vitest';
+import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { reportWithExceededThreshold, sampleComparedReport } from '../__fixture__/sampleComparedReport.mjs';
 import { logger } from '../logger.mjs';
@@ -15,6 +15,10 @@ describe('markdownReporter', () => {
     showUnchanged: true,
     deltaFormat: 'delta' as const,
   };
+
+  beforeEach(() => {
+    vitest.clearAllMocks();
+  });
 
   it('wont render anything if there is nothing to compare', async () => {
     const log = vitest.spyOn(logger, 'raw').mockImplementation(noop);
