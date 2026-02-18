@@ -56,7 +56,7 @@
     "vitest": "3.0.9"
   },
   "dependencies": {
-    "@azure/data-tables": "^13.2.2",
+    "@azure/data-tables": "^13.3.2",
     "@azure/identity": "^4.13.0",
     "@rsbuild/core": "^1.6.13",
     "@upstash/redis": "^1.34.6",
