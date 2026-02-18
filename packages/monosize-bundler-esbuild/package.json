@@ -9,7 +9,7 @@
   },
   "types": "./src/index.d.mts",
   "dependencies": {
-    "esbuild": "^0.25.1",
+    "esbuild": "^0.27.3",
     "monosize": "^0.8.0",
     "tslib": "^2.4.1"
   }
