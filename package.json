@@ -10,7 +10,7 @@
   "scripts": {
     "build": "nx affected:build",
     "change": "beachball change --no-commit",
-    "check-dependencies": "syncpack list-mismatches --types prod,peer",
+    "check-dependencies": "syncpack lint --dependency-types prod,peer",
     "lint": "nx affected:lint",
     "test": "nx affected:test"
   },
@@ -51,7 +51,7 @@
     "nx": "22.5.1",
     "prettier": "3.5.3",
     "simple-git-hooks": "2.12.1",
-    "syncpack": "13.0.3",
+    "syncpack": "14.0.0",
     "ts-node": "10.9.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.56.0",
