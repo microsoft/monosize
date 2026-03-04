@@ -5,7 +5,7 @@ import type { EsbuildBundlerOptions } from './types.mjs';
 
 const DEFAULT_CONFIG_ENHANCER: EsbuildBundlerOptions = config => config;
 
-export function createEsbuildBundler(configEnhancerCallback = DEFAULT_CONFIG_ENHANCER): BundlerAdapter {
+export function createEsbuildBundler(configEnhancerCallback: EsbuildBundlerOptions = DEFAULT_CONFIG_ENHANCER): BundlerAdapter {
   return {
     buildFixture: async function (options) {
       const { fixturePath, quiet } = options;

@@ -8,7 +8,7 @@ const CONFIG_FILE_NAME = ['monosize.config.js', 'monosize.config.mjs'];
 
 let cache: MonoSizeConfig | undefined;
 
-export function resetConfigCache() {
+export function resetConfigCache(): void {
   cache = undefined;
 }
 

@@ -5,7 +5,7 @@ import type { AzureStorageConfig } from './types.mjs';
 
 const MAX_HTTP_ATTEMPT_COUNT = 5;
 
-export function createGetRemoteReport(config: AzureStorageConfig) {
+export function createGetRemoteReport(config: AzureStorageConfig): StorageAdapter['getRemoteReport'] {
   async function getRemoteReport(branch: string, attempt = 1): ReturnType<StorageAdapter['getRemoteReport']> {
     try {
       const response = await fetch(`${config.endpoint}?branch=${branch}`);

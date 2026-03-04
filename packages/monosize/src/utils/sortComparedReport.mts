@@ -7,6 +7,6 @@ function compareReports(a: ComparedReportEntry, b: ComparedReportEntry) {
 /**
  * Sorts entries in a report by "packageName" & "path".
  */
-export function sortComparedReport(report: ComparedReport) {
+export function sortComparedReport(report: ComparedReport): ComparedReport {
   return report.slice().sort(compareReports);
 }

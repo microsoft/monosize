@@ -10,7 +10,7 @@ export type Reporter = (
 export function formatDeltaFactory(
   diff: DiffByMetric,
   options: { deltaFormat: keyof DiffByMetric; directionSymbol: (value: number) => string },
-) {
+): '' | { deltaOutput: string | number; dirSymbol: string } {
   const { deltaFormat, directionSymbol } = options;
 
   if (diff.delta === 0) {

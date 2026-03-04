@@ -11,7 +11,7 @@ type RunTerserOptions = {
   quiet: boolean;
 };
 
-export async function runTerser(options: RunTerserOptions) {
+export async function runTerser(options: RunTerserOptions): Promise<void> {
   const { fixturePath, debugOutputPath, sourcePath, outputPath } = options;
   const sourceContent = await fs.promises.readFile(sourcePath, 'utf8');
 

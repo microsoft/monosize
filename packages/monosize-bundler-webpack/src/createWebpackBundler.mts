@@ -6,7 +6,7 @@ import type { WebpackBundlerOptions } from './types.mjs';
 
 const DEFAULT_CONFIG_ENHANCER: WebpackBundlerOptions = config => config;
 
-export function createWebpackBundler(configEnhancerCallback = DEFAULT_CONFIG_ENHANCER): BundlerAdapter {
+export function createWebpackBundler(configEnhancerCallback: WebpackBundlerOptions = DEFAULT_CONFIG_ENHANCER): BundlerAdapter {
   return {
     buildFixture: async function (options) {
       const { debug, fixturePath, quiet } = options;
