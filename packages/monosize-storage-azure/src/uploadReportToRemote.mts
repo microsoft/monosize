@@ -16,7 +16,7 @@ export function splitArrayToChunks<T>(arr: T[], size: number): T[][] {
   return [...Array(Math.ceil(arr.length / size))].map((_, i) => arr.slice(i * size, (i + 1) * size));
 }
 
-export function createUploadReportToRemote(config: AzureStorageConfig) {
+export function createUploadReportToRemote(config: AzureStorageConfig): StorageAdapter['uploadReportToRemote'] {
   const { authType = 'AzureNamedKeyCredential', tableName = 'latest' } = config;
 
   async function uploadReportToRemote(

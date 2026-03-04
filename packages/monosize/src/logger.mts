@@ -6,7 +6,7 @@ import { formatHrTime } from './utils/helpers.mjs';
 type LogFunction = (message: unknown, timestamp?: ReturnType<typeof process.hrtime>) => void;
 type LogTypes = 'error' | 'info' | 'success' | 'finish';
 
-export const timestamp = () => process.hrtime();
+export const timestamp = (): ReturnType<typeof process.hrtime> => process.hrtime();
 
 function toFriendlyTime(time?: ReturnType<typeof process.hrtime>) {
   if (!time) {

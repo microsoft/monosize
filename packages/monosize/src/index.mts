@@ -32,4 +32,4 @@ export type {
   BundleAdapterFactory,
 } from './types.mjs';
 
-export default cliSetup;
+export default cliSetup as object;

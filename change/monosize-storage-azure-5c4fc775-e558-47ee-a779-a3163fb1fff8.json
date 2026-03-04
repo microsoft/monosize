@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "enable isolatedDeclarations in TypeScript config",
+  "packageName": "monosize-storage-azure",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}

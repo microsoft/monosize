@@ -118,7 +118,7 @@ export function createMultiEntryEnvironmentConfig(params: {
   };
 }
 
-export function createRspackBundler(configEnhancerCallback = DEFAULT_CONFIG_ENHANCER): BundlerAdapter {
+export function createRspackBundler(configEnhancerCallback: BundlerAdapterFactoryConfig<RsbuildConfig> = DEFAULT_CONFIG_ENHANCER): BundlerAdapter {
   return {
     buildFixture: async function (options) {
       const { debug, fixturePath } = options;
