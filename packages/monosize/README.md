@@ -11,7 +11,7 @@
 - 📚 Designed to be used in CI/CD pipelines
 - 🎱 Designed to represent real-world scenarios
 - 🧰 Supports single packages & monorepos
-- 🍿 Supports various bundlers ([Webpack](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-webpack), [esbuild](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-esbuild), implement your own? 🐱)
+- 🍿 Supports various bundlers ([Webpack](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-webpack), [esbuild](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-esbuild), [Rspack](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-rspack), implement your own? 🐱)
 - ☁️ Supports various storage adapters
 
 <hr />
@@ -132,7 +132,7 @@ const config = {
     },
   },
 
-  threshold: '10kb', // default is "10%"
+  threshold: '10kB', // default is "10%"
 };
 
 export default config;
@@ -144,6 +144,7 @@ To build fixtures and produce artifacts you need to use a bundler adapter. Follo
 
 - [`monosize-bundler-webpack`](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-webpack)
 - [`monosize-bundler-esbuild`](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-esbuild)
+- [`monosize-bundler-rspack`](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-rspack)
 
 ### Storage adapters
 
@@ -153,7 +154,7 @@ To store reference results and run comparisons you need to use a storage adapter
 
 ### Threshold
 
-The threshold is used to determine if the bundle size is acceptable. It can be set in the configuration file and can be a percentage (e.g., `10%`) or an absolute size (e.g., `10kb`). The default value is `10%`.
+The threshold is used to determine if the bundle size is acceptable. It can be set in the configuration file and can be a percentage (e.g., `10%`) or an absolute size (e.g., `10kB`). The default value is `10%`.
 
 If the bundle size exceeds the threshold, the `compare-reports` command will fail with exit code `1`.
 
@@ -220,7 +221,7 @@ monosize compare-reports --branch=main --output=["cli"|"markdown"] [--deltaForma
 monosize upload-report --branch=main --commit-sha=HASH [--report-files-glob] [--quiet]
 ```
 
-Aggregates local results to a single report and uploads data to Azure Table Storage.
+Aggregates local results to a single report and uploads data using the configured storage adapter.
 
 #### Options
 
