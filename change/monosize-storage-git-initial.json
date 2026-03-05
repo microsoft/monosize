@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: add monosize-storage-git package",
+  "packageName": "monosize-storage-git",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}

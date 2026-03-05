@@ -1,0 +1,38 @@
+{
+  "name": "monosize-storage-git",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/monosize-storage-git/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
+      "options": {
+        "outputPath": "dist/packages/monosize-storage-git",
+        "main": "packages/monosize-storage-git/src/index.ts",
+        "tsConfig": "packages/monosize-storage-git/tsconfig.lib.json",
+        "outputFileExtensionForEsm": ".mjs",
+        "assets": [
+          "packages/monosize-storage-git/README.md",
+          {
+            "glob": "LICENSE.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/packages/monosize-storage-git"],
+      "options": {
+        "passWithNoTests": true
+      }
+    }
+  }
+}

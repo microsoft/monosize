@@ -150,6 +150,7 @@ To build fixtures and produce artifacts you need to use a bundler adapter. Follo
 
 To store reference results and run comparisons you need to use a storage adapter. Following adapters are available:
 
+- [`monosize-storage-git`](https://github.com/microsoft/monosize/tree/main/packages/monosize-storage-git)
 - [`monosize-storage-upstash`](https://github.com/microsoft/monosize/tree/main/packages/monosize-storage-upstash)
 
 ### Threshold
