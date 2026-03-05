@@ -13,11 +13,20 @@
     }
   },
   "extends": "@nx/workspace/presets/core.json",
-  "pluginsConfig": {
-    "@nx/js": {
-      "analyzeSourceFiles": false
+  "plugins": [
+    {
+      "plugin": "@nx/js/typescript",
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        },
+        "build": {
+          "targetName": "build",
+          "configName": "tsconfig.lib.json"
+        }
+      }
     }
-  },
-  "useInferencePlugins": false,
+  ],
+  "useInferencePlugins": true,
   "defaultBase": "main"
 }

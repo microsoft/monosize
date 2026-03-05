@@ -1,8 +1,10 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "types": ["vitest/importMeta", "vite/client", "environment", "node", "vitest"]
+    "outDir": "./out-tsc/spec",
+    "rootDir": ".",
+    "types": ["environment", "node"]
   },
-  "include": ["vite.config.mts", "src/**/*.test.mts", "src/**/*.d.ts"]
+  "include": ["src/**/*.test.mts", "src/**/*.d.ts"],
+  "references": [{ "path": "./tsconfig.lib.json" }]
 }

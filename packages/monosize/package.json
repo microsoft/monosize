@@ -1,16 +1,28 @@
 {
   "name": "monosize",
   "version": "0.8.0",
+  "type": "module",
+  "files": [
+    "bin/",
+    "dist/"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/microsoft/monosize",
     "directory": "packages/monosize"
   },
-  "types": "./src/index.d.mts",
-  "bin": {
-    "monosize": "./bin/monosize.mjs"
+  "types": "./dist/index.d.mts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@monosize/source": "./src/index.mts",
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    }
   },
+  "bin": "./bin/monosize.mjs",
   "dependencies": {
     "acorn": "^8.14.1",
     "ci-info": "^4.2.0",

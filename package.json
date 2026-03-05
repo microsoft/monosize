@@ -2,6 +2,9 @@
   "name": "monosize-monorepo",
   "version": "0.0.0",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -77,8 +80,5 @@
     "tslib": "^2.4.1",
     "webpack": "^5.105.4",
     "yargs": "^17.6.2"
-  },
-  "resolutions": {
-    "beachball@2.31.5": "patch:beachball@npm:2.31.5#.yarn/patches/beachball-npm-2.31.5-0e84ec4233.patch"
   }
 }

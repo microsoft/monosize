@@ -1,5 +1,5 @@
 import { parse } from 'acorn';
-import type ES from 'acorn';
+import type * as ES from 'acorn';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -45,7 +45,7 @@ export async function prepareFixture(artifactDir: string, sourcePath: string): P
 
   const exportProperties = defaultExport.declaration.properties;
   const name = exportProperties.find(
-    property => property.type === 'Property' && property.key.type === 'Identifier' && property.key.name === 'name',
+    (property: ES.AnyNode) => property.type === 'Property' && property.key.type === 'Identifier' && property.key.name === 'name',
   ) as ES.Property | undefined;
 
   if (!name) {

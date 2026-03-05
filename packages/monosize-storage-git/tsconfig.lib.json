@@ -1,10 +1,11 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "declaration": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
     "types": ["environment", "node"]
   },
-  "include": ["**/*.mts"],
-  "exclude": ["**/*.test.mts", "vite.config.mts", "**/__fixture__/", "**/__mocks__/"]
+  "include": ["src/**/*.mts"],
+  "exclude": ["src/**/*.test.mts", "src/**/__fixture__/", "src/**/__mocks__/"],
+  "references": [{ "path": "../monosize/tsconfig.lib.json" }]
 }
