@@ -1,0 +1,20 @@
+{
+  "name": "monosize-storage-git",
+  "entries": [
+    {
+      "date": "Thu, 05 Mar 2026 18:15:03 GMT",
+      "tag": "monosize-storage-git_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-git",
+            "commit": "5bdfe174967c517252838db93f9de69214418cb7",
+            "comment": "feat: add monosize-storage-git package"
+          }
+        ]
+      }
+    }
+  ]
+}
