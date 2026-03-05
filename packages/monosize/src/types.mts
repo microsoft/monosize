@@ -31,6 +31,13 @@ export type BundlerAdapter = {
     outputPath: string;
     debugOutputPath?: string;
   }>;
+  buildFixtures?: (options: { rootDir: string; fixturePaths: string[]; debug: boolean; quiet: boolean }) => Promise<
+    {
+      fixturePath: string;
+      outputPath: string;
+      debugOutputPath?: string;
+    }[]
+  >;
 
   /**
    * Build fixtures in a batch operation.
