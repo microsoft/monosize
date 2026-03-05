@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "enable isolatedDeclarations in TypeScript config",
-  "packageName": "monosize-bundler-esbuild",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "none"
-}
