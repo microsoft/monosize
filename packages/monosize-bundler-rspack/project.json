@@ -4,25 +4,6 @@
   "sourceRoot": "packages/monosize-bundler-rspack/src",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "dependsOn": ["^build"],
-      "options": {
-        "outputPath": "dist/packages/monosize-bundler-rspack",
-        "main": "packages/monosize-bundler-rspack/src/index.ts",
-        "tsConfig": "packages/monosize-bundler-rspack/tsconfig.lib.json",
-        "outputFileExtensionForEsm": ".mjs",
-        "assets": [
-          "packages/monosize-bundler-rspack/README.md",
-          {
-            "glob": "LICENSE.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]

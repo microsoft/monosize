@@ -4,29 +4,6 @@
   "sourceRoot": "packages/monosize/src",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/monosize",
-        "main": "packages/monosize/src/index.ts",
-        "tsConfig": "packages/monosize/tsconfig.lib.json",
-        "outputFileExtensionForEsm": ".mjs",
-        "assets": [
-          "packages/monosize/README.md",
-          {
-            "glob": "LICENSE.md",
-            "input": ".",
-            "output": "."
-          },
-          {
-            "glob": "*.mjs",
-            "input": "packages/monosize/bin",
-            "output": "bin"
-          }
-        ]
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]

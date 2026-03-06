@@ -1,13 +1,25 @@
 {
   "name": "monosize-storage-upstash",
   "version": "0.0.24",
+  "type": "module",
+  "files": [
+    "dist/"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/microsoft/monosize",
     "directory": "packages/monosize-storage-upstash"
   },
-  "types": "./src/index.d.mts",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@monosize/source": "./src/index.mts",
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
   "dependencies": {
     "@upstash/redis": "^1.34.6",
     "monosize": "^0.8.0",

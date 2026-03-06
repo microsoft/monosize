@@ -4,25 +4,6 @@
   "sourceRoot": "packages/monosize-storage-upstash/src",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "dependsOn": ["^build"],
-      "options": {
-        "outputPath": "dist/packages/monosize-storage-upstash",
-        "main": "packages/monosize-storage-upstash/src/index.ts",
-        "tsConfig": "packages/monosize-storage-upstash/tsconfig.lib.json",
-        "outputFileExtensionForEsm": ".mjs",
-        "assets": [
-          "packages/monosize-storage-upstash/README.md",
-          {
-            "glob": "LICENSE.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]

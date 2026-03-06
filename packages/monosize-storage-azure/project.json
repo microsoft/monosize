@@ -4,25 +4,6 @@
   "sourceRoot": "packages/monosize-storage-azure/src",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "dependsOn": ["^build"],
-      "options": {
-        "outputPath": "dist/packages/monosize-storage-azure",
-        "main": "packages/monosize-storage-azure/src/index.ts",
-        "tsConfig": "packages/monosize-storage-azure/tsconfig.lib.json",
-        "outputFileExtensionForEsm": ".mjs",
-        "assets": [
-          "packages/monosize-storage-azure/README.md",
-          {
-            "glob": "LICENSE.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]

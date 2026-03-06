@@ -14,8 +14,8 @@ vitest.mock('node:fs', () => ({
   },
 }));
 
-const { execSync } = await import('node:child_process') as { execSync: ReturnType<typeof vitest.fn> };
-const fs = (await import('node:fs')).default as {
+const { execSync } = await import('node:child_process') as unknown as { execSync: ReturnType<typeof vitest.fn> };
+const fs = (await import('node:fs')).default as unknown as {
   mkdirSync: ReturnType<typeof vitest.fn>;
   writeFileSync: ReturnType<typeof vitest.fn>;
 };

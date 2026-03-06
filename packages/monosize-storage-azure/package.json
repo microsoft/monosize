@@ -1,18 +1,29 @@
 {
   "name": "monosize-storage-azure",
   "version": "0.0.20",
+  "type": "module",
+  "files": [
+    "dist/"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/microsoft/monosize",
     "directory": "packages/monosize-storage-azure"
   },
-  "types": "./src/index.d.mts",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@monosize/source": "./src/index.mts",
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
   "dependencies": {
     "@azure/data-tables": "^13.3.2",
     "@azure/identity": "^4.13.0",
     "monosize": "^0.8.0",
-    "node-fetch": "^3.3.0",
     "picocolors": "^1.0.0",
     "tslib": "^2.4.1"
   }
