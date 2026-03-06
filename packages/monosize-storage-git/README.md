@@ -1,6 +1,6 @@
 # monosize-storage-git
 
-A storage adapter for [monosize](https://github.com/microsoft/monosize) that uses local git to store and retrieve bundle size reports.
+A storage adapter for [monosize](https://github.com/microsoft/monosize) that uses GitHub Actions artifacts to store and retrieve bundle size reports.
 
 ## Install
 
@@ -22,7 +22,9 @@ import gitStorage from 'monosize-storage-git';
 const config = {
   repository: 'https://github.com/__ORG__/__REPOSITORY__',
   storage: gitStorage({
-    reportPath: 'bundle-size-report.json',
+    owner: '__ORG__',
+    repo: '__REPOSITORY__',
+    workflowFileName: 'bundle-size.yml',
   }),
   bundler: /* your bundler adapter */,
 };
@@ -30,28 +32,80 @@ const config = {
 export default config;
 ```
 
-### How it works
+## How it works
 
 **Reading reports (`compare-reports`)**:
-- Reads the report file from the target branch using `git show {branch}:{reportPath}`
-- No checkout or worktree switching needed
+
+- Uses the GitHub API (via [Octokit](https://github.com/octokit/rest.js)) to list the last 5 completed workflow runs on the target branch
+- Downloads the first artifact matching `artifactName` and extracts the report JSON
+- Requires a `GITHUB_TOKEN` environment variable (available by default in GitHub Actions)
 
 **Writing reports (`upload-report`)**:
-- Writes the aggregated report to `reportPath` on disk
-- Your CI pipeline is responsible for committing the file (e.g., on `main`)
 
-### CI setup example
+- This adapter does **not** upload reports directly
+- Instead, use the [`actions/upload-artifact`](https://github.com/actions/upload-artifact) GitHub Action to upload your report as a workflow artifact
+
+## CI setup example
+
+Your workflow needs two steps: one to generate the report and one to upload it as an artifact.
 
 ```yaml
-# After running monosize measure && monosize upload-report:
-- run: |
-    git add bundle-size-report.json
-    git commit -m "chore: update bundle size report" || true
-    git push
+# .github/workflows/bundle-size.yml
+name: Bundle Size
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  bundle-size:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Measure bundle size
+        run: yarn monosize measure
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: monosize-report
+          path: dist/bundle-size-report.json
 ```
+
+Then, in your PR workflow, compare against the report from the base branch:
+
+```yaml
+# .github/workflows/bundle-size-compare.yml
+name: Bundle Size Compare
+
+on: pull_request
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Compare bundle size
+        run: yarn monosize compare-reports --branch main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+> **Note:** The artifact name in `actions/upload-artifact` must match the `artifactName` config option (defaults to `'monosize-report'`).
 
 ## Configuration
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `reportPath` | `string` | Path to the report file in the repository, relative to the git root. |
+| Option | Type | Required | Description |
+|--------|------|----------|-------------|
+| `owner` | `string` | Yes | GitHub repository owner (org or user). |
+| `repo` | `string` | Yes | GitHub repository name. |
+| `workflowFileName` | `string` | Yes | Workflow filename to search runs from (e.g. `'bundle-size.yml'`). |
+| `artifactName` | `string` | No | Name of the workflow artifact. Defaults to `'monosize-report'`. |
