@@ -8,8 +8,10 @@ export type GitStorageConfig = {
   owner: string;
   /** GitHub repository name. */
   repo: string;
-  /** Name of the workflow artifact that contains the bundle size report. */
-  artifactName: string;
+  /** Name of the workflow artifact that contains the bundle size report. Defaults to `'monosize-report'`. */
+  artifactName?: string;
+  /** Workflow filename (e.g. `'ci.yml'`) to search runs from. */
+  workflowFileName: string;
 };
 
 type StoredReport = {
@@ -17,7 +19,10 @@ type StoredReport = {
   data: BundleSizeReport;
 };
 
+const DEFAULT_ARTIFACT_NAME = 'monosize-report';
+
 function createGitStorage(config: GitStorageConfig): StorageAdapter {
+  const artifactName = config.artifactName ?? DEFAULT_ARTIFACT_NAME;
   function createOctokit(): Octokit {
     const token = process.env['GITHUB_TOKEN'];
 
@@ -34,9 +39,10 @@ function createGitStorage(config: GitStorageConfig): StorageAdapter {
   const getRemoteReport: StorageAdapter['getRemoteReport'] = async (branch: string) => {
     const octokit = createOctokit();
 
-    const { data: runsData } = await octokit.actions.listWorkflowRunsForRepo({
+    const { data: runsData } = await octokit.actions.listWorkflowRuns({
       owner: config.owner,
       repo: config.repo,
+      workflow_id: config.workflowFileName,
       branch,
       status: 'completed',
       per_page: 5,
@@ -49,7 +55,7 @@ function createGitStorage(config: GitStorageConfig): StorageAdapter {
         run_id: run.id,
       });
 
-      const artifact = artifactsData.artifacts.find((a) => a.name === config.artifactName);
+      const artifact = artifactsData.artifacts.find((a) => a.name === artifactName);
 
       if (!artifact) {
         continue;
@@ -83,7 +89,7 @@ function createGitStorage(config: GitStorageConfig): StorageAdapter {
   const uploadReportToRemote: StorageAdapter['uploadReportToRemote'] = async () => {
     throw new Error(
       `monosize-storage-git does not support uploading reports directly. ` +
-        `Use the 'actions/upload-artifact' GitHub Action to upload your report as an artifact named '${config.artifactName}'.`,
+        `Use the 'actions/upload-artifact' GitHub Action to upload your report as an artifact named '${artifactName}'.`,
     );
   };
 

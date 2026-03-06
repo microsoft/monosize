@@ -46,14 +46,14 @@ const sampleReport: BundleSizeReport = [
   { packageName: 'pkg-a', name: 'Component', path: 'Component.fixture.js', minifiedSize: 500, gzippedSize: 200 },
 ];
 
-const mockListWorkflowRunsForRepo = vitest.fn();
+const mockListWorkflowRuns = vitest.fn();
 const mockListWorkflowRunArtifacts = vitest.fn();
 const mockDownloadArtifact = vitest.fn();
 
 vitest.mock('@octokit/rest', () => ({
   Octokit: class {
     actions = {
-      listWorkflowRunsForRepo: mockListWorkflowRunsForRepo,
+      listWorkflowRuns: mockListWorkflowRuns,
       listWorkflowRunArtifacts: mockListWorkflowRunArtifacts,
       downloadArtifact: mockDownloadArtifact,
     };
@@ -74,10 +74,10 @@ describe('createGitStorage', () => {
 
   describe('getRemoteReport', () => {
     it('returns report from the first matching artifact', async () => {
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
       const storedReport = { commitSHA: 'abc123', data: sampleReport };
 
-      mockListWorkflowRunsForRepo.mockResolvedValue({
+      mockListWorkflowRuns.mockResolvedValue({
         data: {
           workflow_runs: [{ id: 100, head_sha: 'abc123' }],
         },
@@ -98,16 +98,16 @@ describe('createGitStorage', () => {
       expect(result.commitSHA).toBe('abc123');
       expect(result.remoteReport).toEqual(sampleReport);
 
-      expect(mockListWorkflowRunsForRepo).toHaveBeenCalledWith(
+      expect(mockListWorkflowRuns).toHaveBeenCalledWith(
         expect.objectContaining({ owner: 'microsoft', repo: 'monosize', branch: 'main', status: 'completed' }),
       );
     });
 
     it('skips runs without matching artifact and checks the next run', async () => {
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
       const storedReport = { commitSHA: 'def456', data: sampleReport };
 
-      mockListWorkflowRunsForRepo.mockResolvedValue({
+      mockListWorkflowRuns.mockResolvedValue({
         data: {
           workflow_runs: [
             { id: 100, head_sha: 'abc123' },
@@ -131,9 +131,9 @@ describe('createGitStorage', () => {
     });
 
     it('returns empty report when no workflow runs exist', async () => {
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
 
-      mockListWorkflowRunsForRepo.mockResolvedValue({
+      mockListWorkflowRuns.mockResolvedValue({
         data: { workflow_runs: [] },
       });
 
@@ -144,9 +144,9 @@ describe('createGitStorage', () => {
     });
 
     it('returns empty report when no runs have matching artifacts', async () => {
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
 
-      mockListWorkflowRunsForRepo.mockResolvedValue({
+      mockListWorkflowRuns.mockResolvedValue({
         data: {
           workflow_runs: [{ id: 100, head_sha: 'abc123' }],
         },
@@ -164,7 +164,7 @@ describe('createGitStorage', () => {
 
     it('throws when GITHUB_TOKEN is not set', async () => {
       delete process.env['GITHUB_TOKEN'];
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
 
       await expect(storage.getRemoteReport('main')).rejects.toThrow('GITHUB_TOKEN');
     });
@@ -172,7 +172,7 @@ describe('createGitStorage', () => {
 
   describe('uploadReportToRemote', () => {
     it('throws a descriptive error', async () => {
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
 
       await expect(storage.uploadReportToRemote('main', 'abc123', sampleReport)).rejects.toThrow(
         "actions/upload-artifact",
