@@ -1,45 +1,15 @@
+import AdmZip from 'adm-zip';
 import { describe, expect, it, vitest, beforeEach, afterEach } from 'vitest';
 import type { BundleSizeReport } from 'monosize';
 
 import createGitStorage from './index.mjs';
 
-// Minimal ZIP builder for testing: creates a ZIP with a single stored (uncompressed) file
 function createZip(filename: string, content: string): ArrayBuffer {
-  const contentBuf = Buffer.from(content, 'utf-8');
-  const filenameBuf = Buffer.from(filename, 'utf-8');
+  const zip = new AdmZip();
+  zip.addFile(filename, Buffer.from(content, 'utf-8'));
 
-  // Local file header (30 bytes + filename + content)
-  const localHeader = Buffer.alloc(30);
-  localHeader.writeUInt32LE(0x04034b50, 0); // signature
-  localHeader.writeUInt16LE(20, 4); // version needed
-  localHeader.writeUInt16LE(0, 8); // compression method: stored
-  localHeader.writeUInt32LE(contentBuf.length, 18); // compressed size
-  localHeader.writeUInt32LE(contentBuf.length, 22); // uncompressed size
-  localHeader.writeUInt16LE(filenameBuf.length, 26); // filename length
-  localHeader.writeUInt16LE(0, 28); // extra field length
-
-  // Central directory header (46 bytes + filename)
-  const centralHeader = Buffer.alloc(46);
-  centralHeader.writeUInt32LE(0x02014b50, 0); // signature
-  centralHeader.writeUInt16LE(0, 8); // compression method: stored
-  centralHeader.writeUInt32LE(contentBuf.length, 20); // compressed size
-  centralHeader.writeUInt32LE(contentBuf.length, 24); // uncompressed size
-  centralHeader.writeUInt16LE(filenameBuf.length, 28); // filename length
-
-  // End of central directory (22 bytes)
-  const localRecordSize = localHeader.length + filenameBuf.length + contentBuf.length;
-  const centralRecordSize = centralHeader.length + filenameBuf.length;
-
-  const endOfCentral = Buffer.alloc(22);
-  endOfCentral.writeUInt32LE(0x06054b50, 0); // signature
-  endOfCentral.writeUInt16LE(1, 8); // total entries
-  endOfCentral.writeUInt16LE(1, 10); // total entries
-  endOfCentral.writeUInt32LE(centralRecordSize, 12); // central directory size
-  endOfCentral.writeUInt32LE(localRecordSize, 16); // central directory offset
-
-  const zip = Buffer.concat([localHeader, filenameBuf, contentBuf, centralHeader, filenameBuf, endOfCentral]);
-
-  return zip.buffer.slice(zip.byteOffset, zip.byteOffset + zip.byteLength);
+  const buf = zip.toBuffer();
+  return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
 }
 
 const sampleReport: BundleSizeReport = [

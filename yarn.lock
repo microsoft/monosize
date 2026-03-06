@@ -3269,6 +3269,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/adm-zip@npm:0.5.7":
+  version: 0.5.7
+  resolution: "@types/adm-zip@npm:0.5.7"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10/24e9842bd6838879c60fe833af267489d8bc6b582d5feac6179543bf7a0b01a749931a9c6f21a20b8454e83925937a63bae0190493fa269d33a35c6daf4df209
+  languageName: node
+  linkType: hard
+
 "@types/babel__core@npm:7.20.5":
   version: 7.20.5
   resolution: "@types/babel__core@npm:7.20.5"
@@ -3958,6 +3967,13 @@ __metadata:
   version: 1.2.2
   resolution: "address@npm:1.2.2"
   checksum: 10/57d80a0c6ccadc8769ad3aeb130c1599e8aee86a8d25f671216c40df9b8489d6c3ef879bc2752b40d1458aa768f947c2d91e5b2fedfe63cf702c40afdfda9ba9
+  languageName: node
+  linkType: hard
+
+"adm-zip@npm:^0.5.16":
+  version: 0.5.16
+  resolution: "adm-zip@npm:0.5.16"
+  checksum: 10/e167d1b9e60cde37334efda828fa514680af9facbd4183952f36526390e5c7da9a90ca1e6880dfd3aba7b3517f1506c6178e0dc29cd630b26b98c795f97fc599
   languageName: node
   linkType: hard
 
@@ -7662,6 +7678,7 @@ __metadata:
     "@rsbuild/core": "npm:^1.6.13"
     "@swc-node/register": "npm:1.11.1"
     "@swc/core": "npm:1.15.8"
+    "@types/adm-zip": "npm:0.5.7"
     "@types/babel__core": "npm:7.20.5"
     "@types/node": "npm:20.17.24"
     "@types/tmp": "npm:0.2.3"
@@ -7721,6 +7738,7 @@ __metadata:
   resolution: "monosize-storage-git@workspace:packages/monosize-storage-git"
   dependencies:
     "@octokit/rest": "npm:^21.1.1"
+    adm-zip: "npm:^0.5.16"
     monosize: "npm:^0.8.0"
     tslib: "npm:^2.4.1"
   languageName: unknown

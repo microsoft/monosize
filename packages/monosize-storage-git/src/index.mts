@@ -1,5 +1,4 @@
-import { inflateRawSync } from 'node:zlib';
-
+import AdmZip from 'adm-zip';
 import { Octokit } from '@octokit/rest';
 import type { BundleSizeReport, StorageAdapter } from 'monosize';
 
@@ -68,14 +67,14 @@ function createGitStorage(config: GitStorageConfig): StorageAdapter {
         archive_format: 'zip',
       });
 
-      const zipBuffer = Buffer.from(zipData as ArrayBuffer);
-      const entries = parseZip(zipBuffer);
+      const zip = new AdmZip(Buffer.from(zipData as ArrayBuffer));
+      const entry = zip.getEntries()[0];
 
-      if (entries.length === 0) {
+      if (!entry) {
         continue;
       }
 
-      const report: StoredReport = JSON.parse(entries[0]);
+      const report: StoredReport = JSON.parse(entry.getData().toString('utf-8'));
 
       return {
         commitSHA: report.commitSHA,
@@ -97,45 +96,6 @@ function createGitStorage(config: GitStorageConfig): StorageAdapter {
     getRemoteReport,
     uploadReportToRemote,
   };
-}
-
-/**
- * Minimal ZIP parser that extracts text content from file entries.
- * GitHub artifact ZIPs typically contain a single JSON file.
- */
-function parseZip(buffer: Buffer): string[] {
-  const entries: string[] = [];
-  let offset = 0;
-
-  while (offset < buffer.length - 4) {
-    const signature = buffer.readUInt32LE(offset);
-
-    // Local file header signature
-    if (signature !== 0x04034b50) {
-      break;
-    }
-
-    const compressionMethod = buffer.readUInt16LE(offset + 8);
-    const compressedSize = buffer.readUInt32LE(offset + 18);
-    const uncompressedSize = buffer.readUInt32LE(offset + 22);
-    const fileNameLength = buffer.readUInt16LE(offset + 26);
-    const extraFieldLength = buffer.readUInt16LE(offset + 28);
-
-    const dataStart = offset + 30 + fileNameLength + extraFieldLength;
-
-    if (compressionMethod === 0) {
-      // Stored (no compression)
-      entries.push(buffer.subarray(dataStart, dataStart + uncompressedSize).toString('utf-8'));
-    } else if (compressionMethod === 8) {
-      // Deflated
-      const compressed = buffer.subarray(dataStart, dataStart + compressedSize);
-      entries.push(inflateRawSync(compressed).toString('utf-8'));
-    }
-
-    offset = dataStart + compressedSize;
-  }
-
-  return entries;
 }
 
 export default createGitStorage;
