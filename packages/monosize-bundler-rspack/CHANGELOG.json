@@ -2,6 +2,21 @@
   "name": "monosize-bundler-rspack",
   "entries": [
     {
+      "date": "Fri, 06 Mar 2026 09:55:31 GMT",
+      "tag": "monosize-bundler-rspack_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-rspack",
+            "commit": "3ff3a251c640e3aa90fc4ebb1e8902bad2df344c",
+            "comment": "chore: migrate to workspaces and project references"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 27 Jan 2026 13:37:07 GMT",
       "tag": "monosize-bundler-rspack_v0.2.0",
       "version": "0.2.0",

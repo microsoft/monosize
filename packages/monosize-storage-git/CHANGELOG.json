@@ -2,6 +2,29 @@
   "name": "monosize-storage-git",
   "entries": [
     {
+      "date": "Fri, 06 Mar 2026 09:55:31 GMT",
+      "tag": "monosize-storage-git_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-git",
+            "commit": "3ff3a251c640e3aa90fc4ebb1e8902bad2df344c",
+            "comment": "chore: migrate to workspaces and project references"
+          }
+        ],
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-git",
+            "commit": "3ff3a251c640e3aa90fc4ebb1e8902bad2df344c",
+            "comment": "feat: rewrite to use GitHub Actions artifacts via Octokit"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 05 Mar 2026 18:15:03 GMT",
       "tag": "monosize-storage-git_v0.1.0",
       "version": "0.1.0",

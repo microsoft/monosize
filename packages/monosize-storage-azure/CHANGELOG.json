@@ -2,6 +2,21 @@
   "name": "monosize-storage-azure",
   "entries": [
     {
+      "date": "Fri, 06 Mar 2026 09:55:31 GMT",
+      "tag": "monosize-storage-azure_v0.0.20",
+      "version": "0.0.20",
+      "comments": {
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-azure",
+            "commit": "3ff3a251c640e3aa90fc4ebb1e8902bad2df344c",
+            "comment": "chore: migrate to workspaces and project references"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 27 Jan 2026 13:37:07 GMT",
       "tag": "monosize-storage-azure_v0.0.19",
       "version": "0.0.19",

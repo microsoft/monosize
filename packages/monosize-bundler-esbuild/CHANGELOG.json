@@ -2,6 +2,21 @@
   "name": "monosize-bundler-esbuild",
   "entries": [
     {
+      "date": "Fri, 06 Mar 2026 09:55:31 GMT",
+      "tag": "monosize-bundler-esbuild_v0.3.1",
+      "version": "0.3.1",
+      "comments": {
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-esbuild",
+            "commit": "3ff3a251c640e3aa90fc4ebb1e8902bad2df344c",
+            "comment": "chore: migrate to workspaces and project references"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 27 Jan 2026 13:37:07 GMT",
       "tag": "monosize-bundler-esbuild_v0.3.0",
       "version": "0.3.0",
