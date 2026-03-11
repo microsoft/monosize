@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: add outputPath config to write report for actions/upload-artifact",
-  "packageName": "monosize-storage-git",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "none"
-}

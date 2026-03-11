@@ -1,8 +1,16 @@
 # Change Log - monosize-storage-git
 
-This log was last generated on Fri, 06 Mar 2026 09:55:31 GMT and should not be manually modified.
+This log was last generated on Wed, 11 Mar 2026 13:15:23 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.0
+
+Wed, 11 Mar 2026 13:15:23 GMT
+
+### Minor changes
+
+- feat: add outputPath config to write report for actions/upload-artifact (olfedias@microsoft.com)
 
 ## 0.2.0
 
