@@ -177,7 +177,7 @@ Produces a report file (`dist/bundle-size/monosize.json`) that is used by other 
 
 #### Options
 
-- `artifacts-location` - defines relative path from the package root where the artifact files will be stored (`monosize.json` & bundler output). If specified, `--report-files-glob` in `monosize collect-reports` & `monosize upload-reports` should be set accordingly.
+- `artifacts-location` - defines relative path from the package root where the artifact files will be stored (`monosize.json` & bundler output). If specified, `--report-files-glob` in `monosize compare-reports` & `monosize upload-report` should be set accordingly.
 - `fixtures` - optional argument to pass a fixture filename or globbing pattern. If not specified, all fixture files matching a `*.fixture.js` pattern will be measured.
 - `build-mode` - controls how fixtures are built. `batch` builds all fixtures in a single bundler run with multiple entry points (3-15x faster). `sequential` builds one at a time. Default: `batch`.
 

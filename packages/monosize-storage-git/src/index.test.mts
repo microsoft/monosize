@@ -16,6 +16,18 @@ const sampleReport: BundleSizeReport = [
   { packageName: 'pkg-a', name: 'Component', path: 'Component.fixture.js', minifiedSize: 500, gzippedSize: 200 },
 ];
 
+const { mockMkdirSync, mockWriteFileSync } = vitest.hoisted(() => ({
+  mockMkdirSync: vitest.fn(),
+  mockWriteFileSync: vitest.fn(),
+}));
+
+vitest.mock('node:fs', () => ({
+  default: {
+    mkdirSync: mockMkdirSync,
+    writeFileSync: mockWriteFileSync,
+  },
+}));
+
 const mockListWorkflowRuns = vitest.fn();
 const mockListWorkflowRunArtifacts = vitest.fn();
 const mockDownloadArtifact = vitest.fn();
@@ -44,7 +56,7 @@ describe('createGitStorage', () => {
 
   describe('getRemoteReport', () => {
     it('returns report from the first matching artifact', async () => {
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', outputPath: 'dist/report.json', artifactName: 'monosize-report' });
       const storedReport = { commitSHA: 'abc123', data: sampleReport };
 
       mockListWorkflowRuns.mockResolvedValue({
@@ -74,7 +86,7 @@ describe('createGitStorage', () => {
     });
 
     it('skips runs without matching artifact and checks the next run', async () => {
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', outputPath: 'dist/report.json', artifactName: 'monosize-report' });
       const storedReport = { commitSHA: 'def456', data: sampleReport };
 
       mockListWorkflowRuns.mockResolvedValue({
@@ -101,7 +113,7 @@ describe('createGitStorage', () => {
     });
 
     it('returns empty report when no workflow runs exist', async () => {
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', outputPath: 'dist/report.json', artifactName: 'monosize-report' });
 
       mockListWorkflowRuns.mockResolvedValue({
         data: { workflow_runs: [] },
@@ -114,7 +126,7 @@ describe('createGitStorage', () => {
     });
 
     it('returns empty report when no runs have matching artifacts', async () => {
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', outputPath: 'dist/report.json', artifactName: 'monosize-report' });
 
       mockListWorkflowRuns.mockResolvedValue({
         data: {
@@ -134,18 +146,22 @@ describe('createGitStorage', () => {
 
     it('throws when GITHUB_TOKEN is not set', async () => {
       delete process.env['GITHUB_TOKEN'];
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', outputPath: 'dist/report.json', artifactName: 'monosize-report' });
 
       await expect(storage.getRemoteReport('main')).rejects.toThrow('GITHUB_TOKEN');
     });
   });
 
   describe('uploadReportToRemote', () => {
-    it('throws a descriptive error', async () => {
-      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', artifactName: 'monosize-report' });
+    it('writes report to the configured outputPath', async () => {
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', outputPath: 'dist/report.json', artifactName: 'monosize-report' });
 
-      await expect(storage.uploadReportToRemote('main', 'abc123', sampleReport)).rejects.toThrow(
-        "actions/upload-artifact",
+      await storage.uploadReportToRemote('main', 'abc123', sampleReport);
+
+      expect(mockMkdirSync).toHaveBeenCalledWith('dist', { recursive: true });
+      expect(mockWriteFileSync).toHaveBeenCalledWith(
+        'dist/report.json',
+        JSON.stringify({ commitSHA: 'abc123', data: sampleReport }, null, 2),
       );
     });
   });
