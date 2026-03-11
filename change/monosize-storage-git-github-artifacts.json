@@ -1,6 +1,6 @@
 {
   "type": "minor",
-  "comment": "feat: rewrite to use GitHub Actions artifacts via Octokit",
+  "comment": "feat: add outputPath config to write report for actions/upload-artifact",
   "packageName": "monosize-storage-git",
   "email": "olfedias@microsoft.com",
   "dependentChangeType": "none"

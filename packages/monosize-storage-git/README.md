@@ -25,6 +25,7 @@ const config = {
     owner: '__ORG__',
     repo: '__REPOSITORY__',
     workflowFileName: 'bundle-size.yml',
+    outputPath: 'dist/bundle-size-report.json',
   }),
   bundler: /* your bundler adapter */,
 };
@@ -42,8 +43,8 @@ export default config;
 
 **Writing reports (`upload-report`)**:
 
-- This adapter does **not** upload reports directly
-- Instead, use the [`actions/upload-artifact`](https://github.com/actions/upload-artifact) GitHub Action to upload your report as a workflow artifact
+- Writes the aggregated report JSON to `outputPath` on disk
+- Use the [`actions/upload-artifact`](https://github.com/actions/upload-artifact) GitHub Action to upload that file as a workflow artifact
 
 ## CI setup example
 
@@ -69,7 +70,10 @@ jobs:
       - name: Measure bundle size
         run: yarn monosize measure
 
-      - name: Upload report
+      - name: Prepare report
+        run: yarn monosize upload-report --branch main --commit-sha ${{ github.sha }}
+
+      - name: Upload report artifact
         uses: actions/upload-artifact@v4
         with:
           name: monosize-report
@@ -108,4 +112,5 @@ jobs:
 | `owner` | `string` | Yes | GitHub repository owner (org or user). |
 | `repo` | `string` | Yes | GitHub repository name. |
 | `workflowFileName` | `string` | Yes | Workflow filename to search runs from (e.g. `'bundle-size.yml'`). |
+| `outputPath` | `string` | Yes | Path where the aggregated report is written by `upload-report`. |
 | `artifactName` | `string` | No | Name of the workflow artifact. Defaults to `'monosize-report'`. |

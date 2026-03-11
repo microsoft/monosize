@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import AdmZip from 'adm-zip';
 import { Octokit } from '@octokit/rest';
 import type { BundleSizeReport, StorageAdapter } from 'monosize';
@@ -11,6 +14,8 @@ export type GitStorageConfig = {
   artifactName?: string;
   /** Workflow filename (e.g. `'ci.yml'`) to search runs from. */
   workflowFileName: string;
+  /** Path where the aggregated report will be written by `upload-report`, so it can be picked up by `actions/upload-artifact`. */
+  outputPath: string;
 };
 
 type StoredReport = {
@@ -85,11 +90,16 @@ function createGitStorage(config: GitStorageConfig): StorageAdapter {
     return { commitSHA: '', remoteReport: [] };
   };
 
-  const uploadReportToRemote: StorageAdapter['uploadReportToRemote'] = async () => {
-    throw new Error(
-      `monosize-storage-git does not support uploading reports directly. ` +
-        `Use the 'actions/upload-artifact' GitHub Action to upload your report as an artifact named '${artifactName}'.`,
-    );
+  const uploadReportToRemote: StorageAdapter['uploadReportToRemote'] = async (_branch, commitSHA, localReport) => {
+    const outputDir = path.dirname(config.outputPath);
+
+    if (outputDir !== '.') {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+
+    const data: StoredReport = { commitSHA, data: localReport };
+
+    fs.writeFileSync(config.outputPath, JSON.stringify(data, null, 2));
   };
 
   return {
