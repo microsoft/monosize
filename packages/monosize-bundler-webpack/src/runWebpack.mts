@@ -113,7 +113,7 @@ async function compileWebpackConfig(config: WebpackConfiguration): Promise<null>
         reject(err);
       }
       if (result && result.hasErrors()) {
-        reject(result.compilation.errors.join('\n'));
+        reject(result.compilation.errors.map(e => e.message).join('\n'));
       }
 
       resolve(null);

@@ -80,7 +80,7 @@ describe('buildFixture', () => {
         fixturePath,
         quiet: true,
       }),
-    ).rejects.toBeDefined();
+    ).rejects.toMatch(/Module not found: Error: Can't resolve 'unknown-pkg'/);
   });
 
   describe('debug mode', () => {
@@ -299,7 +299,7 @@ describe('buildFixtures', () => {
         debug: false,
         quiet: true,
       }),
-    ).rejects.toBeDefined();
+    ).rejects.toMatch(/Module not found: Error: Can't resolve 'unknown-pkg'/);
   });
 
   it('produces identical output whether using buildFixture or buildFixtures', async () => {
