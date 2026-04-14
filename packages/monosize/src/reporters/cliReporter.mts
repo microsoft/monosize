@@ -24,7 +24,9 @@ function formatDelta(diff: DiffByMetric, deltaFormat: keyof DiffByMetric): strin
 
   const color = diff.delta > 0 ? 'red' : 'green';
 
-  return typeof output === 'string' ? output : styleText(color as 'red' | 'green', output.deltaOutput + output.dirSymbol);
+  return typeof output === 'string'
+    ? output
+    : styleText(color as 'red' | 'green', output.deltaOutput + output.dirSymbol);
 }
 
 export const cliReporter: Reporter = (report, options) => {
@@ -48,7 +50,9 @@ export const cliReporter: Reporter = (report, options) => {
 
     const primaryLine = styleText('bold', packageName);
     const secondaryLine = name + (diff.empty ? styleText('cyan', ' (new)') : '');
-    const tertiaryLine = diff.exceedsThreshold ? styleText('red', `(${styleText('bold', '!')} over threshold)`) : undefined;
+    const tertiaryLine = diff.exceedsThreshold
+      ? styleText('red', `(${styleText('bold', '!')} over threshold)`)
+      : undefined;
     const fixtureColumn = primaryLine + '\n' + secondaryLine + (tertiaryLine ? '\n' + tertiaryLine : '');
 
     const minifiedBefore = diff.empty ? 'N/A' : formatBytes(minifiedSize - diff.minified.delta);

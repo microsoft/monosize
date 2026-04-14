@@ -24,9 +24,10 @@ export function createGetRemoteReport(config: AzureStorageConfig): StorageAdapte
 
       if (attempt >= MAX_HTTP_ATTEMPT_COUNT) {
         console.error(
-          [styleText('red', '[e]'), 'Exceeded 5 attempts to fetch reports, please check previously reported warnings...'].join(
-            ' ',
-          ),
+          [
+            styleText('red', '[e]'),
+            'Exceeded 5 attempts to fetch reports, please check previously reported warnings...',
+          ].join(' '),
         );
         throw err;
       }
