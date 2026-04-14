@@ -1,7 +1,7 @@
 import Table from 'cli-table3';
-import { glob } from 'glob';
-import { gzipSizeFromFile } from 'gzip-size';
 import fs from 'node:fs';
+import { gzipSync } from 'node:zlib';
+import { glob } from 'tinyglobby';
 import path from 'node:path';
 import type { CommandModule } from 'yargs';
 
@@ -24,7 +24,7 @@ export type MeasureOptions = CliOptions & {
  */
 async function measureFixtureSize(outputPath: string, name: string, originalPath: string): Promise<BuildResult> {
   const minifiedSize = (await fs.promises.stat(outputPath)).size;
-  const gzippedSize = await gzipSizeFromFile(outputPath);
+  const gzippedSize = gzipSync(await fs.promises.readFile(outputPath)).length;
 
   return {
     name,

@@ -1,4 +1,4 @@
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 import type { BundleSizeReportEntry, StorageAdapter } from 'monosize';
 
 import type { AzureStorageConfig } from './types.mjs';
@@ -19,12 +19,12 @@ export function createGetRemoteReport(config: AzureStorageConfig): StorageAdapte
 
       return { commitSHA, remoteReport };
     } catch (err) {
-      console.log([pc.yellow('[w]'), (err as Error).toString()].join(' '));
-      console.log([pc.yellow('[w]'), 'Failed to fetch report from the remote. Retrying...'].join(' '));
+      console.log([styleText('yellow', '[w]'), (err as Error).toString()].join(' '));
+      console.log([styleText('yellow', '[w]'), 'Failed to fetch report from the remote. Retrying...'].join(' '));
 
       if (attempt >= MAX_HTTP_ATTEMPT_COUNT) {
         console.error(
-          [pc.red('[e]'), 'Exceeded 5 attempts to fetch reports, please check previously reported warnings...'].join(
+          [styleText('red', '[e]'), 'Exceeded 5 attempts to fetch reports, please check previously reported warnings...'].join(
             ' ',
           ),
         );

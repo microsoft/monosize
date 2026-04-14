@@ -1,5 +1,5 @@
 import process from 'node:process';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 
 import { formatHrTime } from './utils/helpers.mjs';
 
@@ -13,7 +13,7 @@ function toFriendlyTime(time?: ReturnType<typeof process.hrtime>) {
     return '';
   }
 
-  return pc.dim(`(${formatHrTime(process.hrtime(time))})`);
+  return styleText('dim', `(${formatHrTime(process.hrtime(time))})`);
 }
 
 /* eslint-disable no-console */
@@ -22,23 +22,23 @@ export const logger: Record<LogTypes, LogFunction> & { raw: (...args: unknown[])
   // Logging functions
   // These functions are used to log messages to the console with different styles and colors
   error: (message, time) => {
-    console.error(pc.red('[e]'), message, toFriendlyTime(time));
+    console.error(styleText('red', '[e]'), message, toFriendlyTime(time));
   },
   info: (message, time) => {
     if (time) {
-      console.info(pc.blue('[i]'), message, toFriendlyTime(time));
+      console.info(styleText('blue', '[i]'), message, toFriendlyTime(time));
       return;
     }
 
-    console.info(pc.blue('[i]'), message);
+    console.info(styleText('blue', '[i]'), message);
   },
   success: (message, time) => {
-    console.log(pc.green('[✔]'), message, toFriendlyTime(time));
+    console.log(styleText('green', '[✔]'), message, toFriendlyTime(time));
   },
 
   // Special logging for the end of the process
   finish: (message, time) => {
-    console.log(pc.bgGreenBright(`  🏁 ${pc.black(message as string)}  `), toFriendlyTime(time));
+    console.log(styleText(['bgGreenBright', 'black'], `  🏁 ${message}  `), toFriendlyTime(time));
   },
 
   // Raw logging function i.e. console.log()
