@@ -1,8 +1,8 @@
-import { glob } from 'glob';
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
-import { findUp } from 'find-up';
+import { any as findUp } from 'empathic/find';
+import { glob } from 'tinyglobby';
 
 import type { BuildResult, BundleSizeReport, MonoSizeConfig } from '../types.mjs';
 
@@ -15,7 +15,7 @@ type ReportResolvers = Required<NonNullable<MonoSizeConfig['reportResolvers']>>;
 interface Options extends Partial<CollectLocalReportOptions>, Pick<MonoSizeConfig, 'reportResolvers'> {}
 
 async function getPackageRoot(reportFilePath: string): Promise<string> {
-  const rootConfig = await findUp(['package.json', 'project.json'], { cwd: path.dirname(reportFilePath) });
+  const rootConfig = findUp(['package.json', 'project.json'], { cwd: path.dirname(reportFilePath) });
 
   if (!rootConfig) {
     throw new Error(

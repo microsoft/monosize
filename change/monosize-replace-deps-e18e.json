@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: replace find-up, glob, gzip-size, picocolors with lighter alternatives (empathic, tinyglobby, native node:zlib, native node:util)",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}

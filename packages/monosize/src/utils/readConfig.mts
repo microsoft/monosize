@@ -1,4 +1,4 @@
-import { findUp } from 'find-up';
+import { any as findUp } from 'empathic/find';
 import { pathToFileURL } from 'node:url';
 
 import { logger } from '../logger.mjs';
@@ -18,7 +18,7 @@ export async function readConfig(quiet = true): Promise<MonoSizeConfig> {
     return cache;
   }
 
-  const configPath = await findUp(CONFIG_FILE_NAME, { cwd: process.cwd() });
+  const configPath = findUp(CONFIG_FILE_NAME, { cwd: process.cwd() });
 
   if (!configPath) {
     logger.error(`No config file found in ${configPath}`);
