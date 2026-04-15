@@ -114,7 +114,7 @@ async function compileWebpackConfig(config: WebpackConfiguration): Promise<null>
       }
       if (result && result.hasErrors()) {
         return reject(
-          result.compilation.errors
+          (result.compilation.errors as Array<Error & { details?: string }>)
             .map(e => [e.message, e.details, e.stack].filter(Boolean).join('\n'))
             .join('\n\n'),
         );
