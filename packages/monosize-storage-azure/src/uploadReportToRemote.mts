@@ -1,6 +1,6 @@
 import { odata, TableTransaction } from '@azure/data-tables';
 import { BundleSizeReportEntry, BundleSizeReport, StorageAdapter } from 'monosize';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 import { createTableClient } from './createTableClient.mjs';
 import type { AzureStorageConfig } from './types.mjs';
 
@@ -34,7 +34,7 @@ export function createUploadReportToRemote(config: AzureStorageConfig): StorageA
     const client = createTableClient({ authType, tableName });
 
     if (localReport.length === 0) {
-      console.log([pc.yellow('[w]'), 'No entries to upload'].join(' '));
+      console.log([styleText('yellow', '[w]'), 'No entries to upload'].join(' '));
       return;
     }
 

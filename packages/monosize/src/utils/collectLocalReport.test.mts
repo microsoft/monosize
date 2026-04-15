@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import tmp from 'tmp';
-import { findUp } from 'find-up';
+import { up as findUp } from 'empathic/find';
 
 import { collectLocalReport } from './collectLocalReport.mjs';
 import type { BuildResult } from '../types.mjs';
@@ -161,7 +161,7 @@ describe('collectLocalReport', () => {
           root: rootDir,
           reportResolvers: {
             packageRoot: async reportFile => {
-              const rootConfig = await findUp('johny5.json', { cwd: path.dirname(reportFile) });
+              const rootConfig = findUp('johny5.json', { cwd: path.dirname(reportFile) });
 
               if (rootConfig) {
                 return path.dirname(rootConfig);
