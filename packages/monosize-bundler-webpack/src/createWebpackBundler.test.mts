@@ -16,7 +16,8 @@ function normalizeError(error: string, fixturePath: string): string {
 
   return error
     .replaceAll(fixtureDir, '<fixture>')
-    .replace(/^(\s+\/\S+ doesn't exist.*\n?)+/gm, '    ...\n')
+    .replaceAll(path.sep, '/')
+    .replace(/^(\s+(?!<fixture>)\S+ doesn't exist.*\n?)+/gm, '    ...\n')
     .replace(/^\s+at .+$/gm, '')
     .replace(/\n{2,}/g, '\n')
     .trim();
