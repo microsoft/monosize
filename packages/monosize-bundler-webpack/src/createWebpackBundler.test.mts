@@ -1,8 +1,27 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import tmp from 'tmp';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { createWebpackBundler } from './createWebpackBundler.mjs';
+
+/**
+ * Normalizes a webpack compilation error string for stable snapshots by:
+ * - Replacing the fixture directory with `<fixture>`
+ * - Collapsing parent-directory resolution lines (count varies by temp dir depth)
+ * - Stripping stack frames (line numbers change across webpack versions)
+ */
+function normalizeError(error: string, fixturePath: string): string {
+  const fixtureDir = fs.realpathSync(path.dirname(fixturePath));
+
+  return error
+    .replaceAll(fixtureDir, '<fixture>')
+    .replaceAll(path.sep, '/')
+    .replace(/^(\s+(?!<fixture>)\S+ doesn't exist.*\n?)+/gm, '    ...\n')
+    .replace(/^\s+at .+$/gm, '')
+    .replace(/\n{2,}/g, '\n')
+    .trim();
+}
 
 async function setup(fixtureContent: string): Promise<string> {
   const { fixtures } = await setupMultiple([{ name: 'test', content: fixtureContent }]);
@@ -72,15 +91,26 @@ describe('buildFixture', () => {
     );
   });
 
-  it('should throw on compilation errors', async () => {
+  it('should throw on compilation errors with full details', async () => {
     const fixturePath = await setup(`import something from 'unknown-pkg'`);
-    await expect(
-      webpackBundler.buildFixture({
+    const error: string = await webpackBundler
+      .buildFixture({
         debug: false,
         fixturePath,
         quiet: true,
-      }),
-    ).rejects.toBeDefined();
+      })
+      .catch(e => e);
+
+    expect(normalizeError(error, fixturePath)).toMatchInlineSnapshot(`
+      "Module not found: Error: Can't resolve 'unknown-pkg' in '<fixture>'
+      resolve 'unknown-pkg' in '<fixture>'
+        Parsed request is a module
+        No description file found in <fixture> or above
+        resolve as module
+          <fixture>/node_modules doesn't exist or is not a directory
+          ...
+      ModuleNotFoundError: Module not found: Error: Can't resolve 'unknown-pkg' in '<fixture>'"
+    `);
   });
 
   describe('debug mode', () => {
@@ -281,7 +311,7 @@ describe('buildFixtures', () => {
     `);
   });
 
-  it('should throw on compilation errors in any fixture', async () => {
+  it('should throw on compilation errors in any fixture with full details', async () => {
     const { fixtures } = await setupMultiple([
       {
         name: 'fixture1',
@@ -293,13 +323,24 @@ describe('buildFixtures', () => {
       },
     ]);
 
-    await expect(
-      webpackBundler.buildFixtures!({
+    const error: string = await webpackBundler
+      .buildFixtures!({
         fixtures: fixtures.map(f => ({ fixturePath: f.path, name: f.name })),
         debug: false,
         quiet: true,
-      }),
-    ).rejects.toBeDefined();
+      })
+      .catch(e => e);
+
+    expect(normalizeError(error, fixtures[1].path)).toMatchInlineSnapshot(`
+      "Module not found: Error: Can't resolve 'unknown-pkg' in '<fixture>'
+      resolve 'unknown-pkg' in '<fixture>'
+        Parsed request is a module
+        No description file found in <fixture> or above
+        resolve as module
+          <fixture>/node_modules doesn't exist or is not a directory
+          ...
+      ModuleNotFoundError: Module not found: Error: Can't resolve 'unknown-pkg' in '<fixture>'"
+    `);
   });
 
   it('produces identical output whether using buildFixture or buildFixtures', async () => {
