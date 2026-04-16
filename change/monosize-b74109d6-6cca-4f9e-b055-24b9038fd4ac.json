@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Fix bin script to import from dist instead of src",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
