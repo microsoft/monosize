@@ -2,6 +2,21 @@
   "name": "monosize-bundler-esbuild",
   "entries": [
     {
+      "date": "Thu, 16 Apr 2026 08:04:24 GMT",
+      "tag": "monosize-bundler-esbuild_v0.3.1",
+      "version": "0.3.1",
+      "comments": {
+        "none": [
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-esbuild",
+            "comment": "Bump monosize to v0.8.1",
+            "commit": "c5471faf4054e6e256741ce1e86d8c0634167a23"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 06 Mar 2026 09:55:31 GMT",
       "tag": "monosize-bundler-esbuild_v0.3.1",
       "version": "0.3.1",

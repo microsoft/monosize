@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: output full webpack compilation errors instead of truncated first line",
-  "packageName": "monosize-bundler-webpack",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "none"
-}

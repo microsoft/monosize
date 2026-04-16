@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Thu, 16 Apr 2026 08:04:24 GMT",
+      "tag": "monosize_v0.8.1",
+      "version": "0.8.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "c5471faf4054e6e256741ce1e86d8c0634167a23",
+            "comment": "chore: replace find-up, glob, gzip-size, picocolors with lighter alternatives (empathic, tinyglobby, native node:zlib, native node:util)"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 06 Mar 2026 09:55:31 GMT",
       "tag": "monosize_v0.8.0",
       "version": "0.8.0",

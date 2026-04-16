@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@upstash/redis": "^1.34.6",
-    "monosize": "^0.8.0",
+    "monosize": "^0.8.1",
     "tslib": "^2.4.1"
   }
 }

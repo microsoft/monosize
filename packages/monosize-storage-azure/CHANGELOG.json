@@ -2,6 +2,27 @@
   "name": "monosize-storage-azure",
   "entries": [
     {
+      "date": "Thu, 16 Apr 2026 08:04:24 GMT",
+      "tag": "monosize-storage-azure_v0.0.21",
+      "version": "0.0.21",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-azure",
+            "commit": "c5471faf4054e6e256741ce1e86d8c0634167a23",
+            "comment": "chore: replace picocolors with native node:util styleText"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-storage-azure",
+            "comment": "Bump monosize to v0.8.1",
+            "commit": "c5471faf4054e6e256741ce1e86d8c0634167a23"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 06 Mar 2026 09:55:31 GMT",
       "tag": "monosize-storage-azure_v0.0.20",
       "version": "0.0.20",

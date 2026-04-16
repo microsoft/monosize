@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Tue, 27 Jan 2026 13:37:07 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Apr 2026 08:04:24 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.8.1
+
+Thu, 16 Apr 2026 08:04:24 GMT
+
+### Patches
+
+- chore: replace find-up, glob, gzip-size, picocolors with lighter alternatives (empathic, tinyglobby, native node:zlib, native node:util) (olfedias@microsoft.com)
 
 ## 0.8.0
 
