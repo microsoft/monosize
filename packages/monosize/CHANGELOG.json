@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Thu, 16 Apr 2026 09:05:06 GMT",
+      "tag": "monosize_v0.8.2",
+      "version": "0.8.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "c5cba4bd1f6c393cca179587394fbce770ab9058",
+            "comment": "Fix bin script to import from dist instead of src"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 16 Apr 2026 08:04:24 GMT",
       "tag": "monosize_v0.8.1",
       "version": "0.8.1",

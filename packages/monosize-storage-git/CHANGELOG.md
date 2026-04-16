@@ -1,8 +1,16 @@
 # Change Log - monosize-storage-git
 
-This log was last generated on Wed, 11 Mar 2026 13:15:23 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Apr 2026 09:05:06 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.1
+
+Thu, 16 Apr 2026 09:05:06 GMT
+
+### Patches
+
+- Bump monosize to v0.8.2
 
 ## 0.3.0
 

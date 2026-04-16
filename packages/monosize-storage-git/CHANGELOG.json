@@ -2,6 +2,21 @@
   "name": "monosize-storage-git",
   "entries": [
     {
+      "date": "Thu, 16 Apr 2026 09:05:06 GMT",
+      "tag": "monosize-storage-git_v0.3.1",
+      "version": "0.3.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "beachball",
+            "package": "monosize-storage-git",
+            "comment": "Bump monosize to v0.8.2",
+            "commit": "c5cba4bd1f6c393cca179587394fbce770ab9058"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 16 Apr 2026 08:04:24 GMT",
       "tag": "monosize-storage-git_v0.3.0",
       "version": "0.3.0",

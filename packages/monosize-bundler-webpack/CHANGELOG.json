@@ -2,6 +2,21 @@
   "name": "monosize-bundler-webpack",
   "entries": [
     {
+      "date": "Thu, 16 Apr 2026 09:05:06 GMT",
+      "tag": "monosize-bundler-webpack_v0.3.3",
+      "version": "0.3.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-webpack",
+            "comment": "Bump monosize to v0.8.2",
+            "commit": "c5cba4bd1f6c393cca179587394fbce770ab9058"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 16 Apr 2026 08:04:24 GMT",
       "tag": "monosize-bundler-webpack_v0.3.2",
       "version": "0.3.2",

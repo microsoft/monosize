@@ -1,6 +1,6 @@
 {
   "name": "monosize-bundler-esbuild",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "module",
   "files": [
     "dist/"
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "esbuild": "^0.27.3",
-    "monosize": "^0.8.1",
+    "monosize": "^0.8.2",
     "tslib": "^2.4.1"
   }
 }

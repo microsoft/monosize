@@ -1,8 +1,16 @@
 # Change Log - monosize-bundler-rspack
 
-This log was last generated on Tue, 27 Jan 2026 13:37:07 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Apr 2026 09:05:06 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.2.1
+
+Thu, 16 Apr 2026 09:05:06 GMT
+
+### Patches
+
+- Bump monosize to v0.8.2
 
 ## 0.2.0
 
