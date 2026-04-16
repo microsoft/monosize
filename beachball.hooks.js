@@ -54,4 +54,9 @@ module.exports = {
       completedPrepublish = true;
     }
   },
+  // Runs once after all bumps, before committing — update lockfile so it stays in sync
+  async precommit() {
+    // --no-immutable: Yarn 4 auto-enables immutable installs in CI, but we need to update the lockfile after version bumps
+    await sh('yarn install --no-immutable');
+  },
 };
