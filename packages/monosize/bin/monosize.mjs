@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-await import('../src/index.mjs');
+await import('../dist/index.mjs');
