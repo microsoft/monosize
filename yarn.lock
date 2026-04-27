@@ -6548,6 +6548,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"monosize-bundler-vite@workspace:packages/monosize-bundler-vite":
+  version: 0.0.0-use.local
+  resolution: "monosize-bundler-vite@workspace:packages/monosize-bundler-vite"
+  dependencies:
+    monosize: "npm:^0.8.2"
+    tslib: "npm:^2.4.1"
+    vite: "npm:7.3.2"
+  languageName: unknown
+  linkType: soft
+
 "monosize-bundler-webpack@workspace:packages/monosize-bundler-webpack":
   version: 0.0.0-use.local
   resolution: "monosize-bundler-webpack@workspace:packages/monosize-bundler-webpack"
