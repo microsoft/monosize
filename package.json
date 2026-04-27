@@ -13,7 +13,7 @@
   "scripts": {
     "build": "nx affected:build",
     "change": "beachball change --no-commit",
-    "check-dependencies": "syncpack lint --dependency-types prod,peer",
+    "check-dependencies": "syncpack lint",
     "lint": "nx affected:lint",
     "test": "nx affected:test"
   },

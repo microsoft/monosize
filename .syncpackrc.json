@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/syncpack/schema.json",
+  "strict": true,
+  "versionGroups": [
+    {
+      "label": "Local workspace cross-package deps are managed by beachball",
+      "dependencies": ["monosize", "monosize-bundler-*", "monosize-storage-*"],
+      "isIgnored": true
+    },
+    {
+      "label": "All workspace package deps must be pinned at the monorepo root",
+      "packages": ["**", "!monosize-monorepo"],
+      "dependencies": ["**"],
+      "snapTo": ["monosize-monorepo"]
+    }
+  ]
+}
