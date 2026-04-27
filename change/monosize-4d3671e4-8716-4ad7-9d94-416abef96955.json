@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: add AssetType union and assetTypes config plumbing (dormant)",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}
