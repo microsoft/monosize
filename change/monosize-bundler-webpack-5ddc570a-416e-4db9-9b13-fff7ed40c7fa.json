@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: bump terser-webpack-plugin to v5.5.0",
+  "packageName": "monosize-bundler-webpack",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
