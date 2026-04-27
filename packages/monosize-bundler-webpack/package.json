@@ -23,7 +23,7 @@
   "dependencies": {
     "monosize": "^0.8.2",
     "terser": "^5.16.0",
-    "terser-webpack-plugin": "^5.3.17",
+    "terser-webpack-plugin": "^5.5.0",
     "tslib": "^2.4.1",
     "webpack": "^5.105.4"
   }
