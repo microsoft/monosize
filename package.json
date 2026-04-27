@@ -65,9 +65,11 @@
   "dependencies": {
     "@azure/data-tables": "^13.3.2",
     "@azure/identity": "^4.13.0",
+    "@octokit/rest": "^21.1.1",
     "@rsbuild/core": "^1.6.13",
     "@upstash/redis": "^1.34.6",
     "acorn": "^8.14.1",
+    "adm-zip": "^0.5.16",
     "ci-info": "^4.2.0",
     "cli-table3": "^0.6.5",
     "empathic": "^1.1.0",
