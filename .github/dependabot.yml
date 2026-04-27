@@ -6,11 +6,10 @@ updates:
       interval: weekly
     open-pull-requests-limit: 10
     versioning-strategy: increase
+    ignore:
+      - dependency-name: 'nx'
+      - dependency-name: '@nx/*'
     groups:
-      nx:
-        patterns:
-          - 'nx'
-          - '@nx/*'
       eslint:
         patterns:
           - 'eslint'
