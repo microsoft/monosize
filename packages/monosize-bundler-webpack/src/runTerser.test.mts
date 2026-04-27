@@ -1,13 +1,13 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
-import tmp from 'tmp';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { runTerser } from './runTerser.mjs';
 
 async function setup(fixtureContent: string): Promise<Parameters<typeof runTerser>[0]> {
-  const tmpDir = tmp.dirSync({ unsafeCleanup: true });
-  const sourcePath = path.resolve(tmpDir.name, 'test.fixture.js');
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'runTerser'));
+  const sourcePath = path.resolve(tmpDir, 'test.fixture.js');
 
   await fs.promises.writeFile(sourcePath, fixtureContent);
 
@@ -16,8 +16,8 @@ async function setup(fixtureContent: string): Promise<Parameters<typeof runTerse
     quiet: true,
 
     sourcePath,
-    debugOutputPath: path.resolve(tmpDir.name, 'test.debug.js'),
-    outputPath: path.resolve(tmpDir.name, 'test.output.js'),
+    debugOutputPath: path.resolve(tmpDir, 'test.debug.js'),
+    outputPath: path.resolve(tmpDir, 'test.output.js'),
   };
 }
 
