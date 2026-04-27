@@ -1,0 +1,19 @@
+{
+  "name": "monosize-bundler-vite",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/monosize-bundler-vite/src",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/packages/monosize-bundler-vite"],
+      "options": {
+        "passWithNoTests": true
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@
 - 📚 Designed to be used in CI/CD pipelines
 - 🎱 Designed to represent real-world scenarios
 - 🧰 Supports single packages & monorepos
-- 🍿 Supports various bundlers ([Webpack](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-webpack), [Rspack](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-rspack), implement your own? 🐱)
+- 🍿 Supports various bundlers ([Webpack](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-webpack), [Rspack](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-rspack), [Vite](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-vite), implement your own? 🐱)
 - ☁️ Supports various storage adapters
 
 <hr />
@@ -144,6 +144,7 @@ To build fixtures and produce artifacts you need to use a bundler adapter. Follo
 
 - [`monosize-bundler-webpack`](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-webpack)
 - [`monosize-bundler-rspack`](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-rspack)
+- [`monosize-bundler-vite`](https://github.com/microsoft/monosize/tree/main/packages/monosize-bundler-vite)
 
 ### Storage adapters
 

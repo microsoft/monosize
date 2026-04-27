@@ -6541,6 +6541,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"monosize-bundler-vite@workspace:packages/monosize-bundler-vite":
+  version: 0.0.0-use.local
+  resolution: "monosize-bundler-vite@workspace:packages/monosize-bundler-vite"
+  dependencies:
+    monosize: "npm:^0.8.2"
+    tslib: "npm:^2.4.1"
+    vite: "npm:^8.0.10"
+  languageName: unknown
+  linkType: soft
+
 "monosize-bundler-webpack@workspace:packages/monosize-bundler-webpack":
   version: 0.0.0-use.local
   resolution: "monosize-bundler-webpack@workspace:packages/monosize-bundler-webpack"
@@ -6597,7 +6607,7 @@ __metadata:
     tslib: "npm:^2.4.1"
     typescript: "npm:5.9.3"
     typescript-eslint: "npm:8.56.0"
-    vite: "npm:8.0.10"
+    vite: "npm:^8.0.10"
     vitest: "npm:4.1.5"
     webpack: "npm:^5.105.4"
     yargs: "npm:^17.6.2"
@@ -8601,7 +8611,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:8.0.10, vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0":
+"vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0, vite@npm:^8.0.10":
   version: 8.0.10
   resolution: "vite@npm:8.0.10"
   dependencies:
