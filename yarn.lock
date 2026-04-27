@@ -2760,12 +2760,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upstash/redis@npm:^1.34.6":
-  version: 1.34.7
-  resolution: "@upstash/redis@npm:1.34.7"
+"@upstash/redis@npm:^1.37.0":
+  version: 1.37.0
+  resolution: "@upstash/redis@npm:1.37.0"
   dependencies:
-    crypto-js: "npm:^4.2.0"
-  checksum: 10/5b7d592db9c017fc2e542bfa656184056f63c0a5d15f19cf785a1cda6f3e1956c70ff8b2601dd048ab7ad2dfd6e315c111ff1a38d5d6a1e381c5eef346de2370
+    uncrypto: "npm:^0.1.3"
+  checksum: 10/05f4ab997a5ad072929848fcc7578da12dd364c55340b631a091fe06b57d1ef21835e16929b584b76feb64b34cdd154d3a3edd087518e5a2dd16e4a78c0aef1a
   languageName: node
   linkType: hard
 
@@ -3923,13 +3923,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "crypto-js@npm:4.2.0"
-  checksum: 10/c7bcc56a6e01c3c397e95aa4a74e4241321f04677f9a618a8f48a63b5781617248afb9adb0629824792e7ec20ca0d4241a49b6b2938ae6f973ec4efc5c53c924
-  languageName: node
-  linkType: hard
-
 "debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.4, debug@npm:^4.4.3":
   version: 4.4.3
   resolution: "debug@npm:4.4.3"
@@ -4152,10 +4145,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"empathic@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "empathic@npm:1.1.0"
-  checksum: 10/1e41763802f14e5fa2522063f8f93e161c64916698f39e493a3e274356e39aa6f60d60f33063c92f9d5c5426fd33d9cb33baed2885a194648254181ce5495a9c
+"empathic@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "empathic@npm:2.0.0"
+  checksum: 10/90f47d93f8d1db3aa00ce1bfae2940bf76379dbb34bd562edbd92c3564a173cb1d6bd3cadb645fad0224839c25886abde801155d9b972dda6add7a5cc8b35d48
   languageName: node
   linkType: hard
 
@@ -6588,7 +6581,7 @@ __metadata:
     "@types/yargs": "npm:17.0.32"
     "@typescript-eslint/eslint-plugin": "npm:^8.40.0"
     "@typescript-eslint/parser": "npm:^8.40.0"
-    "@upstash/redis": "npm:^1.34.6"
+    "@upstash/redis": "npm:^1.37.0"
     "@vitest/coverage-v8": "npm:4.0.9"
     acorn: "npm:^8.14.1"
     adm-zip: "npm:^0.5.16"
@@ -6596,7 +6589,7 @@ __metadata:
     ci-info: "npm:^4.2.0"
     cli-table3: "npm:^0.6.5"
     doctoc: "npm:2.2.1"
-    empathic: "npm:^1.1.0"
+    empathic: "npm:^2.0.0"
     eslint: "npm:9.8.0"
     eslint-config-prettier: "npm:10.1.8"
     eslint-import-resolver-typescript: "npm:3.6.1"
@@ -6636,7 +6629,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monosize-storage-upstash@workspace:packages/monosize-storage-upstash"
   dependencies:
-    "@upstash/redis": "npm:^1.34.6"
+    "@upstash/redis": "npm:^1.37.0"
     monosize: "npm:^0.8.2"
     tslib: "npm:^2.4.1"
   languageName: unknown
@@ -6649,7 +6642,7 @@ __metadata:
     acorn: "npm:^8.14.1"
     ci-info: "npm:^4.2.0"
     cli-table3: "npm:^0.6.5"
-    empathic: "npm:^1.1.0"
+    empathic: "npm:^2.0.0"
     pretty-bytes: "npm:^6.0.0"
     tinyglobby: "npm:^0.2.13"
     tslib: "npm:^2.4.1"
@@ -8413,6 +8406,13 @@ __metadata:
     has-symbols: "npm:^1.0.3"
     which-boxed-primitive: "npm:^1.0.2"
   checksum: 10/06e1ee41c1095e37281cb71a975cb3350f7cb470a0665d2576f02cc9564f623bd90cfc0183693b8a7fdf2d242963dcc3010b509fa3ac683f540c765c0f3e7e43
+  languageName: node
+  linkType: hard
+
+"uncrypto@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "uncrypto@npm:0.1.3"
+  checksum: 10/0020f74b0ce34723196d8982a73bb7f40cff455a41b8f88ae146b86885f4e66e41a1241fe80a887505c3bd2c7f07ed362b6ed041968370073c40a98496e6a737
   languageName: node
   linkType: hard
 
