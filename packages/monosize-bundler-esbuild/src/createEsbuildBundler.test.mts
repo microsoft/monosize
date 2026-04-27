@@ -1,5 +1,7 @@
+import { mkdirSync, mkdtempSync } from 'node:fs';
 import fs from 'node:fs/promises';
-import tmp from 'tmp';
+import os from 'node:os';
+import path from 'node:path';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { createEsbuildBundler } from './createEsbuildBundler.mjs';
@@ -12,33 +14,24 @@ async function setup(fixtureContent: string): Promise<string> {
 async function setupMultiple(
   fixtures: Array<{ name: string; content: string }>,
 ): Promise<{ dir: string; fixtures: Array<{ name: string; path: string }> }> {
-  const packageDir = tmp.dirSync({
-    prefix: 'buildFixtures',
-    unsafeCleanup: true,
-  });
+  const packageDir = mkdtempSync(path.join(os.tmpdir(), 'buildFixtures'));
 
   const spy = vitest.spyOn(process, 'cwd');
-  spy.mockReturnValue(packageDir.name);
+  spy.mockReturnValue(packageDir);
 
-  const fixtureDir = tmp.dirSync({
-    dir: packageDir.name,
-    name: 'monosize',
-    unsafeCleanup: true,
-  });
+  const fixtureDir = path.join(packageDir, 'monosize');
+  mkdirSync(fixtureDir, { recursive: true });
 
   const fixtureResults = await Promise.all(
     fixtures.map(async ({ name, content }) => {
-      const fixture = tmp.fileSync({
-        dir: fixtureDir.name,
-        name: `${name}.fixture.js`,
-      });
-      await fs.writeFile(fixture.name, content);
-      const realPath = await fs.realpath(fixture.name);
+      const fixturePath = path.join(fixtureDir, `${name}.fixture.js`);
+      await fs.writeFile(fixturePath, content);
+      const realPath = await fs.realpath(fixturePath);
       return { name, path: realPath };
     }),
   );
 
-  return { dir: fixtureDir.name, fixtures: fixtureResults };
+  return { dir: fixtureDir, fixtures: fixtureResults };
 }
 
 const esbuildBundler = createEsbuildBundler();

@@ -2,7 +2,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { workspaceRoot } from 'nx/src/devkit-exports';
-import tmp from 'tmp';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { readConfig, resetConfigCache } from './readConfig.mjs';
@@ -21,13 +20,13 @@ async function setup(config: Partial<MonoSizeConfig>) {
   const tmpDir = path.join(workspaceRoot, 'node_modules', '.tmp');
   await fs.promises.mkdir(tmpDir, { recursive: true });
 
-  const packageDir = tmp.dirSync({ prefix: 'test-package', unsafeCleanup: true, tmpdir: tmpDir });
-  const configFile = tmp.fileSync({ dir: packageDir.name, name: 'monosize.config.js', tmpdir: tmpDir });
+  const packageDir = fs.mkdtempSync(path.join(tmpDir, 'test-package'));
+  const configFilePath = path.join(packageDir, 'monosize.config.js');
 
   const spy = vitest.spyOn(process, 'cwd');
-  spy.mockReturnValue(packageDir.name);
+  spy.mockReturnValue(packageDir);
 
-  await fs.promises.writeFile(configFile.name, `export default ${JSON.stringify(config)}`);
+  await fs.promises.writeFile(configFilePath, `export default ${JSON.stringify(config)}`);
 }
 
 describe('readConfig', () => {
