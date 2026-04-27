@@ -8,6 +8,14 @@ exports[`markdownReporter > renders a report to a file 1`] = `
 | <samp>baz-package</samp> <br /> <abbr title='baz.fixture.js'>An entry with diff</abbr> |         \`0 B\`<br />\`0 B\` | \`1 kB\`<br />\`100 B\` | \`1 kB\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /><br />\`100 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> |
 | <samp>foo-package</samp> <br /> <abbr title='foo.fixture.js'>New entry</abbr>          |         \`0 B\`<br />\`0 B\` | \`1 kB\`<br />\`100 B\` |                                                                                                                                                                                            🆕 New entry |
 
+### Breakdown
+
+<details><summary><samp>baz-package</samp> · An entry with diff</summary>
+
+- \`css\`: \`300 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> minified, \`30 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> gzipped
+- \`js\`: \`700 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> minified, \`70 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> gzipped
+</details>
+
 <details>
 <summary>Unchanged fixtures</summary>
 
@@ -28,6 +36,14 @@ exports[`markdownReporter > renders a report to a file with specified "deltaForm
 | <samp>baz-package</samp> <br /> <abbr title='baz.fixture.js'>An entry with diff</abbr> |         \`0 B\`<br />\`0 B\` | \`1 kB\`<br />\`100 B\` | \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /><br />\`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> |
 | <samp>foo-package</samp> <br /> <abbr title='foo.fixture.js'>New entry</abbr>          |         \`0 B\`<br />\`0 B\` | \`1 kB\`<br />\`100 B\` |                                                                                                                                                                                           🆕 New entry |
 
+### Breakdown
+
+<details><summary><samp>baz-package</samp> · An entry with diff</summary>
+
+- \`css\`: \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> minified, \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> gzipped
+- \`js\`: \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> minified, \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> gzipped
+</details>
+
 <details>
 <summary>Unchanged fixtures</summary>
 
@@ -46,6 +62,14 @@ exports[`markdownReporter > renders a report with exceeded threshold 1`] = `
 | Package & Exports                                                                                               | Baseline (minified/GZIP) |                  PR |                                                                                                                                                                                                 Change |
 | :-------------------------------------------------------------------------------------------------------------- | -----------------------: | ------------------: | -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | <samp>baz-package</samp> <br /> <abbr title='baz.fixture.js'>An entry with diff</abbr> <br /> ⚠️ over threshold |         \`0 B\`<br />\`0 B\` | \`1 kB\`<br />\`100 B\` | \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /><br />\`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> |
+
+### Breakdown
+
+<details><summary><samp>baz-package</samp> · An entry with diff</summary>
+
+- \`css\`: \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> minified, \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> gzipped
+- \`js\`: \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> minified, \`100%\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> gzipped
+</details>
 
 <details>
 <summary>Unchanged fixtures</summary>
