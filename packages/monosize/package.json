@@ -26,7 +26,7 @@
     "acorn": "^8.14.1",
     "ci-info": "^4.2.0",
     "cli-table3": "^0.6.5",
-    "empathic": "^1.1.0",
+    "empathic": "^2.0.0",
     "pretty-bytes": "^6.0.0",
     "tinyglobby": "^0.2.13",
     "tslib": "^2.4.1",
