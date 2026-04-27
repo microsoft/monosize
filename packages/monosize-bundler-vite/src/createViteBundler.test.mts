@@ -23,9 +23,13 @@ async function setup(content: string): Promise<string> {
 }
 
 async function prepareOutput(outputPath: string): Promise<string> {
-  return await prettier.format(fs.readFileSync(outputPath, 'utf-8'), {
+  const formatted = await prettier.format(fs.readFileSync(outputPath, 'utf-8'), {
     filepath: outputPath,
   });
+  // Vite's es-format output prefixes each module with `//#region <abs-path>`
+  // pointing at the prepared fixture in a unique temp dir. Normalize the
+  // path to keep snapshots and equality assertions stable across runs.
+  return formatted.replace(/\/\/#region\s+\S+\.fixture\.js/g, '//#region <fixture>');
 }
 
 describe('createBaseConfig', () => {

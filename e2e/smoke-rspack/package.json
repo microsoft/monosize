@@ -1,0 +1,10 @@
+{
+  "name": "monosize-smoke-rspack",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "monosize": "workspace:*",
+    "monosize-bundler-rspack": "workspace:*"
+  }
+}
