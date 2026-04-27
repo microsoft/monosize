@@ -33,4 +33,47 @@ describe('getChangedEntriesInReport', () => {
     expect(actual.unchangedEntries).toHaveLength(1);
     expect(actual.unchangedEntries[0]).toEqual(report[1]);
   });
+
+  it('classifies a totals-flat entry as changed when its breakdown moved', () => {
+    const breakdownOnlyChange: ComparedReport[number] = {
+      packageName: 'pkg',
+      name: 'rebalanced',
+      path: 'rebalanced.fixture.js',
+      minifiedSize: 1000,
+      gzippedSize: 100,
+      diff: {
+        empty: false,
+        exceedsThreshold: false,
+        minified: { delta: 0, percent: '0%' },
+        gzip: { delta: 0, percent: '0%' },
+      },
+      assetsDiff: {
+        js: { minified: { delta: -500, percent: '-50%' }, gzip: { delta: -50, percent: '-50%' } },
+        css: { minified: { delta: 500, percent: '100%' }, gzip: { delta: 50, percent: '100%' } },
+      },
+    };
+    const totallyFlat: ComparedReport[number] = {
+      packageName: 'pkg',
+      name: 'flat',
+      path: 'flat.fixture.js',
+      minifiedSize: 1000,
+      gzippedSize: 100,
+      diff: {
+        empty: false,
+        exceedsThreshold: false,
+        minified: { delta: 0, percent: '0%' },
+        gzip: { delta: 0, percent: '0%' },
+      },
+      assetsDiff: {
+        js: { minified: { delta: 0, percent: '0%' }, gzip: { delta: 0, percent: '0%' } },
+      },
+    };
+
+    const actual = getChangedEntriesInReport([breakdownOnlyChange, totallyFlat]);
+
+    expect(actual.changedEntries).toHaveLength(1);
+    expect(actual.changedEntries[0]).toEqual(breakdownOnlyChange);
+    expect(actual.unchangedEntries).toHaveLength(1);
+    expect(actual.unchangedEntries[0]).toEqual(totallyFlat);
+  });
 });

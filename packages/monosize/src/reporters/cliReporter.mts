@@ -46,7 +46,7 @@ export const cliReporter: Reporter = (report, options) => {
   }
 
   changedEntries.forEach(entry => {
-    const { diff, gzippedSize, minifiedSize, name, packageName } = entry;
+    const { diff, gzippedSize, minifiedSize, name, packageName, assetsDiff } = entry;
 
     const primaryLine = styleText('bold', packageName);
     const secondaryLine = name + (diff.empty ? styleText('cyan', ' (new)') : '');
@@ -72,6 +72,23 @@ export const cliReporter: Reporter = (report, options) => {
       gzippedAfter;
 
     reportOutput.push([fixtureColumn, beforeColumn, afterColumn]);
+
+    // Per-asset-type breakdown sub-rows: one per type whose minified or gzip
+    // delta is non-zero. Iterates Object.keys so future-version JSON carrying
+    // unknown types still surfaces in the output. Sorted lexicographically.
+    if (assetsDiff) {
+      const changedTypes = Object.keys(assetsDiff)
+        .filter(t => assetsDiff[t].minified.delta !== 0 || assetsDiff[t].gzip.delta !== 0)
+        .sort();
+      for (const type of changedTypes) {
+        const d = assetsDiff[type];
+        reportOutput.push([
+          styleText('dim', `  ${type}`),
+          '',
+          formatDelta(d.minified, deltaFormat) + '\n' + formatDelta(d.gzip, deltaFormat),
+        ]);
+      }
+    }
   });
 
   logger.raw(reportOutput.toString());
