@@ -5,8 +5,25 @@ export type BuildResult = {
   gzippedSize: number;
 };
 
+/**
+ * Closed union of asset types monosize knows how to measure today.
+ * Adding a member is purely additive — existing keys are unchanged
+ * and consumers using `Partial<Record<AssetType, AssetSize>>` see the
+ * new key as valid.
+ */
+export type AssetType = 'js' | 'json' | 'css';
+
+export type AssetSize = Pick<BuildResult, 'minifiedSize' | 'gzippedSize'>;
+
 export type BundleSizeReportEntry = Pick<BuildResult, 'name' | 'path' | 'minifiedSize' | 'gzippedSize'> & {
   packageName: string;
+  /**
+   * Per-asset-type breakdown. Keys are members of `AssetType`; only types
+   * that produced output appear. Always populated by `measure` (possibly
+   * `{}` when no allowlisted extension matched). May be absent on entries
+   * returned from storage written before this change.
+   */
+  assets?: Partial<Record<AssetType, AssetSize>>;
 };
 export type BundleSizeReport = BundleSizeReportEntry[];
 
@@ -102,4 +119,21 @@ export type MonoSizeConfig = {
    * It should be a string with a number and unit. Format: `0.5 kB`, `1kB, `10%`.
    */
   threshold?: string;
+
+  /**
+   * Asset types to measure. Each entry must be a member of `AssetType`
+   * (`'js' | 'json' | 'css'`). Files of other types in the bundler output
+   * directory are ignored. Default: `['js', 'css', 'json']`.
+   */
+  assetTypes?: AssetType[];
+};
+
+/**
+ * Internal config shape returned by `readConfig` after defaults and
+ * validation have been applied. Not exported from the public package
+ * surface; downstream commands consume this directly so they don't
+ * need to re-apply defaults.
+ */
+export type LoadedMonoSizeConfig = Omit<MonoSizeConfig, 'assetTypes'> & {
+  assetTypes: AssetType[];
 };

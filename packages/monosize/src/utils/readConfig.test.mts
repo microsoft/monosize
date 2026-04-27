@@ -76,4 +76,30 @@ describe('readConfig', () => {
       repository: '@microsoft/monosize',
     });
   });
+
+  describe('assetTypes', () => {
+    it('defaults to [css, js, json] (sorted) when omitted', async () => {
+      await setup({ repository: '@microsoft/monosize' });
+      const config = await readConfig(true);
+      expect(config.assetTypes).toEqual(['css', 'js', 'json']);
+    });
+
+    it('passes through valid assetTypes (sorted, deduped)', async () => {
+      await setup({ repository: '@microsoft/monosize', assetTypes: ['js', 'css'] });
+      const config = await readConfig(true);
+      expect(config.assetTypes).toEqual(['css', 'js']);
+    });
+
+    it('deduplicates assetTypes', async () => {
+      await setup({ repository: '@microsoft/monosize', assetTypes: ['js', 'js', 'css'] });
+      const config = await readConfig(true);
+      expect(config.assetTypes).toEqual(['css', 'js']);
+    });
+
+    it('throws on unknown assetType entry', async () => {
+      // @ts-expect-error — testing runtime guard for untyped configs
+      await setup({ repository: '@microsoft/monosize', assetTypes: ['svg'] });
+      await expect(readConfig(true)).rejects.toThrow(/unknown assetType "svg".*allowed: js, json, css/i);
+    });
+  });
 });
