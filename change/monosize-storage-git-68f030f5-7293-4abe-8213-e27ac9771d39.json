@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: tsconfig include/exclude pattern updated for renamed __fixtures__ dir",
+  "packageName": "monosize-storage-git",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}
