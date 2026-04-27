@@ -4583,7 +4583,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.27.0, esbuild@npm:^0.27.3":
+"esbuild@npm:^0.27.0":
   version: 0.27.3
   resolution: "esbuild@npm:0.27.3"
   dependencies:
@@ -6748,16 +6748,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"monosize-bundler-esbuild@workspace:packages/monosize-bundler-esbuild":
-  version: 0.0.0-use.local
-  resolution: "monosize-bundler-esbuild@workspace:packages/monosize-bundler-esbuild"
-  dependencies:
-    esbuild: "npm:^0.27.3"
-    monosize: "npm:^0.8.2"
-    tslib: "npm:^2.4.1"
-  languageName: unknown
-  linkType: soft
-
 "monosize-bundler-rspack@workspace:packages/monosize-bundler-rspack":
   version: 0.0.0-use.local
   resolution: "monosize-bundler-rspack@workspace:packages/monosize-bundler-rspack"
@@ -6808,7 +6798,6 @@ __metadata:
     cli-table3: "npm:^0.6.5"
     doctoc: "npm:2.2.1"
     empathic: "npm:^1.1.0"
-    esbuild: "npm:^0.27.3"
     eslint: "npm:9.8.0"
     eslint-config-prettier: "npm:10.1.8"
     eslint-import-resolver-typescript: "npm:3.6.1"

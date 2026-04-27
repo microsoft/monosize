@@ -66,7 +66,6 @@
     "ci-info": "^4.2.0",
     "cli-table3": "^0.6.5",
     "empathic": "^1.1.0",
-    "esbuild": "^0.27.3",
     "pretty-bytes": "^6.0.0",
     "terser": "^5.16.0",
     "terser-webpack-plugin": "^5.3.17",
