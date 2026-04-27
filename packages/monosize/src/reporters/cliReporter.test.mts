@@ -2,7 +2,7 @@ import stripAnsi from 'strip-ansi';
 import { beforeEach, describe, it, expect, vitest } from 'vitest';
 
 import { cliReporter } from './cliReporter.mjs';
-import { sampleComparedReport, reportWithExceededThreshold } from '../__fixture__/sampleComparedReport.mjs';
+import { sampleComparedReport, reportWithExceededThreshold } from '../__fixtures__/sampleComparedReport.mjs';
 import { logger } from '../logger.mjs';
 
 function noop() {

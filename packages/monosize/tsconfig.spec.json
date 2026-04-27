@@ -5,6 +5,6 @@
     "rootDir": ".",
     "types": ["environment", "node"]
   },
-  "include": ["src/**/*.test.mts", "src/**/*.d.ts", "src/**/__fixture__/**/*.mts"],
+  "include": ["src/**/*.test.mts", "src/**/*.d.ts", "src/**/__fixtures__/**/*.mts"],
   "references": [{ "path": "./tsconfig.lib.json" }]
 }

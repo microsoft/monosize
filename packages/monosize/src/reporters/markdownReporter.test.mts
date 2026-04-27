@@ -1,7 +1,7 @@
 import prettier from 'prettier';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
-import { reportWithExceededThreshold, sampleComparedReport } from '../__fixture__/sampleComparedReport.mjs';
+import { reportWithExceededThreshold, sampleComparedReport } from '../__fixtures__/sampleComparedReport.mjs';
 import { logger } from '../logger.mjs';
 import { markdownReporter } from './markdownReporter.mjs';
 

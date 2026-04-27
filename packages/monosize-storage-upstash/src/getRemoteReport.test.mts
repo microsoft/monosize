@@ -1,6 +1,6 @@
 import { beforeEach, describe, it, vitest } from 'vitest';
 
-// import { sampleReport } from '../__fixture__/sampleReport';
+// import { sampleReport } from '../__fixtures__/sampleReport';
 // import { getRemoteReport } from './getRemoteReport';
 
 const fetch = vitest.hoisted(() => vitest.fn());
