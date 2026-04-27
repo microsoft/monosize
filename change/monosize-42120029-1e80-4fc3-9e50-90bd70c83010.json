@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: add logger.warn + fix collectLocalReport types",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}

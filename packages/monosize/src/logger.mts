@@ -4,7 +4,7 @@ import { styleText } from 'node:util';
 import { formatHrTime } from './utils/helpers.mjs';
 
 type LogFunction = (message: unknown, timestamp?: ReturnType<typeof process.hrtime>) => void;
-type LogTypes = 'error' | 'info' | 'success' | 'finish';
+type LogTypes = 'error' | 'info' | 'success' | 'warn' | 'finish';
 
 export const timestamp = (): ReturnType<typeof process.hrtime> => process.hrtime();
 
@@ -34,6 +34,9 @@ export const logger: Record<LogTypes, LogFunction> & { raw: (...args: unknown[])
   },
   success: (message, time) => {
     console.log(styleText('green', '[✔]'), message, toFriendlyTime(time));
+  },
+  warn: (message, time) => {
+    console.warn(styleText('yellow', '[!]'), message, toFriendlyTime(time));
   },
 
   // Special logging for the end of the process
