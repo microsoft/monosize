@@ -4152,10 +4152,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"empathic@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "empathic@npm:1.1.0"
-  checksum: 10/1e41763802f14e5fa2522063f8f93e161c64916698f39e493a3e274356e39aa6f60d60f33063c92f9d5c5426fd33d9cb33baed2885a194648254181ce5495a9c
+"empathic@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "empathic@npm:2.0.0"
+  checksum: 10/90f47d93f8d1db3aa00ce1bfae2940bf76379dbb34bd562edbd92c3564a173cb1d6bd3cadb645fad0224839c25886abde801155d9b972dda6add7a5cc8b35d48
   languageName: node
   linkType: hard
 
@@ -6586,7 +6586,7 @@ __metadata:
     ci-info: "npm:^4.2.0"
     cli-table3: "npm:^0.6.5"
     doctoc: "npm:2.2.1"
-    empathic: "npm:^1.1.0"
+    empathic: "npm:^2.0.0"
     eslint: "npm:9.8.0"
     eslint-config-prettier: "npm:10.1.8"
     eslint-import-resolver-typescript: "npm:3.6.1"
@@ -6639,7 +6639,7 @@ __metadata:
     acorn: "npm:^8.14.1"
     ci-info: "npm:^4.2.0"
     cli-table3: "npm:^0.6.5"
-    empathic: "npm:^1.1.0"
+    empathic: "npm:^2.0.0"
     pretty-bytes: "npm:^6.0.0"
     tinyglobby: "npm:^0.2.13"
     tslib: "npm:^2.4.1"
