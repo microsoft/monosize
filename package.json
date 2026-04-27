@@ -31,7 +31,6 @@
     "@nx/eslint": "22.6.5",
     "@nx/eslint-plugin": "22.6.5",
     "@nx/js": "22.6.5",
-    "@nx/vite": "22.6.5",
     "@nx/vitest": "22.6.5",
     "@nx/workspace": "22.6.5",
     "@types/adm-zip": "0.5.7",
