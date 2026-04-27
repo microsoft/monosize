@@ -2991,12 +2991,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.17.24":
-  version: 20.17.24
-  resolution: "@types/node@npm:20.17.24"
+"@types/node@npm:*, @types/node@npm:24.12.2":
+  version: 24.12.2
+  resolution: "@types/node@npm:24.12.2"
   dependencies:
-    undici-types: "npm:~6.19.2"
-  checksum: 10/0c5fe294b003656b0f95ffce295c08e7ed3fa814ba9bf891e146dced90322d186e63837db9d9bb14d4f294fbe1a6fa1c89ced0b173380c8aaeb90de6c3eddb3b
+    undici-types: "npm:~7.16.0"
+  checksum: 10/99b9f15e67a4b3c39b39ad83ee0febad7f0b4709c004863104d7acfa4146dd7e58c12a08a9a7ff2be8c2eefd0063bf991fade0879d7c4a370a0ee7fd4c799e8a
   languageName: node
   linkType: hard
 
@@ -3011,13 +3011,6 @@ __metadata:
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
   checksum: 10/4df9de98150d2978afc2161482a3a8e6617883effba3223324f079de97ba7eabd7d84b90ced11c3f82b0c08d4a8383f678c9f73e9c41258f769b3fa234a2bb4f
-  languageName: node
-  linkType: hard
-
-"@types/tmp@npm:0.2.3":
-  version: 0.2.3
-  resolution: "@types/tmp@npm:0.2.3"
-  checksum: 10/a8ddaa0456d44dc29e310dc663289dfcdf1f029499cbd5343558620178a84b952b169844c5d7710a3d80b717d64e891d9ee585d71f8af4c8685cdb8d85272ca7
   languageName: node
   linkType: hard
 
@@ -7172,8 +7165,7 @@ __metadata:
     "@nx/workspace": "npm:22.6.5"
     "@rsbuild/core": "npm:^1.6.13"
     "@types/adm-zip": "npm:0.5.7"
-    "@types/node": "npm:20.17.24"
-    "@types/tmp": "npm:0.2.3"
+    "@types/node": "npm:24.12.2"
     "@types/yargs": "npm:17.0.32"
     "@typescript-eslint/eslint-plugin": "npm:^8.40.0"
     "@typescript-eslint/parser": "npm:^8.40.0"
@@ -9081,10 +9073,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~6.19.2":
-  version: 6.19.8
-  resolution: "undici-types@npm:6.19.8"
-  checksum: 10/cf0b48ed4fc99baf56584afa91aaffa5010c268b8842f62e02f752df209e3dea138b372a60a963b3b2576ed932f32329ce7ddb9cb5f27a6c83040d8cd74b7a70
+"undici-types@npm:~7.16.0":
+  version: 7.16.0
+  resolution: "undici-types@npm:7.16.0"
+  checksum: 10/db43439f69c2d94cc29f75cbfe9de86df87061d6b0c577ebe9bb3255f49b22c50162a7d7eb413b0458b6510b8ca299ac7cff38c3a29fbd31af9f504bcf7fbc0d
   languageName: node
   linkType: hard
 

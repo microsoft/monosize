@@ -1,34 +1,34 @@
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
-import tmp from 'tmp';
 import { up as findUp } from 'empathic/find';
 
 import { collectLocalReport } from './collectLocalReport.mjs';
 import type { BuildResult } from '../types.mjs';
 
 function mkPackagesDir() {
-  const projectDir = tmp.dirSync({ prefix: 'collectLocalReport', unsafeCleanup: true });
-  const packagesDir = tmp.dirSync({ dir: projectDir.name, name: 'packages', unsafeCleanup: true });
+  const projectDir = fs.mkdtempSync(path.join(os.tmpdir(), 'collectLocalReport'));
+  const packagesDir = path.join(projectDir, 'packages');
+  fs.mkdirSync(packagesDir, { recursive: true });
 
   // is required as root directory is determined based on Git project
-  tmp.dirSync({ dir: projectDir.name, name: '.git', unsafeCleanup: true });
+  fs.mkdirSync(path.join(projectDir, '.git'), { recursive: true });
 
-  return { packagesDir: packagesDir.name, rootDir: projectDir.name };
+  return { packagesDir, rootDir: projectDir };
 }
 
 function mkReportDir(packagesDir: string, packageName: string, packageRootConfigName: string) {
-  const packageRoot = tmp.dirSync({ dir: packagesDir, name: packageName, unsafeCleanup: true }).name;
-  const distDir = tmp.dirSync({ dir: packageRoot, name: 'dist', unsafeCleanup: true }).name;
-  const monosizeDir = tmp.dirSync({ dir: distDir, name: 'bundle-size', unsafeCleanup: true });
+  const packageRoot = path.join(packagesDir, packageName);
+  const distDir = path.join(packageRoot, 'dist');
+  const monosizeDir = path.join(distDir, 'bundle-size');
+  fs.mkdirSync(monosizeDir, { recursive: true });
 
-  const packageRootConfigPath = tmp.fileSync({ dir: packageRoot, name: packageRootConfigName }).name;
+  const packageRootConfigPath = path.join(packageRoot, packageRootConfigName);
   fs.writeFileSync(packageRootConfigPath, JSON.stringify({ name: packageName }));
 
-  const reportPath = tmp.fileSync({ dir: monosizeDir.name, name: 'monosize.json' }).name;
-
-  return reportPath;
+  return path.join(monosizeDir, 'monosize.json');
 }
 
 describe('collectLocalReport', () => {

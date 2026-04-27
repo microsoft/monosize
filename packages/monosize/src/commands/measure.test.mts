@@ -1,6 +1,6 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
-import tmp from 'tmp';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import api, { type MeasureOptions } from './measure.mjs';
 import { logger } from '../logger.mjs';
@@ -27,12 +27,12 @@ vitest.mock('../utils/readConfig.mts', () => ({
 }));
 
 async function setup(fixtures: { [key: string]: string }) {
-  const packageDir = tmp.dirSync({ unsafeCleanup: true });
+  const packageDir = fs.mkdtempSync(path.join(os.tmpdir(), 'measure'));
 
   const cwd = vitest.spyOn(process, 'cwd');
-  cwd.mockReturnValue(packageDir.name);
+  cwd.mockReturnValue(packageDir);
 
-  const fixturesDir = path.resolve(packageDir.name, 'bundle-size');
+  const fixturesDir = path.resolve(packageDir, 'bundle-size');
   fs.mkdirSync(fixturesDir);
 
   for (const [fixture, content] of Object.entries(fixtures)) {
@@ -40,7 +40,7 @@ async function setup(fixtures: { [key: string]: string }) {
   }
 
   return {
-    packageDir: packageDir.name,
+    packageDir,
   };
 }
 const getMockedFixtures = (...fixtureNames: string[]) =>

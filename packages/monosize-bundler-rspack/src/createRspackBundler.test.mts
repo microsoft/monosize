@@ -1,32 +1,25 @@
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import prettier from 'prettier';
-import tmp from 'tmp';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 
 import { createEnvironmentConfig, createRspackBundler } from './createRspackBundler.mjs';
 
 async function setup(content: string): Promise<string> {
-  const packageDir = tmp.dirSync({
-    prefix: 'buildFixture',
-    unsafeCleanup: true,
-  });
+  const packageDir = fs.mkdtempSync(path.join(os.tmpdir(), 'buildFixture'));
 
   const spy = vitest.spyOn(process, 'cwd');
-  spy.mockReturnValue(packageDir.name);
+  spy.mockReturnValue(packageDir);
 
-  const fixtureDir = tmp.dirSync({
-    dir: packageDir.name,
-    name: 'monosize',
-    unsafeCleanup: true,
-  });
-  const fixtureFile = tmp.fileSync({
-    dir: fixtureDir.name,
-    name: 'test.fixture.js',
-  });
+  const fixtureDir = path.join(packageDir, 'monosize');
+  fs.mkdirSync(fixtureDir, { recursive: true });
 
-  await fs.promises.writeFile(fixtureFile.name, content);
+  const fixtureFilePath = path.join(fixtureDir, 'test.fixture.js');
 
-  return fixtureFile.name;
+  await fs.promises.writeFile(fixtureFilePath, content);
+
+  return fixtureFilePath;
 }
 
 async function prepareOutput(outputPath: string): Promise<string> {
@@ -183,32 +176,23 @@ describe('buildFixture', () => {
 async function setupMultiple(
   fixtures: Array<{ name: string; content: string }>,
 ): Promise<{ dir: string; fixtures: Array<{ name: string; path: string }> }> {
-  const packageDir = tmp.dirSync({
-    prefix: 'buildFixtures',
-    unsafeCleanup: true,
-  });
+  const packageDir = fs.mkdtempSync(path.join(os.tmpdir(), 'buildFixtures'));
 
   const spy = vitest.spyOn(process, 'cwd');
-  spy.mockReturnValue(packageDir.name);
+  spy.mockReturnValue(packageDir);
 
-  const fixtureDir = tmp.dirSync({
-    dir: packageDir.name,
-    name: 'monosize',
-    unsafeCleanup: true,
-  });
+  const fixtureDir = path.join(packageDir, 'monosize');
+  fs.mkdirSync(fixtureDir, { recursive: true });
 
   const fixtureResults = await Promise.all(
     fixtures.map(async ({ name, content }) => {
-      const fixture = tmp.fileSync({
-        dir: fixtureDir.name,
-        name: `${name}.fixture.js`,
-      });
-      await fs.promises.writeFile(fixture.name, content);
-      return { name, path: fixture.name };
+      const fixturePath = path.join(fixtureDir, `${name}.fixture.js`);
+      await fs.promises.writeFile(fixturePath, content);
+      return { name, path: fixturePath };
     }),
   );
 
-  return { dir: fixtureDir.name, fixtures: fixtureResults };
+  return { dir: fixtureDir, fixtures: fixtureResults };
 }
 
 describe('buildFixtures', () => {
