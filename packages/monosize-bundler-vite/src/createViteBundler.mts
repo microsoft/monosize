@@ -7,10 +7,11 @@ const DEFAULT_CONFIG_ENHANCER: BundlerAdapterFactoryConfig<InlineConfig> = confi
 export function createBaseConfig(params: {
   root: string;
   fixturePath: string;
-  outputPath: string;
+  outDir: string;
+  fileName: string;
   minify: boolean;
 }): InlineConfig {
-  const { root, fixturePath, outputPath, minify } = params;
+  const { root, fixturePath, outDir, fileName, minify } = params;
 
   return {
     configFile: false,
@@ -28,22 +29,23 @@ export function createBaseConfig(params: {
       target: 'esnext',
       minify,
 
-      outDir: path.dirname(outputPath),
+      outDir,
 
       lib: {
         entry: fixturePath,
-        formats: ['iife'],
-        name: '__monosizeFixture',
-        fileName: () => path.basename(outputPath),
+        // `es` (instead of iife) so rollup reliably extracts CSS into a sidecar
+        // when the fixture imports it. `lib.name` and `rollupOptions.output.globals`
+        // are iife/umd-only concepts and don't apply to es.
+        formats: ['es'],
+        fileName: () => fileName,
       },
 
       rollupOptions: {
         external: ['react', 'react-dom'],
         output: {
-          globals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
-          },
+          // Keep extracted CSS / asset sidecars at outDir root rather than under
+          // a nested `assets/` dir — the CLI walks outputDir non-recursively.
+          assetFileNames: '[name][extname]',
         },
       },
     },
@@ -54,27 +56,34 @@ async function buildSingleFixture(
   configEnhancer: BundlerAdapterFactoryConfig<InlineConfig>,
   fixturePath: string,
   debug: boolean,
-): Promise<{ outputPath: string; debugOutputPath?: string }> {
+): Promise<{ outputDir: string; debugOutputDir?: string }> {
   const rootDir = path.dirname(fixturePath);
   const artifactsDir = path.join(rootDir, 'dist');
   const fixtureName = path.basename(fixturePath);
 
-  const outputPath = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.output.js'));
-  const debugOutputPath = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.debug.js'));
+  const outputDir = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.output'));
+  const debugOutputDir = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.debug'));
 
   await build(
-    configEnhancer(createBaseConfig({ root: rootDir, fixturePath, outputPath, minify: true })),
+    configEnhancer(
+      createBaseConfig({ root: rootDir, fixturePath, outDir: outputDir, fileName: 'index.js', minify: true }),
+    ),
   );
 
   if (debug) {
+    // Debug build emits into its own dir — separate from `outputDir` so the
+    // CLI's extension scan never reads it and the production bundle is
+    // never overwritten.
     await build(
-      configEnhancer(createBaseConfig({ root: rootDir, fixturePath, outputPath: debugOutputPath, minify: false })),
+      configEnhancer(
+        createBaseConfig({ root: rootDir, fixturePath, outDir: debugOutputDir, fileName: 'index.js', minify: false }),
+      ),
     );
   }
 
   return {
-    outputPath,
-    ...(debug && { debugOutputPath }),
+    outputDir,
+    ...(debug && { debugOutputDir }),
   };
 }
 
@@ -84,11 +93,13 @@ export function createViteBundler(
   return {
     buildFixture: options => buildSingleFixture(configEnhancerCallback, options.fixturePath, options.debug),
 
-    // Vite/Rollup does not natively support emitting multiple self-contained iife bundles
-    // from a single build. Until we have a better story, we just iterate sequentially.
+    // Vite/Rollup does not natively support emitting multiple self-contained es
+    // bundles from a single build. Until we have a better story, we just iterate
+    // sequentially. Per-fixture isolation is automatic since each fixture gets
+    // its own outputDir.
     buildFixtures: async options => {
       const { debug, fixtures } = options;
-      const results: Array<{ name: string; outputPath: string; debugOutputPath?: string }> = [];
+      const results: Array<{ name: string; outputDir: string; debugOutputDir?: string }> = [];
 
       for (const { fixturePath, name } of fixtures) {
         const result = await buildSingleFixture(configEnhancerCallback, fixturePath, debug);
