@@ -24,6 +24,8 @@
   - [Fixtures](#fixtures)
 - [Configuration](#configuration)
   - [Config API](#config-api)
+  - [Measuring CSS, JSON, and other assets](#measuring-css-json-and-other-assets)
+  - [Migration from `outputPath` to `outputDir` (for custom adapter authors)](#migration-from-outputpath-to-outputdir-for-custom-adapter-authors)
   - [Bundler adapters](#bundler-adapters)
   - [Storage adapters](#storage-adapters)
   - [Threshold](#threshold)
@@ -133,10 +135,44 @@ const config = {
   },
 
   threshold: '10kB', // default is "10%"
+
+  // Optional: which asset types to measure. Default: ['js', 'json', 'css'].
+  // Files in the bundler output dir whose extension is not in the allowlist
+  // are ignored. Each entry must be one of the known AssetType values.
+  assetTypes: ['js', 'css', 'json'],
 };
 
 export default config;
 ```
+
+### Measuring CSS, JSON, and other assets
+
+Each fixture's bundler output is treated as a directory; the CLI walks it
+non-recursively, classifies files by extension against `assetTypes`, and
+reports a per-type breakdown alongside top-level totals. Threshold gates on
+totals only.
+
+To measure CSS or other non-JS assets, configure your bundler (via the
+adapter's config-enhancer callback) to extract them. monosize itself does
+not bundle a CSS plugin — install whatever your bundler needs (e.g.
+`mini-css-extract-plugin` for webpack) in your own project and wire it
+through the enhancer. Rspack / vite handle CSS extraction natively.
+
+### Migration from `outputPath` to `outputDir` (for custom adapter authors)
+
+`BundlerAdapter` no longer returns `outputPath`. Each fixture's
+`buildFixture` / `buildFixtures` returns `{ outputDir }` — a per-fixture
+directory whose flat layout the CLI walks. Adapters need to:
+
+- Configure their bundler to write the JS bundle as `<outputDir>/index.js`.
+- Keep the layout flat (no nested subdirectories inside `outputDir`).
+- For debug mode, return a `debugOutputPath` that lives **alongside**
+  `outputDir`, not inside it (otherwise it would be double-counted as a JS
+  asset by the extension scan).
+
+The vite adapter additionally switched its lib format from `iife` to `es`
+so rollup reliably extracts CSS sidecars; `lib.name` and
+`rollupOptions.output.globals` no longer apply.
 
 ### Bundler adapters
 
