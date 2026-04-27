@@ -3,7 +3,7 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import js from '@eslint/js';
 import nxEslintPlugin from '@nx/eslint-plugin';
-import eslintPluginImport from 'eslint-plugin-import';
+import eslintPluginImportX from 'eslint-plugin-import-x';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
 const compat = new FlatCompat({
@@ -15,17 +15,17 @@ export default [
   {
     ignores: ['**/dist', '**/out-tsc'],
   },
-  ...compat.extends('plugin:import/typescript'),
+  eslintPluginImportX.flatConfigs.typescript,
   {
     plugins: {
       '@nx': nxEslintPlugin,
-      import: eslintPluginImport,
+      'import-x': eslintPluginImportX,
       unicorn: eslintPluginUnicorn,
     },
   },
   {
     settings: {
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: './tsconfig.base.json',
@@ -35,7 +35,7 @@ export default [
   },
   {
     rules: {
-      'import/no-extraneous-dependencies': [
+      'import-x/no-extraneous-dependencies': [
         'error',
         {
           devDependencies: false,
@@ -93,7 +93,7 @@ export default [
   {
     files: ['**/__fixtures__/**/*', '**/*.test.mts', '**/vite.config.mts'],
     rules: {
-      'import/no-extraneous-dependencies': 'off',
+      'import-x/no-extraneous-dependencies': 'off',
     },
   },
 ];
