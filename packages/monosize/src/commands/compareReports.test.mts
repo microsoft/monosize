@@ -1,7 +1,7 @@
 import { describe, expect, it, vitest } from 'vitest';
 
-import { sampleReport } from '../__fixture__/sampleReport.mjs';
-import { sampleComparedReport, reportWithExceededThreshold } from '../__fixture__/sampleComparedReport.mjs';
+import { sampleReport } from '../__fixtures__/sampleReport.mjs';
+import { sampleComparedReport, reportWithExceededThreshold } from '../__fixtures__/sampleComparedReport.mjs';
 import api, { CompareReportsOptions } from './compareReports.mjs';
 
 const getRemoteReport = vitest.hoisted(() => vitest.fn());

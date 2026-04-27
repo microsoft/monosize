@@ -6,6 +6,6 @@
     "types": ["environment", "node"]
   },
   "include": ["src/**/*.mts"],
-  "exclude": ["src/**/*.test.mts", "src/**/__fixture__/", "src/**/__mocks__/"],
+  "exclude": ["src/**/*.test.mts", "src/**/__fixtures__/", "src/**/__mocks__/"],
   "references": [{ "path": "../monosize/tsconfig.lib.json" }]
 }
