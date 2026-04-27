@@ -1,8 +1,17 @@
 # Change Log - monosize-storage-upstash
 
-This log was last generated on Thu, 16 Apr 2026 09:05:06 GMT and should not be manually modified.
+This log was last generated on Mon, 27 Apr 2026 10:25:09 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.0.26
+
+Mon, 27 Apr 2026 10:25:09 GMT
+
+### Patches
+
+- chore: bump @upstash/redis to v1.37.0 (olfedias@microsoft.com)
+- Bump monosize to v0.8.3
 
 ## 0.0.25
 

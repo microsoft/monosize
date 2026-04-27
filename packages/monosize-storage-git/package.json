@@ -1,6 +1,6 @@
 {
   "name": "monosize-storage-git",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "module",
   "files": [
     "dist/"
@@ -23,7 +23,7 @@
   "dependencies": {
     "@octokit/rest": "^21.1.1",
     "adm-zip": "^0.5.16",
-    "monosize": "^0.8.2",
+    "monosize": "^0.8.3",
     "tslib": "^2.4.1"
   }
 }

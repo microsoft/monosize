@@ -1,6 +1,6 @@
 {
   "name": "monosize-bundler-vite",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "files": [
     "dist/"
@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "monosize": "^0.8.2",
+    "monosize": "^0.8.3",
     "tslib": "^2.4.1",
     "vite": "^8.0.10"
   }

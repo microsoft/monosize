@@ -1,8 +1,16 @@
 # Change Log - monosize
 
-This log was last generated on Thu, 16 Apr 2026 09:05:06 GMT and should not be manually modified.
+This log was last generated on Mon, 27 Apr 2026 10:25:09 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.8.3
+
+Mon, 27 Apr 2026 10:25:09 GMT
+
+### Patches
+
+- chore: bump empathic to v2.0.0 (olfedias@microsoft.com)
 
 ## 0.8.2
 

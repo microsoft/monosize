@@ -2,6 +2,21 @@
   "name": "monosize-bundler-rspack",
   "entries": [
     {
+      "date": "Mon, 27 Apr 2026 10:25:09 GMT",
+      "tag": "monosize-bundler-rspack_v0.2.2",
+      "version": "0.2.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-rspack",
+            "comment": "Bump monosize to v0.8.3",
+            "commit": "8bf76f12f30ea668c9568cb14fbef3016be61cb1"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 16 Apr 2026 09:05:06 GMT",
       "tag": "monosize-bundler-rspack_v0.2.1",
       "version": "0.2.1",

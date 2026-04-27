@@ -1,0 +1,26 @@
+{
+  "name": "monosize-bundler-vite",
+  "entries": [
+    {
+      "date": "Mon, 27 Apr 2026 10:25:09 GMT",
+      "tag": "monosize-bundler-vite_v0.2.0",
+      "version": "0.2.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-vite",
+            "commit": "8bf76f12f30ea668c9568cb14fbef3016be61cb1",
+            "comment": "feat: initial release"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-vite",
+            "comment": "Bump monosize to v0.8.3",
+            "commit": "8bf76f12f30ea668c9568cb14fbef3016be61cb1"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -2,6 +2,33 @@
   "name": "monosize-bundler-webpack",
   "entries": [
     {
+      "date": "Mon, 27 Apr 2026 10:25:09 GMT",
+      "tag": "monosize-bundler-webpack_v0.3.4",
+      "version": "0.3.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-webpack",
+            "commit": "8bf76f12f30ea668c9568cb14fbef3016be61cb1",
+            "comment": "chore: bump webpack to v5.106.2"
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-webpack",
+            "commit": "8bf76f12f30ea668c9568cb14fbef3016be61cb1",
+            "comment": "chore: bump terser-webpack-plugin to v5.5.0"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-webpack",
+            "comment": "Bump monosize to v0.8.3",
+            "commit": "8bf76f12f30ea668c9568cb14fbef3016be61cb1"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 16 Apr 2026 09:05:06 GMT",
       "tag": "monosize-bundler-webpack_v0.3.3",
       "version": "0.3.3",

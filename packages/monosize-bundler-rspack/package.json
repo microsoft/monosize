@@ -1,6 +1,6 @@
 {
   "name": "monosize-bundler-rspack",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "files": [
     "dist/"
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@rsbuild/core": "^1.6.13",
-    "monosize": "^0.8.2",
+    "monosize": "^0.8.3",
     "tslib": "^2.4.1"
   }
 }

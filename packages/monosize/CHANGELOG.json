@@ -2,6 +2,21 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Mon, 27 Apr 2026 10:25:09 GMT",
+      "tag": "monosize_v0.8.3",
+      "version": "0.8.3",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize",
+            "commit": "8bf76f12f30ea668c9568cb14fbef3016be61cb1",
+            "comment": "chore: bump empathic to v2.0.0"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 16 Apr 2026 09:05:06 GMT",
       "tag": "monosize_v0.8.2",
       "version": "0.8.2",

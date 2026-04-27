@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "feat: initial release",
-  "packageName": "monosize-bundler-vite",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

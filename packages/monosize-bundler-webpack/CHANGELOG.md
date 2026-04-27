@@ -1,8 +1,18 @@
 # Change Log - monosize-bundler-webpack
 
-This log was last generated on Thu, 16 Apr 2026 09:05:06 GMT and should not be manually modified.
+This log was last generated on Mon, 27 Apr 2026 10:25:09 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.3.4
+
+Mon, 27 Apr 2026 10:25:09 GMT
+
+### Patches
+
+- chore: bump webpack to v5.106.2 (olfedias@microsoft.com)
+- chore: bump terser-webpack-plugin to v5.5.0 (olfedias@microsoft.com)
+- Bump monosize to v0.8.3
 
 ## 0.3.3
 

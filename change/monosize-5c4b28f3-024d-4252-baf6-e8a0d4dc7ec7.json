@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: bump empathic to v2.0.0",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

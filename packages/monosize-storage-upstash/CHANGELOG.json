@@ -2,6 +2,27 @@
   "name": "monosize-storage-upstash",
   "entries": [
     {
+      "date": "Mon, 27 Apr 2026 10:25:09 GMT",
+      "tag": "monosize-storage-upstash_v0.0.26",
+      "version": "0.0.26",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-upstash",
+            "commit": "8bf76f12f30ea668c9568cb14fbef3016be61cb1",
+            "comment": "chore: bump @upstash/redis to v1.37.0"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-storage-upstash",
+            "comment": "Bump monosize to v0.8.3",
+            "commit": "8bf76f12f30ea668c9568cb14fbef3016be61cb1"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 16 Apr 2026 09:05:06 GMT",
       "tag": "monosize-storage-upstash_v0.0.25",
       "version": "0.0.25",
