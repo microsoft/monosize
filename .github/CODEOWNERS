@@ -4,5 +4,4 @@
 
 # Packages
 packages/monosize @layershifter @hotell
-packages/monosize-storage-azure @layershifter
 packages/monosize-storage-upstash @layershifter
