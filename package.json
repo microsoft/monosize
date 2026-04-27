@@ -58,8 +58,6 @@
     "vitest": "4.0.18"
   },
   "dependencies": {
-    "@azure/data-tables": "^13.3.2",
-    "@azure/identity": "^4.13.0",
     "@octokit/rest": "^21.1.1",
     "@rsbuild/core": "^1.6.13",
     "@upstash/redis": "^1.34.6",
