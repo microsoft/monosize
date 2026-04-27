@@ -50,10 +50,5 @@ export default {
 };
 ```
 
-#### Batch Build Mode
-
-By default, monosize uses batch mode which runs builds for all fixtures concurrently. To use sequential mode instead (builds one fixture at a time):
-
-```sh
-monosize measure --build-mode=sequential
-```
+> [!NOTE]
+> Vite does not natively emit multiple self-contained `iife` bundles from a single build, so this adapter currently builds fixtures sequentially regardless of `--build-mode`.

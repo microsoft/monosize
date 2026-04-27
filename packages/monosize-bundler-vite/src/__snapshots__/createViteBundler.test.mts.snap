@@ -2,8 +2,7 @@
 
 exports[`buildFixture > builds fixtures 1`] = `
 "(function () {
-  "use strict";
-  console.log("Hello");
+  console.log(\`Hello\`);
 })();
 "
 `;

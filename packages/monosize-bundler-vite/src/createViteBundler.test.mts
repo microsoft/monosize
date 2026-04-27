@@ -42,7 +42,7 @@ describe('createBaseConfig', () => {
       entry: '/workspace/fixtures/my-fixture.js',
       formats: ['iife'],
     });
-    expect(config.build?.minify).toBe('esbuild');
+    expect(config.build?.minify).toBe(true);
     expect(config.build?.rollupOptions?.external).toEqual(['react', 'react-dom']);
   });
 
@@ -165,7 +165,7 @@ describe('buildFixtures', () => {
     vitest.resetAllMocks();
   });
 
-  it('builds fixtures in batch mode', async () => {
+  it('builds fixtures sequentially', async () => {
     const { fixtures } = await setupMultiple([
       {
         name: 'fixture1',
@@ -215,7 +215,7 @@ describe('buildFixtures', () => {
     expect(fs.existsSync(buildResults[2].outputPath)).toBe(true);
   });
 
-  it('builds fixtures in batch mode with debug', async () => {
+  it('builds fixtures sequentially with debug', async () => {
     const { fixtures } = await setupMultiple([
       {
         name: 'fixture1',

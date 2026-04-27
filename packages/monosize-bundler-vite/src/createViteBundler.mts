@@ -26,7 +26,7 @@ export function createBaseConfig(params: {
       modulePreload: false,
 
       target: 'esnext',
-      minify: minify ? 'esbuild' : false,
+      minify,
 
       outDir: path.dirname(outputPath),
 
@@ -50,86 +50,52 @@ export function createBaseConfig(params: {
   };
 }
 
+async function buildSingleFixture(
+  configEnhancer: BundlerAdapterFactoryConfig<InlineConfig>,
+  fixturePath: string,
+  debug: boolean,
+): Promise<{ outputPath: string; debugOutputPath?: string }> {
+  const rootDir = path.dirname(fixturePath);
+  const artifactsDir = path.join(rootDir, 'dist');
+  const fixtureName = path.basename(fixturePath);
+
+  const outputPath = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.output.js'));
+  const debugOutputPath = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.debug.js'));
+
+  await build(
+    configEnhancer(createBaseConfig({ root: rootDir, fixturePath, outputPath, minify: true })),
+  );
+
+  if (debug) {
+    await build(
+      configEnhancer(createBaseConfig({ root: rootDir, fixturePath, outputPath: debugOutputPath, minify: false })),
+    );
+  }
+
+  return {
+    outputPath,
+    ...(debug && { debugOutputPath }),
+  };
+}
+
 export function createViteBundler(
   configEnhancerCallback: BundlerAdapterFactoryConfig<InlineConfig> = DEFAULT_CONFIG_ENHANCER,
 ): BundlerAdapter {
   return {
-    buildFixture: async function (options) {
-      const { debug, fixturePath } = options;
+    buildFixture: options => buildSingleFixture(configEnhancerCallback, options.fixturePath, options.debug),
 
-      const rootDir = path.dirname(fixturePath);
-      const artifactsDir = path.join(rootDir, 'dist');
-      const fixtureName = path.basename(fixturePath);
-
-      const outputPath = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.output.js'));
-      const debugOutputPath = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.debug.js'));
-
-      await build(
-        configEnhancerCallback(
-          createBaseConfig({ root: rootDir, fixturePath, outputPath, minify: true }),
-        ),
-      );
-
-      if (debug) {
-        await build(
-          configEnhancerCallback(
-            createBaseConfig({ root: rootDir, fixturePath, outputPath: debugOutputPath, minify: false }),
-          ),
-        );
-      }
-
-      return {
-        outputPath,
-        ...(debug && { debugOutputPath }),
-      };
-    },
-
-    buildFixtures: async function (options) {
+    // Vite/Rollup does not natively support emitting multiple self-contained iife bundles
+    // from a single build. Until we have a better story, we just iterate sequentially.
+    buildFixtures: async options => {
       const { debug, fixtures } = options;
+      const results: Array<{ name: string; outputPath: string; debugOutputPath?: string }> = [];
 
-      const fixturesWithPaths = fixtures.map(({ fixturePath, name }) => {
-        const rootDir = path.dirname(fixturePath);
-        const artifactsDir = path.join(rootDir, 'dist');
-        const fixtureName = path.basename(fixturePath);
-
-        return {
-          fixturePath,
-          name,
-          rootDir,
-          outputPath: path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.output.js')),
-          debugOutputPath: path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.debug.js')),
-        };
-      });
-
-      const builds: Array<Promise<unknown>> = [];
-
-      for (const { rootDir, fixturePath, outputPath, debugOutputPath } of fixturesWithPaths) {
-        builds.push(
-          build(
-            configEnhancerCallback(
-              createBaseConfig({ root: rootDir, fixturePath, outputPath, minify: true }),
-            ),
-          ),
-        );
-
-        if (debug) {
-          builds.push(
-            build(
-              configEnhancerCallback(
-                createBaseConfig({ root: rootDir, fixturePath, outputPath: debugOutputPath, minify: false }),
-              ),
-            ),
-          );
-        }
+      for (const { fixturePath, name } of fixtures) {
+        const result = await buildSingleFixture(configEnhancerCallback, fixturePath, debug);
+        results.push({ name, ...result });
       }
 
-      await Promise.all(builds);
-
-      return fixturesWithPaths.map(({ name, outputPath, debugOutputPath }) => ({
-        name,
-        outputPath,
-        ...(debug && { debugOutputPath }),
-      }));
+      return results;
     },
 
     name: 'Vite',
