@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: measure non-JS bundler outputs (CSS, JSON) per fixture; assetTypes config (default ['js','css','json']) controls allowlist",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}

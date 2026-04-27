@@ -4,7 +4,10 @@ import { execSync } from 'node:child_process';
 import { any as findUp } from 'empathic/find';
 import { glob } from 'tinyglobby';
 
-import type { BuildResult, BundleSizeReport, MonoSizeConfig } from '../types.mjs';
+import type { BundleSizeReport, BundleSizeReportEntry, MonoSizeConfig } from '../types.mjs';
+
+/** Shape of one entry as it sits on disk in `monosize.json` — no `packageName` (added in this module). */
+type StoredReportEntry = Omit<BundleSizeReportEntry, 'packageName'>;
 
 type CollectLocalReportOptions = {
   root: string | undefined;
@@ -68,12 +71,12 @@ async function getPackageName(packageRoot: string): Promise<string> {
 async function readReportForPackage(
   reportFile: string,
   resolvers: ReportResolvers,
-): Promise<{ packageName: string; packageReport: BuildResult[] }> {
+): Promise<{ packageName: string; packageReport: StoredReportEntry[] }> {
   const packageRoot = await resolvers.packageRoot(reportFile);
   const packageName = await resolvers.packageName(packageRoot);
 
   try {
-    const packageReport: BuildResult[] = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
+    const packageReport: StoredReportEntry[] = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
 
     return { packageName, packageReport };
   } catch (e) {

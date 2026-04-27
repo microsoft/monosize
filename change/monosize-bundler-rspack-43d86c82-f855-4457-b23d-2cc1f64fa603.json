@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: BundlerAdapter now returns outputDir per fixture (was outputPath). Custom adapters must migrate.",
+  "packageName": "monosize-bundler-rspack",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}

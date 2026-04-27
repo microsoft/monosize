@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "chore: add AssetType union and assetTypes config plumbing (dormant)",
-  "packageName": "monosize-bundler-rspack",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "none"
-}
