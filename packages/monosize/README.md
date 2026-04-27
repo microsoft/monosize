@@ -206,8 +206,8 @@ monosize measure [--debug] [--artifacts-location] [--fixtures] [--build-mode] [-
 Builds fixtures and produces artifacts. For each fixture:
 
 - `[fixture].fixture.js` - a modified fixture without a default export, used by a bundler
-- `[fixture].output.js` - a fully minified file, used for measurements
-- `[fixture].debug.js` - a partially minified file, useful for debugging (optional, if `--debug` is passed)
+- `[fixture].output/` - a directory containing the bundler's output for this fixture (at minimum `index.js`, plus extracted CSS / JSON sidecars when configured). The CLI walks this directory, classifies files by extension against `assetTypes`, and produces a per-type breakdown plus totals.
+- `[fixture].debug.js` - a partially minified file alongside (not inside) `[fixture].output/`, useful for debugging (optional, if `--debug` is passed)
 
 Produces a report file (`dist/bundle-size/monosize.json`) that is used by other steps.
 
