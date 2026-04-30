@@ -9,6 +9,7 @@ updates:
     ignore:
       - dependency-name: 'nx'
       - dependency-name: '@nx/*'
+      - dependency-name: 'typescript'
     groups:
       eslint:
         patterns:
@@ -25,7 +26,7 @@ updates:
         dependency-type: development
         update-types:
           - minor
-          - patch
+          - major
 
   - package-ecosystem: github-actions
     directory: /
