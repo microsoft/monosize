@@ -62,10 +62,11 @@ async function getPackageName(packageRoot: string): Promise<string> {
 
     return packageName;
   } catch (err) {
-    throw new Error(
+    const error = new Error(
       [`Failed to read/parse package name from "${packageRoot}" file`, 'Original Error:', err].join('\n'),
-      { cause: err },
     );
+    (error as Error & { cause?: unknown }).cause = err;
+    throw error;
   }
 }
 
@@ -81,9 +82,9 @@ async function readReportForPackage(
 
     return { packageName, packageReport };
   } catch (e) {
-    throw new Error([`Failed to read JSON from "${reportFile}":`, (e as Error).toString()].join('\n'), {
-      cause: e,
-    });
+    const error = new Error([`Failed to read JSON from "${reportFile}":`, (e as Error).toString()].join('\n'));
+    (error as Error & { cause?: unknown }).cause = e;
+    throw error;
   }
 }
 
