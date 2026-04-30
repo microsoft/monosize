@@ -1,20 +1,13 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
 import js from '@eslint/js';
 import nxEslintPlugin from '@nx/eslint-plugin';
 import eslintPluginImportX from 'eslint-plugin-import-x';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 
-const compat = new FlatCompat({
-  baseDirectory: dirname(fileURLToPath(import.meta.url)),
-  recommendedConfig: js.configs.recommended,
-});
-
 export default [
   {
     ignores: ['**/dist', '**/out-tsc'],
   },
+  js.configs.recommended,
   eslintPluginImportX.flatConfigs.typescript,
   {
     plugins: {
@@ -61,17 +54,10 @@ export default [
       ],
     },
   },
-  ...compat
-    .config({
-      extends: ['plugin:@nx/typescript'],
-    })
-    .map(config => ({
-      ...config,
-      files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
-      rules: {
-        ...config.rules,
-      },
-    })),
+  ...nxEslintPlugin.configs['flat/typescript'].map(config => ({
+    ...config,
+    files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
+  })),
   {
     files: ['**/*.mts'],
     rules: {
@@ -79,17 +65,10 @@ export default [
       'unicorn/prefer-node-protocol': 'error',
     },
   },
-  ...compat
-    .config({
-      extends: ['plugin:@nx/javascript'],
-    })
-    .map(config => ({
-      ...config,
-      files: ['**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
-      rules: {
-        ...config.rules,
-      },
-    })),
+  ...nxEslintPlugin.configs['flat/javascript'].map(config => ({
+    ...config,
+    files: ['**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
+  })),
   {
     files: ['**/__fixtures__/**/*', '**/*.test.mts', '**/vite.config.mts'],
     rules: {
