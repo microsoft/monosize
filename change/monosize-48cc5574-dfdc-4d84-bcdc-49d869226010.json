@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: bump yargs from 17.6.2 to 18.0.0",
+  "packageName": "monosize",
+  "email": "198982749+Copilot@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}
