@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^21.1.1",
-    "@rsbuild/core": "^1.6.13",
+    "@rsbuild/core": "^2.0.3",
     "@upstash/redis": "^1.37.0",
     "acorn": "^8.14.1",
     "adm-zip": "^0.5.17",

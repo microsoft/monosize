@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: bump @rsbuild/core from 1.6.13 to 2.0.3",
+  "packageName": "monosize-bundler-rspack",
+  "email": "support@github.com",
+  "dependentChangeType": "patch"
+}
