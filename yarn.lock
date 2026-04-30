@@ -3505,9 +3505,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"beachball@npm:2.65.1":
-  version: 2.65.1
-  resolution: "beachball@npm:2.65.1"
+"beachball@npm:2.65.3":
+  version: 2.65.3
+  resolution: "beachball@npm:2.65.3"
   dependencies:
     "@vercel/detect-agent": "npm:^1.2.1"
     cosmiconfig: "npm:^9.0.1"
@@ -3517,11 +3517,11 @@ __metadata:
     p-limit: "npm:^3.1.0"
     prompts: "npm:^2.4.2"
     semver: "npm:^7.7.4"
-    workspace-tools: "npm:^0.41.4"
+    workspace-tools: "npm:^0.41.6"
     yargs-parser: "npm:^21.1.1"
   bin:
     beachball: bin/beachball.js
-  checksum: 10/ef7f8cf0dfbcef52919a9dc3b89e037edaca9d7912159d30a34aaa7c66e681275339ec1ded45f9d84f5641847694dbcd6c5e9b7a5f772452805e4363cd12fda6
+  checksum: 10/9049ab2da1fccfda607cba9f258b2981da49e774c227d4f2af441fc1b5503d16fc948039cdc2f010f805ecf33f9d6b44780e8d7fd1a62b63da437ec39865f520
   languageName: node
   linkType: hard
 
@@ -6182,7 +6182,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:4.1.5"
     acorn: "npm:^8.14.1"
     adm-zip: "npm:^0.5.17"
-    beachball: "npm:2.65.1"
+    beachball: "npm:2.65.3"
     ci-info: "npm:^4.2.0"
     cli-table3: "npm:^0.6.5"
     doctoc: "npm:2.4.1"
@@ -8122,7 +8122,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"workspace-tools@npm:^0.41.4":
+"workspace-tools@npm:^0.41.6":
   version: 0.41.6
   resolution: "workspace-tools@npm:0.41.6"
   dependencies:
