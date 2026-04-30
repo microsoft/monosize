@@ -33,7 +33,7 @@
     "@nx/vitest": "22.6.5",
     "@nx/workspace": "22.6.5",
     "@types/adm-zip": "0.5.7",
-    "@types/node": "24.12.2",
+    "@types/node": "25.6.0",
     "@types/yargs": "17.0.32",
     "@vitest/coverage-v8": "4.1.5",
     "beachball": "2.65.3",
