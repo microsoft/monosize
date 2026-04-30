@@ -2586,12 +2586,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:17.0.32":
-  version: 17.0.32
-  resolution: "@types/yargs@npm:17.0.32"
+"@types/yargs@npm:17.0.35":
+  version: 17.0.35
+  resolution: "@types/yargs@npm:17.0.35"
   dependencies:
     "@types/yargs-parser": "npm:*"
-  checksum: 10/1e2b2673847011ce43607df690d392f137d95a2d6ea85aa319403eadda2ef4277365efd4982354d8843f2611ef3846c88599660aaeb537fa9ccddae83c2a89de
+  checksum: 10/47bcd4476a4194ea11617ea71cba8a1eddf5505fc39c44336c1a08d452a0de4486aedbc13f47a017c8efbcb5a8aa358d976880663732ebcbc6dbcbbecadb0581
   languageName: node
   linkType: hard
 
@@ -6177,7 +6177,7 @@ __metadata:
     "@rsbuild/core": "npm:^2.0.3"
     "@types/adm-zip": "npm:0.5.7"
     "@types/node": "npm:24.12.2"
-    "@types/yargs": "npm:17.0.32"
+    "@types/yargs": "npm:17.0.35"
     "@upstash/redis": "npm:^1.37.0"
     "@vitest/coverage-v8": "npm:4.1.5"
     acorn: "npm:^8.14.1"
