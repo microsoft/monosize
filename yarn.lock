@@ -3301,10 +3301,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"adm-zip@npm:^0.5.16":
-  version: 0.5.16
-  resolution: "adm-zip@npm:0.5.16"
-  checksum: 10/e167d1b9e60cde37334efda828fa514680af9facbd4183952f36526390e5c7da9a90ca1e6880dfd3aba7b3517f1506c6178e0dc29cd630b26b98c795f97fc599
+"adm-zip@npm:^0.5.17":
+  version: 0.5.17
+  resolution: "adm-zip@npm:0.5.17"
+  checksum: 10/035ea96d04376c290bed3401b67d1a2a2654996450ec9056dccc0fb194cb6a956bf7ad388d2648b0e1775338a377805601deca4bcd689658dc1d39247a1e9bdd
   languageName: node
   linkType: hard
 
@@ -6277,7 +6277,7 @@ __metadata:
     "@upstash/redis": "npm:^1.37.0"
     "@vitest/coverage-v8": "npm:4.1.5"
     acorn: "npm:^8.14.1"
-    adm-zip: "npm:^0.5.16"
+    adm-zip: "npm:^0.5.17"
     beachball: "npm:2.65.1"
     ci-info: "npm:^4.2.0"
     cli-table3: "npm:^0.6.5"
@@ -6312,7 +6312,7 @@ __metadata:
   resolution: "monosize-storage-git@workspace:packages/monosize-storage-git"
   dependencies:
     "@octokit/rest": "npm:^21.1.1"
-    adm-zip: "npm:^0.5.16"
+    adm-zip: "npm:^0.5.17"
     monosize: "npm:^0.8.3"
     tslib: "npm:^2.4.1"
   languageName: unknown
