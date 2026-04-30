@@ -58,7 +58,7 @@
     "@rsbuild/core": "^1.6.13",
     "@upstash/redis": "^1.37.0",
     "acorn": "^8.14.1",
-    "adm-zip": "^0.5.16",
+    "adm-zip": "^0.5.17",
     "ci-info": "^4.2.0",
     "cli-table3": "^0.6.5",
     "empathic": "^2.0.0",
