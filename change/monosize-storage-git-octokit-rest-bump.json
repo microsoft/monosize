@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "chore: bump @octokit/rest from 21.1.1 to 22.0.1",
+  "packageName": "monosize-storage-git",
+  "email": "49699333+dependabot[bot]@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}
