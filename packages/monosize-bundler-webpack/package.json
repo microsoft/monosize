@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "monosize": "^0.8.3",
-    "terser": "^5.16.0",
+    "terser": "^5.46.2",
     "terser-webpack-plugin": "^5.5.0",
     "tslib": "^2.4.1",
     "webpack": "^5.106.2"
