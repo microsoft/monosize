@@ -26,7 +26,6 @@
   },
   "packageManager": "yarn@4.7.0",
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "~10.0.1",
     "@nx/eslint": "22.6.5",
     "@nx/eslint-plugin": "22.6.5",
