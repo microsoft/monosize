@@ -6291,7 +6291,7 @@ __metadata:
     nano-staged: "npm:1.0.2"
     nx: "npm:22.6.5"
     prettier: "npm:3.8.3"
-    pretty-bytes: "npm:^6.0.0"
+    pretty-bytes: "npm:^7.1.0"
     simple-git-hooks: "npm:2.13.1"
     syncpack: "npm:14.3.1"
     terser: "npm:^5.16.0"
@@ -6336,7 +6336,7 @@ __metadata:
     ci-info: "npm:^4.2.0"
     cli-table3: "npm:^0.6.5"
     empathic: "npm:^2.0.0"
-    pretty-bytes: "npm:^6.0.0"
+    pretty-bytes: "npm:^7.1.0"
     tinyglobby: "npm:^0.2.13"
     tslib: "npm:^2.4.1"
     yargs: "npm:^17.6.2"
@@ -6792,10 +6792,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-bytes@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "pretty-bytes@npm:6.0.0"
-  checksum: 10/0bb9f95e617236404b29a8392c6efd82d65805f622f5e809ecd70068102be857d4e3276c86d2a32fa2ef851cc29472e380945dab7bec83ec79bd57a19a10faf7
+"pretty-bytes@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "pretty-bytes@npm:7.1.0"
+  checksum: 10/75fb34fba44596dc69983039fce9288f3b247b513aba2d6dfe74727505fe43199fcd7a1cee95dbd5be56a431d30fbdb4d24d3a62b9cf22bb63fa706b81c2e540
   languageName: node
   linkType: hard
 
