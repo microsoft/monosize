@@ -26,8 +26,7 @@
   },
   "packageManager": "yarn@4.7.0",
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.5",
-    "@eslint/js": "~8.57.0",
+    "@eslint/js": "~10.0.1",
     "@nx/eslint": "22.6.5",
     "@nx/eslint-plugin": "22.6.5",
     "@nx/js": "22.6.5",
@@ -41,7 +40,7 @@
     "doctoc": "2.4.1",
     "eslint": "10.2.1",
     "eslint-config-prettier": "10.1.8",
-    "eslint-import-resolver-typescript": "3.6.1",
+    "eslint-import-resolver-typescript": "4.4.4",
     "eslint-plugin-import-x": "4.16.2",
     "eslint-plugin-unicorn": "64.0.0",
     "nano-staged": "1.0.2",
@@ -55,20 +54,20 @@
   },
   "dependencies": {
     "@octokit/rest": "^21.1.1",
-    "@rsbuild/core": "^1.6.13",
+    "@rsbuild/core": "^2.0.3",
     "@upstash/redis": "^1.37.0",
     "acorn": "^8.14.1",
-    "adm-zip": "^0.5.16",
+    "adm-zip": "^0.5.17",
     "ci-info": "^4.2.0",
     "cli-table3": "^0.6.5",
     "empathic": "^2.0.0",
-    "pretty-bytes": "^6.0.0",
+    "pretty-bytes": "^7.1.0",
     "terser": "^5.16.0",
     "terser-webpack-plugin": "^5.5.0",
     "tinyglobby": "^0.2.13",
     "tslib": "^2.4.1",
     "vite": "^8.0.10",
     "webpack": "^5.106.2",
-    "yargs": "^17.6.2"
+    "yargs": "^18.0.0"
   }
 }

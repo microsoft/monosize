@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "@rsbuild/core": "^1.6.13",
+    "@rsbuild/core": "^2.0.3",
     "monosize": "^0.8.3",
     "tslib": "^2.4.1"
   }

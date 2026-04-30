@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: bump adm-zip from 0.5.16 to 0.5.17",
+  "packageName": "monosize-storage-git",
+  "email": "198982749+Copilot@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}
