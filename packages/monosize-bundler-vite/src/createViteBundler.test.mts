@@ -23,34 +23,46 @@ async function setup(content: string): Promise<string> {
 }
 
 async function prepareOutput(outputPath: string): Promise<string> {
-  return await prettier.format(fs.readFileSync(outputPath, 'utf-8'), {
+  const formatted = await prettier.format(fs.readFileSync(outputPath, 'utf-8'), {
     filepath: outputPath,
   });
+  // Vite's es-format output prefixes each module with `//#region <abs-path>`
+  // pointing at the prepared fixture in a unique temp dir. Normalize the
+  // path to keep snapshots and equality assertions stable across runs.
+  return formatted.replace(/\/\/#region\s+\S+\.fixture\.js/g, '//#region <fixture>');
 }
 
 describe('createBaseConfig', () => {
-  it('produces a config with iife lib output and react externals', () => {
+  it('produces a config with es lib output and react externals', () => {
     const config = createBaseConfig({
       root: '/workspace/fixtures',
       fixturePath: '/workspace/fixtures/my-fixture.js',
-      outputPath: '/workspace/dist/my-fixture.js',
+      outDir: '/workspace/dist/my-fixture.output',
+      fileName: 'index.js',
       minify: true,
     });
 
-    expect(config.build?.outDir).toBe('/workspace/dist');
+    expect(config.build?.outDir).toBe('/workspace/dist/my-fixture.output');
     expect(config.build?.lib).toMatchObject({
       entry: '/workspace/fixtures/my-fixture.js',
-      formats: ['iife'],
+      formats: ['es'],
     });
     expect(config.build?.minify).toBe(true);
     expect(config.build?.rollupOptions?.external).toEqual(['react', 'react-dom']);
+    // assetFileNames keeps CSS/asset sidecars at outDir root for the CLI's
+    // non-recursive scan.
+    const output = config.build?.rollupOptions?.output;
+    expect(Array.isArray(output) ? output[0] : output).toMatchObject({
+      assetFileNames: '[name][extname]',
+    });
   });
 
   it('disables minification for debug mode', () => {
     const config = createBaseConfig({
       root: '/workspace/fixtures',
       fixturePath: '/workspace/fixtures/my-fixture.js',
-      outputPath: '/workspace/dist/my-fixture.debug.js',
+      outDir: '/workspace/dist/my-fixture.debug-tmp',
+      fileName: 'index.js',
       minify: false,
     });
 
@@ -72,9 +84,9 @@ describe('buildFixture', () => {
       fixturePath,
       quiet: true,
     });
-    const output = await prepareOutput(result.outputPath);
+    const output = await prepareOutput(path.join(result.outputDir, 'index.js'));
 
-    expect(result.outputPath).toMatch(/monosize[\\|/]dist[\\|/]test\.output\.js/);
+    expect(result.outputDir).toMatch(/monosize[\\|/]dist[\\|/]test\.output$/);
     expect(output).toMatchSnapshot();
   });
 
@@ -104,10 +116,10 @@ describe('buildFixture', () => {
         quiet: true,
       });
 
-      expect(buildResult.outputPath).toMatch(/monosize[\\|/]dist[\\|/]test\.output\.js/);
+      expect(buildResult.outputDir).toMatch(/monosize[\\|/]dist[\\|/]test\.output$/);
       expect(buildResult.debugOutputPath).toBeUndefined();
 
-      const debugPath = buildResult.outputPath.replace(/\.output\.js$/, '.debug.js');
+      const debugPath = buildResult.outputDir.replace(/\.output$/, '.debug.js');
       expect(fs.existsSync(debugPath)).toBe(false);
     });
 
@@ -127,10 +139,10 @@ describe('buildFixture', () => {
         quiet: true,
       });
 
-      expect(buildResult.outputPath).toMatch(/monosize[\\|/]dist[\\|/]test\.output\.js/);
+      expect(buildResult.outputDir).toMatch(/monosize[\\|/]dist[\\|/]test\.output$/);
       expect(buildResult.debugOutputPath).toMatch(/monosize[\\|/]dist[\\|/]test\.debug\.js/);
 
-      expect(fs.existsSync(buildResult.outputPath)).toBe(true);
+      expect(fs.existsSync(path.join(buildResult.outputDir, 'index.js'))).toBe(true);
       expect(fs.existsSync(buildResult.debugOutputPath as string)).toBe(true);
     });
   });
@@ -203,16 +215,16 @@ describe('buildFixtures', () => {
     expect(buildResults).toHaveLength(3);
 
     expect(buildResults[0].name).toBe('fixture1');
-    expect(buildResults[0].outputPath).toMatch(/monosize[\\|/]dist[\\|/]fixture1\.output\.js/);
-    expect(fs.existsSync(buildResults[0].outputPath)).toBe(true);
+    expect(buildResults[0].outputDir).toMatch(/monosize[\\|/]dist[\\|/]fixture1\.output$/);
+    expect(fs.existsSync(path.join(buildResults[0].outputDir, 'index.js'))).toBe(true);
 
     expect(buildResults[1].name).toBe('fixture2');
-    expect(buildResults[1].outputPath).toMatch(/monosize[\\|/]dist[\\|/]fixture2\.output\.js/);
-    expect(fs.existsSync(buildResults[1].outputPath)).toBe(true);
+    expect(buildResults[1].outputDir).toMatch(/monosize[\\|/]dist[\\|/]fixture2\.output$/);
+    expect(fs.existsSync(path.join(buildResults[1].outputDir, 'index.js'))).toBe(true);
 
     expect(buildResults[2].name).toBe('fixture3');
-    expect(buildResults[2].outputPath).toMatch(/monosize[\\|/]dist[\\|/]fixture3\.output\.js/);
-    expect(fs.existsSync(buildResults[2].outputPath)).toBe(true);
+    expect(buildResults[2].outputDir).toMatch(/monosize[\\|/]dist[\\|/]fixture3\.output$/);
+    expect(fs.existsSync(path.join(buildResults[2].outputDir, 'index.js'))).toBe(true);
   });
 
   it('builds fixtures sequentially with debug', async () => {
@@ -322,7 +334,7 @@ describe('buildFixtures', () => {
           debug: false,
           quiet: true,
         });
-        const content = await prepareOutput(result.outputPath);
+        const content = await prepareOutput(path.join(result.outputDir, 'index.js'));
         return { name: fixture.name, content };
       }),
     );
@@ -337,7 +349,7 @@ describe('buildFixtures', () => {
     const batchOutputs = await Promise.all(
       batchResults.map(async result => ({
         name: result.name,
-        content: await prepareOutput(result.outputPath),
+        content: await prepareOutput(path.join(result.outputDir, 'index.js')),
       })),
     );
 

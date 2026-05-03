@@ -1,0 +1,15 @@
+{
+  "name": "smoke-rspack",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "e2e/smoke-rspack",
+  "tags": [],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/e2e/smoke-rspack"],
+      "options": {
+        "passWithNoTests": true
+      }
+    }
+  }
+}

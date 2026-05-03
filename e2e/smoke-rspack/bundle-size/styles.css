@@ -1,0 +1,11 @@
+.smoke-card {
+  color: rebeccapurple;
+  padding: 1rem;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+}
+
+.smoke-card .title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}

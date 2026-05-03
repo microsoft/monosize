@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["**/*.mts", "**/*.mjs"],
+  "exclude": ["node_modules", "dist"],
+  "references": [
+    {
+      "path": "../../packages/monosize"
+    },
+    {
+      "path": "../../packages/monosize-bundler-rspack"
+    }
+  ]
+}

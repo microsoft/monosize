@@ -165,4 +165,48 @@ describe('createGitStorage', () => {
       );
     });
   });
+
+  describe('round-trip with assets field', () => {
+    const reportWithAssets: BundleSizeReport = [
+      {
+        packageName: 'pkg-styles',
+        name: 'makeStyles',
+        path: 'makeStyles.fixture.js',
+        minifiedSize: 1000,
+        gzippedSize: 350,
+        assets: {
+          js: { minifiedSize: 700, gzippedSize: 250 },
+          css: { minifiedSize: 300, gzippedSize: 100 },
+        },
+      },
+      // Legacy entry without `assets` — must round-trip cleanly.
+      {
+        packageName: 'pkg-legacy',
+        name: 'old',
+        path: 'old.fixture.js',
+        minifiedSize: 500,
+        gzippedSize: 150,
+      },
+    ];
+
+    it('preserves assets through write -> read', async () => {
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', outputPath: 'dist/report.json', artifactName: 'monosize-report' });
+
+      await storage.uploadReportToRemote('main', 'sha-1', reportWithAssets);
+
+      const writtenJson = (mockWriteFileSync.mock.calls[0]?.[1] as string) ?? '';
+      const stored = JSON.parse(writtenJson);
+
+      mockListWorkflowRuns.mockResolvedValue({ data: { workflow_runs: [{ id: 1, head_sha: 'sha-1' }] } });
+      mockListWorkflowRunArtifacts.mockResolvedValue({ data: { artifacts: [{ id: 2, name: 'monosize-report' }] } });
+      mockDownloadArtifact.mockResolvedValue({ data: createZip('report.json', JSON.stringify(stored)) });
+
+      const result = await storage.getRemoteReport('main');
+      expect(result.commitSHA).toBe('sha-1');
+      expect(result.remoteReport).toEqual(reportWithAssets);
+      // Both shapes survive: with assets and without.
+      expect(result.remoteReport[0].assets).toEqual(reportWithAssets[0].assets);
+      expect(result.remoteReport[1].assets).toBeUndefined();
+    });
+  });
 });

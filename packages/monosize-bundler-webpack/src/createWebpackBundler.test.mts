@@ -76,8 +76,8 @@ describe('buildFixture', () => {
       quiet: true,
     });
 
-    expect(buildResult.outputPath).toMatch(/monosize[\\|/]test\.output\.js/);
-    expect(await fs.promises.readFile(buildResult.outputPath, 'utf-8')).toMatchInlineSnapshot(
+    expect(buildResult.outputDir).toMatch(/monosize[\\|/]test\.output$/);
+    expect(await fs.promises.readFile(path.join(buildResult.outputDir, 'index.js'), 'utf-8')).toMatchInlineSnapshot(
       `"console.log("Hello");"`,
     );
   });
@@ -121,9 +121,9 @@ describe('buildFixture', () => {
         fixturePath,
         quiet: true,
       });
-      const output = await fs.promises.readFile(buildResult.outputPath, 'utf-8');
+      const output = await fs.promises.readFile(path.join(buildResult.outputDir, 'index.js'), 'utf-8');
 
-      expect(buildResult.outputPath).toMatch(/monosize[\\|/]test\.output\.js/);
+      expect(buildResult.outputDir).toMatch(/monosize[\\|/]test\.output$/);
       expect(buildResult.debugOutputPath).toBeUndefined();
 
       expect(output).toMatchInlineSnapshot(`"(()=>{const o="foo";console.log(function(){return o})})();"`);
@@ -146,10 +146,10 @@ describe('buildFixture', () => {
         quiet: true,
       });
 
-      expect(buildResult.outputPath).toMatch(/monosize[\\|/]test\.output\.js/);
+      expect(buildResult.outputDir).toMatch(/monosize[\\|/]test\.output$/);
       expect(buildResult.debugOutputPath).toMatch(/monosize[\\|/]test\.debug\.js/);
 
-      const output = await fs.promises.readFile(buildResult.outputPath, 'utf-8');
+      const output = await fs.promises.readFile(path.join(buildResult.outputDir, 'index.js'), 'utf-8');
       const debugOutput = await fs.promises.readFile(buildResult.debugOutputPath!, 'utf-8');
 
       expect(output).toMatchInlineSnapshot(`"(()=>{const o="foo";console.log(function(){return o})})();"`);
@@ -218,20 +218,20 @@ describe('buildFixtures', () => {
 
     // Check that all files were created
     expect(buildResults[0].name).toBe('fixture1');
-    expect(buildResults[0].outputPath).toMatch(/monosize[\\|/]fixture1\.output\.js/);
-    expect(await fs.promises.readFile(buildResults[0].outputPath, 'utf-8')).toMatchInlineSnapshot(
+    expect(buildResults[0].outputDir).toMatch(/monosize[\\|/]fixture1\.output$/);
+    expect(await fs.promises.readFile(path.join(buildResults[0].outputDir, 'index.js'), 'utf-8')).toMatchInlineSnapshot(
       `"(()=>{const o="foo";console.log(function(){return o})})();"`,
     );
 
     expect(buildResults[1].name).toBe('fixture2');
-    expect(buildResults[1].outputPath).toMatch(/monosize[\\|/]fixture2\.output\.js/);
-    expect(await fs.promises.readFile(buildResults[1].outputPath, 'utf-8')).toMatchInlineSnapshot(
+    expect(buildResults[1].outputDir).toMatch(/monosize[\\|/]fixture2\.output$/);
+    expect(await fs.promises.readFile(path.join(buildResults[1].outputDir, 'index.js'), 'utf-8')).toMatchInlineSnapshot(
       `"console.log("Hello2");"`,
     );
 
     expect(buildResults[2].name).toBe('fixture3');
-    expect(buildResults[2].outputPath).toMatch(/monosize[\\|/]fixture3\.output\.js/);
-    expect(await fs.promises.readFile(buildResults[2].outputPath, 'utf-8')).toMatchInlineSnapshot(
+    expect(buildResults[2].outputDir).toMatch(/monosize[\\|/]fixture3\.output$/);
+    expect(await fs.promises.readFile(path.join(buildResults[2].outputDir, 'index.js'), 'utf-8')).toMatchInlineSnapshot(
       `"console.log("Hello3");"`,
     );
   });
@@ -275,8 +275,8 @@ describe('buildFixtures', () => {
     expect(buildResults).toHaveLength(2);
 
     // Check that debug files were created
-    expect(buildResults[0].debugOutputPath).toMatch(/monosize[\\|/]fixture1\.debug\.js/);
-    expect(buildResults[1].debugOutputPath).toMatch(/monosize[\\|/]fixture2\.debug\.js/);
+    expect(buildResults[0].debugOutputPath).toMatch(/monosize[\|/]fixture\.output[\|/]index\.js/|/]fixture1\.debug\.js/);
+    expect(buildResults[1].debugOutputPath).toMatch(/monosize[\|/]fixture\.output[\|/]index\.js/|/]fixture2\.debug\.js/);
 
     // Verify debug files exist and contain the expected content
     const debugOutput1 = await fs.promises.readFile(buildResults[0].debugOutputPath!, 'utf-8');
@@ -387,7 +387,7 @@ describe('buildFixtures', () => {
           debug: false,
           quiet: true,
         });
-        const content = await fs.promises.readFile(result.outputPath, 'utf-8');
+        const content = await fs.promises.readFile(path.join(result.outputDir, 'index.js'), 'utf-8');
         return { name: fixture.name, content };
       }),
     );
@@ -403,7 +403,7 @@ describe('buildFixtures', () => {
     const batchOutputs = await Promise.all(
       batchResults.map(async result => ({
         name: result.name,
-        content: await fs.promises.readFile(result.outputPath, 'utf-8'),
+        content: await fs.promises.readFile(path.join(result.outputDir, 'index.js'), 'utf-8'),
       })),
     );
 

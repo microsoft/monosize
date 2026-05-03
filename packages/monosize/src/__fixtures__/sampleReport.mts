@@ -7,6 +7,7 @@ export const sampleReport: BundleSizeReport = [
     path: 'foo.fixture.js',
     minifiedSize: 1000,
     gzippedSize: 100,
+    assets: { js: { minifiedSize: 1000, gzippedSize: 100 } },
   },
   {
     packageName: 'bar-package',
@@ -14,6 +15,7 @@ export const sampleReport: BundleSizeReport = [
     path: 'bar.fixture.js',
     minifiedSize: 1000,
     gzippedSize: 100,
+    // No assets — exercises the legacy-report path in comparisons.
   },
   {
     packageName: 'baz-package',
@@ -21,5 +23,9 @@ export const sampleReport: BundleSizeReport = [
     path: 'baz.fixture.js',
     minifiedSize: 1000,
     gzippedSize: 100,
+    assets: {
+      js: { minifiedSize: 700, gzippedSize: 70 },
+      css: { minifiedSize: 300, gzippedSize: 30 },
+    },
   },
 ];

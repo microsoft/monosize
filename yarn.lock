@@ -6123,7 +6123,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"monosize-bundler-rspack@workspace:packages/monosize-bundler-rspack":
+"monosize-bundler-rspack@workspace:*, monosize-bundler-rspack@workspace:packages/monosize-bundler-rspack":
   version: 0.0.0-use.local
   resolution: "monosize-bundler-rspack@workspace:packages/monosize-bundler-rspack"
   dependencies:
@@ -6203,6 +6203,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"monosize-smoke-rspack@workspace:e2e/smoke-rspack":
+  version: 0.0.0-use.local
+  resolution: "monosize-smoke-rspack@workspace:e2e/smoke-rspack"
+  dependencies:
+    monosize: "workspace:*"
+    monosize-bundler-rspack: "workspace:*"
+  languageName: unknown
+  linkType: soft
+
 "monosize-storage-git@workspace:packages/monosize-storage-git":
   version: 0.0.0-use.local
   resolution: "monosize-storage-git@workspace:packages/monosize-storage-git"
@@ -6224,7 +6233,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"monosize@npm:^0.8.3, monosize@workspace:packages/monosize":
+"monosize@npm:^0.8.3, monosize@workspace:*, monosize@workspace:packages/monosize":
   version: 0.0.0-use.local
   resolution: "monosize@workspace:packages/monosize"
   dependencies:
