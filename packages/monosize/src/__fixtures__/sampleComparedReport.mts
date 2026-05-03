@@ -30,12 +30,20 @@ export const sampleComparedReport: ComparedReport = [
     path: 'baz.fixture.js',
     minifiedSize: 1000,
     gzippedSize: 100,
+    assets: {
+      js: { minifiedSize: 700, gzippedSize: 70 },
+      css: { minifiedSize: 300, gzippedSize: 30 },
+    },
     diff: {
       empty: false,
       exceedsThreshold: false,
 
       minified: { delta: 1000, percent: '100%' },
       gzip: { delta: 100, percent: '100%' },
+    },
+    assetsDiff: {
+      css: { minified: { delta: 300, percent: '100%' }, gzip: { delta: 30, percent: '100%' } },
+      js: { minified: { delta: 700, percent: '100%' }, gzip: { delta: 70, percent: '100%' } },
     },
   },
 ];
@@ -61,12 +69,20 @@ export const reportWithExceededThreshold: ComparedReport = [
     path: 'baz.fixture.js',
     minifiedSize: 1000,
     gzippedSize: 100,
+    assets: {
+      js: { minifiedSize: 700, gzippedSize: 70 },
+      css: { minifiedSize: 300, gzippedSize: 30 },
+    },
     diff: {
       empty: false,
       exceedsThreshold: true,
 
       minified: { delta: 1000, percent: '100%' },
       gzip: { delta: 100, percent: '100%' },
+    },
+    assetsDiff: {
+      css: { minified: { delta: 300, percent: '100%' }, gzip: { delta: 30, percent: '100%' } },
+      js: { minified: { delta: 700, percent: '100%' }, gzip: { delta: 70, percent: '100%' } },
     },
   },
 ];

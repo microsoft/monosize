@@ -73,6 +73,41 @@ export const markdownReporter: Reporter = (report, options) => {
     });
 
     reportOutput.push('');
+
+    // Per-asset-type breakdown lives in its own section after the totals
+    // table — GFM tables can't span sub-rows, so interleaving <details>
+    // mid-table would break parsing. One <details> block per changed entry
+    // whose breakdown moved.
+    const breakdownEntries = changedEntries.filter(entry => {
+      if (!entry.assetsDiff) return false;
+      return Object.values(entry.assetsDiff).some(d => d.minified.delta !== 0 || d.gzip.delta !== 0);
+    });
+    const missingBreakdown = changedEntries.some(entry => !entry.assetsDiff && !entry.diff.empty);
+
+    if (breakdownEntries.length > 0 || missingBreakdown) {
+      reportOutput.push('### Breakdown', '');
+
+      if (missingBreakdown) {
+        reportOutput.push(
+          '> Breakdown unavailable for some fixtures (remote report predates per-asset support — re-run measure on main to populate).',
+          '',
+        );
+      }
+
+      for (const entry of breakdownEntries) {
+        reportOutput.push(`<details><summary><samp>${entry.packageName}</samp> · ${entry.name}</summary>`, '');
+        const types = Object.keys(entry.assetsDiff!)
+          .filter(t => entry.assetsDiff![t].minified.delta !== 0 || entry.assetsDiff![t].gzip.delta !== 0)
+          .sort();
+        for (const t of types) {
+          const d = entry.assetsDiff![t];
+          reportOutput.push(
+            `- \`${t}\`: ${formatDelta(d.minified, deltaFormat)} minified, ${formatDelta(d.gzip, deltaFormat)} gzipped`,
+          );
+        }
+        reportOutput.push('</details>', '');
+      }
+    }
   }
 
   if (showUnchanged && unchangedEntries.length > 0) {
