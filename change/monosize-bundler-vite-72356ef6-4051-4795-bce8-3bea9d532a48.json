@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: add AssetType union and assetTypes config plumbing (dormant)",
+  "packageName": "monosize-bundler-vite",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}

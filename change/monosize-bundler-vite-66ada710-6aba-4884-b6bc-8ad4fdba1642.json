@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: BundlerAdapter now returns outputDir per fixture (was outputPath); switch lib format from iife to es so CSS sidecars extract reliably (lib.name and rollup output.globals no longer apply). Custom adapters/configs must migrate.",
+  "packageName": "monosize-bundler-vite",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
