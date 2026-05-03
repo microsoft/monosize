@@ -33,7 +33,7 @@ describe('createEnvironmentConfig', () => {
     expect(
       createEnvironmentConfig({
         fixturePath: '/workspace/fixtures/my-fixture.js',
-        outputPath: '/workspace/dist/my-fixture.js',
+        outputDir: '/workspace/dist/my-fixture.output',
       }),
     ).toMatchInlineSnapshot(`
       {
@@ -41,7 +41,7 @@ describe('createEnvironmentConfig', () => {
           "output": {
             "distPath": {
               "js": "./",
-              "root": "/workspace/dist",
+              "root": "/workspace/dist/my-fixture.output",
             },
             "emitAssets": false,
             "externals": {
@@ -49,7 +49,7 @@ describe('createEnvironmentConfig', () => {
               "react-dom": "ReactDOM",
             },
             "filename": {
-              "js": "my-fixture.js",
+              "js": "index.js",
             },
             "minify": true,
             "target": "web",
@@ -105,9 +105,9 @@ describe('buildFixture', () => {
       fixturePath,
       quiet: true,
     });
-    const output = await prepareOutput(result.outputPath);
+    const output = await prepareOutput(path.join(result.outputDir, 'index.js'));
 
-    expect(result.outputPath).toMatch(/monosize[\\|/]dist[\\|/]test\.output\.js/);
+    expect(result.outputDir).toMatch(/monosize[\\|/]dist[\\|/]test\.output$/);
     expect(output).toMatchSnapshot();
   });
 
@@ -136,10 +136,10 @@ describe('buildFixture', () => {
         fixturePath,
         quiet: true,
       });
-      const output = await prepareOutput(buildResult.outputPath);
+      const output = await prepareOutput(path.join(buildResult.outputDir, 'index.js'));
 
-      expect(buildResult.outputPath).toMatch(/monosize[\\|/]dist[\\|/]test\.output\.js/);
-      expect(buildResult.debugOutputPath).toBeUndefined();
+      expect(buildResult.outputDir).toMatch(/monosize[\\|/]dist[\\|/]test\.output$/);
+      expect(buildResult.debugOutputDir).toBeUndefined();
 
       expect(output).toMatchSnapshot();
     });
@@ -160,11 +160,11 @@ describe('buildFixture', () => {
         quiet: true,
       });
 
-      expect(buildResult.outputPath).toMatch(/monosize[\\|/]dist[\\|/]test\.output\.js/);
-      expect(buildResult.debugOutputPath).toMatch(/monosize[\\|/]dist[\\|/]test\.debug\.js/);
+      expect(buildResult.outputDir).toMatch(/monosize[\\|/]dist[\\|/]test\.output$/);
+      expect(buildResult.debugOutputDir).toMatch(/monosize[\\|/]dist[\\|/]test\.debug$/);
 
-      const output = await prepareOutput(buildResult.outputPath);
-      const debugOutput = await prepareOutput(buildResult.debugOutputPath as string);
+      const output = await prepareOutput(path.join(buildResult.outputDir, 'index.js'));
+      const debugOutput = await prepareOutput(path.join(buildResult.debugOutputDir as string, 'index.js'));
 
       expect(output).toMatchSnapshot();
       // Output should contain the original variable names
@@ -268,16 +268,16 @@ describe('buildFixtures', () => {
 
     // Check that all files were created
     expect(buildResults[0].name).toBe('fixture1');
-    expect(buildResults[0].outputPath).toMatch(/monosize[\\|/]dist[\\|/]fixture1\.output\.js/);
-    expect(await prepareOutput(buildResults[0].outputPath)).toMatchSnapshot();
+    expect(buildResults[0].outputDir).toMatch(/monosize[\\|/]dist[\\|/]fixture1\.output$/);
+    expect(await prepareOutput(path.join(buildResults[0].outputDir, 'index.js'))).toMatchSnapshot();
 
     expect(buildResults[1].name).toBe('fixture2');
-    expect(buildResults[1].outputPath).toMatch(/monosize[\\|/]dist[\\|/]fixture2\.output\.js/);
-    expect(await prepareOutput(buildResults[1].outputPath)).toMatchSnapshot();
+    expect(buildResults[1].outputDir).toMatch(/monosize[\\|/]dist[\\|/]fixture2\.output$/);
+    expect(await prepareOutput(path.join(buildResults[1].outputDir, 'index.js'))).toMatchSnapshot();
 
     expect(buildResults[2].name).toBe('fixture3');
-    expect(buildResults[2].outputPath).toMatch(/monosize[\\|/]dist[\\|/]fixture3\.output\.js/);
-    expect(await prepareOutput(buildResults[2].outputPath)).toMatchSnapshot();
+    expect(buildResults[2].outputDir).toMatch(/monosize[\\|/]dist[\\|/]fixture3\.output$/);
+    expect(await prepareOutput(path.join(buildResults[2].outputDir, 'index.js'))).toMatchSnapshot();
   });
 
   it('builds fixtures in batch mode with debug', async () => {
@@ -318,13 +318,13 @@ describe('buildFixtures', () => {
 
     expect(buildResults).toHaveLength(2);
 
-    // Check that debug files were created
-    expect(buildResults[0].debugOutputPath).toMatch(/monosize[\\|/]dist[\\|/]fixture1\.debug\.js/);
-    expect(buildResults[1].debugOutputPath).toMatch(/monosize[\\|/]dist[\\|/]fixture2\.debug\.js/);
+    // Check that debug dirs were created
+    expect(buildResults[0].debugOutputDir).toMatch(/monosize[\\|/]dist[\\|/]fixture1\.debug$/);
+    expect(buildResults[1].debugOutputDir).toMatch(/monosize[\\|/]dist[\\|/]fixture2\.debug$/);
 
     // Verify debug files exist and contain the expected content
-    const debugOutput1 = await prepareOutput(buildResults[0].debugOutputPath!);
-    const debugOutput2 = await prepareOutput(buildResults[1].debugOutputPath!);
+    const debugOutput1 = await prepareOutput(path.join(buildResults[0].debugOutputDir!, 'index.js'));
+    const debugOutput2 = await prepareOutput(path.join(buildResults[1].debugOutputDir!, 'index.js'));
 
     expect(debugOutput1).toMatchSnapshot();
     expect(debugOutput2).toMatchSnapshot();
@@ -404,7 +404,7 @@ describe('buildFixtures', () => {
           debug: false,
           quiet: true,
         });
-        const content = await prepareOutput(result.outputPath);
+        const content = await prepareOutput(path.join(result.outputDir, 'index.js'));
         return { name: fixture.name, content };
       }),
     );
@@ -420,7 +420,7 @@ describe('buildFixtures', () => {
     const batchOutputs = await Promise.all(
       batchResults.map(async result => ({
         name: result.name,
-        content: await prepareOutput(result.outputPath),
+        content: await prepareOutput(path.join(result.outputDir, 'index.js')),
       })),
     );
 

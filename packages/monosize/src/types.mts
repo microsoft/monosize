@@ -27,6 +27,12 @@ export type BundleSizeReportEntry = Pick<BuildResult, 'name' | 'path' | 'minifie
 };
 export type BundleSizeReport = BundleSizeReportEntry[];
 
+/**
+ * Shape of one entry as it sits on disk in a per-package `monosize.json`,
+ * before `collectLocalReport` adds `packageName`.
+ */
+export type StoredReportEntry = Omit<BundleSizeReportEntry, 'packageName'>;
+
 export type ThresholdValue = {
   size: number;
   type: 'size' | 'percent';
@@ -45,8 +51,20 @@ export type StorageAdapter = {
 
 export type BundlerAdapter = {
   buildFixture: (options: { fixturePath: string; debug: boolean; quiet: boolean }) => Promise<{
-    outputPath: string;
-    debugOutputPath?: string;
+    /**
+     * Directory containing the bundler's output for this fixture. The CLI
+     * walks this directory non-recursively, classifies files by extension
+     * against the configured `assetTypes` allowlist, and reports per-type
+     * sizes plus totals.
+     */
+    outputDir: string;
+    /**
+     * Optional directory containing beautified-JS output for debugging
+     * (debug mode only). A separate directory from `outputDir` so the
+     * CLI's extension scan never reads it and there's no risk of the
+     * debug build overwriting the production bundle.
+     */
+    debugOutputDir?: string;
   }>;
 
   /**
@@ -60,8 +78,8 @@ export type BundlerAdapter = {
   }) => Promise<
     Array<{
       name: string;
-      outputPath: string;
-      debugOutputPath?: string;
+      outputDir: string;
+      debugOutputDir?: string;
     }>
   >;
 

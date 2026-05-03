@@ -1,8 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`buildFixture > builds fixtures 1`] = `
-"(function () {
-  console.log(\`Hello\`);
-})();
+"//#region <fixture>
+console.log("Hello");
+//#endregion
 "
 `;
