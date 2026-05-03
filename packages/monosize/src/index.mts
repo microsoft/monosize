@@ -23,6 +23,8 @@ const cliSetup = yargs(hideBin(process.argv))
 export type CliOptions = { quiet: boolean };
 
 export type {
+  AssetType,
+  AssetSize,
   BundleSizeReportEntry,
   BundleSizeReport,
   MonoSizeConfig,

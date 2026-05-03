@@ -47,15 +47,15 @@ function createBaseEnvironmentConfig(params: {
 
 export function createEnvironmentConfig(params: {
   fixturePath: string;
-  outputPath: string;
+  outputDir: string;
   debugOutputPath?: string;
 }): Record<string, EnvironmentConfig> {
-  const { fixturePath, outputPath, debugOutputPath } = params;
+  const { fixturePath, outputDir, debugOutputPath } = params;
 
   const defaultEnv = createBaseEnvironmentConfig({
     entry: { index: fixturePath },
-    outputDir: path.dirname(outputPath),
-    filename: path.basename(outputPath),
+    outputDir,
+    filename: 'index.js',
     minify: true,
   });
 
@@ -75,23 +75,25 @@ export function createEnvironmentConfig(params: {
 }
 
 export function createMultiEntryEnvironmentConfig(params: {
-  fixtures: Array<{ fixturePath: string; outputPath: string; debugOutputPath?: string }>;
+  fixtures: Array<{ fixturePath: string; outputDir: string; debugOutputPath?: string }>;
   debug: boolean;
 }): Record<string, EnvironmentConfig> {
   const { fixtures, debug } = params;
 
-  const outputDir = path.dirname(fixtures[0].outputPath);
+  // Each fixture's outputDir lives under a shared dist root; rspack writes
+  // <sharedRoot>/<entryName>/index.js where entryName is the basename of
+  // the per-fixture outputDir (e.g. "foo.output").
+  const sharedRoot = path.dirname(fixtures[0].outputDir);
 
-  const entry = fixtures.reduce<Record<string, string>>((acc, { fixturePath, outputPath }) => {
-    const entryName = path.basename(outputPath, path.extname(outputPath));
-    acc[entryName] = fixturePath;
+  const entry = fixtures.reduce<Record<string, string>>((acc, { fixturePath, outputDir }) => {
+    acc[path.basename(outputDir)] = fixturePath;
     return acc;
   }, {});
 
   const defaultEnv = createBaseEnvironmentConfig({
     entry,
-    outputDir,
-    filename: '[name].js',
+    outputDir: sharedRoot,
+    filename: '[name]/index.js',
     minify: true,
   });
 
@@ -99,6 +101,8 @@ export function createMultiEntryEnvironmentConfig(params: {
     return { default: defaultEnv };
   }
 
+  // Debug build emits a flat <sharedRoot>/<entryName>.debug.js per fixture
+  // (sibling to each outputDir, not inside it).
   const debugEntry = fixtures.reduce<Record<string, string>>((acc, { fixturePath, debugOutputPath }) => {
     if (debugOutputPath) {
       const entryName = path.basename(debugOutputPath, path.extname(debugOutputPath));
@@ -111,7 +115,7 @@ export function createMultiEntryEnvironmentConfig(params: {
     default: defaultEnv,
     debug: createBaseEnvironmentConfig({
       entry: debugEntry,
-      outputDir,
+      outputDir: sharedRoot,
       filename: '[name].js',
       minify: false,
     }),
@@ -130,8 +134,8 @@ export function createRspackBundler(configEnhancerCallback: BundlerAdapterFactor
       const artifactsDir = path.join(rootDir, 'dist');
       const fixtureName = path.basename(fixturePath);
 
-      const outputPath = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.output.js'));
-      const debugOutputPath = path.join(artifactsDir, fixtureName.replace(/\.fixture.js$/, '.debug.js'));
+      const outputDir = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.output'));
+      const debugOutputPath = path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.debug.js'));
 
       const rsbuild = await createRsbuild({
         loadEnv: false,
@@ -141,7 +145,7 @@ export function createRspackBundler(configEnhancerCallback: BundlerAdapterFactor
           dev: { progressBar: false },
           environments: createEnvironmentConfig({
             fixturePath,
-            outputPath,
+            outputDir,
 
             ...(debug && { debugOutputPath }),
           }),
@@ -152,7 +156,7 @@ export function createRspackBundler(configEnhancerCallback: BundlerAdapterFactor
       await buildResult.close();
 
       return {
-        outputPath,
+        outputDir,
         ...(debug && { debugOutputPath }),
       };
     },
@@ -163,7 +167,7 @@ export function createRspackBundler(configEnhancerCallback: BundlerAdapterFactor
       // Silence the default logger
       logger.level = 'error';
 
-      // Prepare output paths for all fixtures
+      // Prepare output paths for all fixtures (one outputDir per fixture).
       const fixturesWithPaths = fixtures.map(({ fixturePath, name }) => {
         const rootDir = path.dirname(fixturePath);
         const artifactsDir = path.join(rootDir, 'dist');
@@ -172,8 +176,8 @@ export function createRspackBundler(configEnhancerCallback: BundlerAdapterFactor
         return {
           fixturePath,
           name,
-          outputPath: path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.output.js')),
-          debugOutputPath: path.join(artifactsDir, fixtureName.replace(/\.fixture.js$/, '.debug.js')),
+          outputDir: path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.output')),
+          debugOutputPath: path.join(artifactsDir, fixtureName.replace(/\.fixture\.js$/, '.debug.js')),
         };
       });
 
@@ -197,9 +201,9 @@ export function createRspackBundler(configEnhancerCallback: BundlerAdapterFactor
       const buildResult = await rsbuild.build({ watch: false });
       await buildResult.close();
 
-      return fixturesWithPaths.map(({ name, outputPath, debugOutputPath }) => ({
+      return fixturesWithPaths.map(({ name, outputDir, debugOutputPath }) => ({
         name,
-        outputPath,
+        outputDir,
         ...(debug && {
           debugOutputPath,
         }),

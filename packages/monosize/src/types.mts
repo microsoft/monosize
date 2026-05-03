@@ -45,7 +45,18 @@ export type StorageAdapter = {
 
 export type BundlerAdapter = {
   buildFixture: (options: { fixturePath: string; debug: boolean; quiet: boolean }) => Promise<{
-    outputPath: string;
+    /**
+     * Directory containing the bundler's output for this fixture. The CLI
+     * walks this directory non-recursively, classifies files by extension
+     * against the configured `assetTypes` allowlist, and reports per-type
+     * sizes plus totals.
+     */
+    outputDir: string;
+    /**
+     * Optional path to a beautified-JS file (debug mode only). Lives
+     * **alongside** `outputDir`, not inside it, so the CLI's extension
+     * scan does not double-count the beautified copy as a JS asset.
+     */
     debugOutputPath?: string;
   }>;
 
@@ -60,7 +71,7 @@ export type BundlerAdapter = {
   }) => Promise<
     Array<{
       name: string;
-      outputPath: string;
+      outputDir: string;
       debugOutputPath?: string;
     }>
   >;
