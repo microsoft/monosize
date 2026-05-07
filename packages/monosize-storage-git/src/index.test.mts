@@ -144,6 +144,66 @@ describe('createGitStorage', () => {
       expect(result.remoteReport).toEqual([]);
     });
 
+    it('skips malformed artifacts (raw report array) and falls through to next run', async () => {
+      // Repro for the historical keyborg failure: an older base workflow
+      // uploaded `dist/bundle-size/monosize.json` (a raw `BundleSizeReport`
+      // array) directly, instead of the `{ commitSHA, data }` wrapper that
+      // `upload-report` writes. Adapter must not return that as
+      // `remoteReport: undefined` — otherwise downstream `.find()` crashes.
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', outputPath: 'dist/report.json', artifactName: 'monosize-report' });
+      const warnSpy = vitest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+      mockListWorkflowRuns.mockResolvedValue({
+        data: {
+          workflow_runs: [
+            { id: 100, head_sha: 'old-shape' },
+            { id: 101, head_sha: 'new-shape' },
+          ],
+        },
+      });
+      mockListWorkflowRunArtifacts.mockResolvedValue({
+        data: { artifacts: [{ id: 200, name: 'monosize-report' }] },
+      });
+      mockDownloadArtifact
+        // First run: raw array (legacy upload).
+        .mockResolvedValueOnce({ data: createZip('report.json', JSON.stringify(sampleReport)) })
+        // Second run: properly wrapped.
+        .mockResolvedValueOnce({
+          data: createZip('report.json', JSON.stringify({ commitSHA: 'new-shape', data: sampleReport })),
+        });
+
+      const result = await storage.getRemoteReport('main');
+
+      expect(result.commitSHA).toBe('new-shape');
+      expect(result.remoteReport).toEqual(sampleReport);
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('unexpected shape'));
+
+      warnSpy.mockRestore();
+    });
+
+    it('returns empty report when all runs have malformed artifacts', async () => {
+      const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', outputPath: 'dist/report.json', artifactName: 'monosize-report' });
+      const warnSpy = vitest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+      mockListWorkflowRuns.mockResolvedValue({
+        data: { workflow_runs: [{ id: 100, head_sha: 'old-shape' }] },
+      });
+      mockListWorkflowRunArtifacts.mockResolvedValue({
+        data: { artifacts: [{ id: 200, name: 'monosize-report' }] },
+      });
+      mockDownloadArtifact.mockResolvedValue({
+        data: createZip('report.json', JSON.stringify(sampleReport)),
+      });
+
+      const result = await storage.getRemoteReport('main');
+
+      expect(result.commitSHA).toBe('');
+      expect(result.remoteReport).toEqual([]);
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+
+      warnSpy.mockRestore();
+    });
+
     it('throws when GITHUB_TOKEN is not set', async () => {
       delete process.env['GITHUB_TOKEN'];
       const storage = createGitStorage({ owner: 'microsoft', repo: 'monosize', workflowFileName: 'ci.yml', outputPath: 'dist/report.json', artifactName: 'monosize-report' });

@@ -23,6 +23,15 @@ type StoredReport = {
   data: BundleSizeReport;
 };
 
+function isStoredReport(value: unknown): value is StoredReport {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    typeof (value as StoredReport).commitSHA === 'string' &&
+    Array.isArray((value as StoredReport).data)
+  );
+}
+
 const DEFAULT_ARTIFACT_NAME = 'monosize-report';
 
 function createGitStorage(config: GitStorageConfig): StorageAdapter {
@@ -79,7 +88,15 @@ function createGitStorage(config: GitStorageConfig): StorageAdapter {
         continue;
       }
 
-      const report: StoredReport = JSON.parse(entry.getData().toString('utf-8'));
+      const report: unknown = JSON.parse(entry.getData().toString('utf-8'));
+
+      if (!isStoredReport(report)) {
+        console.warn(
+          `monosize-storage-git: artifact "${artifactName}" in run ${run.id} has unexpected shape ` +
+            `(expected { commitSHA, data: [...] }). Skipping.`,
+        );
+        continue;
+      }
 
       return {
         commitSHA: report.commitSHA,
