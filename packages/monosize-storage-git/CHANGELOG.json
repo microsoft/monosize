@@ -2,6 +2,21 @@
   "name": "monosize-storage-git",
   "entries": [
     {
+      "date": "Thu, 07 May 2026 12:28:07 GMT",
+      "version": "0.3.4",
+      "tag": "monosize-storage-git_v0.3.4",
+      "comments": {
+        "patch": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-git",
+            "commit": "480390482c10e8433c8e80c8ccb69045812609c5",
+            "comment": "fix: skip artifacts whose JSON shape is not the expected `{ commitSHA, data }` wrapper, instead of returning `remoteReport: undefined`"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 07 May 2026 09:19:33 GMT",
       "version": "0.3.3",
       "tag": "monosize-storage-git_v0.3.3",
