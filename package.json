@@ -38,7 +38,7 @@
     "@vitest/coverage-v8": "4.1.5",
     "beachball": "2.65.4",
     "doctoc": "2.4.1",
-    "eslint": "10.2.1",
+    "eslint": "10.3.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-import-resolver-typescript": "4.4.4",
     "eslint-plugin-import-x": "4.16.2",
@@ -49,7 +49,7 @@
     "simple-git-hooks": "2.13.1",
     "syncpack": "15.0.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.59.1",
+    "typescript-eslint": "8.59.2",
     "vitest": "4.1.5"
   },
   "dependencies": {
