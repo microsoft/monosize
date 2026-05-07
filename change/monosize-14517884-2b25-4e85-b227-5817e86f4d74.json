@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "internal: share hasMovedAssetDelta predicate; markdown reporter mirrors cli single-type suppression",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "none"
-}

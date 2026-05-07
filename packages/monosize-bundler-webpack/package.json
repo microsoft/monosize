@@ -1,6 +1,6 @@
 {
   "name": "monosize-bundler-webpack",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "type": "module",
   "files": [
     "dist/"
@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "monosize": "^0.8.3",
+    "monosize": "^0.9.0",
     "terser": "^5.47.0",
     "terser-webpack-plugin": "^5.5.0",
     "tslib": "^2.4.1",

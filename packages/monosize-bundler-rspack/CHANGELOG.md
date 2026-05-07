@@ -1,8 +1,21 @@
 # Change Log - monosize-bundler-rspack
 
-This log was last generated on Mon, 27 Apr 2026 10:25:09 GMT and should not be manually modified.
+<!-- This log was last generated on Thu, 07 May 2026 09:19:33 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 0.3.0
+
+Thu, 07 May 2026 09:19:33 GMT
+
+### Minor changes
+
+- BREAKING: adopt BundlerAdapter type changes (olfedias@microsoft.com)
+- Bump monosize to v0.9.0
+
+### Patches
+
+- chore: bump @rsbuild/core from 1.6.13 to 2.0.3 (support@github.com)
 
 ## 0.2.2
 

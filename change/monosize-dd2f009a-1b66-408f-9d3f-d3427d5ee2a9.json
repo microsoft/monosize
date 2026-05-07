@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix: attach `cause` to errors rethrown from collectLocalReport",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

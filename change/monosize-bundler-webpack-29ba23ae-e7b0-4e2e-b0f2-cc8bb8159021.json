@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: bump terser from 5.46.2 to 5.47.0",
-  "packageName": "monosize-bundler-webpack",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

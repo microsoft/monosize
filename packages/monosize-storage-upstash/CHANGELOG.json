@@ -2,6 +2,35 @@
   "name": "monosize-storage-upstash",
   "entries": [
     {
+      "date": "Thu, 07 May 2026 09:19:33 GMT",
+      "version": "0.0.27",
+      "tag": "monosize-storage-upstash_v0.0.27",
+      "comments": {
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-upstash",
+            "commit": "f3ff9d929fccae9b15afcc5b3cd018f8a392f704",
+            "comment": ""
+          },
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-upstash",
+            "commit": "f3ff9d929fccae9b15afcc5b3cd018f8a392f704",
+            "comment": "chore: tsconfig include/exclude pattern updated for renamed __fixtures__ dir"
+          }
+        ],
+        "patch": [
+          {
+            "author": "beachball",
+            "package": "monosize-storage-upstash",
+            "comment": "Bump monosize to v0.9.0",
+            "commit": "not available"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 27 Apr 2026 10:25:09 GMT",
       "tag": "monosize-storage-upstash_v0.0.26",
       "version": "0.0.26",

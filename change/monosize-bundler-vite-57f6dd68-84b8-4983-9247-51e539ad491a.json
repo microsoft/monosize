@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "BREAKING: adopt BundlerAdapter type changes",
-  "packageName": "monosize-bundler-vite",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

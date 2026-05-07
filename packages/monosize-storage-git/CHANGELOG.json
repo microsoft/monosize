@@ -2,6 +2,41 @@
   "name": "monosize-storage-git",
   "entries": [
     {
+      "date": "Thu, 07 May 2026 09:19:33 GMT",
+      "version": "0.3.3",
+      "tag": "monosize-storage-git_v0.3.3",
+      "comments": {
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-storage-git",
+            "commit": "f3ff9d929fccae9b15afcc5b3cd018f8a392f704",
+            "comment": "chore: tsconfig include/exclude pattern updated for renamed __fixtures__ dir"
+          }
+        ],
+        "patch": [
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize-storage-git",
+            "commit": "f3ff9d929fccae9b15afcc5b3cd018f8a392f704",
+            "comment": "fix: bump adm-zip from 0.5.16 to 0.5.17"
+          },
+          {
+            "author": "49699333+dependabot[bot]@users.noreply.github.com",
+            "package": "monosize-storage-git",
+            "commit": "f3ff9d929fccae9b15afcc5b3cd018f8a392f704",
+            "comment": "chore: bump @octokit/rest from 21.1.1 to 22.0.1"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-storage-git",
+            "comment": "Bump monosize to v0.9.0",
+            "commit": "not available"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 27 Apr 2026 10:25:09 GMT",
       "tag": "monosize-storage-git_v0.3.2",
       "version": "0.3.2",

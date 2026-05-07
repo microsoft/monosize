@@ -1,8 +1,18 @@
 # Change Log - monosize-storage-git
 
-This log was last generated on Mon, 27 Apr 2026 10:25:09 GMT and should not be manually modified.
+<!-- This log was last generated on Thu, 07 May 2026 09:19:33 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 0.3.3
+
+Thu, 07 May 2026 09:19:33 GMT
+
+### Patches
+
+- fix: bump adm-zip from 0.5.16 to 0.5.17 (198982749+Copilot@users.noreply.github.com)
+- chore: bump @octokit/rest from 21.1.1 to 22.0.1 (49699333+dependabot[bot]@users.noreply.github.com)
+- Bump monosize to v0.9.0
 
 ## 0.3.2
 

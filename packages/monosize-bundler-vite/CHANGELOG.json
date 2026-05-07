@@ -2,6 +2,35 @@
   "name": "monosize-bundler-vite",
   "entries": [
     {
+      "date": "Thu, 07 May 2026 09:19:33 GMT",
+      "version": "0.3.0",
+      "tag": "monosize-bundler-vite_v0.3.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-vite",
+            "commit": "f3ff9d929fccae9b15afcc5b3cd018f8a392f704",
+            "comment": "BREAKING: adopt BundlerAdapter type changes"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-vite",
+            "comment": "Bump monosize to v0.9.0",
+            "commit": "not available"
+          }
+        ],
+        "none": [
+          {
+            "author": "olfedias@microsoft.com",
+            "package": "monosize-bundler-vite",
+            "commit": "f3ff9d929fccae9b15afcc5b3cd018f8a392f704",
+            "comment": "chore: tsconfig include/exclude pattern updated for renamed __fixtures__ dir"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 27 Apr 2026 10:25:09 GMT",
       "tag": "monosize-bundler-vite_v0.2.0",
       "version": "0.2.0",

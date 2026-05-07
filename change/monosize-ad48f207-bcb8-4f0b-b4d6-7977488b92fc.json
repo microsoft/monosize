@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "default assetTypes to ['js'] only — opt in to 'css'/'json' explicitly",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

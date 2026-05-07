@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "BREAKING: BundlerAdapter now returns outputDir per fixture (was outputPath)",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "patch"
-}

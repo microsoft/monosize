@@ -1,7 +1,0 @@
-{
-  "type": "none",
-  "comment": "internal refactor: cliReporter breakdown, isUnchanged extraction, buildAssetsDiff cleanup",
-  "packageName": "monosize",
-  "email": "olfedias@microsoft.com",
-  "dependentChangeType": "none"
-}

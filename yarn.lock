@@ -6128,7 +6128,7 @@ __metadata:
   resolution: "monosize-bundler-rspack@workspace:packages/monosize-bundler-rspack"
   dependencies:
     "@rsbuild/core": "npm:^2.0.3"
-    monosize: "npm:^0.8.3"
+    monosize: "npm:^0.9.0"
     tslib: "npm:^2.4.1"
   languageName: unknown
   linkType: soft
@@ -6137,7 +6137,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monosize-bundler-vite@workspace:packages/monosize-bundler-vite"
   dependencies:
-    monosize: "npm:^0.8.3"
+    monosize: "npm:^0.9.0"
     tslib: "npm:^2.4.1"
     vite: "npm:^8.0.10"
   languageName: unknown
@@ -6147,7 +6147,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monosize-bundler-webpack@workspace:packages/monosize-bundler-webpack"
   dependencies:
-    monosize: "npm:^0.8.3"
+    monosize: "npm:^0.9.0"
     terser: "npm:^5.47.0"
     terser-webpack-plugin: "npm:^5.5.0"
     tslib: "npm:^2.4.1"
@@ -6218,7 +6218,7 @@ __metadata:
   dependencies:
     "@octokit/rest": "npm:^22.0.1"
     adm-zip: "npm:^0.5.17"
-    monosize: "npm:^0.8.3"
+    monosize: "npm:^0.9.0"
     tslib: "npm:^2.4.1"
   languageName: unknown
   linkType: soft
@@ -6228,12 +6228,12 @@ __metadata:
   resolution: "monosize-storage-upstash@workspace:packages/monosize-storage-upstash"
   dependencies:
     "@upstash/redis": "npm:^1.38.0"
-    monosize: "npm:^0.8.3"
+    monosize: "npm:^0.9.0"
     tslib: "npm:^2.4.1"
   languageName: unknown
   linkType: soft
 
-"monosize@npm:^0.8.3, monosize@workspace:*, monosize@workspace:packages/monosize":
+"monosize@npm:^0.9.0, monosize@workspace:*, monosize@workspace:packages/monosize":
   version: 0.0.0-use.local
   resolution: "monosize@workspace:packages/monosize"
   dependencies:

@@ -1,8 +1,23 @@
 # Change Log - monosize
 
-This log was last generated on Mon, 27 Apr 2026 10:25:09 GMT and should not be manually modified.
+<!-- This log was last generated on Thu, 07 May 2026 09:19:33 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 0.9.0
+
+Thu, 07 May 2026 09:19:33 GMT
+
+### Minor changes
+
+- BREAKING: BundlerAdapter now returns outputDir per fixture (was outputPath) (olfedias@microsoft.com)
+
+### Patches
+
+- chore: bump yargs from 17.6.2 to 18.0.0 (198982749+Copilot@users.noreply.github.com)
+- default assetTypes to ['js'] only — opt in to 'css'/'json' explicitly (olfedias@microsoft.com)
+- fix: attach `cause` to errors rethrown from collectLocalReport (olfedias@microsoft.com)
+- chore: bump pretty-bytes from 6.0.0 to 7.1.0 (198982749+Copilot@users.noreply.github.com)
 
 ## 0.8.3
 
