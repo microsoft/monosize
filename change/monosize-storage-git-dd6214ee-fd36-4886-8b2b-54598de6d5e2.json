@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: skip artifacts whose JSON shape is not the expected `{ commitSHA, data }` wrapper, instead of returning `remoteReport: undefined`",
+  "packageName": "monosize-storage-git",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "patch"
+}
