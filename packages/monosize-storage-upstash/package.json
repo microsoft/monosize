@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "@upstash/redis": "^1.37.0",
+    "@upstash/redis": "^1.38.0",
     "monosize": "^0.8.3",
     "tslib": "^2.4.1"
   }
