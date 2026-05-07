@@ -4,10 +4,7 @@ import { execSync } from 'node:child_process';
 import { any as findUp } from 'empathic/find';
 import { glob } from 'tinyglobby';
 
-import type { BundleSizeReport, BundleSizeReportEntry, MonoSizeConfig } from '../types.mjs';
-
-/** Shape of one entry as it sits on disk in `monosize.json` — no `packageName` (added in this module). */
-type StoredReportEntry = Omit<BundleSizeReportEntry, 'packageName'>;
+import type { BundleSizeReport, MonoSizeConfig, StoredReportEntry } from '../types.mjs';
 
 type CollectLocalReportOptions = {
   root: string | undefined;

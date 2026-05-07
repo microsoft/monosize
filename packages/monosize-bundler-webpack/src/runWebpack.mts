@@ -70,29 +70,27 @@ function createWebpackConfig(fixturePath: string, outputPath: string, debug: boo
 }
 
 function createMultiEntryWebpackConfig(
-  fixtures: Array<{ fixturePath: string; outputPath: string }>,
+  fixtures: Array<{ fixturePath: string; outputDir: string }>,
   debug: boolean,
 ): WebpackConfiguration {
-  // Build entry object with keys derived from output filenames
-  const entry = fixtures.reduce<Record<string, string>>(
-    (acc, { fixturePath, outputPath }) => {
-      const entryName = path.basename(outputPath, path.extname(outputPath));
-      acc[entryName] = fixturePath;
-      return acc;
-    },
-    {},
-  );
+  // Each fixture's output goes into its own subdirectory: <sharedRoot>/<entryName>/index.js
+  // The entry name is the basename of the per-fixture outputDir (e.g. "foo.output").
+  const entry = fixtures.reduce<Record<string, string>>((acc, { fixturePath, outputDir }) => {
+    acc[path.basename(outputDir)] = fixturePath;
+    return acc;
+  }, {});
 
-  // All fixtures should output to the same directory
-  const outputDir = path.dirname(fixtures[0].outputPath);
+  // The shared dist root is the parent of any fixture's outputDir; webpack puts each
+  // entry under <root>/[name]/index.js, so [name] resolves to the per-fixture subdir.
+  const sharedRoot = path.dirname(fixtures[0].outputDir);
 
   return {
     ...createBaseWebpackConfig(debug),
 
     entry,
     output: {
-      filename: '[name].js',
-      path: outputDir,
+      filename: '[name]/index.js',
+      path: sharedRoot,
 
       ...(debug && {
         pathinfo: true,
@@ -144,7 +142,7 @@ export async function runWebpack(options: RunWebpackOptions): Promise<null> {
 type RunWebpackMultiEntryOptions = {
   enhanceConfig: WebpackBundlerOptions;
 
-  fixtures: Array<{ fixturePath: string; outputPath: string }>;
+  fixtures: Array<{ fixturePath: string; outputDir: string }>;
 
   debug: boolean;
   quiet: boolean;

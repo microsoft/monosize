@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import { minify } from 'terser';
 
 type RunTerserOptions = {
@@ -43,6 +44,10 @@ export async function runTerser(options: RunTerserOptions): Promise<void> {
   if (!debugOutput.code || !minifiedOutput.code) {
     throw new Error('Got an empty output from Terser, this is not expected...');
   }
+
+  // The debug output lives in its own directory (not alongside the prod
+  // bundle), so make sure the directory exists before writing.
+  await fs.promises.mkdir(path.dirname(debugOutputPath), { recursive: true });
 
   await fs.promises.writeFile(debugOutputPath, debugOutput.code);
   await fs.promises.writeFile(outputPath, minifiedOutput.code);

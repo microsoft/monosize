@@ -9,7 +9,7 @@ import { formatBytes } from '../utils/helpers.mjs';
 import { prepareFixture } from '../utils/prepareFixture.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { CliOptions } from '../index.mjs';
-import type { BuildResult } from '../types.mjs';
+import type { AssetSize, AssetType, LoadedMonoSizeConfig, StoredReportEntry } from '../types.mjs';
 import { logger, timestamp } from '../logger.mjs';
 
 export type MeasureOptions = CliOptions & {
@@ -19,18 +19,63 @@ export type MeasureOptions = CliOptions & {
   'build-mode'?: 'batch' | 'sequential';
 };
 
+/** Raw byte length + gzipped byte length of the file at `filePath`. */
+function computeAssetSize(filePath: string): AssetSize {
+  const content = fs.readFileSync(filePath);
+  return {
+    minifiedSize: content.byteLength,
+    gzippedSize: gzipSync(content).length,
+  };
+}
+
 /**
- * Measures the size of a single built fixture output.
+ * Walks `outputDir` non-recursively, classifies files by extension against
+ * the `assetTypes` allowlist, and returns a report entry whose top-level
+ * sizes are totals and whose `assets` map carries the per-type breakdown.
  */
-async function measureFixtureSize(outputPath: string, name: string, originalPath: string): Promise<BuildResult> {
-  const minifiedSize = (await fs.promises.stat(outputPath)).size;
-  const gzippedSize = gzipSync(await fs.promises.readFile(outputPath)).length;
+function measureFixtureFromOutputDir(params: {
+  outputDir: string;
+  name: string;
+  originalPath: string;
+  assetTypes: AssetType[];
+}): StoredReportEntry {
+  const { outputDir, name, originalPath, assetTypes } = params;
+  const assets: Partial<Record<AssetType, AssetSize>> = {};
+
+  let totalMinified = 0;
+  let totalGzipped = 0;
+
+  for (const file of fs.readdirSync(outputDir)) {
+    const ext = path.extname(file).slice(1).toLowerCase() as AssetType;
+
+    if (!assetTypes.includes(ext)) {
+      continue;
+    }
+
+    const size = computeAssetSize(path.join(outputDir, file));
+
+    totalMinified += size.minifiedSize;
+    totalGzipped += size.gzippedSize;
+
+    assets[ext] = {
+      minifiedSize: (assets[ext]?.minifiedSize ?? 0) + size.minifiedSize,
+      gzippedSize: (assets[ext]?.gzippedSize ?? 0) + size.gzippedSize,
+    };
+  }
+
+  if (Object.keys(assets).length === 0) {
+    logger.warn(
+      `No allowlisted files in "${outputDir}" for fixture "${name}". ` +
+        `Configured assetTypes: [${assetTypes.join(', ')}]`,
+    );
+  }
 
   return {
     name,
     path: path.relative(process.cwd(), originalPath).replaceAll(path.sep, '/'),
-    minifiedSize,
-    gzippedSize,
+    minifiedSize: totalMinified,
+    gzippedSize: totalGzipped,
+    assets,
   };
 }
 
@@ -38,12 +83,12 @@ async function measureFixtureSize(outputPath: string, name: string, originalPath
  * Builds fixtures using batch mode (all at once with multi-entry).
  */
 async function buildFixturesInBatchMode(
-  config: Awaited<ReturnType<typeof readConfig>>,
+  config: LoadedMonoSizeConfig,
   fixtures: string[],
   artifactsDir: string,
   debug: boolean,
   quiet: boolean,
-): Promise<BuildResult[]> {
+): Promise<Array<StoredReportEntry>> {
   const buildStartTime = process.hrtime();
 
   // Prepare all fixtures first
@@ -62,10 +107,13 @@ async function buildFixturesInBatchMode(
   });
 
   // Measure sizes for each output
-  const measurements = await Promise.all(
-    buildResults.map((result, i) =>
-      measureFixtureSize(result.outputPath, result.name, preparedFixtures[i].originalPath),
-    ),
+  const measurements = buildResults.map((result, i) =>
+    measureFixtureFromOutputDir({
+      outputDir: result.outputDir,
+      name: result.name,
+      originalPath: preparedFixtures[i].originalPath,
+      assetTypes: config.assetTypes,
+    }),
   );
 
   if (!quiet) {
@@ -79,25 +127,30 @@ async function buildFixturesInBatchMode(
  * Builds fixtures using sequential mode (one at a time).
  */
 async function buildFixturesInSequentialMode(
-  config: Awaited<ReturnType<typeof readConfig>>,
+  config: LoadedMonoSizeConfig,
   fixtures: string[],
   artifactsDir: string,
   debug: boolean,
   quiet: boolean,
-): Promise<BuildResult[]> {
-  const measurements: BuildResult[] = [];
+): Promise<Array<StoredReportEntry>> {
+  const measurements: Array<StoredReportEntry> = [];
 
   for (const fixturePath of fixtures) {
     const fixtureStartTime = process.hrtime();
 
     const { artifactPath, name } = await prepareFixture(artifactsDir, fixturePath);
-    const { outputPath } = await config.bundler.buildFixture({
+    const { outputDir } = await config.bundler.buildFixture({
       debug,
       fixturePath: artifactPath,
       quiet,
     });
 
-    const measurement = await measureFixtureSize(outputPath, name, fixturePath);
+    const measurement = measureFixtureFromOutputDir({
+      outputDir,
+      name,
+      originalPath: fixturePath,
+      assetTypes: config.assetTypes,
+    });
     measurements.push(measurement);
 
     if (!quiet) {
@@ -111,7 +164,11 @@ async function buildFixturesInSequentialMode(
 /**
  * Displays the measurement results in a table format.
  */
-function displayResults(measurements: BuildResult[], startTime: [number, number], quiet: boolean): void {
+function displayResults(
+  measurements: Array<StoredReportEntry>,
+  startTime: [number, number],
+  quiet: boolean,
+): void {
   if (quiet) {
     return;
   }
@@ -173,6 +230,7 @@ async function measure(options: MeasureOptions) {
     logger.raw(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
     logger.info(`Using ${config.bundler.name} as a bundler...`);
     logger.info(`Build mode: ${buildMode}`);
+    logger.info(`Asset types: ${config.assetTypes.join(', ')}`);
   }
 
   // Build fixtures using the appropriate mode
