@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "internal: tighten buildAssetsDiff to skip when remote/local lacks assets",
+  "packageName": "monosize",
+  "email": "olfedias@microsoft.com",
+  "dependentChangeType": "none"
+}

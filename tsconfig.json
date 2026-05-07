@@ -3,12 +3,29 @@
   "files": [],
   "include": [],
   "references": [
-    { "path": "./packages/monosize" },
-    { "path": "./packages/monosize-bundler-rspack" },
-    { "path": "./packages/monosize-bundler-vite" },
-    { "path": "./packages/monosize-bundler-webpack" },
-    { "path": "./packages/monosize-storage-git" },
-    { "path": "./packages/monosize-storage-upstash" },
-    { "path": "./typings" }
+    {
+      "path": "./packages/monosize"
+    },
+    {
+      "path": "./packages/monosize-bundler-rspack"
+    },
+    {
+      "path": "./packages/monosize-bundler-vite"
+    },
+    {
+      "path": "./packages/monosize-bundler-webpack"
+    },
+    {
+      "path": "./packages/monosize-storage-git"
+    },
+    {
+      "path": "./packages/monosize-storage-upstash"
+    },
+    {
+      "path": "./typings"
+    },
+    {
+      "path": "./e2e/smoke-rspack"
+    }
   ]
 }

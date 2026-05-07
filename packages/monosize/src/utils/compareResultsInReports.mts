@@ -21,14 +21,19 @@ function buildAssetsDiff(
   localAssets: BundleSizeReportEntry['assets'],
   remoteAssets: BundleSizeReportEntry['assets'],
 ): Record<string, AssetDiff> | undefined {
-  if (!localAssets && !remoteAssets) {
+  // Both sides must carry `assets` for a meaningful per-type comparison.
+  // When either side is missing (typically: remote was written before the
+  // assets field existed), suppress assetsDiff so reporters can render the
+  // "breakdown unavailable" legend instead of presenting a fabricated diff
+  // against an unknown baseline.
+  if (!localAssets || !remoteAssets) {
     return undefined;
   }
 
   // Widen the index signature to `string` so unknown future asset types
   // (e.g. a stored `assets.svg`) flow through without a cast at the call site.
-  const local: Record<string, AssetSize | undefined> = localAssets ?? {};
-  const remote: Record<string, AssetSize | undefined> = remoteAssets ?? {};
+  const local: Record<string, AssetSize | undefined> = localAssets;
+  const remote: Record<string, AssetSize | undefined> = remoteAssets;
   const types = [...new Set([...Object.keys(local), ...Object.keys(remote)])].sort();
 
   return Object.fromEntries(types.map(type => [type, calculateAssetDiff(local[type], remote[type])]));
