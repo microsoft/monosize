@@ -3490,9 +3490,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"beachball@npm:2.65.3":
-  version: 2.65.3
-  resolution: "beachball@npm:2.65.3"
+"beachball@npm:2.65.4":
+  version: 2.65.4
+  resolution: "beachball@npm:2.65.4"
   dependencies:
     "@vercel/detect-agent": "npm:^1.2.1"
     cosmiconfig: "npm:^9.0.1"
@@ -3506,7 +3506,7 @@ __metadata:
     yargs-parser: "npm:^21.1.1"
   bin:
     beachball: bin/beachball.js
-  checksum: 10/9049ab2da1fccfda607cba9f258b2981da49e774c227d4f2af441fc1b5503d16fc948039cdc2f010f805ecf33f9d6b44780e8d7fd1a62b63da437ec39865f520
+  checksum: 10/fe282967df66cf98d83fe6fc3dcb749bae8544b5c323c49314b50a2e583888ebf1d62581281c1f8ad16d71baaf2461889da065b6edaebbe8e4a5bdb396e09f08
   languageName: node
   linkType: hard
 
@@ -6174,7 +6174,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:4.1.5"
     acorn: "npm:^8.14.1"
     adm-zip: "npm:^0.5.17"
-    beachball: "npm:2.65.3"
+    beachball: "npm:2.65.4"
     ci-info: "npm:^4.2.0"
     cli-table3: "npm:^0.6.5"
     doctoc: "npm:2.4.1"
