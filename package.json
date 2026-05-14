@@ -34,7 +34,7 @@
     "@nx/vitest": "22.6.5",
     "@nx/workspace": "22.6.5",
     "@types/adm-zip": "0.5.8",
-    "@types/node": "25.6.0",
+    "@types/node": "25.7.0",
     "@types/yargs": "17.0.35",
     "@vitest/coverage-v8": "4.1.5",
     "beachball": "2.65.4",
@@ -48,7 +48,7 @@
     "nx": "22.6.5",
     "prettier": "3.8.3",
     "simple-git-hooks": "2.13.1",
-    "syncpack": "15.0.0",
+    "syncpack": "15.1.2",
     "typescript": "5.9.3",
     "typescript-eslint": "8.59.1",
     "vitest": "4.1.5"
