@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Bump terser-webpack-plugin to 5.6.0",
+  "packageName": "monosize-bundler-webpack",
+  "email": "198982749+Copilot@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}
