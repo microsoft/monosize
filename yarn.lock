@@ -2522,12 +2522,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:25.7.0":
-  version: 25.7.0
-  resolution: "@types/node@npm:25.7.0"
+"@types/node@npm:*, @types/node@npm:25.9.1":
+  version: 25.9.1
+  resolution: "@types/node@npm:25.9.1"
   dependencies:
-    undici-types: "npm:~7.21.0"
-  checksum: 10/1b11c865ea517ab90af870c2f58c100804e3dd8dc25a62b5e5af3aea12ad015f9faf513664babc7e0c755bb1c0744649b2ff19b7b434c1648ad8057f2dc6c71a
+    undici-types: "npm:>=7.24.0 <7.24.7"
+  checksum: 10/8a1ccf60f0c0ca856d3324a690ee35776f26dfc1d51c3763aecdf246a3246a7971a0156bf6eb3239aa22dfa940eb361d048212f5c3204264d31ef4c41d17416a
   languageName: node
   linkType: hard
 
@@ -6025,7 +6025,7 @@ __metadata:
     "@octokit/rest": "npm:^22.0.1"
     "@rsbuild/core": "npm:^2.0.3"
     "@types/adm-zip": "npm:0.5.8"
-    "@types/node": "npm:25.7.0"
+    "@types/node": "npm:25.9.1"
     "@types/yargs": "npm:17.0.35"
     "@upstash/redis": "npm:^1.38.0"
     "@vitest/coverage-v8": "npm:4.1.5"
@@ -6046,7 +6046,7 @@ __metadata:
     prettier: "npm:3.8.3"
     pretty-bytes: "npm:^7.1.0"
     simple-git-hooks: "npm:2.13.1"
-    syncpack: "npm:15.1.2"
+    syncpack: "npm:15.3.1"
     terser: "npm:^5.47.0"
     terser-webpack-plugin: "npm:^5.6.0"
     tinyglobby: "npm:^0.2.13"
@@ -7276,74 +7276,74 @@ __metadata:
   languageName: node
   linkType: hard
 
-"syncpack-darwin-arm64@npm:15.1.2":
-  version: 15.1.2
-  resolution: "syncpack-darwin-arm64@npm:15.1.2"
+"syncpack-darwin-arm64@npm:15.3.1":
+  version: 15.3.1
+  resolution: "syncpack-darwin-arm64@npm:15.3.1"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"syncpack-darwin-x64@npm:15.1.2":
-  version: 15.1.2
-  resolution: "syncpack-darwin-x64@npm:15.1.2"
+"syncpack-darwin-x64@npm:15.3.1":
+  version: 15.3.1
+  resolution: "syncpack-darwin-x64@npm:15.3.1"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"syncpack-linux-arm64-musl@npm:15.1.2":
-  version: 15.1.2
-  resolution: "syncpack-linux-arm64-musl@npm:15.1.2"
+"syncpack-linux-arm64-musl@npm:15.3.1":
+  version: 15.3.1
+  resolution: "syncpack-linux-arm64-musl@npm:15.3.1"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"syncpack-linux-arm64@npm:15.1.2":
-  version: 15.1.2
-  resolution: "syncpack-linux-arm64@npm:15.1.2"
+"syncpack-linux-arm64@npm:15.3.1":
+  version: 15.3.1
+  resolution: "syncpack-linux-arm64@npm:15.3.1"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"syncpack-linux-x64-musl@npm:15.1.2":
-  version: 15.1.2
-  resolution: "syncpack-linux-x64-musl@npm:15.1.2"
+"syncpack-linux-x64-musl@npm:15.3.1":
+  version: 15.3.1
+  resolution: "syncpack-linux-x64-musl@npm:15.3.1"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"syncpack-linux-x64@npm:15.1.2":
-  version: 15.1.2
-  resolution: "syncpack-linux-x64@npm:15.1.2"
+"syncpack-linux-x64@npm:15.3.1":
+  version: 15.3.1
+  resolution: "syncpack-linux-x64@npm:15.3.1"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"syncpack-windows-arm64@npm:15.1.2":
-  version: 15.1.2
-  resolution: "syncpack-windows-arm64@npm:15.1.2"
+"syncpack-windows-arm64@npm:15.3.1":
+  version: 15.3.1
+  resolution: "syncpack-windows-arm64@npm:15.3.1"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"syncpack-windows-x64@npm:15.1.2":
-  version: 15.1.2
-  resolution: "syncpack-windows-x64@npm:15.1.2"
+"syncpack-windows-x64@npm:15.3.1":
+  version: 15.3.1
+  resolution: "syncpack-windows-x64@npm:15.3.1"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"syncpack@npm:15.1.2":
-  version: 15.1.2
-  resolution: "syncpack@npm:15.1.2"
+"syncpack@npm:15.3.1":
+  version: 15.3.1
+  resolution: "syncpack@npm:15.3.1"
   dependencies:
-    syncpack-darwin-arm64: "npm:15.1.2"
-    syncpack-darwin-x64: "npm:15.1.2"
-    syncpack-linux-arm64: "npm:15.1.2"
-    syncpack-linux-arm64-musl: "npm:15.1.2"
-    syncpack-linux-x64: "npm:15.1.2"
-    syncpack-linux-x64-musl: "npm:15.1.2"
-    syncpack-windows-arm64: "npm:15.1.2"
-    syncpack-windows-x64: "npm:15.1.2"
+    syncpack-darwin-arm64: "npm:15.3.1"
+    syncpack-darwin-x64: "npm:15.3.1"
+    syncpack-linux-arm64: "npm:15.3.1"
+    syncpack-linux-arm64-musl: "npm:15.3.1"
+    syncpack-linux-x64: "npm:15.3.1"
+    syncpack-linux-x64-musl: "npm:15.3.1"
+    syncpack-windows-arm64: "npm:15.3.1"
+    syncpack-windows-x64: "npm:15.3.1"
   dependenciesMeta:
     syncpack-darwin-arm64:
       optional: true
@@ -7363,7 +7363,7 @@ __metadata:
       optional: true
   bin:
     syncpack: index.cjs
-  checksum: 10/56db13b04b2a5420a78327b80511ddcfed747e0c2730d9fd180ab8942144f8a99ce4d2dc69db6ca02746dd5a5727064b950cc73419782dd7a1a2a3f1db7f369e
+  checksum: 10/6fdcd9941580029f4b18b30a1df77ee151b2faface19e49546f23a5d7e690690e7c01f485b3a5430d51199852088f7e13d5bfb62427b22a9d7f1c38cbd6eb1e8
   languageName: node
   linkType: hard
 
@@ -7594,10 +7594,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~7.21.0":
-  version: 7.21.0
-  resolution: "undici-types@npm:7.21.0"
-  checksum: 10/e38c0efbeaeabeb84f5d8a49d127fcae1626af09785b04fde4915e8312b47c5f81106c61e655cb63c59e429522460a313183168913e55b485a36e06d67689798
+"undici-types@npm:>=7.24.0 <7.24.7":
+  version: 7.24.6
+  resolution: "undici-types@npm:7.24.6"
+  checksum: 10/defc9538b952e3c15b8526596c591f7c1f0c7605ad27a2b7feddbea7ef2e3003f3eda2cdb051a3cb1a2185e3893100fd9cb925c799db99d48131ea63b5233d10
   languageName: node
   linkType: hard
 
