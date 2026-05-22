@@ -25,7 +25,7 @@
   "simple-git-hooks": {
     "pre-commit": "./node_modules/.bin/nano-staged"
   },
-  "packageManager": "yarn@4.7.0",
+  "packageManager": "yarn@4.15.0",
   "devDependencies": {
     "@eslint/js": "~10.0.1",
     "@nx/eslint": "22.7.2",
