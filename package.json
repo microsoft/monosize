@@ -43,7 +43,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-import-resolver-typescript": "4.4.4",
     "eslint-plugin-import-x": "4.16.2",
-    "eslint-plugin-unicorn": "64.0.0",
+    "eslint-plugin-unicorn": "65.0.1",
     "nano-staged": "1.0.2",
     "nx": "22.7.5",
     "prettier": "3.8.3",
