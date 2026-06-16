@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Bump vite from 8.0.10 to 8.0.16",
+  "packageName": "monosize-bundler-vite",
+  "email": "198982749+Copilot@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}
