@@ -57,7 +57,7 @@
     "@octokit/rest": "^22.0.1",
     "@rsbuild/core": "^2.0.3",
     "@upstash/redis": "^1.38.0",
-    "acorn": "^8.14.1",
+    "acorn": "^8.17.0",
     "adm-zip": "^0.5.17",
     "ci-info": "^4.2.0",
     "cli-table3": "^0.6.5",
