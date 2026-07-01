@@ -42,8 +42,10 @@ function buildAssetsDiff(
 export function compareResultsInReports(
   localReport: BundleSizeReport,
   remoteReport: BundleSizeReport,
-  threshold: ThresholdValue,
+  threshold: ThresholdValue | ((packageName: string) => ThresholdValue),
 ): ComparedReport {
+  const resolveThreshold = typeof threshold === 'function' ? threshold : () => threshold;
+
   return localReport.map(localEntry => {
     const remoteEntry = remoteReport.find(
       entry => localEntry.packageName === entry.packageName && localEntry.path === entry.path,
@@ -57,7 +59,7 @@ export function compareResultsInReports(
         diff: calculateDiff({
           localEntry,
           remoteEntry,
-          threshold,
+          threshold: resolveThreshold(localEntry.packageName),
         }),
         ...(assetsDiff && { assetsDiff }),
       };

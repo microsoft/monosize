@@ -87,4 +87,27 @@ describe('compareResultsInReports', () => {
       }
     `);
   });
+
+  it('applies per-package threshold when a resolver function is provided', () => {
+    const localReport: BundleSizeReport = [
+      { packageName: 'strict-pkg', name: 'entry', path: 'entry.js', minifiedSize: 110, gzippedSize: 50 },
+      { packageName: 'lenient-pkg', name: 'entry', path: 'entry.js', minifiedSize: 110, gzippedSize: 50 },
+    ];
+    const remoteReport: BundleSizeReport = [
+      { packageName: 'strict-pkg', name: 'entry', path: 'entry.js', minifiedSize: 100, gzippedSize: 40 },
+      { packageName: 'lenient-pkg', name: 'entry', path: 'entry.js', minifiedSize: 100, gzippedSize: 40 },
+    ];
+
+    // strict-pkg uses a 5% threshold (10% increase exceeds it)
+    // lenient-pkg uses a 20% threshold (10% increase is within it)
+    const thresholdResolver = (packageName: string) => {
+      if (packageName === 'strict-pkg') return { size: 5, type: 'percent' as const };
+      return { size: 20, type: 'percent' as const };
+    };
+
+    const result = compareResultsInReports(localReport, remoteReport, thresholdResolver);
+
+    expect(result[0].diff.exceedsThreshold).toBe(true);
+    expect(result[1].diff.exceedsThreshold).toBe(false);
+  });
 });

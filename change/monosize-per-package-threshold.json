@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: add per-package threshold support for compare-reports in monorepo scenarios",
+  "packageName": "monosize",
+  "email": "198982749+Copilot@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}

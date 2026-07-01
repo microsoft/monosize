@@ -7,6 +7,7 @@ import { collectLocalReport } from '../utils/collectLocalReport.mjs';
 import { compareResultsInReports } from '../utils/compareResultsInReports.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { DiffByMetric } from '../utils/calculateDiff.mjs';
+import type { ThresholdValue } from '../types.mjs';
 import { logger, timestamp } from '../logger.mjs';
 import { parseThreshold } from '../utils/helpers.mjs';
 
@@ -19,12 +20,31 @@ export type CompareReportsOptions = CliOptions & {
 
 export const DEFAULT_THRESHOLD = '10%';
 
+/**
+ * Builds a per-package threshold resolver from the config value.
+ *
+ * - When `configThreshold` is a plain string (or `undefined`), every package
+ *   uses the same parsed threshold.
+ * - When `configThreshold` is a `Record<string, string>`, each package looks
+ *   up its own entry; packages not listed fall back to `DEFAULT_THRESHOLD`.
+ */
+export function buildThresholdResolver(
+  configThreshold: string | Record<string, string> | undefined,
+): (packageName: string) => ThresholdValue {
+  if (typeof configThreshold === 'object' && configThreshold !== null) {
+    return (packageName: string) => parseThreshold(configThreshold[packageName] ?? DEFAULT_THRESHOLD);
+  }
+
+  const parsed = parseThreshold(configThreshold ?? DEFAULT_THRESHOLD);
+  return () => parsed;
+}
+
 async function compareReports(options: CompareReportsOptions) {
   const { branch, output, quiet, deltaFormat } = options;
   const startTime = timestamp();
 
   const config = await readConfig(quiet);
-  const threshold = parseThreshold(config.threshold ?? DEFAULT_THRESHOLD);
+  const thresholdResolver = buildThresholdResolver(config.threshold);
 
   const localReportStartTime = timestamp();
   const localReport = await collectLocalReport({
@@ -47,7 +67,7 @@ async function compareReports(options: CompareReportsOptions) {
     }
   }
 
-  const reportsComparisonResult = compareResultsInReports(localReport, remoteReport, threshold);
+  const reportsComparisonResult = compareResultsInReports(localReport, remoteReport, thresholdResolver);
 
   switch (output) {
     case 'cli':

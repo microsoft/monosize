@@ -179,6 +179,30 @@ The threshold is used to determine if the bundle size is acceptable. It can be s
 
 If the bundle size exceeds the threshold, the `compare-reports` command will fail with exit code `1`.
 
+#### Per-package thresholds (monorepo)
+
+In a monorepo you can supply different thresholds for each workspace package by passing a `Record<packageName, thresholdString>` instead of a plain string:
+
+```js
+// monosize.config.mjs
+/** @type {import('monosize').MonoSizeConfig} */
+const config = {
+  // ...
+  threshold: {
+    '@my-org/big-package': '20%',   // this package is allowed a larger delta
+    '@my-org/tiny-package': '5%',   // stricter limit for this one
+    // packages not listed here fall back to the built-in default (10%)
+  },
+};
+```
+
+Threshold precedence (highest → lowest):
+
+1. Per-package entry in the `Record` (keyed by exact `package.json#name`)
+2. Built-in default (`10%`) — used for packages not listed in the record
+
+When a plain `string` is provided all packages share the same threshold (existing behaviour).
+
 ## Commands
 
 ### `measure`
