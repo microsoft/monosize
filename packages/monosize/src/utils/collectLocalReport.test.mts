@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { up as findUp } from 'empathic/find';
 
-import { collectLocalReport } from './collectLocalReport.mjs';
+import { buildPackageThresholdResolver, collectLocalReport } from './collectLocalReport.mjs';
 import type { BuildResult } from '../types.mjs';
 
 function mkPackagesDir() {
@@ -189,5 +189,80 @@ describe('collectLocalReport', () => {
         ]
       `);
     });
+  });
+});
+
+describe('buildPackageThresholdResolver', () => {
+  const fallback = { size: 10, type: 'percent' as const };
+
+  it('returns the fallback threshold when no per-package config exists', async () => {
+    const { packagesDir, rootDir } = mkPackagesDir();
+
+    const reportAPath = mkReportDir(packagesDir, 'package-a', 'package.json');
+    const reportA: BuildResult[] = [{ name: 'f', path: 'f.js', minifiedSize: 100, gzippedSize: 50 }];
+    await fs.promises.writeFile(reportAPath, JSON.stringify(reportA));
+
+    const resolver = await buildPackageThresholdResolver({ root: rootDir }, fallback);
+
+    expect(resolver('package-a')).toEqual(fallback);
+    expect(resolver('unknown-pkg')).toEqual(fallback);
+  });
+
+  it('uses threshold from a per-package monosize.config.mjs when present', async () => {
+    const { packagesDir, rootDir } = mkPackagesDir();
+
+    const reportAPath = mkReportDir(packagesDir, 'package-a', 'package.json');
+    const reportBPath = mkReportDir(packagesDir, 'package-b', 'package.json');
+
+    const reportA: BuildResult[] = [{ name: 'f', path: 'f.js', minifiedSize: 100, gzippedSize: 50 }];
+    const reportB: BuildResult[] = [{ name: 'g', path: 'g.js', minifiedSize: 10, gzippedSize: 5 }];
+
+    await fs.promises.writeFile(reportAPath, JSON.stringify(reportA));
+    await fs.promises.writeFile(reportBPath, JSON.stringify(reportB));
+
+    // Write a per-package monosize config with a 5% threshold for package-a
+    const pkgAConfigPath = path.join(packagesDir, 'package-a', 'monosize.config.mjs');
+    await fs.promises.writeFile(pkgAConfigPath, `export default { threshold: '5%' };`);
+
+    const resolver = await buildPackageThresholdResolver({ root: rootDir }, fallback);
+
+    expect(resolver('package-a')).toEqual({ size: 5, type: 'percent' });
+    // package-b has no per-package config → falls back
+    expect(resolver('package-b')).toEqual(fallback);
+  });
+
+  it('falls back to root threshold for packages without a per-package config', async () => {
+    const { packagesDir, rootDir } = mkPackagesDir();
+
+    const reportAPath = mkReportDir(packagesDir, 'package-a', 'package.json');
+    const reportBPath = mkReportDir(packagesDir, 'package-b', 'package.json');
+
+    await fs.promises.writeFile(reportAPath, JSON.stringify([]));
+    await fs.promises.writeFile(reportBPath, JSON.stringify([]));
+
+    // Only package-a gets a per-package config
+    const pkgAConfigPath = path.join(packagesDir, 'package-a', 'monosize.config.mjs');
+    await fs.promises.writeFile(pkgAConfigPath, `export default { threshold: '1kB' };`);
+
+    const rootThreshold = { size: 20, type: 'percent' as const };
+    const resolver = await buildPackageThresholdResolver({ root: rootDir }, rootThreshold);
+
+    expect(resolver('package-a')).toEqual({ size: 1024, type: 'size' });
+    expect(resolver('package-b')).toEqual(rootThreshold);
+  });
+
+  it('ignores threshold from a per-package config that lacks a threshold field', async () => {
+    const { packagesDir, rootDir } = mkPackagesDir();
+
+    const reportAPath = mkReportDir(packagesDir, 'package-a', 'package.json');
+    await fs.promises.writeFile(reportAPath, JSON.stringify([]));
+
+    // Config exists but has no threshold
+    const pkgAConfigPath = path.join(packagesDir, 'package-a', 'monosize.config.mjs');
+    await fs.promises.writeFile(pkgAConfigPath, `export default { repository: 'https://example.com' };`);
+
+    const resolver = await buildPackageThresholdResolver({ root: rootDir }, fallback);
+
+    expect(resolver('package-a')).toEqual(fallback);
   });
 });

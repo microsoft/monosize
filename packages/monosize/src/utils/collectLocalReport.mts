@@ -1,10 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 import { any as findUp } from 'empathic/find';
 import { glob } from 'tinyglobby';
 
-import type { BundleSizeReport, MonoSizeConfig, StoredReportEntry } from '../types.mjs';
+import type { BundleSizeReport, MonoSizeConfig, StoredReportEntry, ThresholdValue } from '../types.mjs';
+import { parseThreshold } from './helpers.mjs';
 
 type CollectLocalReportOptions = {
   root: string | undefined;
@@ -117,4 +119,85 @@ export async function collectLocalReport(options: Options): Promise<BundleSizeRe
       return [...acc, ...processedReport];
     }, [])
     .sort((a, b) => a.path.localeCompare(b.path, 'en'));
+}
+
+const MONOSIZE_CONFIG_FILES = ['monosize.config.mjs', 'monosize.config.js'] as const;
+
+/**
+ * Reads the `threshold` from a `monosize.config.mjs` (or `.js`) located
+ * **directly** in `packageRoot` — does NOT walk up the directory tree.
+ * Returns `undefined` when no config file exists there or when the config
+ * does not define `threshold`.
+ */
+async function readThresholdFromPackageRoot(packageRoot: string): Promise<string | undefined> {
+  for (const configFile of MONOSIZE_CONFIG_FILES) {
+    const configPath = path.join(packageRoot, configFile);
+
+    if (!fs.existsSync(configPath)) {
+      continue;
+    }
+
+    try {
+      const configModule = await import(pathToFileURL(configPath).toString());
+      const config = configModule.default as MonoSizeConfig | undefined;
+
+      if (typeof config?.threshold === 'string') {
+        return config.threshold;
+      }
+    } catch {
+      // Config exists but could not be loaded — treat as "no threshold".
+    }
+
+    // Found the config file (even if it had no `threshold`), stop searching.
+    return undefined;
+  }
+
+  return undefined;
+}
+
+/**
+ * Builds a per-package threshold resolver by reading each package's own
+ * `monosize.config.mjs` (looked up directly in the package root, not walked
+ * up the tree).
+ *
+ * Precedence (highest → lowest):
+ *   1. `threshold` from the package's own `monosize.config.mjs`
+ *   2. `fallbackThreshold` (typically from the root `monosize.config.mjs`)
+ *
+ * The returned function is safe to call with any package name — packages
+ * without a per-package config entry fall back to `fallbackThreshold`.
+ */
+export async function buildPackageThresholdResolver(
+  options: Options,
+  fallbackThreshold: ThresholdValue,
+): Promise<(packageName: string) => ThresholdValue> {
+  const {
+    reportResolvers,
+    reportFilesGlob = 'packages/**/dist/bundle-size/monosize.json',
+    root = findGitRoot(process.cwd()),
+  } = options;
+
+  const resolvers = { ...DEFAULT_RESOLVERS, ...reportResolvers };
+  const reportFiles = await glob(reportFilesGlob, { absolute: true, cwd: root });
+
+  const thresholds = new Map<string, ThresholdValue>();
+
+  await Promise.all(
+    reportFiles.map(async reportFile => {
+      try {
+        const packageRoot = await resolvers.packageRoot(reportFile);
+        const packageName = await resolvers.packageName(packageRoot);
+        const thresholdStr = await readThresholdFromPackageRoot(packageRoot);
+
+        if (thresholdStr !== undefined) {
+          thresholds.set(packageName, parseThreshold(thresholdStr));
+        }
+      } catch {
+        // If package root / name can't be resolved, skip — collectLocalReport
+        // will surface the error when it processes the same file.
+      }
+    }),
+  );
+
+  return (packageName: string) => thresholds.get(packageName) ?? fallbackThreshold;
 }

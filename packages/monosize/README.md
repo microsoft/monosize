@@ -181,27 +181,36 @@ If the bundle size exceeds the threshold, the `compare-reports` command will fai
 
 #### Per-package thresholds (monorepo)
 
-In a monorepo you can supply different thresholds for each workspace package by passing a `Record<packageName, thresholdString>` instead of a plain string:
+In a monorepo, each workspace package can override the threshold by placing its own `monosize.config.mjs` in the package root and specifying a `threshold` value there:
 
-```js
-// monosize.config.mjs
-/** @type {import('monosize').MonoSizeConfig} */
-const config = {
-  // ...
-  threshold: {
-    '@my-org/big-package': '20%',   // this package is allowed a larger delta
-    '@my-org/tiny-package': '5%',   // stricter limit for this one
-    // packages not listed here fall back to the built-in default (10%)
-  },
-};
+```
+my-monorepo/
+├── monosize.config.mjs          # root config — threshold: '10%' (default fallback)
+└── packages/
+    ├── big-package/
+    │   ├── package.json
+    │   └── monosize.config.mjs  # threshold: '20%' — larger allowance
+    └── tiny-package/
+        ├── package.json
+        └── monosize.config.mjs  # threshold: '5%' — stricter limit
 ```
 
-Threshold precedence (highest → lowest):
+```js
+// packages/big-package/monosize.config.mjs
+/** @type {import('monosize').MonoSizeConfig} */
+const config = {
+  threshold: '20%',
+};
+export default config;
+```
 
-1. Per-package entry in the `Record` (keyed by exact `package.json#name`)
-2. Built-in default (`10%`) — used for packages not listed in the record
+When `compare-reports` runs, it reads each package's own `monosize.config.mjs` (looked up directly in the package root, **not** walked up the directory tree) and applies its `threshold` when evaluating that package's delta.
 
-When a plain `string` is provided all packages share the same threshold (existing behaviour).
+**Threshold precedence (highest → lowest):**
+
+1. `threshold` from the package's own `monosize.config.mjs`
+2. `threshold` from the root `monosize.config.mjs` (fallback for packages without a per-package config)
+3. Built-in default (`10%`)
 
 ## Commands
 

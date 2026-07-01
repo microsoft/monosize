@@ -136,16 +136,14 @@ export type MonoSizeConfig = {
    * A threshold limit for checking if the bundle size is within the limit.
    * It should be a string with a number and unit. Format: `0.5 kB`, `1kB`, `10%`.
    *
-   * In monorepo scenarios, you can provide per-package thresholds as a record keyed
-   * by package name. Packages not listed in the record fall back to `DEFAULT_THRESHOLD`
-   * (`10%`). A plain string applies the same threshold to every package.
-   *
-   * Precedence (highest → lowest):
-   *   1. Per-package entry in the record (`Record<packageName, thresholdString>`)
-   *   2. Root string threshold (plain `string`)
-   *   3. Built-in default (`10%`)
+   * In a monorepo, packages can override this value by providing their own
+   * `monosize.config.mjs` with a `threshold` field.  `compare-reports` reads
+   * each package's nearest config file and uses its `threshold` when
+   * evaluating that package's delta.  This root-level value acts as the
+   * fallback for packages that do not have a per-package config (or whose
+   * per-package config omits `threshold`).
    */
-  threshold?: string | Record<string, string>;
+  threshold?: string;
 
   /**
    * Asset types to measure. Each entry must be a member of `AssetType`

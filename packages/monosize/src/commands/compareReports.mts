@@ -3,11 +3,10 @@ import { CommandModule } from 'yargs';
 import { CliOptions } from '../index.mjs';
 import { cliReporter } from '../reporters/cliReporter.mjs';
 import { markdownReporter } from '../reporters/markdownReporter.mjs';
-import { collectLocalReport } from '../utils/collectLocalReport.mjs';
+import { buildPackageThresholdResolver, collectLocalReport } from '../utils/collectLocalReport.mjs';
 import { compareResultsInReports } from '../utils/compareResultsInReports.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { DiffByMetric } from '../utils/calculateDiff.mjs';
-import type { ThresholdValue } from '../types.mjs';
 import { logger, timestamp } from '../logger.mjs';
 import { parseThreshold } from '../utils/helpers.mjs';
 
@@ -20,37 +19,15 @@ export type CompareReportsOptions = CliOptions & {
 
 export const DEFAULT_THRESHOLD = '10%';
 
-/**
- * Builds a per-package threshold resolver from the config value.
- *
- * - When `configThreshold` is a plain string (or `undefined`), every package
- *   uses the same parsed threshold.
- * - When `configThreshold` is a `Record<string, string>`, each package looks
- *   up its own entry; packages not listed fall back to `DEFAULT_THRESHOLD`.
- */
-export function buildThresholdResolver(
-  configThreshold: string | Record<string, string> | undefined,
-): (packageName: string) => ThresholdValue {
-  if (typeof configThreshold === 'object' && configThreshold !== null) {
-    return (packageName: string) => parseThreshold(configThreshold[packageName] ?? DEFAULT_THRESHOLD);
-  }
-
-  const parsed = parseThreshold(configThreshold ?? DEFAULT_THRESHOLD);
-  return () => parsed;
-}
-
 async function compareReports(options: CompareReportsOptions) {
   const { branch, output, quiet, deltaFormat } = options;
   const startTime = timestamp();
 
   const config = await readConfig(quiet);
-  const thresholdResolver = buildThresholdResolver(config.threshold);
+  const collectOptions = { ...config, reportFilesGlob: options['report-files-glob'] };
 
   const localReportStartTime = timestamp();
-  const localReport = await collectLocalReport({
-    ...config,
-    reportFilesGlob: options['report-files-glob'],
-  });
+  const localReport = await collectLocalReport(collectOptions);
 
   if (!quiet) {
     logger.info(`Local report prepared`, localReportStartTime);
@@ -66,6 +43,9 @@ async function compareReports(options: CompareReportsOptions) {
       logger.info(`Remote report for "${commitSHA}" commit fetched `, remoteReportStartTime);
     }
   }
+
+  const rootThreshold = parseThreshold(config.threshold ?? DEFAULT_THRESHOLD);
+  const thresholdResolver = await buildPackageThresholdResolver(collectOptions, rootThreshold);
 
   const reportsComparisonResult = compareResultsInReports(localReport, remoteReport, thresholdResolver);
 
