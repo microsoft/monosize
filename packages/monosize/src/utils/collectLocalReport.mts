@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url';
 import { any as findUp } from 'empathic/find';
 import { glob } from 'tinyglobby';
 
+import { logger } from '../logger.mjs';
 import type { BundleSizeReport, MonoSizeConfig, StoredReportEntry, ThresholdValue } from '../types.mjs';
 import { parseThreshold } from './helpers.mjs';
 
@@ -145,7 +146,7 @@ async function readThresholdFromPackageRoot(packageRoot: string): Promise<string
         return config.threshold;
       }
     } catch (err) {
-      console.warn(`[monosize] Failed to load config from "${configPath}": ${String(err)}`);
+      logger.warn(`Failed to load config from "${configPath}": ${String(err)}`);
     }
 
     // Found the config file (even if it had no `threshold`), stop searching.
