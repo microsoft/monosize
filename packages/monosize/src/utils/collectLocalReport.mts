@@ -7,7 +7,7 @@ import { glob } from 'tinyglobby';
 import { logger } from '../logger.mjs';
 import type { BundleSizeReport, MonoSizeConfig, StoredReportEntry, ThresholdValue } from '../types.mjs';
 import { parseThreshold } from './helpers.mjs';
-import { loadRawConfig } from './readConfig.mjs';
+import { readConfig } from './readConfig.mjs';
 
 type CollectLocalReportOptions = {
   root: string | undefined;
@@ -130,7 +130,7 @@ export async function collectLocalReport(options: Options): Promise<BundleSizeRe
  */
 async function readThresholdFromPackageRoot(packageRoot: string): Promise<string | undefined> {
   try {
-    const config = await loadRawConfig(packageRoot);
+    const config = await readConfig(true, packageRoot);
 
     if (typeof config?.threshold === 'string') {
       return config.threshold;

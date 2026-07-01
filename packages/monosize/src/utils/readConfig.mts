@@ -30,22 +30,39 @@ function resolveAssetTypes(input: MonoSizeConfig['assetTypes']): AssetType[] {
 }
 
 /**
- * Loads the raw monosize config starting from `cwd` using `findUp` traversal.
- * Returns `undefined` when no config file is found.
+ * Loads and returns the monosize config.
+ *
+ * When called without `cwd` (root-config mode):
+ * - searches from `process.cwd()` using `findUp` traversal
+ * - exits the process if no config file is found
+ * - caches the result for subsequent calls
+ *
+ * When called with a `cwd` (per-package mode):
+ * - searches from the given directory using `findUp` traversal
+ * - returns `undefined` if no config file is found (no process exit)
+ * - result is not cached
  */
-export async function loadRawConfig(cwd: string): Promise<MonoSizeConfig | undefined> {
-  const configPath = findUp([...CONFIG_FILE_NAMES], { cwd });
+export async function readConfig(quiet?: boolean): Promise<LoadedMonoSizeConfig>;
+export async function readConfig(quiet: boolean, cwd: string): Promise<LoadedMonoSizeConfig | undefined>;
+export async function readConfig(quiet = true, cwd?: string): Promise<LoadedMonoSizeConfig | undefined> {
+  // Per-package mode: no caching, return undefined instead of exiting
+  if (cwd !== undefined) {
+    const configPath = findUp([...CONFIG_FILE_NAMES], { cwd });
 
-  if (!configPath) {
-    return undefined;
+    if (!configPath) {
+      return undefined;
+    }
+
+    const configFile = await import(pathToFileURL(configPath).toString());
+    const userConfig = configFile.default as MonoSizeConfig;
+
+    return {
+      ...userConfig,
+      assetTypes: resolveAssetTypes(userConfig.assetTypes),
+    };
   }
 
-  const configFile = await import(pathToFileURL(configPath).toString());
-
-  return configFile.default as MonoSizeConfig;
-}
-
-export async function readConfig(quiet = true): Promise<LoadedMonoSizeConfig> {
+  // Root config mode: caching + process.exit on missing config
   // don't use the cache in tests
   if (cache && process.env.NODE_ENV !== 'test') {
     return cache;
