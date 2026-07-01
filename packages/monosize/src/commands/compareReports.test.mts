@@ -52,9 +52,11 @@ describe('compareReports', () => {
     });
   });
 
-  it('builds threshold resolver with root threshold as fallback', async () => {
+  it('passes parsed root config threshold to buildPackageThresholdResolver as fallback', async () => {
     const branchName = 'master';
 
+    // Root config has a custom threshold — compareReports should parse it and
+    // pass the parsed value as the fallback to buildPackageThresholdResolver.
     readConfig.mockResolvedValue({ storage: { getRemoteReport }, threshold: '5%' });
     getRemoteReport.mockResolvedValue({ commitSHA: 'test', remoteReport: sampleReport });
     collectLocalReport.mockImplementation(() => sampleReport);

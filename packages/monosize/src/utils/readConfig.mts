@@ -4,7 +4,7 @@ import { pathToFileURL } from 'node:url';
 import { logger } from '../logger.mjs';
 import type { AssetType, LoadedMonoSizeConfig, MonoSizeConfig } from '../types.mjs';
 
-const CONFIG_FILE_NAME = ['monosize.config.js', 'monosize.config.mjs'];
+export const CONFIG_FILE_NAMES = ['monosize.config.mjs', 'monosize.config.js'] as const;
 
 const KNOWN_ASSET_TYPES: readonly AssetType[] = ['js', 'json', 'css'];
 const DEFAULT_ASSET_TYPES: readonly AssetType[] = ['js'];
@@ -35,7 +35,7 @@ export async function readConfig(quiet = true): Promise<LoadedMonoSizeConfig> {
     return cache;
   }
 
-  const configPath = findUp(CONFIG_FILE_NAME, { cwd: process.cwd() });
+  const configPath = findUp(CONFIG_FILE_NAMES, { cwd: process.cwd() });
 
   if (!configPath) {
     logger.error(`No config file found in ${configPath}`);

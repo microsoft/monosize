@@ -8,6 +8,7 @@ import { glob } from 'tinyglobby';
 import { logger } from '../logger.mjs';
 import type { BundleSizeReport, MonoSizeConfig, StoredReportEntry, ThresholdValue } from '../types.mjs';
 import { parseThreshold } from './helpers.mjs';
+import { CONFIG_FILE_NAMES } from './readConfig.mjs';
 
 type CollectLocalReportOptions = {
   root: string | undefined;
@@ -122,8 +123,6 @@ export async function collectLocalReport(options: Options): Promise<BundleSizeRe
     .sort((a, b) => a.path.localeCompare(b.path, 'en'));
 }
 
-const MONOSIZE_CONFIG_FILES = ['monosize.config.mjs', 'monosize.config.js'] as const;
-
 /**
  * Reads the `threshold` from a `monosize.config.mjs` (or `.js`) located
  * **directly** in `packageRoot` — does NOT walk up the directory tree.
@@ -131,7 +130,7 @@ const MONOSIZE_CONFIG_FILES = ['monosize.config.mjs', 'monosize.config.js'] as c
  * does not define `threshold`.
  */
 async function readThresholdFromPackageRoot(packageRoot: string): Promise<string | undefined> {
-  for (const configFile of MONOSIZE_CONFIG_FILES) {
+  for (const configFile of CONFIG_FILE_NAMES) {
     const configPath = path.join(packageRoot, configFile);
 
     if (!fs.existsSync(configPath)) {
