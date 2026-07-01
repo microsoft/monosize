@@ -223,7 +223,7 @@ async function measure(options: MeasureOptions) {
     process.exit(1);
   }
 
-  const config = await readConfig(quiet);
+  const config = (await readConfig(quiet))!;
 
   if (!quiet) {
     logger.info(`Measuring bundle size for ${fixtures.length} fixture(s)...`);

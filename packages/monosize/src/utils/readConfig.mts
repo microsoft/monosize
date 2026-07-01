@@ -42,8 +42,6 @@ function resolveAssetTypes(input: MonoSizeConfig['assetTypes']): AssetType[] {
  * - returns `undefined` if no config file is found (no process exit)
  * - result is not cached
  */
-export async function readConfig(quiet?: boolean): Promise<LoadedMonoSizeConfig>;
-export async function readConfig(quiet: boolean, cwd: string): Promise<LoadedMonoSizeConfig | undefined>;
 export async function readConfig(quiet = true, cwd?: string): Promise<LoadedMonoSizeConfig | undefined> {
   // Per-package mode: no caching, return undefined instead of exiting
   if (cwd !== undefined) {

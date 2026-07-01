@@ -17,7 +17,7 @@ async function uploadReport(options: UploadOptions) {
   const { branch, 'commit-sha': commitSHA, quiet } = options;
   const startTime = timestamp();
 
-  const config = await readConfig(quiet);
+  const config = (await readConfig(quiet))!;
 
   const localReportStartTime = timestamp();
   const localReport = await collectLocalReport({

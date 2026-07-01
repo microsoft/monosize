@@ -23,7 +23,7 @@ async function compareReports(options: CompareReportsOptions) {
   const { branch, output, quiet, deltaFormat } = options;
   const startTime = timestamp();
 
-  const config = await readConfig(quiet);
+  const config = (await readConfig(quiet))!;
   const collectOptions = { ...config, reportFilesGlob: options['report-files-glob'] };
 
   const localReportStartTime = timestamp();
