@@ -144,8 +144,8 @@ async function readThresholdFromPackageRoot(packageRoot: string): Promise<string
       if (typeof config?.threshold === 'string') {
         return config.threshold;
       }
-    } catch {
-      // Config exists but could not be loaded — treat as "no threshold".
+    } catch (err) {
+      console.warn(`[monosize] Failed to load config from "${configPath}": ${String(err)}`);
     }
 
     // Found the config file (even if it had no `threshold`), stop searching.
