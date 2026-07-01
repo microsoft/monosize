@@ -29,16 +29,32 @@ function resolveAssetTypes(input: MonoSizeConfig['assetTypes']): AssetType[] {
   return Array.from(new Set(input)).sort();
 }
 
+/**
+ * Loads the raw monosize config starting from `cwd` using `findUp` traversal.
+ * Returns `undefined` when no config file is found.
+ */
+export async function loadRawConfig(cwd: string): Promise<MonoSizeConfig | undefined> {
+  const configPath = findUp([...CONFIG_FILE_NAMES], { cwd });
+
+  if (!configPath) {
+    return undefined;
+  }
+
+  const configFile = await import(pathToFileURL(configPath).toString());
+
+  return configFile.default as MonoSizeConfig;
+}
+
 export async function readConfig(quiet = true): Promise<LoadedMonoSizeConfig> {
   // don't use the cache in tests
   if (cache && process.env.NODE_ENV !== 'test') {
     return cache;
   }
 
-  const configPath = findUp(CONFIG_FILE_NAMES, { cwd: process.cwd() });
+  const configPath = findUp([...CONFIG_FILE_NAMES], { cwd: process.cwd() });
 
   if (!configPath) {
-    logger.error(`No config file found in ${configPath}`);
+    logger.error(`No config file found in ${process.cwd()}`);
     process.exit(1);
   }
 

@@ -1,14 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
-import { pathToFileURL } from 'node:url';
 import { any as findUp } from 'empathic/find';
 import { glob } from 'tinyglobby';
 
 import { logger } from '../logger.mjs';
 import type { BundleSizeReport, MonoSizeConfig, StoredReportEntry, ThresholdValue } from '../types.mjs';
 import { parseThreshold } from './helpers.mjs';
-import { CONFIG_FILE_NAMES } from './readConfig.mjs';
+import { loadRawConfig } from './readConfig.mjs';
 
 type CollectLocalReportOptions = {
   root: string | undefined;
@@ -125,31 +124,19 @@ export async function collectLocalReport(options: Options): Promise<BundleSizeRe
 
 /**
  * Reads the `threshold` from a `monosize.config.mjs` (or `.js`) located
- * **directly** in `packageRoot` — does NOT walk up the directory tree.
- * Returns `undefined` when no config file exists there or when the config
- * does not define `threshold`.
+ * in `packageRoot` or any ancestor (via `findUp` traversal).
+ * Returns `undefined` when no config file is found or the config does not
+ * define `threshold`.
  */
 async function readThresholdFromPackageRoot(packageRoot: string): Promise<string | undefined> {
-  for (const configFile of CONFIG_FILE_NAMES) {
-    const configPath = path.join(packageRoot, configFile);
+  try {
+    const config = await loadRawConfig(packageRoot);
 
-    if (!fs.existsSync(configPath)) {
-      continue;
+    if (typeof config?.threshold === 'string') {
+      return config.threshold;
     }
-
-    try {
-      const configModule = await import(pathToFileURL(configPath).toString());
-      const config = configModule.default as MonoSizeConfig | undefined;
-
-      if (typeof config?.threshold === 'string') {
-        return config.threshold;
-      }
-    } catch (err) {
-      logger.warn(`Failed to load config from "${configPath}": ${String(err)}`);
-    }
-
-    // Found the config file (even if it had no `threshold`), stop searching.
-    return undefined;
+  } catch (err) {
+    logger.warn(`Failed to load config from "${packageRoot}": ${String(err)}`);
   }
 
   return undefined;
@@ -157,8 +144,7 @@ async function readThresholdFromPackageRoot(packageRoot: string): Promise<string
 
 /**
  * Builds a per-package threshold resolver by reading each package's own
- * `monosize.config.mjs` (looked up directly in the package root, not walked
- * up the tree).
+ * `monosize.config.mjs` (located via `findUp` starting from the package root).
  *
  * Precedence (highest → lowest):
  *   1. `threshold` from the package's own `monosize.config.mjs`
