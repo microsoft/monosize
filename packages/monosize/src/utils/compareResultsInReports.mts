@@ -42,7 +42,7 @@ function buildAssetsDiff(
 export function compareResultsInReports(
   localReport: BundleSizeReport,
   remoteReport: BundleSizeReport,
-  threshold: ThresholdValue,
+  fallbackThreshold: ThresholdValue,
 ): ComparedReport {
   return localReport.map(localEntry => {
     const remoteEntry = remoteReport.find(
@@ -57,7 +57,11 @@ export function compareResultsInReports(
         diff: calculateDiff({
           localEntry,
           remoteEntry,
-          threshold,
+          // Each entry is gated on the threshold captured at `measure` time
+          // (its own package's config). `fallbackThreshold` (root/default)
+          // applies only when an entry carries no threshold — nothing
+          // configured anywhere, or a legacy report.
+          threshold: localEntry.threshold ?? fallbackThreshold,
         }),
         ...(assetsDiff && { assetsDiff }),
       };

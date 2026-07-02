@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "feat: evaluate compare-reports threshold per package by capturing the resolved threshold during measure",
+  "packageName": "monosize",
+  "email": "hochelmartin@gmail.com",
+  "dependentChangeType": "patch"
+}

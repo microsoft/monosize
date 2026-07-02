@@ -5,6 +5,7 @@ import { gzipSync } from 'node:zlib';
 import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import api, { type MeasureOptions } from './measure.mjs';
 import { logger } from '../logger.mjs';
+import { readConfig } from '../utils/readConfig.mjs';
 
 /**
  * Materializes an `outputDir` next to the prepared fixture and writes the
@@ -249,6 +250,49 @@ describe('measure', () => {
       const report = JSON.parse(fs.readFileSync(path.resolve(packageDir, 'output', 'monosize.json'), 'utf-8'));
       const entry = report[0];
       expect(Object.keys(entry.assets).sort()).toEqual(['js', 'json']);
+    });
+  });
+
+  describe('threshold', () => {
+    /** Provides a one-off config carrying a `threshold`, reusing the synthetic bundler. */
+    function withConfigThreshold(threshold: string) {
+      vitest.mocked(readConfig).mockResolvedValueOnce({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        bundler: { name: 'fake', buildFixtures } as any,
+        assetTypes: ['css', 'js', 'json'],
+        threshold,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any);
+    }
+
+    it('stamps the parsed threshold onto every entry', async () => {
+      withConfigThreshold('5 kB');
+      const { packageDir } = await setup(getMockedFixtures('foo', 'bar'));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await api.handler(baseOptions() as any);
+
+      const report = JSON.parse(fs.readFileSync(path.resolve(packageDir, 'output', 'monosize.json'), 'utf-8'));
+      expect(report.map((entry: { threshold?: unknown }) => entry.threshold)).toEqual([
+        { size: 5120, type: 'size' },
+        { size: 5120, type: 'size' },
+      ]);
+    });
+
+    it('omits the threshold field when none is configured', async () => {
+      const { packageDir } = await setup(getMockedFixtures('foo'));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await api.handler(baseOptions() as any);
+
+      const report = JSON.parse(fs.readFileSync(path.resolve(packageDir, 'output', 'monosize.json'), 'utf-8'));
+      expect(report[0]).not.toHaveProperty('threshold');
+    });
+
+    it('fails measure when the configured threshold is malformed', async () => {
+      withConfigThreshold('not-a-threshold');
+      await setup(getMockedFixtures('foo'));
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await expect(api.handler(baseOptions() as any)).rejects.toThrow(/Invalid threshold value/);
     });
   });
 });
