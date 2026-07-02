@@ -84,6 +84,7 @@ describe('rspack smoke', () => {
 
       - \`css\`: \`106 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> minified, \`125 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> gzipped
       - \`js\`: \`156 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> minified, \`139 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> gzipped
+
       </details>
 
       <sub>🤖 This report was generated against <a href='https://example.com/monosize-smoke-rspack/commit/fake-baseline-sha'>fake-baseline-sha</a></sub>
