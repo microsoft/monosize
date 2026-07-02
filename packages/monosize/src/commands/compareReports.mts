@@ -24,7 +24,10 @@ async function compareReports(options: CompareReportsOptions) {
   const startTime = timestamp();
 
   const config = await readConfig(quiet);
-  const threshold = parseThreshold(config.threshold ?? DEFAULT_THRESHOLD);
+  // Root/default threshold; used as a fallback for entries whose report did
+  // not capture a threshold at `measure` time. Per-package thresholds stamped
+  // onto entries take precedence in `compareResultsInReports`.
+  const fallbackThreshold = parseThreshold(config.threshold ?? DEFAULT_THRESHOLD);
 
   const localReportStartTime = timestamp();
   const localReport = await collectLocalReport({
@@ -47,7 +50,7 @@ async function compareReports(options: CompareReportsOptions) {
     }
   }
 
-  const reportsComparisonResult = compareResultsInReports(localReport, remoteReport, threshold);
+  const reportsComparisonResult = compareResultsInReports(localReport, remoteReport, fallbackThreshold);
 
   switch (output) {
     case 'cli':
