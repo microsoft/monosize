@@ -6057,7 +6057,7 @@ __metadata:
     eslint-plugin-unicorn: "npm:67.0.0"
     nano-staged: "npm:1.0.2"
     nx: "npm:23.0.1"
-    prettier: "npm:3.8.3"
+    prettier: "npm:3.9.4"
     pretty-bytes: "npm:^7.1.0"
     simple-git-hooks: "npm:2.13.1"
     syncpack: "npm:15.3.1"
@@ -6635,12 +6635,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:3.8.3":
-  version: 3.8.3
-  resolution: "prettier@npm:3.8.3"
+"prettier@npm:3.9.4":
+  version: 3.9.4
+  resolution: "prettier@npm:3.9.4"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10/4b3b12cbb29e4c96bed936e5d070167552500c18d37676fb3e0caae6199c42860662608e4dc116230698f6e2bb0267ef2548158224c92d40f188d309d72fdd6f
+  checksum: 10/4a0dc4389d442f5aca0beb12778c90b6ceb9831940b01a1df5eba9150b5ce96fa52eda9074a10a370e732adc03e2f645597dfd8b7e3f1e94dee28df01004a0fd
   languageName: node
   linkType: hard
 
