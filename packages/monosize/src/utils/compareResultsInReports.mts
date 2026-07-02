@@ -1,5 +1,4 @@
 import { calculateAssetDiff, calculateDiff, EMPTY_DIFF, type AssetDiff, type DiffForEntry } from './calculateDiff.mjs';
-import { parseThreshold } from './helpers.mjs';
 import type { AssetSize, BundleSizeReport, BundleSizeReportEntry, ThresholdValue } from '../types.mjs';
 
 export type ComparedReportEntry = BundleSizeReportEntry & {
@@ -45,28 +44,6 @@ export function compareResultsInReports(
   remoteReport: BundleSizeReport,
   fallbackThreshold: ThresholdValue,
 ): ComparedReport {
-  // Each entry is gated on the threshold captured at `measure` time (its own
-  // package's config). `fallbackThreshold` (root/default) applies only when an
-  // entry carries no threshold — nothing configured anywhere, or a legacy
-  // report. A malformed value throws (surfacing corruption) rather than being
-  // silently swapped for the fallback; `measure` validates on write, so any
-  // report produced by monosize holds a parseable value here.
-  const thresholdCache = new Map<string, ThresholdValue>();
-  const resolveThreshold = (raw: string | undefined): ThresholdValue => {
-    if (raw === undefined) {
-      return fallbackThreshold;
-    }
-
-    const cached = thresholdCache.get(raw);
-    if (cached) {
-      return cached;
-    }
-
-    const resolved = parseThreshold(raw);
-    thresholdCache.set(raw, resolved);
-    return resolved;
-  };
-
   return localReport.map(localEntry => {
     const remoteEntry = remoteReport.find(
       entry => localEntry.packageName === entry.packageName && localEntry.path === entry.path,
@@ -80,7 +57,11 @@ export function compareResultsInReports(
         diff: calculateDiff({
           localEntry,
           remoteEntry,
-          threshold: resolveThreshold(localEntry.threshold),
+          // Each entry is gated on the threshold captured at `measure` time
+          // (its own package's config). `fallbackThreshold` (root/default)
+          // applies only when an entry carries no threshold — nothing
+          // configured anywhere, or a legacy report.
+          threshold: localEntry.threshold ?? fallbackThreshold,
         }),
         ...(assetsDiff && { assetsDiff }),
       };

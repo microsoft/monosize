@@ -265,14 +265,17 @@ describe('measure', () => {
       } as any);
     }
 
-    it('stamps the configured threshold onto every entry', async () => {
+    it('stamps the parsed threshold onto every entry', async () => {
       withConfigThreshold('5 kB');
       const { packageDir } = await setup(getMockedFixtures('foo', 'bar'));
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await api.handler(baseOptions() as any);
 
       const report = JSON.parse(fs.readFileSync(path.resolve(packageDir, 'output', 'monosize.json'), 'utf-8'));
-      expect(report.map((entry: { threshold?: string }) => entry.threshold)).toEqual(['5 kB', '5 kB']);
+      expect(report.map((entry: { threshold?: unknown }) => entry.threshold)).toEqual([
+        { size: 5120, type: 'size' },
+        { size: 5120, type: 'size' },
+      ]);
     });
 
     it('omits the threshold field when none is configured', async () => {

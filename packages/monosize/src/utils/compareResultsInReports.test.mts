@@ -93,8 +93,22 @@ describe('compareResultsInReports', () => {
     // `two` grew the same 3 kB but carries a lax `5 kB` threshold -> within.
     // `three` carries no threshold and relies on the passed fallback (2 kB) -> exceeds.
     const localReport: BundleSizeReport = [
-      { packageName: 'one', name: 'one', path: 'one.js', minifiedSize: 4072, gzippedSize: 500, threshold: '2 kB' },
-      { packageName: 'two', name: 'two', path: 'two.js', minifiedSize: 4072, gzippedSize: 500, threshold: '5 kB' },
+      {
+        packageName: 'one',
+        name: 'one',
+        path: 'one.js',
+        minifiedSize: 4072,
+        gzippedSize: 500,
+        threshold: { size: 2048, type: 'size' },
+      },
+      {
+        packageName: 'two',
+        name: 'two',
+        path: 'two.js',
+        minifiedSize: 4072,
+        gzippedSize: 500,
+        threshold: { size: 5120, type: 'size' },
+      },
       { packageName: 'three', name: 'three', path: 'three.js', minifiedSize: 4072, gzippedSize: 500 },
     ];
     const remoteReport: BundleSizeReport = [
@@ -111,19 +125,5 @@ describe('compareResultsInReports', () => {
       ['two', false],
       ['three', true],
     ]);
-  });
-
-  it('throws when a captured threshold is malformed', () => {
-    const localReport: BundleSizeReport = [
-      { packageName: 'one', name: 'one', path: 'one.js', minifiedSize: 4072, gzippedSize: 500, threshold: 'nonsense' },
-    ];
-    const remoteReport: BundleSizeReport = [
-      { packageName: 'one', name: 'one', path: 'one.js', minifiedSize: 1000, gzippedSize: 100 },
-    ];
-    const fallbackThreshold = { size: 2048, type: 'size' } as const;
-
-    expect(() => compareResultsInReports(localReport, remoteReport, fallbackThreshold)).toThrow(
-      /Invalid threshold value/,
-    );
   });
 });

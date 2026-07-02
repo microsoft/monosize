@@ -25,15 +25,15 @@ export type BundleSizeReportEntry = Pick<BuildResult, 'name' | 'path' | 'minifie
    */
   assets?: Partial<Record<AssetType, AssetSize>>;
   /**
-   * The threshold (e.g. `'5 kB'`, `'10%'`) resolved from the nearest
-   * `monosize.config` at `measure` time and captured per entry. Because
-   * `measure` runs per package, this reflects that package's own config
-   * (or the inherited root config). `compare-reports` gates each entry on
-   * its own value, falling back to the root/default threshold when absent
-   * (no threshold configured anywhere, or a legacy report written before
-   * this field existed).
+   * The threshold resolved from the nearest `monosize.config` at `measure`
+   * time and captured per entry, already parsed to its structured form.
+   * Because `measure` runs per package, this reflects that package's own
+   * config (or the inherited root config). `compare-reports` gates each entry
+   * on its own value, falling back to the root/default threshold when absent
+   * (no threshold configured anywhere, or a legacy report written before this
+   * field existed).
    */
-  threshold?: string;
+  threshold?: ThresholdValue;
 };
 export type BundleSizeReport = BundleSizeReportEntry[];
 

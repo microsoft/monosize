@@ -225,12 +225,11 @@ async function measure(options: MeasureOptions) {
 
   const config = await readConfig(quiet);
 
-  // Validate the configured threshold eagerly so a malformed value fails
-  // `measure` (where the config lives) rather than surfacing later in
-  // `compare-reports`, which consumes the value stamped onto each entry.
-  if (config.threshold !== undefined) {
-    parseThreshold(config.threshold);
-  }
+  // Parse the configured threshold once, here where the config lives, so a
+  // malformed value fails `measure` rather than surfacing later in
+  // `compare-reports`. The parsed value is stamped onto each entry below, so
+  // `compare-reports` consumes it directly without re-parsing.
+  const threshold = config.threshold === undefined ? undefined : parseThreshold(config.threshold);
 
   if (!quiet) {
     logger.info(`Measuring bundle size for ${fixtures.length} fixture(s)...`);
@@ -252,9 +251,9 @@ async function measure(options: MeasureOptions) {
   // non-override packages inherit the nearest (root) config's threshold.
   // Left unset only when no threshold is configured anywhere; the default
   // is then applied by `compare-reports`.
-  if (config.threshold !== undefined) {
+  if (threshold !== undefined) {
     for (const measurement of measurements) {
-      measurement.threshold = config.threshold;
+      measurement.threshold = threshold;
     }
   }
 
