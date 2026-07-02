@@ -5,7 +5,7 @@ import { glob } from 'tinyglobby';
 import path from 'node:path';
 import type { CommandModule } from 'yargs';
 
-import { formatBytes } from '../utils/helpers.mjs';
+import { formatBytes, parseThreshold } from '../utils/helpers.mjs';
 import { prepareFixture } from '../utils/prepareFixture.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
 import type { CliOptions } from '../index.mjs';
@@ -225,6 +225,13 @@ async function measure(options: MeasureOptions) {
 
   const config = await readConfig(quiet);
 
+  // Validate the configured threshold eagerly so a malformed value fails
+  // `measure` (where the config lives) rather than surfacing later in
+  // `compare-reports`, which consumes the value stamped onto each entry.
+  if (config.threshold !== undefined) {
+    parseThreshold(config.threshold);
+  }
+
   if (!quiet) {
     logger.info(`Measuring bundle size for ${fixtures.length} fixture(s)...`);
     logger.raw(fixtures.map(fixture => `  - ${fixture}`).join('\n'));
@@ -238,6 +245,18 @@ async function measure(options: MeasureOptions) {
     buildMode === 'batch'
       ? await buildFixturesInBatchMode(config, fixtures, artifactsDir, debug, quiet)
       : await buildFixturesInSequentialMode(config, fixtures, artifactsDir, debug, quiet);
+
+  // Stamp the resolved threshold onto every entry so the report is
+  // self-describing and `compare-reports` can gate each package on its own
+  // config. Emitted for all packages since `measure` runs per package and
+  // non-override packages inherit the nearest (root) config's threshold.
+  // Left unset only when no threshold is configured anywhere; the default
+  // is then applied by `compare-reports`.
+  if (config.threshold !== undefined) {
+    for (const measurement of measurements) {
+      measurement.threshold = config.threshold;
+    }
+  }
 
   measurements.sort((a, b) => a.path.localeCompare(b.path, 'en'));
 

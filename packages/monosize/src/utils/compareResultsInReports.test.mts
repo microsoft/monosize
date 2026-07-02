@@ -87,4 +87,43 @@ describe('compareResultsInReports', () => {
       }
     `);
   });
+
+  it('gates each entry on its own captured threshold, falling back per entry', () => {
+    // `one` grew 3 kB and carries a strict `2 kB` threshold -> exceeds.
+    // `two` grew the same 3 kB but carries a lax `5 kB` threshold -> within.
+    // `three` carries no threshold and relies on the passed fallback (2 kB) -> exceeds.
+    const localReport: BundleSizeReport = [
+      { packageName: 'one', name: 'one', path: 'one.js', minifiedSize: 4072, gzippedSize: 500, threshold: '2 kB' },
+      { packageName: 'two', name: 'two', path: 'two.js', minifiedSize: 4072, gzippedSize: 500, threshold: '5 kB' },
+      { packageName: 'three', name: 'three', path: 'three.js', minifiedSize: 4072, gzippedSize: 500 },
+    ];
+    const remoteReport: BundleSizeReport = [
+      { packageName: 'one', name: 'one', path: 'one.js', minifiedSize: 1000, gzippedSize: 100 },
+      { packageName: 'two', name: 'two', path: 'two.js', minifiedSize: 1000, gzippedSize: 100 },
+      { packageName: 'three', name: 'three', path: 'three.js', minifiedSize: 1000, gzippedSize: 100 },
+    ];
+    const fallbackThreshold = { size: 2048, type: 'size' } as const;
+
+    const actual = compareResultsInReports(localReport, remoteReport, fallbackThreshold);
+
+    expect(actual.map(entry => [entry.packageName, entry.diff.exceedsThreshold])).toEqual([
+      ['one', true],
+      ['two', false],
+      ['three', true],
+    ]);
+  });
+
+  it('throws when a captured threshold is malformed', () => {
+    const localReport: BundleSizeReport = [
+      { packageName: 'one', name: 'one', path: 'one.js', minifiedSize: 4072, gzippedSize: 500, threshold: 'nonsense' },
+    ];
+    const remoteReport: BundleSizeReport = [
+      { packageName: 'one', name: 'one', path: 'one.js', minifiedSize: 1000, gzippedSize: 100 },
+    ];
+    const fallbackThreshold = { size: 2048, type: 'size' } as const;
+
+    expect(() => compareResultsInReports(localReport, remoteReport, fallbackThreshold)).toThrow(
+      /Invalid threshold value/,
+    );
+  });
 });
