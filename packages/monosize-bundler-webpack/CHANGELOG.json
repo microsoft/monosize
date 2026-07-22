@@ -2,6 +2,51 @@
   "name": "monosize-bundler-webpack",
   "entries": [
     {
+      "date": "Wed, 22 Jul 2026 13:14:54 GMT",
+      "version": "0.4.1",
+      "tag": "monosize-bundler-webpack_v0.4.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize-bundler-webpack",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "chore: bump webpack to v5.107.0"
+          },
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize-bundler-webpack",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "Bump webpack from 5.107.0 to 5.108.3"
+          },
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize-bundler-webpack",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "chore: bump terser to 5.49.0"
+          },
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize-bundler-webpack",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "Bump terser-webpack-plugin to 5.6.0"
+          },
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize-bundler-webpack",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "Bump terser from 5.47.0 to 5.48.0"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-webpack",
+            "comment": "Bump monosize to v0.10.0",
+            "commit": "not available"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 07 May 2026 09:19:33 GMT",
       "version": "0.4.0",
       "tag": "monosize-bundler-webpack_v0.4.0",

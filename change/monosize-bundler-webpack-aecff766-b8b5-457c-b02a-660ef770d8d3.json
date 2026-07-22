@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Bump webpack from 5.107.0 to 5.108.3",
-  "packageName": "monosize-bundler-webpack",
-  "email": "198982749+Copilot@users.noreply.github.com",
-  "dependentChangeType": "patch"
-}

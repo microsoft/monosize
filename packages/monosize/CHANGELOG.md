@@ -1,8 +1,21 @@
 # Change Log - monosize
 
-<!-- This log was last generated on Thu, 07 May 2026 09:19:33 GMT and should not be manually modified. -->
+<!-- This log was last generated on Wed, 22 Jul 2026 13:14:54 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 0.10.0
+
+Wed, 22 Jul 2026 13:14:54 GMT
+
+### Minor changes
+
+- feat: evaluate compare-reports threshold per package by capturing the resolved threshold during measure (hochelmartin@gmail.com)
+
+### Patches
+
+- chore: bump acorn from 8.16.0 to 8.17.0 (198982749+Copilot@users.noreply.github.com)
+- Update lockfile deduplication and snapshots for dependency update (198982749+Copilot@users.noreply.github.com)
 
 ## 0.9.0
 

@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: bump webpack to v5.107.0",
-  "packageName": "monosize-bundler-webpack",
-  "email": "198982749+Copilot@users.noreply.github.com",
-  "dependentChangeType": "patch"
-}

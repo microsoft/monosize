@@ -2,6 +2,27 @@
   "name": "monosize-storage-git",
   "entries": [
     {
+      "date": "Wed, 22 Jul 2026 13:14:54 GMT",
+      "version": "0.3.5",
+      "tag": "monosize-storage-git_v0.3.5",
+      "comments": {
+        "patch": [
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize-storage-git",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "chore: bump adm-zip from 0.5.17 to 0.6.0"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-storage-git",
+            "comment": "Bump monosize to v0.10.0",
+            "commit": "not available"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 07 May 2026 12:28:07 GMT",
       "version": "0.3.4",
       "tag": "monosize-storage-git_v0.3.4",

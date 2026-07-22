@@ -1,8 +1,17 @@
 # Change Log - monosize-storage-git
 
-<!-- This log was last generated on Thu, 07 May 2026 12:28:07 GMT and should not be manually modified. -->
+<!-- This log was last generated on Wed, 22 Jul 2026 13:14:54 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 0.3.5
+
+Wed, 22 Jul 2026 13:14:54 GMT
+
+### Patches
+
+- chore: bump adm-zip from 0.5.17 to 0.6.0 (198982749+Copilot@users.noreply.github.com)
+- Bump monosize to v0.10.0
 
 ## 0.3.4
 

@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "chore: bump acorn from 8.16.0 to 8.17.0",
-  "packageName": "monosize",
-  "email": "198982749+Copilot@users.noreply.github.com",
-  "dependentChangeType": "patch"
-}

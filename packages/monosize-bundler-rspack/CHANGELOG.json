@@ -2,6 +2,27 @@
   "name": "monosize-bundler-rspack",
   "entries": [
     {
+      "date": "Wed, 22 Jul 2026 13:14:54 GMT",
+      "version": "0.3.1",
+      "tag": "monosize-bundler-rspack_v0.3.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize-bundler-rspack",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "chore: bump @rsbuild/core from 2.0.3 to 2.1.2"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-rspack",
+            "comment": "Bump monosize to v0.10.0",
+            "commit": "not available"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 07 May 2026 09:19:33 GMT",
       "version": "0.3.0",
       "tag": "monosize-bundler-rspack_v0.3.0",

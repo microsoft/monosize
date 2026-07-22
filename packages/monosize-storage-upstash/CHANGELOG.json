@@ -2,6 +2,21 @@
   "name": "monosize-storage-upstash",
   "entries": [
     {
+      "date": "Wed, 22 Jul 2026 13:14:54 GMT",
+      "version": "0.0.28",
+      "tag": "monosize-storage-upstash_v0.0.28",
+      "comments": {
+        "patch": [
+          {
+            "author": "beachball",
+            "package": "monosize-storage-upstash",
+            "comment": "Bump monosize to v0.10.0",
+            "commit": "not available"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 07 May 2026 09:19:33 GMT",
       "version": "0.0.27",
       "tag": "monosize-storage-upstash_v0.0.27",

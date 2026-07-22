@@ -2,6 +2,35 @@
   "name": "monosize",
   "entries": [
     {
+      "date": "Wed, 22 Jul 2026 13:14:54 GMT",
+      "version": "0.10.0",
+      "tag": "monosize_v0.10.0",
+      "comments": {
+        "patch": [
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "chore: bump acorn from 8.16.0 to 8.17.0"
+          },
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "Update lockfile deduplication and snapshots for dependency update"
+          }
+        ],
+        "minor": [
+          {
+            "author": "hochelmartin@gmail.com",
+            "package": "monosize",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "feat: evaluate compare-reports threshold per package by capturing the resolved threshold during measure"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 07 May 2026 09:19:33 GMT",
       "version": "0.9.0",
       "tag": "monosize_v0.9.0",

@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Bump terser from 5.47.0 to 5.48.0",
-  "packageName": "monosize-bundler-webpack",
-  "email": "198982749+Copilot@users.noreply.github.com",
-  "dependentChangeType": "patch"
-}

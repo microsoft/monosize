@@ -1,6 +1,6 @@
 {
   "name": "monosize-storage-upstash",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "type": "module",
   "files": [
     "dist/"
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@upstash/redis": "^1.38.0",
-    "monosize": "^0.9.0",
+    "monosize": "^0.10.0",
     "tslib": "^2.4.1"
   }
 }

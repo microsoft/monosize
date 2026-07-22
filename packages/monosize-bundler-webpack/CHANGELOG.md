@@ -1,8 +1,21 @@
 # Change Log - monosize-bundler-webpack
 
-<!-- This log was last generated on Thu, 07 May 2026 09:19:33 GMT and should not be manually modified. -->
+<!-- This log was last generated on Wed, 22 Jul 2026 13:14:54 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 0.4.1
+
+Wed, 22 Jul 2026 13:14:54 GMT
+
+### Patches
+
+- chore: bump webpack to v5.107.0 (198982749+Copilot@users.noreply.github.com)
+- Bump webpack from 5.107.0 to 5.108.3 (198982749+Copilot@users.noreply.github.com)
+- chore: bump terser to 5.49.0 (198982749+Copilot@users.noreply.github.com)
+- Bump terser-webpack-plugin to 5.6.0 (198982749+Copilot@users.noreply.github.com)
+- Bump terser from 5.47.0 to 5.48.0 (198982749+Copilot@users.noreply.github.com)
+- Bump monosize to v0.10.0
 
 ## 0.4.0
 

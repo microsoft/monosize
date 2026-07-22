@@ -2,6 +2,33 @@
   "name": "monosize-bundler-vite",
   "entries": [
     {
+      "date": "Wed, 22 Jul 2026 13:14:54 GMT",
+      "version": "0.3.1",
+      "tag": "monosize-bundler-vite_v0.3.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize-bundler-vite",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "Bump vite from 8.0.10 to 8.0.16"
+          },
+          {
+            "author": "198982749+Copilot@users.noreply.github.com",
+            "package": "monosize-bundler-vite",
+            "commit": "0cf2244e1f9df2eed0a0ba0deac6eff9c7151d7e",
+            "comment": "Bump vite from 8.0.16 to 8.1.0"
+          },
+          {
+            "author": "beachball",
+            "package": "monosize-bundler-vite",
+            "comment": "Bump monosize to v0.10.0",
+            "commit": "not available"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 07 May 2026 09:19:33 GMT",
       "version": "0.3.0",
       "tag": "monosize-bundler-vite_v0.3.0",
