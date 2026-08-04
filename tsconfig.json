@@ -27,5 +27,8 @@
     {
       "path": "./e2e/smoke-rspack"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  }
 }
