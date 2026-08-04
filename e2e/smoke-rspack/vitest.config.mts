@@ -1,7 +1,6 @@
-/// <reference types='vitest' />
-import { defineConfig } from 'vite';
+import { defineConfig, type ViteUserConfig } from 'vitest/config';
 
-export default defineConfig({
+const config: ViteUserConfig = defineConfig({
   cacheDir: '../../node_modules/.vite/smoke-rspack',
 
   resolve: {
@@ -16,3 +15,5 @@ export default defineConfig({
     hookTimeout: 60_000,
   },
 });
+
+export default config;

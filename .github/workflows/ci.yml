@@ -33,7 +33,7 @@ jobs:
       - run: yarn install --immutable
       - run: yarn dedupe --check
       - run: yarn check-dependencies
-      - run: yarn nx affected --target=lint,build,test --nxBail
+      - run: yarn nx affected --target=lint,build,test,typecheck --nxBail
 
   ci-windows:
     runs-on: windows-latest

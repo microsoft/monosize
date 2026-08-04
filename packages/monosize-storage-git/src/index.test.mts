@@ -9,7 +9,7 @@ function createZip(filename: string, content: string): ArrayBuffer {
   zip.addFile(filename, Buffer.from(content, 'utf-8'));
 
   const buf = zip.toBuffer();
-  return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
+  return new Uint8Array(buf).buffer;
 }
 
 const sampleReport: BundleSizeReport = [

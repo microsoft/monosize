@@ -1,0 +1,7 @@
+{
+  "type": "none",
+  "comment": "chore: rename vite.config.mts to vitest.config.mts",
+  "packageName": "monosize",
+  "email": "198982749+Copilot@users.noreply.github.com",
+  "dependentChangeType": "none"
+}

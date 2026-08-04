@@ -6,6 +6,6 @@ export default [
   },
   ...baseConfig,
   {
-    ignores: ['**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*'],
+    ignores: ['**/vitest.config.*.timestamp*'],
   },
 ];

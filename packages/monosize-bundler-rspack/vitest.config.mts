@@ -1,8 +1,7 @@
-/// <reference types='vitest' />
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  cacheDir: '../../node_modules/.vite/monosize-storage-upstash',
+  cacheDir: '../../node_modules/.vite/monosize-bundler-rspack',
 
   resolve: {
     conditions: ['@monosize/source'],
