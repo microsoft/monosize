@@ -42,7 +42,7 @@ npx vitest run packages/monosize-bundler-webpack/src/runTerser.test.mts
 npx vitest run -t 'should throw on compilation errors'
 ```
 
-Note: tests resolve workspace packages via the `@monosize/source` condition (see `tsconfig.base.json` and each `vite.config.mts`), so tests pick up sibling-package changes from `src/` without a rebuild.
+Note: tests resolve workspace packages via the `@monosize/source` condition (see `tsconfig.base.json` and each `vitest.config.mts`), so tests pick up sibling-package changes from `src/` without a rebuild.
 
 ## Change files (beachball)
 
@@ -70,7 +70,7 @@ Notes:
 
 - **Allowed bump types: `patch`, `minor`, `none`.** `major` is blocked by `disallowedChangeTypes` in `beachball.config.js`. Use `none` for changes that touch a package but shouldn't trigger a release (e.g. internal refactors with no consumer impact).
 - **Pick the type from the comment prefix.** `fix:` → `patch`, `feat:` → `minor`, `chore:`/`docs:`/`refactor:`/`test:` → usually `none`. The comment becomes the changelog line, so write it for end users (no PR numbers, no internal jargon).
-- **Files that don't require a change file** are listed in `beachball.config.js#ignorePatterns`: `__fixtures__/`, `*.test.mts`, `eslint.config.*`, `vite.config.mts`, `project.json`, `README.md`. PRs that only touch those (or repo-root tooling like workflows, `nx.json`, etc.) won't be flagged by `beachball check`.
+- **Files that don't require a change file** are listed in `beachball.config.js#ignorePatterns`: `__fixtures__/`, `*.test.mts`, `eslint.config.*`, `vitest.config.mts`, `project.json`, `README.md`. PRs that only touch those (or repo-root tooling like workflows, `nx.json`, etc.) won't be flagged by `beachball check`.
 - **One change file per affected package.** If a PR changes both `monosize` and `monosize-bundler-webpack`, expect two files — `yarn change` walks you through them.
 - Change files are consumed and deleted by the release pipeline (`beachball publish`), which then commits `applying package updates` with the version bumps and CHANGELOG entries. Don't hand-edit `CHANGELOG.md` / `CHANGELOG.json`.
 
@@ -83,4 +83,4 @@ Notes:
 - **`measure` output.** Each package produces `dist/bundle-size/monosize.json`; `compare-reports` and `upload-report` glob those (default `packages/**/dist/bundle-size/monosize.json`). Package-name resolution defaults to `package.json#name` / `project.json#name` and can be overridden via `MonoSizeConfig.reportResolvers`.
 - **Versioning.** Beachball, configured in `beachball.config.js` — `disallowedChangeTypes: ['major']` (no major bumps allowed in this repo) and `gitTags: false`. The `precommit` hook in `beachball.hooks.js` runs `yarn install --no-immutable` after version bumps so the lockfile stays in sync; `prepublish` runs the full build before publishing so artifacts pick up the bumped versions.
 - **Pre-commit.** `simple-git-hooks` runs `nano-staged`, which formats staged JS/TS/JSON via Prettier and refreshes Markdown TOCs via doctoc. Don't bypass with `--no-verify` — the lockfile-sync precommit hook above is part of the release flow.
-- **Lint specifics.** `eslint.config.mjs` enforces `@nx/enforce-module-boundaries` and `import-x/no-extraneous-dependencies` (devDependencies disallowed in prod source). `*.mts` files additionally require `unicorn/prefer-module` and `unicorn/prefer-node-protocol` (`import path from 'node:path'`, not `'path'`). Tests, fixtures, and `vite.config.mts` are exempt from the extraneous-deps rule.
+- **Lint specifics.** `eslint.config.mjs` enforces `@nx/enforce-module-boundaries` and `import-x/no-extraneous-dependencies` (devDependencies disallowed in prod source). `*.mts` files additionally require `unicorn/prefer-module` and `unicorn/prefer-node-protocol` (`import path from 'node:path'`, not `'path'`). Tests, fixtures, and `vitest.config.mts` are exempt from the extraneous-deps rule.

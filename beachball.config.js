@@ -9,7 +9,7 @@ module.exports = {
     '**/__fixtures__/**',
     '**/*.test.mts',
     '**/.eslintrc.json',
-    '**/vite.config.mts',
+    '**/vitest.config.mts',
     '**/project.json',
     '**/README.md',
   ],

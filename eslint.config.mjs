@@ -70,7 +70,7 @@ export default [
     files: ['**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
   })),
   {
-    files: ['**/__fixtures__/**/*', '**/*.test.mts', '**/vite.config.mts'],
+    files: ['**/__fixtures__/**/*', '**/*.test.mts', '**/vitest.config.mts'],
     rules: {
       'import-x/no-extraneous-dependencies': 'off',
     },
