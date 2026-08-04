@@ -21,7 +21,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "customConditions": ["@monosize/source"],
-    "typeRoots": ["node_modules/@types", "./typings"]
+    "typeRoots": ["node_modules/@types", "./typings"],
+    "noUncheckedSideEffectImports": false,
+    "types": ["*"]
   },
   "exclude": ["node_modules", "tmp"]
 }

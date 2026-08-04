@@ -9,5 +9,8 @@
     {
       "path": "../../packages/monosize-bundler-rspack"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  }
 }
