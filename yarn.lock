@@ -6168,7 +6168,7 @@ __metadata:
   resolution: "monosize-bundler-webpack@workspace:packages/monosize-bundler-webpack"
   dependencies:
     monosize: "npm:^0.10.0"
-    terser: "npm:^5.49.0"
+    terser: "npm:^5.50.0"
     terser-webpack-plugin: "npm:^5.6.0"
     tslib: "npm:^2.4.1"
     webpack: "npm:^5.109.2"
@@ -6210,7 +6210,7 @@ __metadata:
     pretty-bytes: "npm:^7.1.0"
     simple-git-hooks: "npm:2.13.1"
     syncpack: "npm:15.3.1"
-    terser: "npm:^5.49.0"
+    terser: "npm:^5.50.0"
     terser-webpack-plugin: "npm:^5.6.0"
     tinyglobby: "npm:^0.2.13"
     tslib: "npm:^2.4.1"
@@ -7683,7 +7683,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terser@npm:^5.31.1, terser@npm:^5.49.0":
+"terser@npm:^5.31.1":
   version: 5.49.0
   resolution: "terser@npm:5.49.0"
   dependencies:
@@ -7694,6 +7694,20 @@ __metadata:
   bin:
     terser: bin/terser
   checksum: 10/f5c4fe514a5d5bbb712f2b9082bce2058c60d5fe06a4e8ba7ca9f223a3bd5e0789a43aafde023443ce6569752adabfc0908fc848c5cb1620007321256411fd30
+  languageName: node
+  linkType: hard
+
+"terser@npm:^5.50.0":
+  version: 5.50.0
+  resolution: "terser@npm:5.50.0"
+  dependencies:
+    "@jridgewell/source-map": "npm:^0.3.3"
+    acorn: "npm:^8.15.0"
+    commander: "npm:^2.20.0"
+    source-map-support: "npm:~0.5.20"
+  bin:
+    terser: bin/terser
+  checksum: 10/d94ccee6ab8cd73dfe041c9f34729026e3b00e26ed1544497e7b54bb90b0d162a44621d830c0dd26684dc1a0e3ac91a75a6aab2f233ee6b82df9c21c7bab3354
   languageName: node
   linkType: hard
 
