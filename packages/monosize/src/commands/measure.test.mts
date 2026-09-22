@@ -6,6 +6,8 @@ import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import api, { type MeasureOptions } from './measure.mjs';
 import { logger } from '../logger.mjs';
 import { readConfig } from '../utils/readConfig.mjs';
+import type { BundlerAdapter } from '../types.mjs';
+import { tableRows } from '../__fixtures__/tableRows.mjs';
 
 /**
  * Materializes an `outputDir` next to the prepared fixture and writes the
@@ -21,10 +23,11 @@ function writeOutputDir(fixturePath: string, files: Record<string, string | Buff
 }
 
 const buildFixtures = vitest.hoisted(() => vitest.fn());
+const buildFixture = vitest.hoisted(() => vitest.fn<BundlerAdapter['buildFixture']>());
 
 vitest.mock('../utils/readConfig.mts', () => ({
   readConfig: vitest.fn().mockResolvedValue({
-    bundler: { name: 'fake', buildFixtures },
+    bundler: { name: 'fake', buildFixtures, buildFixture },
     assetTypes: ['css', 'js', 'json'],
   }),
 }));
@@ -165,14 +168,95 @@ describe('measure', () => {
 
   describe('multi-asset behavior', () => {
     /** Override the synthetic adapter for one call with a controlled file set. */
-    function withAdapterFiles(files: Record<string, string | Buffer>) {
-      buildFixtures.mockImplementationOnce(async ({ fixtures }: { fixtures: Array<{ fixturePath: string; name: string }> }) =>
-        fixtures.map(({ fixturePath, name }) => ({
-          name,
+    function withAdapterFiles(files: Record<string, string | Buffer>, buildMode: 'batch' | 'sequential' = 'batch') {
+      if (buildMode === 'sequential') {
+        buildFixture.mockImplementationOnce(async ({ fixturePath }) => ({
           outputDir: writeOutputDir(fixturePath, files),
-        })),
+        }));
+        return;
+      }
+
+      buildFixtures.mockImplementationOnce(
+        async ({ fixtures }: { fixtures: Array<{ fixturePath: string; name: string }> }) =>
+          fixtures.map(({ fixturePath, name }) => ({
+            name,
+            outputDir: writeOutputDir(fixturePath, files),
+          })),
       );
     }
+
+    it.each(['batch', 'sequential'] as const)('logs totals and every asset type in %s mode', async buildMode => {
+      const logSpy = vitest.spyOn(logger, 'raw').mockImplementation(noop);
+      vitest.spyOn(logger, 'info').mockImplementation(noop);
+      vitest.spyOn(logger, 'finish').mockImplementation(noop);
+      const js = 'a'.repeat(100);
+      const css = 'b'.repeat(50);
+      const json = 'c'.repeat(20);
+      withAdapterFiles(
+        {
+          'index.json': json,
+          'index.js': js,
+          'index.css': css,
+          'LICENSE.txt': 'ignored',
+        },
+        buildMode,
+      );
+      await setup(getMockedFixtures('foo'));
+
+      await api.handler({
+        ...baseOptions({ quiet: false, 'build-mode': buildMode }),
+        artifactsLocation: 'output',
+        _: [],
+        $0: 'monosize',
+      });
+
+      expect(logSpy).toHaveBeenCalledTimes(2);
+      const rows = tableRows(logSpy.mock.calls[1][0]);
+      const jsGzip = gzipSync(js).length;
+      const cssGzip = gzipSync(css).length;
+      const jsonGzip = gzipSync(json).length;
+      expect(rows).toEqual([
+        ['Fixture', 'Minified size', 'GZIP size'],
+        ['foo', '170 B', `${jsGzip + cssGzip + jsonGzip} B`],
+        ['css', '50 B', `${cssGzip} B`],
+        ['js', '100 B', `${jsGzip} B`],
+        ['json', '20 B', `${jsonGzip} B`],
+      ]);
+    });
+
+    it.each(['css', 'js', 'json'] as const)('labels single-type %s measurements', async type => {
+      const logSpy = vitest.spyOn(logger, 'raw').mockImplementation(noop);
+      vitest.spyOn(logger, 'info').mockImplementation(noop);
+      vitest.spyOn(logger, 'finish').mockImplementation(noop);
+      withAdapterFiles({ [`index.${type}`]: 'content' });
+      await setup(getMockedFixtures('foo'));
+
+      await api.handler({
+        ...baseOptions({ quiet: false }),
+        artifactsLocation: 'output',
+        _: [],
+        $0: 'monosize',
+      });
+
+      expect(tableRows(logSpy.mock.calls[1][0]).some(row => row[0] === type)).toBe(true);
+    });
+
+    it('does not log measurement tables in quiet mode', async () => {
+      const logSpy = vitest.spyOn(logger, 'raw').mockImplementation(noop);
+      const finishSpy = vitest.spyOn(logger, 'finish').mockImplementation(noop);
+      withAdapterFiles({ 'index.js': 'js', 'index.css': 'css', 'index.json': '{}' });
+      await setup(getMockedFixtures('foo'));
+
+      await api.handler({
+        ...baseOptions(),
+        artifactsLocation: 'output',
+        _: [],
+        $0: 'monosize',
+      });
+
+      expect(logSpy).not.toHaveBeenCalled();
+      expect(finishSpy).not.toHaveBeenCalled();
+    });
 
     it('classifies files by extension and sums per type', async () => {
       withAdapterFiles({

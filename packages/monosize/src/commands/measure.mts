@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { glob } from 'tinyglobby';
 import path from 'node:path';
+import { styleText } from 'node:util';
 import type { CommandModule } from 'yargs';
 
 import { formatBytes, parseThreshold } from '../utils/helpers.mjs';
@@ -164,11 +165,7 @@ async function buildFixturesInSequentialMode(
 /**
  * Displays the measurement results in a table format.
  */
-function displayResults(
-  measurements: Array<StoredReportEntry>,
-  startTime: [number, number],
-  quiet: boolean,
-): void {
+function displayResults(measurements: Array<StoredReportEntry>, startTime: [number, number], quiet: boolean): void {
   if (quiet) {
     return;
   }
@@ -180,6 +177,9 @@ function displayResults(
 
   sortedMeasurements.forEach(r => {
     table.push([r.name, formatBytes(r.minifiedSize), formatBytes(r.gzippedSize)]);
+    for (const [type, size] of Object.entries(r.assets ?? {}).sort(([a], [b]) => a.localeCompare(b))) {
+      table.push([styleText('dim', `  ${type}`), formatBytes(size.minifiedSize), formatBytes(size.gzippedSize)]);
+    }
   });
 
   logger.raw(table.toString());

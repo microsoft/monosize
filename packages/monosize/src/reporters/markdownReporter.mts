@@ -1,7 +1,8 @@
 import { getChangedEntriesInReport } from '../utils/getChangedEntriesInReport.mjs';
 import { formatBytes } from '../utils/helpers.mjs';
-import { hasMovedAssetDelta, type DiffByMetric } from '../utils/calculateDiff.mjs';
+import type { DiffByMetric } from '../utils/calculateDiff.mjs';
 import { formatDeltaFactory, type Reporter } from './shared.mjs';
+import type { AssetSize } from '../types.mjs';
 import { logger } from '../logger.mjs';
 
 const icons = { increase: 'increase.png', decrease: 'decrease.png' };
@@ -21,8 +22,11 @@ function getDirectionSymbol(value: number): string {
   return '';
 }
 
-function formatDelta(diff: DiffByMetric, deltaFormat: keyof DiffByMetric): string {
-  const output = formatDeltaFactory(diff, { deltaFormat, directionSymbol: getDirectionSymbol });
+function formatDelta(diff: DiffByMetric, deltaFormat: keyof DiffByMetric, baseline?: number): string {
+  const output = formatDeltaFactory(diff, {
+    deltaFormat: baseline === 0 ? 'delta' : deltaFormat,
+    directionSymbol: getDirectionSymbol,
+  });
 
   return typeof output === 'string' ? output : `\`${output.deltaOutput}\` ${output.dirSymbol}`;
 }
@@ -64,9 +68,9 @@ export const markdownReporter: Reporter = (report, options) => {
       const difference = entry.diff.empty
         ? '🆕 New entry'
         : [
-            `${formatDelta(entry.diff.minified, deltaFormat)}`,
+            `${formatDelta(entry.diff.minified, deltaFormat, entry.minifiedSize - entry.diff.minified.delta)}`,
             '<br />',
-            `${formatDelta(entry.diff.gzip, deltaFormat)}`,
+            `${formatDelta(entry.diff.gzip, deltaFormat, entry.gzippedSize - entry.diff.gzip.delta)}`,
           ].join('');
 
       reportOutput.push(`| ${name} | ${before} | ${after} | ${difference}|`);
@@ -76,20 +80,15 @@ export const markdownReporter: Reporter = (report, options) => {
 
     // Per-asset-type breakdown lives in its own section after the totals
     // table — GFM tables can't span sub-rows, so interleaving <details>
-    // mid-table would break parsing. One <details> block per changed entry
-    // whose breakdown moved across more than one type — a single moved type
-    // would just duplicate the totals row, matching the cliReporter rule.
+    // mid-table would break parsing. Keep every known type here, including
+    // unchanged types, so Markdown and CLI expose the same data.
     const entriesWithBreakdown = changedEntries.flatMap(entry => {
-      if (!entry.assetsDiff) {
+      if (!entry.assets && !entry.assetsDiff) {
         return [];
       }
-      const movedTypes = Object.keys(entry.assetsDiff)
-        .filter(t => hasMovedAssetDelta(entry.assetsDiff![t]))
-        .sort();
-      if (movedTypes.length <= 1) {
-        return [];
-      }
-      return [{ entry, movedTypes }];
+      const assets: Record<string, AssetSize | undefined> = entry.assets ?? {};
+      const types = [...new Set([...Object.keys(assets), ...Object.keys(entry.assetsDiff ?? {})])].sort();
+      return [{ entry, types }];
     });
     const missingBreakdown = changedEntries.some(entry => !entry.assetsDiff && !entry.diff.empty);
 
@@ -103,13 +102,24 @@ export const markdownReporter: Reporter = (report, options) => {
         );
       }
 
-      for (const { entry, movedTypes } of entriesWithBreakdown) {
+      for (const { entry, types } of entriesWithBreakdown) {
+        const assets: Record<string, AssetSize | undefined> = entry.assets ?? {};
         reportOutput.push(`<details><summary><samp>${entry.packageName}</samp> · ${entry.name}</summary>`, '');
-        for (const type of movedTypes) {
-          const d = entry.assetsDiff![type];
-          reportOutput.push(
-            `- \`${type}\`: ${formatDelta(d.minified, deltaFormat)} minified, ${formatDelta(d.gzip, deltaFormat)} gzipped`,
-          );
+        reportOutput.push('| Asset type | Baseline (minified/GZIP) | Current (minified/GZIP) | Change |');
+        reportOutput.push('| :--------- | -----------------------: | ---------------------: | -----: |');
+        for (const type of types) {
+          const size = assets[type] ?? { minifiedSize: 0, gzippedSize: 0 };
+          const diff = entry.assetsDiff?.[type];
+          const minifiedBefore = diff ? size.minifiedSize - diff.minified.delta : undefined;
+          const gzipBefore = diff ? size.gzippedSize - diff.gzip.delta : undefined;
+          const before = diff
+            ? `\`${formatBytes(minifiedBefore ?? 0)}\`<br />\`${formatBytes(gzipBefore ?? 0)}\``
+            : 'N/A';
+          const current = `\`${formatBytes(size.minifiedSize)}\`<br />\`${formatBytes(size.gzippedSize)}\``;
+          const change = diff
+            ? `${formatDelta(diff.minified, deltaFormat, minifiedBefore)}<br />${formatDelta(diff.gzip, deltaFormat, gzipBefore)}`
+            : '';
+          reportOutput.push(`| \`${type}\` | ${before} | ${current} | ${change} |`);
         }
         reportOutput.push('</details>', '');
       }

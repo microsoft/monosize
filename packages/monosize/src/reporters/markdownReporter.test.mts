@@ -4,7 +4,8 @@ import { beforeEach, describe, expect, it, vitest } from 'vitest';
 import { reportWithExceededThreshold, sampleComparedReport } from '../__fixtures__/sampleComparedReport.mjs';
 import { logger } from '../logger.mjs';
 import { markdownReporter } from './markdownReporter.mjs';
-import type { ComparedReport } from '../utils/compareResultsInReports.mjs';
+import { compareResultsInReports, type ComparedReport } from '../utils/compareResultsInReports.mjs';
+import type { BundleSizeReportEntry } from '../types.mjs';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -53,7 +54,7 @@ describe('markdownReporter', () => {
     expect(output).toMatchSnapshot();
   });
 
-  it('omits a Breakdown section when only a single asset type changed', async () => {
+  it('renders a Breakdown section for a single asset type', async () => {
     const log = vitest.spyOn(logger, 'raw').mockImplementation(noop);
 
     const jsOnlyReport: ComparedReport = [
@@ -79,9 +80,8 @@ describe('markdownReporter', () => {
     markdownReporter(jsOnlyReport, { ...options, showUnchanged: false });
     const output = await prettier.format(log.mock.calls[0][0] as string, { parser: 'markdown' });
 
-    // The single-type breakdown would just duplicate the totals row, so the
-    // section is suppressed (matches cliReporter).
-    expect(output).not.toContain('### Breakdown');
+    expect(output).toContain('### Breakdown');
+    expect(output).toContain('| `js`');
   });
 
   it('renders a report with exceeded threshold', async () => {
@@ -91,5 +91,24 @@ describe('markdownReporter', () => {
     const output = await prettier.format(log.mock.calls[0][0] as string, { parser: 'markdown' });
 
     expect(output).toMatchSnapshot();
+  });
+
+  it('falls back to byte deltas for totals with a zero baseline', async () => {
+    const log = vitest.spyOn(logger, 'raw').mockImplementation(noop);
+    const entry = (minifiedSize: number, gzippedSize: number): BundleSizeReportEntry => ({
+      packageName: 'zero-baseline-pkg',
+      name: 'zero-baseline-entry',
+      path: 'zero-baseline.fixture.js',
+      minifiedSize,
+      gzippedSize,
+      assets: { js: { minifiedSize, gzippedSize } },
+    });
+    const report = compareResultsInReports([entry(20, 2)], [entry(0, 0)], { type: 'size', size: 1000 });
+
+    markdownReporter(report, { ...options, deltaFormat: 'percent' });
+    const output = await prettier.format(log.mock.calls[0][0] as string, { parser: 'markdown' });
+
+    expect(output).toContain('| `20 B`<br />`2 B` |');
+    expect(output).not.toContain('0%');
   });
 });
