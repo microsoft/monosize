@@ -82,8 +82,10 @@ describe('rspack smoke', () => {
 
       <details><summary><samp>smoke-rspack</samp> · smoke</summary>
 
-      - \`css\`: \`106 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> minified, \`125 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> gzipped
-      - \`js\`: \`156 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> minified, \`139 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> gzipped
+      | Asset type | Baseline (minified/GZIP) | Current (minified/GZIP) |                                                                                                                                                                                                   Change |
+      | :--------- | -----------------------: | ----------------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+      | \`css\`      |       \`20 B\`<br />\`10 B\` |    \`126 B\`<br />\`135 B\` | \`106 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /><br />\`125 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> |
+      | \`js\`       |       \`80 B\`<br />\`40 B\` |    \`236 B\`<br />\`179 B\` | \`156 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /><br />\`139 B\` <img aria-hidden="true" src="https://microsoft.github.io/monosize/images/increase.png" /> |
 
       </details>
 

@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix: Show minified and GZIP sizes for every asset type in measurement and CLI comparison tables",
+  "packageName": "monosize",
+  "email": "223556219+Copilot@users.noreply.github.com",
+  "dependentChangeType": "patch"
+}
